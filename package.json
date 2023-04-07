@@ -1,5 +1,5 @@
 {
-	"name": "mimic",
+	"name": "@roenlie/mimic",
 	"author": "Kristoffer Roen-Lie",
 	"version": "0.0.0",
 	"description": "A versatile collection of TypeScript helper functions and utilities, designed to enhance your development experience with a treasure trove of valuable tools.",
