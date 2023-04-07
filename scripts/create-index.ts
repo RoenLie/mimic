@@ -8,6 +8,6 @@ const exclude = [
 ];
 
 await indexBuilder(
-	'./src/index.ts',
+	'./src/iterators/index.ts',
 	[ path => exclude.every(seg => !path.includes(seg)) ],
 );

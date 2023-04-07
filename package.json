@@ -12,13 +12,14 @@
 		"url": "https://github.com/RoenLie/mimic/issues"
 	},
 	"homepage": "https://github.com/RoenLie/mimic#readme",
-	"main": "dist/lib/index.js",
-	"types": "dist/lib/index.d.ts",
 	"type": "module",
 	"exports": {
-		"./iterators/*.js": {
-			"default": "./dist/lib/iterators/*.js",
-			"types": "./dist/lib/iterators/*.d.ts"
+		".": {
+			"import": "./dist/lib/index.js"
+		},
+		"./iterators": {
+			"types": "./dist/lib/iterators/index.d.ts",
+			"default": "./dist/lib/iterators/index.js"
 		}
 	},
 	"files": [
