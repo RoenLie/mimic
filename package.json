@@ -15,6 +15,12 @@
 	"main": "dist/lib/index.js",
 	"types": "dist/lib/index.d.ts",
 	"type": "module",
+	"exports": {
+		"./iterators/*.js": {
+			"default": "./dist/lib/iterators/*.js",
+			"types": "./dist/lib/iterators/*.d.ts"
+		}
+	},
 	"files": [
 		"dist",
 		"src",
@@ -24,30 +30,37 @@
 	"scripts": {
 		"dev": "vite",
 		"dev:codespaces": "vite dev --host",
-		"build": "vite build && tsc --project ./src/tsconfig.json",
-		"updatedeps": "pnpm update --latest --interactive",
 		"typecheck": "tsc --project ./tsconfig.json",
+		"-": "",
 		"test": "vitest --config ./test/vite.config.ts",
-		"increment-version": "node --loader tsm ./build/increment-version.ts"
+		"build": "pnpm build:prepare && pnpm build:index && pnpm build:types && vite build",
+		"build:prepare": "rimraf dist",
+		"build:index": "pnpm tsm ./scripts/create-index.ts",
+		"build:types": "tsc --project ./src/tsconfig.json",
+		"--": "",
+		"updatedeps": "pnpm update --latest --interactive",
+		"increment-version": "pnpm mimic increment-version"
 	},
 	"dependencies": {
-		"tslib": "^2.4.1"
+		"tslib": "^2.5.0"
 	},
 	"devDependencies": {
 		"@roenlie/eslint-config": "^1.0.0",
+		"@roenlie/mimic-nodejs": "^0.0.3",
 		"@roenlie/tsconfig": "^1.0.0",
 		"@types/node": "18.15.11",
-		"@typescript-eslint/eslint-plugin": "^5.57.0",
-		"@typescript-eslint/parser": "^5.57.0",
+		"@typescript-eslint/eslint-plugin": "^5.57.1",
+		"@typescript-eslint/parser": "^5.57.1",
 		"eslint": "^8.37.0",
 		"eslint-plugin-import": "^2.27.5",
 		"eslint-plugin-lit": "^1.8.2",
 		"eslint-plugin-simple-import-sort": "^10.0.0",
 		"globby": "^13.1.3",
+		"rimraf": "^4.4.1",
 		"tsm": "^2.3.0",
-		"typescript": "^5.0.3",
+		"typescript": "^5.0.4",
 		"vite": "^4.2.1",
-		"vite-plugin-inspect": "^0.7.18",
+		"vite-plugin-inspect": "^0.7.19",
 		"vitest": "^0.29.8"
 	}
 }
