@@ -9,7 +9,7 @@ export default defineConfig(async () => {
 		...config,
 		build: {
 			...config.build,
-			outDir: '/dist/lib',
+			outDir: './dist/lib',
 		},
 	};
 });
