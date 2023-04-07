@@ -1,0 +1,53 @@
+{
+	"name": "mimic",
+	"author": "Kristoffer Roen-Lie",
+	"version": "0.0.0",
+	"description": "A versatile collection of TypeScript helper functions and utilities, designed to enhance your development experience with a treasure trove of valuable tools.",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/RoenLie/mimic.git"
+	},
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/RoenLie/mimic/issues"
+	},
+	"homepage": "https://github.com/RoenLie/mimic#readme",
+	"main": "dist/lib/index.js",
+	"types": "dist/lib/index.d.ts",
+	"type": "module",
+	"files": [
+		"dist",
+		"src",
+		"package.json",
+		"README.md"
+	],
+	"scripts": {
+		"dev": "vite",
+		"dev:codespaces": "vite dev --host",
+		"build": "vite build && tsc --project ./src/tsconfig.json",
+		"updatedeps": "pnpm update --latest --interactive",
+		"typecheck": "tsc --project ./tsconfig.json",
+		"test": "vitest --config ./test/vite.config.ts",
+		"increment-version": "node --loader tsm ./build/increment-version.ts"
+	},
+	"dependencies": {
+		"tslib": "^2.4.1"
+	},
+	"devDependencies": {
+		"@roenlie/eslint-config": "^1.0.0",
+		"@roenlie/tsconfig": "^1.0.0",
+		"@types/node": "18.15.11",
+		"@typescript-eslint/eslint-plugin": "^5.57.0",
+		"@typescript-eslint/parser": "^5.57.0",
+		"eslint": "^8.37.0",
+		"eslint-plugin-import": "^2.27.5",
+		"eslint-plugin-lit": "^1.8.2",
+		"eslint-plugin-simple-import-sort": "^10.0.0",
+		"globby": "^13.1.3",
+		"tsm": "^2.3.0",
+		"typescript": "^5.0.3",
+		"vite": "^4.2.1",
+		"vite-plugin-inspect": "^0.7.18",
+		"vitest": "^0.29.8"
+	}
+}

@@ -1,0 +1,34 @@
+name: Publish to NPM with auto-incremented patch release.
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish-npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 19.3.0
+          registry-url: https://registry.npmjs.org/
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7.20.0
+
+      - name: Install workspace dependencies.
+        run: pnpm install
+
+      - name: Build complete project.
+        run: pnpm build
+
+      - name: Change package version
+        run: pnpm increment-version
+
+      - run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
