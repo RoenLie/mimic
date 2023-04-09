@@ -36,3 +36,8 @@ package-lock.json
 .env
 .env.*
 .config.js
+
+# Ignore doc site spesific files.
+.mirage
+workers
+searchIndexes.json
