@@ -4,3 +4,5 @@
 export { breadthTraverseDOM, depthTraverseDOM } from './traverse-dom.js';
 export { mapGetLazy, weakmapGetLazy } from './map-get-lazy.js';
 export { ReflectMap } from './reflect-map.js';
+export { deepMerge } from './deep-merge.js';
+export { clone } from './clone.js';
