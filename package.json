@@ -83,7 +83,7 @@
 		"preview": "vite preview --config ./docs/vite.config.ts",
 		"build:preview": "vite build --config ./docs/vite.config.ts",
 		"-": "",
-		"test": "vitest --config ./test/vite.config.ts",
+		"test": "vitest --config ./tests/vite.config.ts",
 		"build": "pnpm build:prepare && pnpm build:index && pnpm build:types && vite build",
 		"build:prepare": "rimraf dist",
 		"build:index": "pnpm tsm ./scripts/create-index.ts",
