@@ -12,8 +12,8 @@ export default defineDocConfig({
 	},
 	plugins: [],
 }, {
-	cacheDir: './docs',
-	entryDir: './src',
+	cacheDir:   './docs',
+	entryDir:   './src',
 	//siteConfig: {
 	//links: {
 	//	//styles: [
@@ -25,8 +25,8 @@ export default defineDocConfig({
 	//	//lightTheme: '/vendor/tokens/css/variables-light.css',
 	//},
 	//},
-	//autoImport: {
-	//	tagPrefixes:   [ 'es' ],
-	//	loadWhitelist: [ /\.ts/ ],
-	//},
+	autoImport: {
+		tagPrefixes:   [ 'mimic' ],
+		loadWhitelist: [ /\.ts/ ],
+	},
 }) as Promise<UserConfig>;
