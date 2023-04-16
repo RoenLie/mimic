@@ -1,6 +1,6 @@
 {
 	"name": "@roenlie/mimic-nodejs",
-	"version": "0.0.0",
+	"version": "0.0.6",
 	"description": "Utility and features using nodejs dependencies.",
 	"repository": {
 		"type": "git",
