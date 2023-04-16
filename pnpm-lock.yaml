@@ -57,7 +57,7 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0(eslint@8.38.0)(typescript@5.0.4)
       '@roenlie/mimic-nodejs':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../mimic-nodejs
       '@roenlie/mirage-docs':
         specifier: ^1.2.5
@@ -114,7 +114,7 @@ importers:
   packages/mimic-lit:
     dependencies:
       '@roenlie/mimic-core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../mimic-core
       inversify:
         specifier: ^6.0.1
@@ -133,7 +133,7 @@ importers:
         version: 2.5.0
     devDependencies:
       '@roenlie/mimic-nodejs':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../mimic-nodejs
       vite:
         specifier: ^4.1.4
@@ -200,7 +200,7 @@ importers:
   packages/mimic-router:
     dependencies:
       '@roenlie/mimic-core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../mimic-core
       lit:
         specifier: ^2.2.8
@@ -216,7 +216,7 @@ importers:
         version: 6.0.2
     devDependencies:
       '@roenlie/mimic-nodejs':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../mimic-nodejs
       vite:
         specifier: ^4.0.3
