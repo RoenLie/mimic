@@ -20,16 +20,16 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7.20.0
+          version: latest
 
       - name: Install dependencies.
-        run: |
-          cd packages/mimic-core
-          pnpm install
+        run: pnpm install
 
       - name: Build complete project.
         run: |
-          cd packages/mimic-core
+          cd packages/mimic-nodejs
+          pnpm build
+          cd ../mimic-core
           pnpm build
 
       - name: Change package version.

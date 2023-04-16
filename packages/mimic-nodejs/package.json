@@ -2,6 +2,7 @@
 	"name": "@roenlie/mimic-nodejs",
 	"version": "0.0.6",
 	"description": "Utility and features using nodejs dependencies.",
+	"license": "MIT",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/RoenLie/mimic-nodejs.git"
