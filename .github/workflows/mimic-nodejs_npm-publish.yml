@@ -22,18 +22,24 @@ jobs:
         with:
           version: 7.20.0
 
-      - name: cd to directory
-        run: cd packages/mimic-nodejs
-
-      - name: Install workspace dependencies.
-        run: pnpm install
+      - name: Install dependencies.
+        run: |
+          cd packages/mimic-core
+          pnpm install
 
       - name: Build complete project.
-        run: pnpm build
+        run: |
+          cd packages/mimic-core
+          pnpm build
 
-      - name: Change package version
-        run: pnpm increment-version
+      - name: Change package version.
+        run: |
+          cd packages/mimic-core
+          pnpm increment-version
 
-      - run: pnpm publish --access public
+      - name: Publish package.
+        run: |
+          cd packages/mimic-core
+          pnpm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
