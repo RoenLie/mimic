@@ -98,7 +98,7 @@
 	},
 	"devDependencies": {
 		"@roenlie/eslint-config": "^1.0.0",
-		"@roenlie/mimic-nodejs": "^0.0.4",
+		"@roenlie/mimic-nodejs": "workspace:*",
 		"@roenlie/mirage-docs": "^1.2.5",
 		"@roenlie/tsconfig": "^1.0.0",
 		"@types/node": "18.15.11",

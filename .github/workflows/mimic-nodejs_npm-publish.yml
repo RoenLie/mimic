@@ -24,22 +24,22 @@ jobs:
 
       - name: Install dependencies.
         run: |
-          cd packages/mimic-core
+          cd packages/mimic-nodejs
           pnpm install
 
       - name: Build complete project.
         run: |
-          cd packages/mimic-core
+          cd packages/mimic-nodejs
           pnpm build
 
       - name: Change package version.
         run: |
-          cd packages/mimic-core
+          cd packages/mimic-nodejs
           pnpm increment-version
 
       - name: Publish package.
         run: |
-          cd packages/mimic-core
+          cd packages/mimic-nodejs
           pnpm publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
