@@ -1,0 +1,61 @@
+{
+	"name": "@roenlie/mimic-lit",
+	"version": "0.0.1",
+	"description": "Extensions and utilities for the LIT framework.",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/RoenLie/mimic.git"
+	},
+	"bugs": {
+		"url": "https://github.com/RoenLie/mimic/issues"
+	},
+	"homepage": "https://github.com/RoenLie/mimic#readme",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/lib/index.d.ts",
+			"import": "./dist/lib/index.js"
+		},
+		"./controllers": {
+			"types": "./dist/lib/controllers/index.d.ts",
+			"import": "./dist/lib/controllers/index.js"
+		},
+		"./decorators": {
+			"types": "./dist/lib/decorators/index.d.ts",
+			"import": "./dist/lib/decorators/index.js"
+		},
+		"./injectable": {
+			"types": "./dist/lib/injectable/index.d.ts",
+			"import": "./dist/lib/injectable/index.js"
+		},
+		"./state-store": {
+			"types": "./dist/lib/state-store/index.d.ts",
+			"import": "./dist/lib/state-store/index.js"
+		}
+	},
+	"scripts": {
+		"build": "npm run build:prepare && npm run build:index && npm run build:types && vite build",
+		"build:types": "tsc --project ./src/tsconfig.json",
+		"build:index": "pnpm tsm ./scripts/create-index.ts",
+		"build:prepare": "rimraf dist",
+		"update:deps": "pnpm update --latest --interactive",
+		"increment-version": "pnpm mimic increment-version"
+	},
+	"dependencies": {
+		"@roenlie/mimic-core": "workspace:*",
+		"inversify": "^6.0.1",
+		"lit": "^2.6.1",
+		"nanoid": "^4.0.1",
+		"reflect-metadata": "^0.1.13",
+		"tslib": "^2.5.0"
+	},
+	"devDependencies": {
+		"@roenlie/mimic-nodejs": "workspace:*",
+		"vite": "^4.1.4",
+		"vitest": "^0.28.5"
+	},
+	"sideEffects": [
+		"dist/injectable/core.js"
+	]
+}

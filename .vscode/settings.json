@@ -46,5 +46,55 @@
 		"titleBar.inactiveForeground": "#e7e7e799"
 	},
 	"peacock.color": "rgb(30,30,30)",
-	"svg.preview.background": "editor",
+	"restoreTerminals.runOnStartup": true,
+	"restoreTerminals.terminals": [
+		{
+			"splitTerminals": [
+				{
+					"name": "root",
+					"commands": []
+				}
+			]
+		},
+		{
+			"splitTerminals": [
+				{
+					"name": "core",
+					"commands": [
+						"cd packages/mimic-core"
+					]
+				}
+			]
+		},
+		{
+			"splitTerminals": [
+				{
+					"name": "lit",
+					"commands": [
+						"cd packages/mimic-lit"
+					]
+				}
+			]
+		},
+		{
+			"splitTerminals": [
+				{
+					"name": "nodejs",
+					"commands": [
+						"cd packages/mimic-nodejs"
+					]
+				}
+			]
+		},
+		{
+			"splitTerminals": [
+				{
+					"name": "router",
+					"commands": [
+						"cd packages/mimic-router"
+					]
+				}
+			]
+		}
+	]
 }

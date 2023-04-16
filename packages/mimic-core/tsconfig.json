@@ -5,13 +5,18 @@
 		"module": "NodeNext",
 		"target": "ESNext",
 		"rootDir": ".",
-		"baseUrl": ".",
+		"baseUrl": "./src",
 		"noEmit": true,
 		"emitDeclarationOnly": false,
 		"incremental": false,
+		"types": [
+			"vite/client"
+		]
 	},
-	"exclude": [
-		"node_modules",
-		"dist",
-	]
+	"include": [
+		"./**/*.ts",
+		"./**/*.d.ts",
+		"./**/*.js"
+	],
+	"exclude": []
 }

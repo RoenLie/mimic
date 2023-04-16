@@ -1,0 +1,31 @@
+{
+	"name": "@roenlie/mimic-router",
+	"version": "1.0.0",
+	"description": "",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"type": "module",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "npm run build:prepare && npm run build:index && npm run build:types && vite build",
+		"build:types": "tsc --project ./src/tsconfig.json",
+		"build:index": "pnpm tsm ./scripts/create-index.ts",
+		"build:prepare": "rimraf dist",
+		"update:deps": "pnpm update --latest --interactive",
+		"increment-version": "pnpm mimic increment-version"
+	},
+	"author": "Kristoffer Roen-Lie",
+	"dependencies": {
+		"@roenlie/mimic-core": "workspace:*",
+		"lit": "^2.2.8",
+		"nanoid": "^4.0.0",
+		"tslib": "^2.4.0",
+		"urlpattern-polyfill": "^6.0.2"
+	},
+	"devDependencies": {
+		"@roenlie/mimic-nodejs": "workspace:*",
+		"vite": "^4.0.3"
+	}
+}
