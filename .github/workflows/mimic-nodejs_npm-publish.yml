@@ -8,6 +8,40 @@ on:
       - packages/mimic-nodejs/**
 
 jobs:
+  increment-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 19.3.0
+          registry-url: https://registry.npmjs.org/
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.4
+        with:
+          version: latest
+
+      - name: Install dependencies.
+        run: pnpm install
+
+      - name: Build complete project.
+        run: |
+          cd packages/mimic-nodejs
+          pnpm build
+
+      - name: Change package version.
+        run: |
+          cd packages/mimic-nodejs
+          pnpm increment-version
+
+      - uses: EndBug/add-and-commit@v9
+        with:
+          message: Show GitHub logo
+          committer_name: GitHub Actions
+          committer_email: 41898282+github-actions[bot]@users.noreply.github.com
+
   publish-npm:
     runs-on: ubuntu-latest
     steps:
@@ -23,9 +57,7 @@ jobs:
           version: latest
 
       - name: Install dependencies.
-        run: |
-          cd packages/mimic-nodejs
-          pnpm install
+        run: pnpm install
 
       - name: Build complete project.
         run: |

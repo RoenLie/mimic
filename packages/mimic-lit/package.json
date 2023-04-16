@@ -43,7 +43,7 @@
 		"increment-version": "pnpm mimic increment-version"
 	},
 	"dependencies": {
-		"@roenlie/mimic-core": "workspace:*",
+		"@roenlie/mimic-core": "workspace:^",
 		"inversify": "^6.0.1",
 		"lit": "^2.6.1",
 		"nanoid": "^4.0.1",
@@ -51,7 +51,7 @@
 		"tslib": "^2.5.0"
 	},
 	"devDependencies": {
-		"@roenlie/mimic-nodejs": "workspace:*",
+		"@roenlie/mimic-nodejs": "workspace:^",
 		"vite": "^4.1.4",
 		"vitest": "^0.28.5"
 	},
