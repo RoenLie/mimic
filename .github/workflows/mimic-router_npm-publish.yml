@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - packages/mimic-core/**
+      - packages/mimic-router/**
 
 jobs:
   publish-npm:
