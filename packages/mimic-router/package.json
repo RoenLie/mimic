@@ -22,10 +22,10 @@
 		"lit": "^2.2.8",
 		"nanoid": "^4.0.0",
 		"tslib": "^2.4.0",
-		"urlpattern-polyfill": "^6.0.2"
+		"urlpattern-polyfill": "^7.0.0"
 	},
 	"devDependencies": {
-		"@roenlie/package-toolbox": "^0.0.2",
+		"@roenlie/package-toolbox": "^0.0.3",
 		"vite": "^4.0.3"
 	}
 }
