@@ -1,4 +1,4 @@
-import { libConfig } from '@roenlie/shared-nodejs';
+import { libConfig } from '@roenlie/package-toolbox/vite';
 import { defineConfig } from 'vite';
 
 

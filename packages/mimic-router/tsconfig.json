@@ -1,23 +1,22 @@
 {
 	"extends": "@roenlie/tsconfig",
 	"compilerOptions": {
-		"outDir": "./dist",
+		"moduleResolution": "NodeNext",
+		"module": "NodeNext",
+		"target": "ESNext",
 		"rootDir": ".",
-		"baseUrl": ".",
+		"baseUrl": "./src",
 		"noEmit": true,
 		"emitDeclarationOnly": false,
 		"incremental": false,
 		"types": [
-			"vite/client",
+			"vite/client"
 		]
 	},
 	"include": [
 		"./**/*.ts",
 		"./**/*.d.ts",
-		"./**/*.js",
+		"./**/*.js"
 	],
-	"exclude": [
-		"./**/*.test.ts",
-		"./**/*.bench.ts",
-	]
+	"exclude": []
 }

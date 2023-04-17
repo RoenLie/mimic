@@ -35,12 +35,12 @@
 		}
 	},
 	"scripts": {
-		"build": "npm run build:prepare && npm run build:index && npm run build:types && vite build",
-		"build:types": "tsc --project ./src/tsconfig.json",
-		"build:index": "pnpm tsm ./scripts/create-index.ts",
+		"build": "pnpm build:prepare && pnpm build:index && pnpm build:types && vite build",
 		"build:prepare": "rimraf dist",
-		"update:deps": "pnpm update --latest --interactive",
-		"increment-version": "pnpm mimic increment-version"
+		"build:index": "package-toolbox build-indexes",
+		"build:types": "tsc --project ./src/tsconfig.json",
+		"updatedeps": "pnpm update --latest --interactive",
+		"increment-version": "package-toolbox increment-version"
 	},
 	"dependencies": {
 		"@roenlie/mimic-core": "workspace:^",
@@ -51,7 +51,7 @@
 		"tslib": "^2.5.0"
 	},
 	"devDependencies": {
-		"@roenlie/mimic-nodejs": "workspace:^",
+		"@roenlie/package-toolbox": "^0.0.2",
 		"vite": "^4.1.4",
 		"vitest": "^0.28.5"
 	},

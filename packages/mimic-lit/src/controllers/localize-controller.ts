@@ -1,4 +1,4 @@
-import { DefaultTranslation, Localize, localizeData, LocalizeDirection, Translation } from '@roenlie/mimic-localize';
+import { DefaultTranslation, Localize, localizeData, LocalizeDirection, Translation } from '@roenlie/mimic-core/localize';
 import type { ReactiveController, ReactiveControllerHost } from 'lit';
 
 

@@ -1,4 +1,4 @@
-import { typeOf } from '@roenlie/shared';
+import { typeOf } from '@roenlie/mimic-core/validation';
 
 
 export const listen = <T extends string>(

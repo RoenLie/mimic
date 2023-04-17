@@ -79,16 +79,6 @@
 		{
 			"splitTerminals": [
 				{
-					"name": "nodejs",
-					"commands": [
-						"cd packages/mimic-nodejs"
-					]
-				}
-			]
-		},
-		{
-			"splitTerminals": [
-				{
 					"name": "router",
 					"commands": [
 						"cd packages/mimic-router"

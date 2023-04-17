@@ -1,4 +1,4 @@
-import { Fn } from '@roenlie/shared';
+import { Fn } from '@roenlie/mimic-core/types';
 import { ReactiveController } from 'lit';
 import { nanoid } from 'nanoid';
 

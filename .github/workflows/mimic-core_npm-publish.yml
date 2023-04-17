@@ -27,15 +27,19 @@ jobs:
 
       - name: Build complete project.
         run: |
-          cd packages/mimic-nodejs
-          pnpm build
-          cd ../mimic-core
+          cd packages/mimic-core
           pnpm build
 
       - name: Change package version.
         run: |
           cd packages/mimic-core
           pnpm increment-version
+
+      - uses: EndBug/add-and-commit@v9
+        with:
+          message: Increment version through github action.
+          committer_name: GitHub Actions
+          committer_email: 41898282+github-actions[bot]@users.noreply.github.com
 
       - name: Publish package.
         run: |

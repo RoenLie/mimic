@@ -1,4 +1,4 @@
-import { libConfig } from '@roenlie/mimic-nodejs';
+import { libConfig } from '@roenlie/package-toolbox/vite';
 import { defineConfig, UserConfig } from 'vite';
 
 
