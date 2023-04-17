@@ -4,7 +4,7 @@ name: Deploy static content to Pages
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ["page"]
+    branches: ["main"]
     paths:
       - packages/mimic-core/**
 
@@ -40,13 +40,15 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2.2.4
         with:
-          version: 8.1.1
+          version: latest
 
       - name: Install dependencies
         run: pnpm install
 
       - name: Build Preview
-        run: pnpm build:preview
+        run: |
+          cd packages/mimic-core
+          pnpm build:preview
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
@@ -55,7 +57,7 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload preview folder
-          path: "./dist/preview"
+          path: "./packages/mimic-core/dist/preview"
 
       - name: Deploy to GitHub Pages
         id: deployment
