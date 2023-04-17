@@ -1,122 +1,122 @@
 {
-	"name": "@roenlie/mimic-core",
-	"author": "Kristoffer Roen-Lie",
-	"version": "0.0.0",
-	"description": "A versatile collection of TypeScript helper functions and utilities, designed to enhance your development experience with a treasure trove of valuable tools.",
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/RoenLie/mimic.git"
-	},
-	"bugs": {
-		"url": "https://github.com/RoenLie/mimic/issues"
-	},
-	"homepage": "https://github.com/RoenLie/mimic#readme",
-	"type": "module",
-	"exports": {
-		".": {
-			"import": "./dist/lib/index.js"
-		},
-		"./animation": {
-			"types": "./dist/lib/animation/index.d.ts",
-			"default": "./dist/lib/animation/index.js"
-		},
-		"./localize": {
-			"types": "./dist/lib/localize/index.d.ts",
-			"default": "./dist/lib/localize/index.js"
-		},
-		"./types": {
-			"types": "./dist/lib/types/index.d.ts",
-			"default": "./dist/lib/types/index.js"
-		},
-		"./array": {
-			"types": "./dist/lib/utils/array/index.d.ts",
-			"default": "./dist/lib/utils/array/index.js"
-		},
-		"./async": {
-			"types": "./dist/lib/utils/async/index.d.ts",
-			"default": "./dist/lib/utils/async/index.js"
-		},
-		"./coms": {
-			"types": "./dist/lib/utils/coms/index.d.ts",
-			"default": "./dist/lib/utils/coms/index.js"
-		},
-		"./dom": {
-			"types": "./dist/lib/utils/dom/index.d.ts",
-			"default": "./dist/lib/utils/dom/index.js"
-		},
-		"./function": {
-			"types": "./dist/lib/utils/function/index.d.ts",
-			"default": "./dist/lib/utils/function/index.js"
-		},
-		"./iterators": {
-			"types": "./dist/lib/utils/iterators/index.d.ts",
-			"default": "./dist/lib/utils/iterators/index.js"
-		},
-		"./math": {
-			"types": "./dist/lib/utils/math/index.d.ts",
-			"default": "./dist/lib/utils/math/index.js"
-		},
-		"./string": {
-			"types": "./dist/lib/utils/string/index.d.ts",
-			"default": "./dist/lib/utils/string/index.js"
-		},
-		"./structs": {
-			"types": "./dist/lib/utils/structs/index.d.ts",
-			"default": "./dist/lib/utils/structs/index.js"
-		},
-		"./timing": {
-			"types": "./dist/lib/utils/timing/index.d.ts",
-			"default": "./dist/lib/utils/timing/index.js"
-		},
-		"./validation": {
-			"types": "./dist/lib/utils/validation/index.d.ts",
-			"default": "./dist/lib/utils/validation/index.js"
-		}
-	},
-	"files": [
-		"dist",
-		"src",
-		"package.json",
-		"README.md"
-	],
-	"scripts": {
-		"dev": "vite --config ./docs/vite.config.ts",
-		"dev:codespaces": "vite dev --host --config ./docs/vite.config.ts",
-		"typecheck": "tsc --project ./tsconfig.json",
-		"preview": "vite preview --config ./docs/vite.config.ts",
-		"build:preview": "vite build --config ./docs/vite.config.ts",
-		"test": "vitest --config ./vite.config.test.ts",
-		"build": "pnpm build:prepare && pnpm build:index && pnpm build:types && vite build",
-		"build:prepare": "rimraf dist",
-		"build:index": "package-toolbox build-indexes",
-		"build:types": "tsc --project ./src/tsconfig.json",
-		"updatedeps": "pnpm update --latest --interactive",
-		"increment-version": "package-toolbox increment-version"
-	},
-	"dependencies": {
-		"nanoid": "^4.0.2",
-		"tslib": "^2.5.0"
-	},
-	"devDependencies": {
-		"@roenlie/eslint-config": "^1.0.0",
-		"@roenlie/mirage-docs": "^1.2.6",
-		"@roenlie/package-toolbox": "^0.0.2",
-		"@roenlie/tsconfig": "^1.0.0",
-		"@types/node": "18.15.11",
-		"@typescript-eslint/eslint-plugin": "^5.59.0",
-		"@typescript-eslint/parser": "^5.59.0",
-		"eslint": "^8.38.0",
-		"eslint-plugin-import": "^2.27.5",
-		"eslint-plugin-lit": "^1.8.2",
-		"eslint-plugin-simple-import-sort": "^10.0.0",
-		"globby": "^13.1.4",
-		"lit": "^2.7.2",
-		"rimraf": "^5.0.0",
-		"tsm": "^2.3.0",
-		"typescript": "^5.0.4",
-		"vite": "^4.2.1",
-		"vite-plugin-inspect": "^0.7.22",
-		"vitest": "^0.30.1"
-	}
+   "name": "@roenlie/mimic-core",
+   "author": "Kristoffer Roen-Lie",
+   "version": "0.0.3",
+   "description": "A versatile collection of TypeScript helper functions and utilities, designed to enhance your development experience with a treasure trove of valuable tools.",
+   "license": "MIT",
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/RoenLie/mimic.git"
+   },
+   "bugs": {
+      "url": "https://github.com/RoenLie/mimic/issues"
+   },
+   "homepage": "https://github.com/RoenLie/mimic#readme",
+   "type": "module",
+   "exports": {
+      ".": {
+         "import": "./dist/lib/index.js"
+      },
+      "./animation": {
+         "types": "./dist/lib/animation/index.d.ts",
+         "default": "./dist/lib/animation/index.js"
+      },
+      "./localize": {
+         "types": "./dist/lib/localize/index.d.ts",
+         "default": "./dist/lib/localize/index.js"
+      },
+      "./types": {
+         "types": "./dist/lib/types/index.d.ts",
+         "default": "./dist/lib/types/index.js"
+      },
+      "./array": {
+         "types": "./dist/lib/utils/array/index.d.ts",
+         "default": "./dist/lib/utils/array/index.js"
+      },
+      "./async": {
+         "types": "./dist/lib/utils/async/index.d.ts",
+         "default": "./dist/lib/utils/async/index.js"
+      },
+      "./coms": {
+         "types": "./dist/lib/utils/coms/index.d.ts",
+         "default": "./dist/lib/utils/coms/index.js"
+      },
+      "./dom": {
+         "types": "./dist/lib/utils/dom/index.d.ts",
+         "default": "./dist/lib/utils/dom/index.js"
+      },
+      "./function": {
+         "types": "./dist/lib/utils/function/index.d.ts",
+         "default": "./dist/lib/utils/function/index.js"
+      },
+      "./iterators": {
+         "types": "./dist/lib/utils/iterators/index.d.ts",
+         "default": "./dist/lib/utils/iterators/index.js"
+      },
+      "./math": {
+         "types": "./dist/lib/utils/math/index.d.ts",
+         "default": "./dist/lib/utils/math/index.js"
+      },
+      "./string": {
+         "types": "./dist/lib/utils/string/index.d.ts",
+         "default": "./dist/lib/utils/string/index.js"
+      },
+      "./structs": {
+         "types": "./dist/lib/utils/structs/index.d.ts",
+         "default": "./dist/lib/utils/structs/index.js"
+      },
+      "./timing": {
+         "types": "./dist/lib/utils/timing/index.d.ts",
+         "default": "./dist/lib/utils/timing/index.js"
+      },
+      "./validation": {
+         "types": "./dist/lib/utils/validation/index.d.ts",
+         "default": "./dist/lib/utils/validation/index.js"
+      }
+   },
+   "files": [
+      "dist",
+      "src",
+      "package.json",
+      "README.md"
+   ],
+   "scripts": {
+      "dev": "vite --config ./docs/vite.config.ts",
+      "dev:codespaces": "vite dev --host --config ./docs/vite.config.ts",
+      "typecheck": "tsc --project ./tsconfig.json",
+      "preview": "vite preview --config ./docs/vite.config.ts",
+      "build:preview": "vite build --config ./docs/vite.config.ts",
+      "test": "vitest --config ./vite.config.test.ts",
+      "build": "pnpm build:prepare && pnpm build:index && pnpm build:types && vite build",
+      "build:prepare": "rimraf dist",
+      "build:index": "package-toolbox build-indexes",
+      "build:types": "tsc --project ./src/tsconfig.json",
+      "updatedeps": "pnpm update --latest --interactive",
+      "increment-version": "package-toolbox increment-version"
+   },
+   "dependencies": {
+      "nanoid": "^4.0.2",
+      "tslib": "^2.5.0"
+   },
+   "devDependencies": {
+      "@roenlie/eslint-config": "^1.0.0",
+      "@roenlie/mirage-docs": "^1.2.6",
+      "@roenlie/package-toolbox": "^0.0.2",
+      "@roenlie/tsconfig": "^1.0.0",
+      "@types/node": "18.15.11",
+      "@typescript-eslint/eslint-plugin": "^5.59.0",
+      "@typescript-eslint/parser": "^5.59.0",
+      "eslint": "^8.38.0",
+      "eslint-plugin-import": "^2.27.5",
+      "eslint-plugin-lit": "^1.8.2",
+      "eslint-plugin-simple-import-sort": "^10.0.0",
+      "globby": "^13.1.4",
+      "lit": "^2.7.2",
+      "rimraf": "^5.0.0",
+      "tsm": "^2.3.0",
+      "typescript": "^5.0.4",
+      "vite": "^4.2.1",
+      "vite-plugin-inspect": "^0.7.22",
+      "vitest": "^0.30.1"
+   }
 }
