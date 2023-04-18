@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 
 export interface ITrackedPromise<T> extends Promise<T> {
 	id: string;
+	done: boolean;
 	resolve: (value?: T) => void;
 	reject: () => void;
 }
@@ -27,12 +28,20 @@ export const TrackedPromise = function<T>(
 	let rejector: () => void = () => {};
 
 	const promise = new Promise<T>((resolve, reject) => {
-		resolver = resolve;
-		rejector = reject;
+		resolver = (value: T) => {
+			this.done = true;
+			resolve(value);
+		};
+
+		rejector = (reason?: any) => {
+			this.done = true;
+			reject(reason);
+		};
 	});
 
 	Object.assign(promise, {
 		id,
+		done:    false,
 		resolve: resolver,
 		reject:  rejector,
 	});
