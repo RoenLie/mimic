@@ -2,6 +2,7 @@
 /* eslint-disable max-len */
 /* auto generated */
 export type { EventOf, CustomEventOf } from './event.js';
+export type { DragOptions } from './drag.js';
 export { findDocumentOrShadowRoot, elementHasAncestor, elementHasDescendant, findActiveElement } from './elements.js';
 export { lockBodyScrolling, unlockBodyScrolling, scrollIntoView } from './scroll.js';
 export { emitEvent, waitForEvent, setEventHandled } from './event.js';
@@ -11,3 +12,4 @@ export { hasKeyboardFocus } from './has-keyboard-focus.js';
 export { domId, alphabetId } from './dom-id.js';
 export { getOffset } from './offset.js';
 export { Modal } from './modal.js';
+export { drag } from './drag.js';

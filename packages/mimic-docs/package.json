@@ -1,0 +1,64 @@
+{
+	"name": "@roenlie/mimic-docs",
+	"author": "Kristoffer Roen-Lie",
+	"version": "0.0.5",
+	"description": "Documentation for the Mimic project.",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/RoenLie/mimic.git"
+	},
+	"bugs": {
+		"url": "https://github.com/RoenLie/mimic/issues"
+	},
+	"homepage": "https://github.com/RoenLie/mimic#readme",
+	"type": "module",
+	"exports": {
+		".": {
+			"import": "./dist/preview/index.js"
+		}
+	},
+	"files": [
+		"dist",
+		"src",
+		"package.json",
+		"README.md"
+	],
+	"scripts": {
+		"dev": "vite --config ./vite.config.ts",
+		"dev:codespaces": "vite dev --host --config ./vite.config.ts",
+		"typecheck": "tsc --project ./tsconfig.json",
+		"preview": "vite preview --config ./vite.config.ts",
+		"test": "vitest --config ./vite.config.test.ts",
+		"build": "pnpm build:prepare && pnpm typecheck && vite build",
+		"build:prepare": "rimraf dist",
+		"updatedeps": "pnpm update --latest --interactive",
+		"increment-version": "package-toolbox increment-version"
+	},
+	"dependencies": {
+		"nanoid": "^4.0.2",
+		"tslib": "^2.5.0",
+		"@roenlie/mimic-core": "workspace:^"
+	},
+	"devDependencies": {
+		"@roenlie/eslint-config": "^1.0.0",
+		"@roenlie/mirage-docs": "^1.2.6",
+		"@roenlie/package-toolbox": "^0.0.3",
+		"@roenlie/tsconfig": "^1.0.0",
+		"@types/node": "18.15.11",
+		"@typescript-eslint/eslint-plugin": "^5.59.0",
+		"@typescript-eslint/parser": "^5.59.0",
+		"eslint": "^8.38.0",
+		"eslint-plugin-import": "^2.27.5",
+		"eslint-plugin-lit": "^1.8.2",
+		"eslint-plugin-simple-import-sort": "^10.0.0",
+		"globby": "^13.1.4",
+		"lit": "^2.7.2",
+		"rimraf": "^5.0.0",
+		"tsm": "^2.3.0",
+		"typescript": "^5.0.4",
+		"vite": "^4.2.1",
+		"vite-plugin-inspect": "^0.7.22",
+		"vitest": "^0.30.1"
+	}
+}
