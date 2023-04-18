@@ -32,6 +32,10 @@
 		"./state-store": {
 			"types": "./dist/lib/state-store/index.d.ts",
 			"import": "./dist/lib/state-store/index.js"
+		},
+		"./context": {
+			"types": "./dist/lib/context/index.d.ts",
+			"import": "./dist/lib/context/index.js"
 		}
 	},
 	"scripts": {
@@ -44,6 +48,7 @@
 	},
 	"dependencies": {
 		"@roenlie/mimic-core": "workspace:^",
+		"fast-equals": "^5.0.1",
 		"inversify": "^6.0.1",
 		"lit": "^2.6.1",
 		"nanoid": "^4.0.1",
