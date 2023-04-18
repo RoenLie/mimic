@@ -59,6 +59,16 @@
 		{
 			"splitTerminals": [
 				{
+					"name": "docs",
+					"commands": [
+						"cd packages/mimic-docs"
+					]
+				}
+			]
+		},
+		{
+			"splitTerminals": [
+				{
 					"name": "core",
 					"commands": [
 						"cd packages/mimic-core"
