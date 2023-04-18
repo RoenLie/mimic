@@ -3,7 +3,7 @@ import { UserConfig } from 'vite';
 
 
 export default defineDocConfig({
-	base:  '/mimic-docs',
+	base:  '/mimic',
 	build: {
 		outDir: './dist',
 	},
