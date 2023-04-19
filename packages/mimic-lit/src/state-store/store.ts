@@ -2,12 +2,14 @@ import { clone, lazyMap, lazyWeakmap } from '@roenlie/mimic-core/structs';
 
 
 type Updateable = { requestUpdate: () => void; };
-
-
 type Observer<T = any> = (newValue: T, oldValue: T) => void;
-
-
 type Unobserve = () => void;
+type StoreProperties = Record<string, any>;
+type ListenerMap = Map<string, Set<WeakRef<Updateable>>>;
+type ListenerKeyMap = WeakMap<Updateable, string[]>;
+type ObserverMap = Map<string, WeakMap<Updateable, Set<Observer>>>;
+type TrackedObservers = Map<string, Set<WeakRef<Updateable>>>;
+type UntrackedObservers = Map<string, Set<Observer>>;
 
 
 const generatorFns = {
@@ -19,74 +21,92 @@ const generatorFns = {
 
 export class LitStateStore {
 
-	#properties: Record<string, any> = clone(Reflect.getMetadata($StoreProp, this));
-	#listeners:          Map<string, Set<WeakRef<Updateable>>> = new Map();
-	#mapToObserver:      Map<string, WeakMap<Updateable, Set<Observer>>> = new Map();
-	#trackedObservers:   Map<string, Set<WeakRef<Updateable>>> = new Map();
-	#untrackedObservers: Map<string, Set<Observer>> = new Map();
+	#properties:         StoreProperties = clone(Reflect.getMetadata($StoreProp, this));
+	#listeners:          ListenerMap = new Map();
+	#listenerKeyMap:     ListenerKeyMap = new WeakMap();
+	#mapToObserver:      ObserverMap = new Map();
+	#trackedObservers:   TrackedObservers = new Map();
+	#untrackedObservers: UntrackedObservers = new Map();
+
 
 	constructor() {
 		this.#initializeProperties();
 	}
 
-	#initializeProperties(this: LitStateStore & Record<keyof any, any>) {
-		Object.entries(this.#properties ?? {}).forEach(([ key ]) => {
-			this[key] = {
-				get: (el?: Updateable) => {
-					if (el) {
-						let set = lazyMap(this.#listeners, key, generatorFns.set);
-						set.add(new WeakRef(el));
-					}
+	#propGet(el: Updateable | undefined, key: string): unknown {
+		if (el) {
+			const keys = lazyWeakmap(this.#listenerKeyMap, el, []);
+			if (this.#listenerKeyMap.get(el)?.includes(key))
+				return this.#properties![key];
 
-					return this.#properties![key];
-				},
-				set: (value: any) => {
-					let oldValue = this.#properties[key];
-					this.#properties[key] = value;
-					this.#notifyChange(key, value, oldValue);
+			keys.push(key);
+			let set = lazyMap(this.#listeners, key, generatorFns.set);
+			set.add(new WeakRef(el));
+		}
 
-					return value;
-				},
-				update: (prop: string, value: any) => {
-					let oldValue = this.#properties[key][prop];
-					this.#properties[key][prop] = value;
-					this.#notifyChange([ key, prop ].join('.'), value, oldValue);
+		return this.#properties![key];
+	}
 
-					return this.#properties[key];
-				},
-				observe: (cb: (v: any) => void, el?: Updateable) => {
-					if (el) {
-						let refSet = lazyMap(this.#trackedObservers, key, generatorFns.set) as Set<WeakRef<Updateable>>;
-						let ref = new WeakRef(el);
-						refSet.forEach(r => r.deref() === el && (ref = r));
-						refSet.add(ref);
+	#propSet<T>(key: string, value: T): T {
+		let oldValue = this.#properties[key];
+		this.#properties[key] = value;
+		this.#notifyChange(key, value, oldValue);
 
-						let map = lazyMap(this.#mapToObserver, key, generatorFns.weakmap);
-						let observers = lazyWeakmap(map, el, generatorFns.set);
-						observers.add(cb);
+		return value;
+	}
 
-						return () => {
-							observers.delete(cb);
-							refSet.delete(ref);
-						};
-					}
-					else {
-						let set = lazyMap(this.#untrackedObservers, key, generatorFns.set);
+	#propUpdate<T>(key: string, delegate: (v: T) => void): T {
+		let oldValue = clone(this.#properties[key]);
+		delegate(this.#properties[key]);
+		this.#notifyChange(key, this.#properties[key], oldValue);
 
-						return () => {
-							set.delete(cb);
-						};
-					}
-				},
+		return this.#properties[key];
+	}
+
+	#propObserver(key: string, cb: (v: any) => void, el: Updateable | undefined): Unobserve {
+		if (el) {
+			let refSet = lazyMap(this.#trackedObservers, key, generatorFns.set) as Set<WeakRef<Updateable>>;
+			let ref = new WeakRef(el);
+			refSet.forEach(r => r.deref() === el && (ref = r));
+			refSet.add(ref);
+
+			let map = lazyMap(this.#mapToObserver, key, generatorFns.weakmap) as WeakMap<Updateable, Set<Observer>>;
+			let observers = lazyWeakmap(map, el, generatorFns.set) as Set<Observer>;
+			observers.add(cb);
+
+			return () => {
+				observers.delete(cb);
+				refSet.delete(ref);
 			};
-		});
+		}
+		else {
+			let set = lazyMap(this.#untrackedObservers, key, generatorFns.set);
+
+			return () => {
+				set.delete(cb);
+			};
+		}
+	}
+
+	#initializeProperties(this: LitStateStore & Record<keyof any, any>) {
+		for (const key of Object.keys(this.#properties)) {
+			this[key] = {
+				get:     (el?: Updateable) => this.#propGet(el, key),
+				set:     (value: any) => this.#propSet(key, value),
+				update:  (delegate: (v: any) => void) => this.#propUpdate(key, delegate),
+				observe: (cb: (v: any) => void, el?: Updateable) => this.#propObserver(key, cb, el),
+			};
+		}
 	}
 
 	#notifyChange(key: string, newValue: any, oldValue: any) {
 		const updateables = this.#listeners.get(key);
 		updateables?.forEach(updateable => {
 			const el = updateable.deref();
-			el ? el.requestUpdate() : updateables.delete(updateable);
+			if (el)
+				el.requestUpdate();
+			else
+				updateables.delete(updateable);
 		});
 
 		const tracked = this.#trackedObservers.get(key);
@@ -112,18 +132,27 @@ export class LitStateStore {
 const $StoreProp = Symbol();
 
 
-export type StoreProperty<T> = {
-	get: (el?: Updateable) => T;
+export type Stored<T> = {
+	get(el: Updateable): T;
+	get(): T;
 	set: (v: T) => T;
-	update: <K extends keyof T>(prop: K, value: T[K]) => T;
-	observe: (observer: Observer<T>, el?: Updateable) => Unobserve;
+	update: (delegate: (v: T) => void) => T;
+	observe(el: Updateable, observer: Observer<T>): Unobserve;
+	observe(observer: Observer<T>): Unobserve;
 };
 
 
-export const StoreProp = (options: { value: any }) => {
+export const stored = (options?: { value?: any }) => {
 	return (target: LitStateStore, propertyKey: string) => {
 		const metadata = Reflect.getMetadata($StoreProp, target) ?? {};
-		Object.assign(metadata, { [propertyKey]: options.value });
+		Object.assign(metadata, { [propertyKey]: options?.value ?? undefined });
 		Reflect.defineMetadata($StoreProp, metadata, target);
 	};
 };
+
+
+class TestStore extends LitStateStore {
+
+	@stored() public selected: Stored<{name: string}>;
+
+}

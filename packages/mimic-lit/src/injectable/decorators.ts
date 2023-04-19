@@ -1,4 +1,5 @@
 import { createPromiseResolver, resolveDynamicPromise } from '@roenlie/mimic-core/async';
+import { injectable } from 'inversify';
 
 import { $InjectParams, $InjectProps } from './constants.js';
 import { container, isModuleLoaded, loadedModuleWeakSet } from './container.js';
@@ -94,3 +95,6 @@ export const injectParam = (identifier: string | symbol, options?: {async?: bool
 		});
 	};
 };
+
+
+export { injectable };
