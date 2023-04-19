@@ -11,6 +11,8 @@ import { ElementMetadata, PropertyName } from './types.js';
 
 export class InjectableElement extends LitElement {
 
+	public static loadingTemplate = '';
+
 	#injectionComplete: Promise<any>;
 	protected get injectionComplete() { return this.#injectionComplete; }
 	protected __upgradeObserver = new MutationObserver(() => {
@@ -22,7 +24,8 @@ export class InjectableElement extends LitElement {
 
 			if (!element.hasAttribute('awaiting-upgrade')) {
 				element.setAttribute('awaiting-upgrade', '');
-				element.innerHTML = `<pl-spinner></pl-spinner>`;
+
+				element.innerHTML = InjectableElement.loadingTemplate;
 
 				customElements.whenDefined(tagname).then(() => {
 					element.removeAttribute('awaiting-upgrade');
