@@ -94,7 +94,12 @@ export class LitStateStore {
 				get:     (el?: Updateable) => this.#propGet(el, key),
 				set:     (value: any) => this.#propSet(key, value),
 				update:  (delegate: (v: any) => void) => this.#propUpdate(key, delegate),
-				observe: (cb: (v: any) => void, el?: Updateable) => this.#propObserver(key, cb, el),
+				observe: (el: Updateable | ((v: any) => void), cb: (v: any) => void) => {
+					if (typeof el === 'function')
+						this.#propObserver(key, el, undefined);
+					else
+						this.#propObserver(key, cb, el);
+				},
 			};
 		}
 	}
