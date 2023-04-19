@@ -14,28 +14,28 @@
 	"type": "module",
 	"exports": {
 		".": {
-			"types": "./dist/lib/index.d.ts",
-			"import": "./dist/lib/index.js"
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
 		},
 		"./controllers": {
-			"types": "./dist/lib/controllers/index.d.ts",
-			"import": "./dist/lib/controllers/index.js"
+			"types": "./dist/controllers/index.d.ts",
+			"import": "./dist/controllers/index.js"
 		},
 		"./decorators": {
-			"types": "./dist/lib/decorators/index.d.ts",
-			"import": "./dist/lib/decorators/index.js"
+			"types": "./dist/decorators/index.d.ts",
+			"import": "./dist/decorators/index.js"
 		},
 		"./injectable": {
-			"types": "./dist/lib/injectable/index.d.ts",
-			"import": "./dist/lib/injectable/index.js"
+			"types": "./dist/injectable/index.d.ts",
+			"import": "./dist/injectable/index.js"
 		},
 		"./state-store": {
-			"types": "./dist/lib/state-store/index.d.ts",
-			"import": "./dist/lib/state-store/index.js"
+			"types": "./dist/state-store/index.d.ts",
+			"import": "./dist/state-store/index.js"
 		},
 		"./context": {
-			"types": "./dist/lib/context/index.d.ts",
-			"import": "./dist/lib/context/index.js"
+			"types": "./dist/context/index.d.ts",
+			"import": "./dist/context/index.js"
 		}
 	},
 	"scripts": {
