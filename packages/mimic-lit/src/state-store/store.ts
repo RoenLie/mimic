@@ -154,10 +154,3 @@ export const stored = (options?: { value?: any }) => {
 		Reflect.defineMetadata($StoreProp, metadata, target);
 	};
 };
-
-
-class TestStore extends LitStateStore {
-
-	@stored() public selected: Stored<{name: string}>;
-
-}

@@ -97,4 +97,42 @@ export const injectParam = (identifier: string | symbol, options?: {async?: bool
 };
 
 
+export const inject = (identifier: string | symbol, options?: {async?: boolean}) => {
+	return (
+		target: object,
+		property: string | undefined,
+		parameterIndex?: number,
+	) => {
+		if (typeof property === 'string') {
+			let metadata: Map<string | symbol, ElementMetadata> = Reflect
+				.getMetadata($InjectProps, target);
+
+			if (!metadata) {
+				metadata = new Map();
+				Reflect.defineMetadata($InjectProps, metadata, target);
+			}
+
+			metadata.set(property, {
+				identifier,
+				async: options?.async ?? false,
+			});
+		}
+		else if (typeof parameterIndex === 'number') {
+			let metadata: Map<number, ElementMetadata> = Reflect
+				.getMetadata($InjectParams, target);
+
+			if (!metadata) {
+				metadata = new Map();
+				Reflect.defineMetadata($InjectParams, metadata, target);
+			}
+
+			metadata.set(parameterIndex, {
+				identifier,
+				async: options?.async ?? false,
+			});
+		}
+	};
+};
+
+
 export { injectable };

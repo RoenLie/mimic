@@ -1,0 +1,75 @@
+import { ElementPart, LitElement, nothing, type TemplateResult } from 'lit';
+import { AsyncDirective } from 'lit/async-directive.js';
+import { customElement } from 'lit/decorators/custom-element.js';
+import { property } from 'lit/decorators/property.js';
+import { directive, DirectiveParameters, PartInfo, PartType } from 'lit/directive.js';
+
+
+@customElement('mimic-portal')
+export class PortalElement extends LitElement {
+
+	@property() public renderTemplate: TemplateResult;
+
+	protected override render() {
+		return this.renderTemplate;
+	}
+
+}
+
+
+class PortalDirective extends AsyncDirective {
+
+	public targetElement?: HTMLElement;
+	public portalElement?: PortalElement;
+
+	constructor(partInfo: PartInfo) {
+		super(partInfo);
+
+		if (partInfo.type !== PartType.ELEMENT) {
+			throw new Error(
+				'`PortalDirective` can only be used directly in an element.',
+			);
+		}
+	}
+
+	public override update(
+		part: ElementPart, [ targetElement, templateToRender ]: DirectiveParameters<this>,
+	) {
+		if (!this.isConnected)
+			return this.render(targetElement, templateToRender);
+
+		if (this.portalElement && this.targetElement !== targetElement) {
+			// targetElement has changed - transplant the portalElement
+			this.portalElement.remove();
+			targetElement.appendChild(this.portalElement);
+		}
+
+		this.targetElement = targetElement;
+
+		if (!this.portalElement) {
+			this.portalElement = document.createElement('mimic-portal') as PortalElement;
+			targetElement?.appendChild(this.portalElement);
+		}
+
+		this.portalElement.renderTemplate = templateToRender;
+
+		return this.render(targetElement, templateToRender);
+	}
+
+	protected override disconnected() {
+		// Remove rendered template from targetNode
+		this.portalElement?.remove();
+		this.portalElement = undefined;
+		this.targetElement = undefined;
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	public render(targetElement: HTMLElement, templateToRender: TemplateResult) {
+		return nothing;
+	}
+
+}
+
+export const portal = directive(PortalDirective);
+
+export type { PortalDirective };

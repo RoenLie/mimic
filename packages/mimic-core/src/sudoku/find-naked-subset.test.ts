@@ -19,9 +19,6 @@ describe('should finally work', () => {
 
 		const result = findNakedSubset(input, 2);
 
-		console.log(result);
-
-
 		//expect(result).to.deep.equal([ 1, 2 ]);
 	});
 
@@ -39,7 +36,6 @@ describe('should finally work', () => {
 		];
 
 		const result = findNakedSubset(input, 3);
-		console.log(result);
 	});
 
 	it('naked quad', () => {
@@ -57,6 +53,5 @@ describe('should finally work', () => {
 
 
 		const result = findNakedSubset(input, 4);
-		console.log(result);
 	});
 });

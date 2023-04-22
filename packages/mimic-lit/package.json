@@ -21,6 +21,10 @@
 			"types": "./dist/controllers/index.d.ts",
 			"import": "./dist/controllers/index.js"
 		},
+		"./directives": {
+			"types": "./dist/directives/index.d.ts",
+			"import": "./dist/directives/index.js"
+		},
 		"./decorators": {
 			"types": "./dist/decorators/index.d.ts",
 			"import": "./dist/decorators/index.js"

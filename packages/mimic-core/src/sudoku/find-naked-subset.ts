@@ -22,7 +22,7 @@ export const findNakedSubset = (sets: number[][], n: number) => {
 	const filtered = findRepresentedGroup(combinedSets);
 
 
-	console.dir({ validSets, combinedSets, filtered }, { depth: null });
+	//console.dir({ validSets, combinedSets, filtered }, { depth: null });
 
 	return [ ...new Set(filtered.flat(2)) ];
 };
