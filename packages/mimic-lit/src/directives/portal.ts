@@ -27,7 +27,7 @@ class PortalDirective extends AsyncDirective {
 
 		if (partInfo.type !== PartType.ELEMENT) {
 			throw new Error(
-				'`PortalDirective` can only be used directly in an element.',
+				'`PortalDirective` can only be used inside an elements slot.',
 			);
 		}
 	}

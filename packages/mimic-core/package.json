@@ -17,13 +17,17 @@
 		".": {
 			"import": "./dist/lib/index.js"
 		},
+		"./localize": {
+			"types": "./dist/lib/localize/index.d.ts",
+			"default": "./dist/lib/localize/index.js"
+		},
 		"./animation": {
 			"types": "./dist/lib/animation/index.d.ts",
 			"default": "./dist/lib/animation/index.js"
 		},
-		"./localize": {
-			"types": "./dist/lib/localize/index.d.ts",
-			"default": "./dist/lib/localize/index.js"
+		"./node-tree": {
+			"types": "./dist/lib/node-tree/index.d.ts",
+			"default": "./dist/lib/node-tree/index.js"
 		},
 		"./types": {
 			"types": "./dist/lib/types/index.d.ts",

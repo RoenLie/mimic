@@ -13,6 +13,7 @@ export default defineToolbox(async () => {
 			entrypoints: [
 				{ path: './src/types/index.ts',            filters: [ exclude ] },
 				{ path: './src/localize/index.ts',         filters: [ exclude ] },
+				{ path: './src/node-tree/index.ts',        filters: [ exclude ] },
 				{ path: './src/animation/index.ts',        filters: [ exclude ] },
 				{ path: './src/utils/array/index.ts',      filters: [ exclude ] },
 				{ path: './src/utils/async/index.ts',      filters: [ exclude ] },
