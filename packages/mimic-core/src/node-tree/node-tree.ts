@@ -1,13 +1,19 @@
 import { $Augmented, augment } from './augment.js';
-import { Key, Rec, TreeNode } from './types.js';
-
+import { Key, Rec, RootNode, TreeNode } from './types.js';
 
 export const fromSingleObject = <TObj extends Rec, const TProp extends keyof TObj>(
 	object: TObj, childProp: TProp) => _traverse(object, childProp);
 
 
 export const fromMultiObject = <TObj extends Rec, const TProp extends keyof TObj>(
-	object: TObj[], childProp: TProp) => object.map(obj => _traverse(obj, childProp));
+	object: TObj[], childProp: TProp,
+): RootNode<TObj, TProp> => {
+	type Root = { [key in TProp]: TObj[]; } & TObj;
+
+	return _traverse({
+		[childProp]: object,
+	} as Root, childProp);
+};
 
 
 const _traverse = <TObj extends Rec, const TProp extends keyof TObj>(
@@ -91,14 +97,16 @@ export const unwrap = <
 export class NodeTree {
 
 	public static fromObject<TObj extends Rec, TProp extends keyof TObj>(
-		objects: TObj[], childProp: TProp): TreeNode<TObj, TProp>[];
+		objects: TObj[], childProp: TProp
+	): RootNode<TObj, TProp>;
 
 	public static fromObject<TObj extends Rec, TProp extends keyof TObj>(
-		objects: TObj, childProp: TProp): TreeNode<TObj, TProp>;
+		objects: TObj, childProp: TProp
+	): TreeNode<TObj, TProp>;
 
 	public static fromObject<TObj extends Rec, TProp extends keyof TObj>(
 		objects: TObj | TObj[], childProp: TProp,
-	): TreeNode<TObj, TProp> | TreeNode<TObj, TProp>[] {
+	): TreeNode<TObj, TProp> | RootNode<TObj, TProp> {
 		if (Array.isArray(objects))
 			return fromMultiObject(objects, childProp);
 

@@ -35,6 +35,8 @@ export class NodeTreeDemo extends LitElement {
 
 		const tree1 = NodeTree.fromObject([ root1, root2, root3 ], 'children');
 		const tree2 = NodeTree.fromObject(root1, 'children');
+
+		tree1.forEach(item => item.id);
 		//console.log(tree1);
 		//console.log(tree2);
 
@@ -58,16 +60,16 @@ export class NodeTreeDemo extends LitElement {
 		//console.log(tree2);
 
 
-		//type ListItem = {id: number; parent?: number;};
+		type ListItem = {id: number; parent?: number;};
 
-		//const items: ListItem[] = [
-		//	{ id: 1, parent: undefined },
-		//	{ id: 2, parent: 1 },
-		//	{ id: 3, parent: 1 },
-		//	{ id: 4, parent: 2 },
-		//];
+		const items: ListItem[] = [
+			{ id: 1, parent: undefined },
+			{ id: 2, parent: 1 },
+			{ id: 3, parent: 1 },
+			{ id: 4, parent: 2 },
+		];
 
-		//const fromList = NodeTree.fromList(items, 'id', 'parent', 'children');
+		const fromList = NodeTree.fromList(items, 'id', 'parent', 'children');
 		//console.log(fromList);
 
 		//console.log(fromList.forEach(item => item.children));
