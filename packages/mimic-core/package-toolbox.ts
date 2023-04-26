@@ -11,6 +11,7 @@ export default defineToolbox(async () => {
 	return {
 		indexBuilder: {
 			entrypoints: [
+				{ path: './src/index-fallback.ts',         filters: [ exclude ] },
 				{ path: './src/types/index.ts',            filters: [ exclude ] },
 				{ path: './src/localize/index.ts',         filters: [ exclude ] },
 				{ path: './src/node-tree/index.ts',        filters: [ exclude ] },
