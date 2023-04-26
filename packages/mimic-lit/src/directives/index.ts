@@ -2,3 +2,4 @@
 /* eslint-disable max-len */
 /* auto generated */
 export { PortalElement, portal } from './portal.js';
+export { computed } from './computed.js';

@@ -12,6 +12,8 @@
 	},
 	"homepage": "https://github.com/RoenLie/mimic#readme",
 	"type": "module",
+	"main": "./dist/index-fallback.js",
+	"types": "./dist/index-fallback.d.ts",
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",

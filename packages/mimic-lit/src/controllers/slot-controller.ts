@@ -1,7 +1,7 @@
 import type { ReactiveController, ReactiveControllerHost } from 'lit';
 
 
-export class HasSlotController implements ReactiveController {
+export class SlotController implements ReactiveController {
 
 	protected host: ReactiveControllerHost & Element;
 	protected slotNames: string[] = [];
@@ -18,15 +18,8 @@ export class HasSlotController implements ReactiveController {
 			if (node.nodeType === node.TEXT_NODE && node.textContent!.trim() !== '')
 				return true;
 
-
 			if (node.nodeType === node.ELEMENT_NODE) {
 				const el = node as HTMLElement;
-				const tagName = el.tagName.toLowerCase();
-
-				// Ignore visually hidden elements since they aren't rendered
-				if (tagName === 'es-visually-hidden')
-					return false;
-
 
 				// If it doesn't have a slot attribute, it's part of the default slot
 				if (!el.hasAttribute('slot'))
@@ -66,7 +59,7 @@ export class HasSlotController implements ReactiveController {
  * Given a slot, this function iterates over all of its assigned element and text nodes and returns the concatenated
  * HTML as a string. This is useful because we can't use slot.innerHTML as an alternative.
  */
-export function getInnerHTML(slot: HTMLSlotElement): string {
+export const getInnerHTML = (slot: HTMLSlotElement): string => {
 	const nodes = slot.assignedNodes({ flatten: true });
 	let html = '';
 
@@ -80,13 +73,13 @@ export function getInnerHTML(slot: HTMLSlotElement): string {
 	});
 
 	return html;
-}
+};
 
 /**
  * Given a slot, this function iterates over all of its assigned text nodes and returns the concatenated text as a
  * string. This is useful because we can't use slot.textContent as an alternative.
  */
-export function getTextContent(slot: HTMLSlotElement | undefined | null): string {
+export const getTextContent = (slot: HTMLSlotElement | undefined | null): string => {
 	if (!slot)
 		return '';
 
@@ -99,4 +92,4 @@ export function getTextContent(slot: HTMLSlotElement | undefined | null): string
 	});
 
 	return text;
-}
+};
