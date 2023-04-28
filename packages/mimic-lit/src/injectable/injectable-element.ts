@@ -42,7 +42,7 @@ export class InjectableElement extends LitElement {
 		this.#injectionComplete = injPromise;
 
 		const elementScope: ElementScope | undefined = Reflect
-			.getMetadata($ElementScope, this.constructor.prototype);
+			.getMetadata($ElementScope, this.constructor);
 
 		const container = getContainer(elementScope);
 
