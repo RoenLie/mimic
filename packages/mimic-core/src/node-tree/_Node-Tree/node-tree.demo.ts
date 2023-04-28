@@ -36,7 +36,7 @@ export class NodeTreeDemo extends LitElement {
 		const tree1 = NodeTree.fromObject([ root1, root2, root3 ], 'children');
 		const tree2 = NodeTree.fromObject(root1, 'children');
 
-		tree1.forEach(item => item.id);
+		tree1.forEach(item => item);
 		//console.log(tree1);
 		//console.log(tree2);
 

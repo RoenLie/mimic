@@ -1,22 +1,33 @@
-import { createPromiseResolver, resolveDynamicPromise } from '@roenlie/mimic-core/async';
-import { injectable } from 'inversify';
+import { createPromiseResolver, Promised, Promiser, resolveDynamicPromise } from '@roenlie/mimic-core/async';
+import { lazyWeakmap } from '@roenlie/mimic-core/structs';
+import { inject as invInject, injectable } from 'inversify';
 
-import { $InjectParams, $InjectProps } from './constants.js';
-import { container, isModuleLoaded, loadedModuleWeakSet } from './container.js';
-import { ContainerModule } from './ContainerModule.js';
-import { ElementMetadata } from './types.js';
+import { $ElementScope, $InjectParams, $InjectProps } from './constants.js';
+import { getContainer, isModuleLoaded, loadedModules } from './container.js';
+import { ContainerModule } from './container-module.js';
+import { ensureCE } from './ensure-element.js';
+import { InjectableElement } from './InjectableElement.js';
+import { Identifier, ParamMetadata, PropMetadata } from './types.js';
+
+
+export type ModuleOption = Promised<ContainerModule> | Promiser<ContainerModule>;
 
 
 export const injectableElement = (
 	tagName: string,
 	options?: {
-		modules?: (ContainerModule | (() => ContainerModule | Promise<ContainerModule>))[];
+		scope?: string;
+		modules?: ModuleOption | ModuleOption[];
 	},
 ) => {
-	return (target: CustomElementConstructor): any => {
+	return (target: typeof InjectableElement): any => {
+		target.tagName = tagName;
+
+		Reflect.defineMetadata($ElementScope, options?.scope, target);
+
 		// if there are no modules to register, just define the component and immediatly return.
 		if (!options?.modules) {
-			customElements.define(tagName, target);
+			ensureCE(target);
 
 			return target;
 		}
@@ -25,16 +36,18 @@ export const injectableElement = (
 		// loop through the registrations and load them if not already loaded.
 		// defer defining the custom element untill all modules are resolved.
 		const loading: any[] = [];
+		let container = getContainer(options?.scope);
 
 		const verifyAndAddModule = (module: ContainerModule) => {
-			if (isModuleLoaded(module))
+			if (isModuleLoaded(container, module))
 				return;
 
-			loadedModuleWeakSet.add(module);
+			const set = lazyWeakmap(loadedModules, container, () => new WeakSet());
+			set.add(module);
 			container.load(module);
 		};
 
-		options.modules.forEach(module => {
+		const resolve = (module: ModuleOption) => {
 			if (module instanceof ContainerModule)
 				return verifyAndAddModule(module);
 
@@ -45,22 +58,27 @@ export const injectableElement = (
 				verifyAndAddModule(module);
 				resolve(true);
 			});
-		});
+		};
 
-		Promise.all(loading).then(() => customElements.define(tagName, target));
+		if (Array.isArray(options.modules))
+			options.modules.forEach(resolve);
+		else
+			resolve(options.modules);
+
+
+		Promise.all(loading).then(() => ensureCE(target));
 
 		return target;
 	};
 };
 
 
-export const injectProp = (identifier: string | symbol, options?: {async?: boolean}) => {
+export const injectProp = (identifier: Identifier, options?: {async?: boolean}) => {
 	return (
-		target: object,
+		target: InjectableElement,
 		property: string,
 	) => {
-		let metadata: Map<string | symbol, ElementMetadata> = Reflect
-			.getMetadata($InjectProps, target);
+		let metadata: PropMetadata = Reflect.getMetadata($InjectProps, target);
 
 		if (!metadata) {
 			metadata = new Map();
@@ -75,14 +93,13 @@ export const injectProp = (identifier: string | symbol, options?: {async?: boole
 };
 
 
-export const injectParam = (identifier: string | symbol, options?: {async?: boolean}) => {
+export const injectParam = (identifier: Identifier, options?: {async?: boolean}) => {
 	return (
-		target: object,
+		target: InjectableElement,
 		property: undefined,
 		parameterIndex: number,
 	) => {
-		let metadata: Map<number, ElementMetadata> = Reflect
-			.getMetadata($InjectParams, target);
+		let metadata: ParamMetadata = Reflect.getMetadata($InjectParams, target);
 
 		if (!metadata) {
 			metadata = new Map();
@@ -97,15 +114,21 @@ export const injectParam = (identifier: string | symbol, options?: {async?: bool
 };
 
 
-export const inject = (identifier: string | symbol, options?: {async?: boolean}) => {
+export const inject = (
+	identifier: Identifier,
+	/** Only relevant if used on an instance of InjectableElement */
+	options?: { async?: boolean; },
+) => {
 	return (
 		target: object,
 		property: string | undefined,
 		parameterIndex?: number,
 	) => {
+		if (!(target instanceof InjectableElement))
+			return invInject(identifier)(target, property, parameterIndex);
+
 		if (typeof property === 'string') {
-			let metadata: Map<string | symbol, ElementMetadata> = Reflect
-				.getMetadata($InjectProps, target);
+			let metadata: PropMetadata = Reflect.getMetadata($InjectProps, target);
 
 			if (!metadata) {
 				metadata = new Map();
@@ -118,8 +141,7 @@ export const inject = (identifier: string | symbol, options?: {async?: boolean})
 			});
 		}
 		else if (typeof parameterIndex === 'number') {
-			let metadata: Map<number, ElementMetadata> = Reflect
-				.getMetadata($InjectParams, target);
+			let metadata: ParamMetadata = Reflect.getMetadata($InjectParams, target);
 
 			if (!metadata) {
 				metadata = new Map();

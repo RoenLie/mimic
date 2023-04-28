@@ -1,7 +1,7 @@
-import { $InjectParams } from './constants.js';
-import { container } from './container.js';
+import { $ElementScope, $InjectParams } from './constants.js';
+import { getContainer } from './container.js';
 import { InjectableElement } from './InjectableElement.js';
-import { ElementMetadata } from './types.js';
+import { ElementMetadata, ElementScope } from './types.js';
 
 
 declare global {
@@ -19,11 +19,27 @@ customElements.define = function(name, constructor, options) {
 		return;
 	}
 
+	type ParamMetadata = Map<number, ElementMetadata>
+
+	const paramMetadata: ParamMetadata | undefined = Reflect
+		.getMetadata($InjectParams, constructor.prototype.constructor);
+
+	if (!paramMetadata?.size) {
+		customDefineOrigin.call(this, name, constructor, options);
+
+		return;
+	}
+
 	const ctor = class extends constructor {
 
 		constructor() {
-			const paramMetadata: Map<number, ElementMetadata> | undefined = Reflect
+			const paramMetadata: ParamMetadata | undefined = Reflect
 				.getMetadata($InjectParams, constructor.prototype.constructor);
+
+			const elementScope: ElementScope | undefined = Reflect
+				.getMetadata($ElementScope, constructor);
+
+			const container = getContainer(elementScope);
 
 			const args: any[] = [];
 			paramMetadata?.forEach((value, key) => {

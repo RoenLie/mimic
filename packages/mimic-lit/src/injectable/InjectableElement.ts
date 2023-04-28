@@ -4,16 +4,17 @@ import { createPromiseResolver } from '@roenlie/mimic-core/async';
 import { RecordOf } from '@roenlie/mimic-core/types';
 import { LitElement } from 'lit';
 
-import { $InjectProps } from './constants.js';
-import { container } from './container.js';
-import { ElementMetadata, PropertyName } from './types.js';
+import { $ElementScope, $InjectProps } from './constants.js';
+import { getContainer } from './container.js';
+import { ElementScope, PropMetadata } from './types.js';
 
 
 export class InjectableElement extends LitElement {
 
+	public static tagName = '';
 	public static loadingTemplate = '';
 
-	#injectionComplete: Promise<any>;
+	#injectionComplete?: Promise<any>;
 	protected get injectionComplete() { return this.#injectionComplete; }
 	protected __upgradeObserver = new MutationObserver(() => {
 		const elements = [ ...this.shadowRoot?.querySelectorAll('*') ?? [] ].filter(el => el.tagName.includes('-'));
@@ -37,15 +38,18 @@ export class InjectableElement extends LitElement {
 	constructor() {
 		super();
 
-		const [ promise, resolve ] = createPromiseResolver();
-		this.#injectionComplete = promise;
+		const [ injPromise, injResolve ] = createPromiseResolver();
+		this.#injectionComplete = injPromise;
 
-		const cont = container;
+		const elementScope: ElementScope | undefined = Reflect
+			.getMetadata($ElementScope, this);
+
+		const cont = getContainer(elementScope);
 
 		const me: RecordOf<LitElement> = this as any;
 		const injectionPromises: Promise<any>[] = [];
 
-		const propMetadata: Map<PropertyName, ElementMetadata> | undefined = Reflect
+		const propMetadata: PropMetadata | undefined = Reflect
 			.getMetadata($InjectProps, this);
 
 		propMetadata?.forEach((metadata, property) => {
@@ -59,7 +63,7 @@ export class InjectableElement extends LitElement {
 		});
 
 		Promise.all(injectionPromises).then(() => {
-			resolve(true);
+			injResolve(true);
 			this.injectionCallback();
 		});
 	}
@@ -81,7 +85,11 @@ export class InjectableElement extends LitElement {
 
 	protected override async scheduleUpdate() {
 		/* Ensure that async bindings have been resolved before rendering. */
-		await this.injectionComplete;
+		if (this.injectionComplete) {
+			await this.injectionComplete;
+			this.#injectionComplete = undefined;
+		}
+
 		super.scheduleUpdate();
 	}
 
