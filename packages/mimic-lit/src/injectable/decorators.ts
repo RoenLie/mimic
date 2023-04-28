@@ -6,7 +6,7 @@ import { $ElementScope, $InjectParams, $InjectProps } from './constants.js';
 import { getContainer, isModuleLoaded, loadedModules } from './container.js';
 import { ContainerModule } from './container-module.js';
 import { ensureCE } from './ensure-element.js';
-import { InjectableElement } from './InjectableElement.js';
+import { InjectableElement } from './injectable-element.js';
 import { Identifier, ParamMetadata, PropMetadata } from './types.js';
 
 

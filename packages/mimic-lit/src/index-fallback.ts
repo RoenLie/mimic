@@ -14,7 +14,7 @@ export { SlotController, getInnerHTML, getTextContent } from './controllers/slot
 export { getContainer, loadedModules, isModuleLoaded } from './injectable/container.js';
 export { KeyboardController } from './controllers/keyboard-controller.js';
 export { LocalizeController } from './controllers/localize-controller.js';
-export { InjectableElement } from './injectable/InjectableElement.js';
+export { InjectableElement } from './injectable/injectable-element.js';
 export { EventController } from './controllers/event-controller.js';
 export { ContainerModule } from './injectable/container-module.js';
 export { PortalElement, portal } from './directives/portal.js';

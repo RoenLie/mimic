@@ -6,6 +6,6 @@ export type { ModuleOption } from './decorators.js';
 export { injectableElement, injectProp, injectParam, inject, injectable } from './decorators.js';
 export { $InjectProps, $InjectParams, $Container, $ElementScope } from './constants.js';
 export { getContainer, loadedModules, isModuleLoaded } from './container.js';
-export { InjectableElement } from './InjectableElement.js';
+export { InjectableElement } from './injectable-element.js';
 export { ContainerModule } from './container-module.js';
 export { ensureCE } from './ensure-element.js';

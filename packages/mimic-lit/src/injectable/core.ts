@@ -1,6 +1,6 @@
 import { $ElementScope, $InjectParams } from './constants.js';
 import { getContainer } from './container.js';
-import { InjectableElement } from './InjectableElement.js';
+import { InjectableElement } from './injectable-element.js';
 import { ElementMetadata, ElementScope } from './types.js';
 
 
@@ -43,7 +43,12 @@ customElements.define = function(name, constructor, options) {
 
 			const args: any[] = [];
 			paramMetadata?.forEach((value, key) => {
-				args[key] = container.get(value.identifier);
+				try {
+					args[key] = container.get(value.identifier);
+				}
+				catch (error) {
+					throw new Error(error as string, { cause: this.tagName });
+				}
 			});
 
 			super(...args);
