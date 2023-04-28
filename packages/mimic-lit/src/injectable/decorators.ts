@@ -1,6 +1,6 @@
 import { createPromiseResolver, Promised, Promiser, resolveDynamicPromise } from '@roenlie/mimic-core/async';
 import { lazyWeakmap } from '@roenlie/mimic-core/structs';
-import { inject as invInject, injectable } from 'inversify';
+import { inject as invInject, injectable as invInjectable } from 'inversify';
 
 import { $ElementScope, $InjectParams, $InjectProps } from './constants.js';
 import { getContainer, isModuleLoaded, loadedModules } from './container.js';
@@ -156,5 +156,4 @@ export const inject = (
 	};
 };
 
-
-export { injectable };
+export const injectable = invInjectable;
