@@ -42,7 +42,7 @@ export class InjectableElement extends LitElement {
 		this.#injectionComplete = injPromise;
 
 		const elementScope: ElementScope | undefined = Reflect
-			.getMetadata($ElementScope, this);
+			.getMetadata($ElementScope, this.constructor.prototype);
 
 		const container = getContainer(elementScope);
 
@@ -65,9 +65,7 @@ export class InjectableElement extends LitElement {
 				}
 			}
 			catch (error) {
-				throw new Error(error as string, {
-					cause: this.tagName,
-				});
+				console.error('Unable to resolve:', metadata.identifier, 'in element:', this.tagName);
 			}
 		});
 

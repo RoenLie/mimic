@@ -47,7 +47,7 @@ customElements.define = function(name, constructor, options) {
 					args[key] = container.get(value.identifier);
 				}
 				catch (error) {
-					throw new Error(error as string, { cause: this.tagName });
+					console.error('Unable to resolve:', value.identifier, 'in element:', this.tagName);
 				}
 			});
 
