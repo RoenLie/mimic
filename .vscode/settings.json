@@ -79,6 +79,16 @@
 		{
 			"splitTerminals": [
 				{
+					"name": "elements",
+					"commands": [
+						"cd packages/mimic-elements"
+					]
+				}
+			]
+		},
+		{
+			"splitTerminals": [
+				{
 					"name": "lit",
 					"commands": [
 						"cd packages/mimic-lit"

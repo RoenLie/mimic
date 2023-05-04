@@ -1,0 +1,50 @@
+{
+	"name": "@roenlie/mimic-elements",
+	"version": "0.0.0",
+	"description": "Standalone custom elements created with LIT",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/RoenLie/mimic.git"
+	},
+	"bugs": {
+		"url": "https://github.com/RoenLie/mimic/issues"
+	},
+	"homepage": "https://github.com/RoenLie/mimic#readme",
+	"type": "module",
+	"main": "./dist/index-fallback.js",
+	"types": "./dist/index-fallback.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		},
+		"./ripple": {
+			"types": "./dist/ripple/index.d.ts",
+			"import": "./dist/ripple/index.js"
+		},
+		"./nav-rail": {
+			"types": "./dist/nav-rail/index.d.ts",
+			"import": "./dist/nav-rail/index.js"
+		}
+	},
+	"scripts": {
+		"build": "pnpm build:prepare && pnpm build:index && pnpm build:types && vite build",
+		"build:prepare": "rimraf dist",
+		"build:index": "package-toolbox build-indexes",
+		"build:types": "tsc --project ./src/tsconfig.json",
+		"updatedeps": "pnpm update --latest --interactive",
+		"increment-version": "package-toolbox increment-version"
+	},
+	"dependencies": {
+		"@roenlie/mimic-core": "workspace:^",
+		"@roenlie/mimic-lit": "workspace:^",
+		"lit": "^2.7.4",
+		"tslib": "^2.5.0"
+	},
+	"devDependencies": {
+		"@roenlie/package-toolbox": "^0.0.3",
+		"vite": "^4.3.4",
+		"vitest": "^0.31.0"
+	}
+}

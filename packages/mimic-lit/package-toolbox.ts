@@ -18,7 +18,7 @@ export default defineToolbox(async () => {
 				{ path: './src/injectable/index.ts',  filters: [ exclude ] },
 				{ path: './src/state-store/index.ts', filters: [ exclude ] },
 				{ path: './src/context/index.ts',     filters: [ exclude ] },
-				{ path: './src/styles/index.ts',     filters: [ exclude ] },
+				{ path: './src/styles/index.ts',      filters: [ exclude ] },
 			],
 		},
 	};
