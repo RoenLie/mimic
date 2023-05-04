@@ -2,9 +2,9 @@
 	"name": "@roenlie/mimic-router",
 	"version": "1.0.1",
 	"description": "",
+	"type": "module",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
-	"type": "module",
 	"files": [
 		"dist"
 	],

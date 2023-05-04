@@ -13,9 +13,11 @@
 	},
 	"homepage": "https://github.com/RoenLie/mimic#readme",
 	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
-			"import": "./dist/preview/index.js"
+			"import": "./dist/index.js"
 		}
 	},
 	"files": [

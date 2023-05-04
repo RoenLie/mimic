@@ -42,6 +42,10 @@
 		"./context": {
 			"types": "./dist/context/index.d.ts",
 			"import": "./dist/context/index.js"
+		},
+		"./styles": {
+			"types": "./dist/styles/index.d.ts",
+			"import": "./dist/styles/index.js"
 		}
 	},
 	"scripts": {
