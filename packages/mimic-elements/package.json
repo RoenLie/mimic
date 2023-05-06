@@ -29,6 +29,7 @@
 		}
 	},
 	"scripts": {
+		"dev": "vite --config ./docs/vite.config.ts",
 		"build": "pnpm build:prepare && pnpm build:index && pnpm build:types && vite build",
 		"build:prepare": "rimraf dist",
 		"build:index": "package-toolbox build-indexes",
@@ -43,7 +44,9 @@
 		"tslib": "^2.5.0"
 	},
 	"devDependencies": {
+		"@roenlie/mirage-docs": "^1.2.6",
 		"@roenlie/package-toolbox": "^0.0.3",
+		"rollup-plugin-copy": "^3.4.0",
 		"vite": "^4.3.4",
 		"vitest": "^0.31.0"
 	}

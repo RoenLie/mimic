@@ -106,5 +106,6 @@
 				}
 			]
 		}
-	]
+	],
+	"svg.preview.background": "transparent"
 }

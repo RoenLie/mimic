@@ -163,29 +163,31 @@ export class NavRailItemElement extends LitElement {
 			border-radius: inherit;
 		}
 		:host mm-ripple {
-			--ripple-bg: var(--on-secondary-container-press);
-		}
-		:host([active]) mm-ripple {
-			--ripple-bg: var(--on-surface-press);
+			--ripple-bg: var(--on-primary-press);
 		}
 		:host([active]) .icon {
-			background-color: var(--secondary-container);
+			background-color: var(--primary);
+			color: var(--on-primary);
 		}
 		@media (pointer: fine) {
+			.interact:hover ~ .icon,
+			.icon:hover {
+				color: var(--on-primary);
+			}
 			.interact:hover ~ .icon::before,
 			.icon:hover::before {
-				background-color: var(--on-surface-hover);
+				background-color: var(--primary-hover);
 			}
 			:host([active]) .interact:hover ~ .icon::before,
 			:host([active]) .icon:hover::before {
-				background-color: var(--on-secondary-container-hover);
+				background-color: var(--primary-hover);
 			}
 		}
 		:host([type="outlined"]) .icon {
-			border: 2px solid var(--outline-decoration);
+			border: 2px solid var(--outline-variant);
 		}
 		.text {
-			color: var(--on-surface-secondary);
+			color: var(--on-background);
 			display: grid;
 			text-align: center;
 		}

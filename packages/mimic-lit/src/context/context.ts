@@ -1,3 +1,4 @@
+import { StringLiteral } from '@roenlie/mimic-core/types';
 import { LitElement } from 'lit';
 import { state } from 'lit/decorators.js';
 
@@ -10,7 +11,7 @@ const createEventName = (prop: string) => 'consume-context:' + prop;
 const createHydrateName = (prop: string) => 'hydrate-context:' + prop;
 
 
-export const provide = (name: string) => {
+export const provide = <T extends any[]>(name: T[number] | StringLiteral) => {
 	return (target: RecordOf<LitElement>, prop: string) => {
 		const connected = target.connectedCallback;
 		const disconnected = target.disconnectedCallback;
@@ -60,7 +61,7 @@ export const provide = (name: string) => {
 };
 
 
-export const consume = (name: string) => {
+export const consume = <T extends any[]>(name: T[number] | StringLiteral) => {
 	return (target: RecordOf<LitElement>, prop: string) => {
 		const connected = target.connectedCallback;
 		const disconnected = target.disconnectedCallback;

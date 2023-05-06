@@ -2,6 +2,8 @@
 .mirage
 searchIndexes.json
 *-worker.js
+**/*/docs/workers/styles
+**/*/docs/assets/styles
 
 #deployment folders
 _deploy-*
