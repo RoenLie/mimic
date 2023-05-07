@@ -11,10 +11,13 @@ export default defineToolbox(async () => {
 	return {
 		indexBuilder: {
 			entrypoints: [
-				{ path: './src/index-fallback.ts', filters: [ exclude ] },
-				{ path: './src/ripple/index.ts',   filters: [ exclude ] },
-				{ path: './src/nav-rail/index.ts', filters: [ exclude ] },
-				{ path: './src/icon/index.ts',     filters: [ exclude ] },
+				{ path: './src/index-fallback.ts',     filters: [ exclude ] },
+				{ path: './src/ripple/index.ts',       filters: [ exclude ] },
+				{ path: './src/nav-rail/index.ts',     filters: [ exclude ] },
+				{ path: './src/icon/index.ts',         filters: [ exclude ] },
+				{ path: './src/progress-bar/index.ts', filters: [ exclude ] },
+				{ path: './src/upload/index.ts',       filters: [ exclude ] },
+				{ path: './src/button/index.ts',       filters: [ exclude ] },
 			],
 		},
 	};

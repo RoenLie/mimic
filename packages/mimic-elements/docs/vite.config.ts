@@ -1,6 +1,5 @@
 import { defineDocConfig } from '@roenlie/mirage-docs';
-
-import { copy } from '../vite-plugin-copy.js';
+import { viteCopy } from '@roenlie/package-toolbox/vite';
 
 
 export default defineDocConfig({
@@ -8,18 +7,18 @@ export default defineDocConfig({
 		outDir: './dist',
 	},
 	plugins: [
-		copy({
+		viteCopy({
 			targets: [
 				{
-					src:  './styles',
-					dest: './docs/assets',
+					from: './styles/*',
+					to:   './docs/public/styles',
 				},
 			],
 			hook:     'config',
 			copyOnce: true,
 		}),
 	],
-	publicDir: 'docs/assets',
+	publicDir: 'docs/public',
 }, {
 	cacheDir:   './docs/.cache',
 	entryDir:   './src',
@@ -35,7 +34,7 @@ export default defineDocConfig({
 				'/styles/tokens-all.css',
 				'/styles/tokens-all.css',
 				'/styles/tokens-extra.css',
-				'/styles/tokens-typography.css',
+				'/styles/tokens-font.css',
 			],
 		},
 		styles: {

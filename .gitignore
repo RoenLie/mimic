@@ -3,7 +3,7 @@
 searchIndexes.json
 *-worker.js
 **/*/docs/workers/styles
-**/*/docs/assets/styles
+**/*/docs/public/styles
 
 #deployment folders
 _deploy-*

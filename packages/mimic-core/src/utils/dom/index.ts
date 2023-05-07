@@ -12,6 +12,7 @@ export { isTabbable, getTabbableBoundary } from './tabbable.js';
 export { getFirstSelector } from './get-first-selector.js';
 export { hasKeyboardFocus } from './has-keyboard-focus.js';
 export { domId, alphabetId } from './dom-id.js';
+export { isTouch } from './is-touch.js';
 export { getOffset } from './offset.js';
 export { Modal } from './modal.js';
 export { drag } from './drag.js';
