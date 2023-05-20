@@ -4,8 +4,6 @@
 		"moduleResolution": "NodeNext",
 		"module": "NodeNext",
 		"target": "ESNext",
-		"rootDir": "..",
-		"baseUrl": "..",
 		"noEmit": true,
 		"emitDeclarationOnly": false,
 		"incremental": false,
@@ -14,6 +12,9 @@
 		]
 	},
 	"include": [
+		"../src/**/*.ts",
+		"../src/**/*.d.ts",
+		"../src/**/*.js",
 		"./**/*.ts",
 		"./**/*.d.ts",
 		"./**/*.js"
