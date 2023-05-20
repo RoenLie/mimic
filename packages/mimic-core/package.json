@@ -1,7 +1,7 @@
 {
 	"name": "@roenlie/mimic-core",
 	"author": "Kristoffer Roen-Lie",
-	"version": "0.0.14",
+	"version": "0.0.15",
 	"description": "A versatile collection of TypeScript helper functions and utilities, designed to enhance your development experience with a treasure trove of valuable tools.",
 	"license": "MIT",
 	"repository": {
