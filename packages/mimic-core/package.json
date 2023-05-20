@@ -17,6 +17,7 @@
 	"types": "./dist/index-fallback.d.ts",
 	"exports": {
 		".": {
+			"types": "./dist/lib/index.d.ts",
 			"import": "./dist/lib/index.js"
 		},
 		"./localize": {

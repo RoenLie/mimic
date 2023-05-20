@@ -42,6 +42,10 @@
 		"./button": {
 			"types": "./dist/button/index.d.ts",
 			"import": "./dist/button/index.js"
+		},
+		"./alert": {
+			"types": "./dist/alert/index.d.ts",
+			"import": "./dist/alert/index.js"
 		}
 	},
 	"scripts": {
@@ -54,6 +58,7 @@
 		"increment-version": "package-toolbox increment-version"
 	},
 	"dependencies": {
+		"@floating-ui/dom": "^1.2.8",
 		"@roenlie/mimic-core": "workspace:^",
 		"@roenlie/mimic-lit": "workspace:^",
 		"lit": "^2.7.4",
