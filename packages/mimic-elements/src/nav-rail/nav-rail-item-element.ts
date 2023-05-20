@@ -5,7 +5,7 @@ import { customElement, property, query } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
 
-import { RippleElement } from '../ripple/ripple.cmp.js';
+import { RippleElement } from '../ripple/ripple-element.js';
 
 (() => [ RippleElement ])();
 

@@ -4,6 +4,7 @@ searchIndexes.json
 *-worker.js
 **/*/docs/workers/styles
 **/*/docs/public/styles
+**/*/src/**/*/index.ts
 
 #deployment folders
 _deploy-*

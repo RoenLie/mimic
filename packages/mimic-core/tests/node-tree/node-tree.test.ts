@@ -1,16 +1,17 @@
-import { describe, expect, it } from 'vitest';
+import { describe, it } from 'vitest';
 
-import { augment } from '../../src/node-tree/node-tree.js';
+import { augment } from '../../src/node-tree/augment.js';
 
 
 describe('thing', () => {
 	it('should', () => {
 		const obj = {
-			first: 1,
-			last:  2,
+			first:    1,
+			last:     2,
+			children: [],
 		};
 
-		const augmented = augment(obj);
+		const augmented = augment(obj, 'children');
 		console.log(augmented);
 	});
 });

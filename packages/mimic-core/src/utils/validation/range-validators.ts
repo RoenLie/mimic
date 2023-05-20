@@ -4,7 +4,7 @@ export type Range = {
 };
 
 
-export const  isRangeInRanges = (ranges: Range[], targetRange: Range): boolean => {
+export const isRangeInRanges = (ranges: Range[], targetRange: Range): boolean => {
 	for (const range of ranges) {
 		for (let number = range.from; number <= range.to; number++) {
 			if (number >= targetRange.from && number <= targetRange.to)

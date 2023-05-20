@@ -18,6 +18,12 @@ export default defineToolbox(async () => {
 				{ path: './src/progress-bar/index.ts', filters: [ exclude ] },
 				{ path: './src/upload/index.ts',       filters: [ exclude ] },
 				{ path: './src/button/index.ts',       filters: [ exclude ] },
+				{ path: './src/alert/index.ts',        filters: [ exclude ] },
+				{ path: './src/tooltip/index.ts',      filters: [ exclude ] },
+				{ path: './src/drawer/index.ts',       filters: [ exclude ] },
+				{ path: './src/text/index.ts',         filters: [ exclude ] },
+				{ path: './src/spinner/index.ts',      filters: [ exclude ] },
+				{ path: './src/tabs/index.ts',         filters: [ exclude ] },
 			],
 		},
 	};
