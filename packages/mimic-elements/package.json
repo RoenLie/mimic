@@ -3,6 +3,10 @@
 	"version": "0.0.1",
 	"description": "Standalone custom elements created with LIT",
 	"license": "MIT",
+	"author": {
+		"name": "Kristoffer Roen-Lie",
+		"email": "KristofferRoenLie@gmail.com"
+	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/RoenLie/mimic.git"
@@ -20,32 +24,52 @@
 			"import": "./dist/index.js"
 		},
 		"./ripple": {
-			"types": "./dist/ripple/index.d.ts",
-			"import": "./dist/ripple/index.js"
+			"types": "./dist/components/ripple/index.d.ts",
+			"default": "./dist/components/ripple/index.js"
 		},
 		"./nav-rail": {
-			"types": "./dist/nav-rail/index.d.ts",
-			"import": "./dist/nav-rail/index.js"
-		},
-		"./progress-bar": {
-			"types": "./dist/progress-bar/index.d.ts",
-			"import": "./dist/progress-bar/index.js"
+			"types": "./dist/components/nav-rail/index.d.ts",
+			"default": "./dist/components/nav-rail/index.js"
 		},
 		"./icon": {
-			"types": "./dist/icon/index.d.ts",
-			"import": "./dist/icon/index.js"
+			"types": "./dist/components/icon/index.d.ts",
+			"default": "./dist/components/icon/index.js"
+		},
+		"./progress-bar": {
+			"types": "./dist/components/progress-bar/index.d.ts",
+			"default": "./dist/components/progress-bar/index.js"
 		},
 		"./upload": {
-			"types": "./dist/upload/index.d.ts",
-			"import": "./dist/upload/index.js"
+			"types": "./dist/components/upload/index.d.ts",
+			"default": "./dist/components/upload/index.js"
 		},
 		"./button": {
-			"types": "./dist/button/index.d.ts",
-			"import": "./dist/button/index.js"
+			"types": "./dist/components/button/index.d.ts",
+			"default": "./dist/components/button/index.js"
 		},
 		"./alert": {
-			"types": "./dist/alert/index.d.ts",
-			"import": "./dist/alert/index.js"
+			"types": "./dist/components/alert/index.d.ts",
+			"default": "./dist/components/alert/index.js"
+		},
+		"./tooltip": {
+			"types": "./dist/components/tooltip/index.d.ts",
+			"default": "./dist/components/tooltip/index.js"
+		},
+		"./drawer": {
+			"types": "./dist/components/drawer/index.d.ts",
+			"default": "./dist/components/drawer/index.js"
+		},
+		"./text": {
+			"types": "./dist/components/text/index.d.ts",
+			"default": "./dist/components/text/index.js"
+		},
+		"./spinner": {
+			"types": "./dist/components/spinner/index.d.ts",
+			"default": "./dist/components/spinner/index.js"
+		},
+		"./tabs": {
+			"types": "./dist/components/tabs/index.d.ts",
+			"default": "./dist/components/tabs/index.js"
 		}
 	},
 	"scripts": {
@@ -62,13 +86,13 @@
 		"@roenlie/mimic-core": "workspace:^",
 		"@roenlie/mimic-lit": "workspace:^",
 		"lit": "^2.7.4",
-		"tslib": "^2.5.0"
+		"tslib": "^2.5.2"
 	},
 	"devDependencies": {
 		"@roenlie/mirage-docs": "^1.2.6",
-		"@roenlie/package-toolbox": "^0.0.4",
+		"@roenlie/package-toolbox": "^0.0.9",
 		"rollup-plugin-copy": "^3.4.0",
-		"vite": "^4.3.5",
-		"vitest": "^0.31.0"
+		"vite": "^4.3.8",
+		"vitest": "^0.31.1"
 	}
 }

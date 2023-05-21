@@ -8,7 +8,7 @@ import { customElement, property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { when } from 'lit/directives/when.js';
 
-import { systemIcons } from '../utilities/system-icons.js';
+import { systemIcons } from '../../utilities/system-icons.js';
 import { alertPortal } from './alert-portal.cmp.js';
 import { IAlertProps } from './alert-setup-api.js';
 
