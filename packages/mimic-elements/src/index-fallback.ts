@@ -7,10 +7,10 @@ export type { UploadTranslation, EnhancedFile } from './components/upload/upload
 export type { TooltipProperties } from './components/tooltip/tooltip-element.js';
 export { displayFontStyles, headlineFontStyles, bodyFontStyles, labelFontStyles, titleFontStyles } from './utilities/font-styles.js';
 export { ProgressBarElement } from './components/progress-bar/progress-bar-element.js';
+export { registerTooltipAnimations } from './components/tooltip/tooltip-animations.js';
 export { AlertPortalCmp, alertPortal } from './components/alert/alert-portal.cmp.js';
+export { registerDrawerAnimations } from './components/drawer/drawer-animations.js';
 export { NavRailItemElement } from './components/nav-rail/nav-rail-item-element.js';
-export { registerAnimations } from './components/tooltip/tooltip-animations.js';
-export { registerAnimations } from './components/drawer/drawer-animations.js';
 export { AlertDemo, confirmAlert } from './components/alert/alert-demo.js';
 export { NavRailElement } from './components/nav-rail/nav-rail-element.js';
 export { UploadFileElement } from './components/upload/upload-file.cmp.js';

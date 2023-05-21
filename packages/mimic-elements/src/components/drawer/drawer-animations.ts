@@ -1,6 +1,6 @@
 import { animationSpeed, setDefaultAnimation } from '@roenlie/mimic-core/animation';
 
-export const registerAnimations = () => {
+export const registerDrawerAnimations = () => {
 	const animationDurationMs = animationSpeed('medium');
 
 	//#region top animation

@@ -1,7 +1,7 @@
 import { setDefaultAnimation } from '@roenlie/mimic-core/animation';
 
 
-export const registerAnimations = () => {
+export const registerTooltipAnimations = () => {
 	setDefaultAnimation('tooltip.show', {
 		keyframes: [
 			{ opacity: 0 },

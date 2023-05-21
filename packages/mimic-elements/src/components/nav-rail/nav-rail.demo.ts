@@ -1,7 +1,7 @@
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators/custom-element.js';
 
-import { systemIcons } from '../utilities/system-icons.js';
+import { systemIcons } from '../../utilities/system-icons.js';
 
 
 @customElement('mm-nav-rail-demo')

@@ -7,7 +7,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
 
-import { labelFontStyles } from '../utilities/font-styles.js';
+import { labelFontStyles } from '../../utilities/font-styles.js';
 
 
 /**

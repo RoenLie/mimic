@@ -10,10 +10,10 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
 
 import { tooltip } from '../tooltip/tooltip-directive.js';
-import { registerAnimations } from './drawer-animations.js';
+import { registerDrawerAnimations } from './drawer-animations.js';
 import { drawerStyle } from './drawer-styles.js';
 
-registerAnimations();
+registerDrawerAnimations();
 
 /**
  * @slot                          - The drawer's content.

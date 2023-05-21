@@ -8,10 +8,10 @@ import { html, LitElement, TemplateResult } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-import { registerAnimations } from './tooltip-animations.js';
+import { registerTooltipAnimations } from './tooltip-animations.js';
 import { tooltipStyles } from './tooltip-styles.js';
 
-registerAnimations();
+registerTooltipAnimations();
 
 
 export type TooltipProperties = {

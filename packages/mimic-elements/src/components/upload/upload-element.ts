@@ -9,7 +9,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { when } from 'lit/directives/when.js';
 
-import { systemIcons } from '../index-fallback.js';
+import { systemIcons } from '../../utilities/system-icons.js';
 import { UploadFileElement } from './upload-file.cmp.js';
 
 

@@ -66,9 +66,9 @@
 		"tslib": "^2.5.0"
 	},
 	"devDependencies": {
-		"@roenlie/package-toolbox": "^0.0.3",
+		"@roenlie/package-toolbox": "^0.0.12",
 		"vite": "^4.1.4",
-		"vitest": "^0.30.1"
+		"vitest": "^0.31.1"
 	},
 	"sideEffects": [
 		"dist/injectable/core.js"

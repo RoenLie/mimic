@@ -4,7 +4,7 @@ import { css, html, LitElement, PropertyValueMap } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 
-import { systemIcons } from '../index-fallback.js';
+import { systemIcons } from '../../utilities/system-icons.js';
 import { type EnhancedFile } from './upload-element.js';
 
 
