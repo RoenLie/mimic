@@ -6,7 +6,6 @@ export type { KeyboardListener, KeyboardEventType, KeyboardModifier, KeyboardKey
 export type { Target } from './controllers/event-controller.js';
 export type { ModuleOption } from './injectable/decorators.js';
 export type { Stored } from './state-store/store.js';
-export type { LitHost } from './types/lit.js';
 export { injectableElement, injectProp, injectParam, inject, injectable } from './injectable/decorators.js';
 export { delayedStyle, transformElementStyle, transformStyle } from './directives/delayed-style.js';
 export { $InjectProps, $InjectParams, $Container, $ElementScope } from './injectable/constants.js';
