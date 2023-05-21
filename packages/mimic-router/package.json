@@ -1,6 +1,6 @@
 {
 	"name": "@roenlie/mimic-router",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "",
 	"type": "module",
 	"main": "dist/index.js",
@@ -27,5 +27,6 @@
 	"devDependencies": {
 		"@roenlie/package-toolbox": "^0.0.12",
 		"vite": "^4.0.3"
-	}
+	},
+	"exports": {}
 }
