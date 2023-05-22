@@ -5,7 +5,7 @@ import { readdirSync } from 'fs';
 
 
 export default defineToolbox(async () => {
-	const exclude = (path: string) => [ '.demo', '.test', '.bench' ]
+	const exclude = (path: string) => [ '-demo', '.demo', '.test', '.bench' ]
 		.every(seg => !path.includes(seg));
 
 	const internalPath = '/src/components';

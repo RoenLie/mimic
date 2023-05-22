@@ -1,6 +1,7 @@
 /* eslint-disable simple-import-sort/exports */
 /* eslint-disable max-len */
 /* auto generated */
+export type { HeaderTemplate, HeaderFieldTemplate, RowTemplate, RowFieldTemplate, ListTemplateConfig } from './components/template-list/template-list-element.js';
 export type { TooltipPart, TooltipRef, TooltipDirectiveOptions } from './components/tooltip/tooltip-directive.js';
 export type { IAlertDefinition, IAlertProps, IAlertPortal } from './components/alert/alert-setup-api.js';
 export type { UploadTranslation, EnhancedFile } from './components/upload/upload-element.js';
@@ -11,7 +12,7 @@ export { registerTooltipAnimations } from './components/tooltip/tooltip-animatio
 export { AlertPortalCmp, alertPortal } from './components/alert/alert-portal.cmp.js';
 export { registerDrawerAnimations } from './components/drawer/drawer-animations.js';
 export { NavRailItemElement } from './components/nav-rail/nav-rail-item-element.js';
-export { AlertDemo, confirmAlert } from './components/alert/alert-demo.js';
+export { TemplateListElement } from './components/template-list/template-list-element.js';
 export { NavRailElement } from './components/nav-rail/nav-rail-element.js';
 export { UploadFileElement } from './components/upload/upload-file.cmp.js';
 export { SpinnerElement } from './components/spinner/spinner-element.js';
@@ -21,16 +22,17 @@ export { TooltipElement } from './components/tooltip/tooltip-element.js';
 export { requestIcon, requestInclude } from './components/icon/icon.js';
 export { tooltipStyles } from './components/tooltip/tooltip-styles.js';
 export { RippleElement } from './components/ripple/ripple-element.js';
-export { SpinnerDemoCmp } from './components/spinner/spinner-demo.js';
 export { UploadElement } from './components/upload/upload-element.js';
-export { ButtonDemo } from './components/button/button-demo.cmp.js';
 export { SymbolElement } from './components/icon/symbol-element.js';
+export { HeaderElement } from './components/template-list/header-element.js';
 export { tooltip } from './components/tooltip/tooltip-directive.js';
 export { ButtonElement } from './components/button/button.cmp.js';
 export { DrawerCmp } from './components/drawer/drawer-element.js';
+export { FieldElement } from './components/template-list/field-element.js';
 export { IconElement } from './components/icon/icon-element.js';
 export { TextElement } from './components/text/text-element.js';
 export { Alerts } from './components/alert/alert-setup-api.js';
 export { AlertElement } from './components/alert/alert.cmp.js';
+export { RowElement } from './components/template-list/row-element.js';
 export { TabElement } from './components/tabs/tab-element.js';
 export { systemIcons } from './utilities/system-icons.js';

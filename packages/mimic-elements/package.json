@@ -70,6 +70,10 @@
 		"./tabs": {
 			"types": "./dist/components/tabs/index.d.ts",
 			"default": "./dist/components/tabs/index.js"
+		},
+		"./template-list": {
+			"types": "./dist/components/template-list/index.d.ts",
+			"default": "./dist/components/template-list/index.js"
 		}
 	},
 	"scripts": {
