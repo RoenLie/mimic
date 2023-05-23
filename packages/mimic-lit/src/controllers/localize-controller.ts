@@ -1,5 +1,7 @@
-import { DefaultTranslation, Localize, localizeData, LocalizeDirection, Translation } from '@roenlie/mimic-core/localize';
+import { type DefaultTranslation, FunctionParams, Localize, localizeData, type LocalizeDirection, type Translation } from '@roenlie/mimic-core/localize';
+import { StringLiteral } from '@roenlie/mimic-core/types';
 import type { ReactiveController, ReactiveControllerHost } from 'lit';
+import { until } from 'lit/directives/until.js';
 
 
 /**
@@ -50,7 +52,7 @@ export class LocalizeController<UserTranslation extends Translation = DefaultTra
    * lowercase.
    */
 	public override dir(): LocalizeDirection {
-		return `${ this.host.dir || localizeData.documentDirection }`.toLowerCase() as any;
+		return `${ this.host.dir || localizeData.documentDirection }`.toLowerCase();
 	}
 
 	/**
@@ -59,6 +61,22 @@ export class LocalizeController<UserTranslation extends Translation = DefaultTra
    */
 	public override lang() {
 		return `${ this.host.lang || localizeData.documentLanguage }`.toLowerCase();
+	}
+
+	/**
+	 * Translates the requested key using the language
+	 * set in in the lang attribute on the closest documentElement.
+	 * @returns Until directire, that will render a temporary
+	 * value until the language promise is resolved.
+	 */
+	public translate<K extends Extract<keyof UserTranslation, string>>(
+		key: StringLiteral | K,
+		options?: {
+			args?: FunctionParams<UserTranslation[ K ]> | undefined;
+			silent?: boolean | undefined;
+		} | undefined,
+	): unknown {
+		return until(super.term(key, options), 'loading');
 	}
 
 }

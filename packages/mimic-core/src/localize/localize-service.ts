@@ -1,6 +1,7 @@
 
 import { Fn } from '../types/function.types.js';
 import { StringLiteral } from '../types/strings.types.js';
+import { waitForPromiseSet } from '../utils/async/wait-for-promise.js';
 import {
 	DefaultTranslation, FunctionParams, localizeData,
 	LocalizeDirection, Translation,
@@ -27,13 +28,15 @@ export class Localize<UserTranslation extends Translation = DefaultTranslation> 
 		return localizeData.documentLanguage.toLowerCase();
 	}
 
-	public term<K extends Extract<keyof UserTranslation, string>>(
+	public async term<K extends Extract<keyof UserTranslation, string>>(
 		key: K | StringLiteral,
 		options?: {
 			args?: FunctionParams<UserTranslation[K]>,
 			silent?: boolean,
 		},
-	): string {
+	): Promise<string> {
+		await waitForPromiseSet(localizeData.loading);
+
 		const code = this.lang().toLowerCase().slice(0, 2); // e.g. en
 		const regionCode = this.lang().length > 2 ? this.lang().toLowerCase() : ''; // e.g. en-gb
 		const primary = localizeData.translations.get(regionCode);

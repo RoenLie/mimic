@@ -158,15 +158,17 @@ export class TemplateListElement<T extends object = object> extends LitElement {
 		if (!this.hasUpdated)
 			await this.updateComplete;
 
-		this.intersectObs = new IntersectionObserver(intersectionScrollObserver(
-			this.tombstoneTopQry,
-			this.tombstoneBotQry,
-			() => {},
-			() => this.appendItems(),
-		), {
-			root:       this.baseQry,
-			rootMargin: '10px',
-		});
+		this.intersectObs = new IntersectionObserver(
+			intersectionScrollObserver(
+				this.tombstoneTopQry,
+				this.tombstoneBotQry,
+				() => {},
+				() => this.appendItems(),
+			), {
+				root:       this.baseQry,
+				rootMargin: '10px',
+			},
+		);
 
 		this.intersectObs.observe(this.tombstoneTopQry);
 		this.intersectObs.observe(this.tombstoneBotQry);

@@ -1,11 +1,9 @@
 import { type Fn } from '../types/function.types.js';
 import { type StringLiteral } from '../types/strings.types.js';
+import { waitForPromiseSet } from '../utils/async/wait-for-promise.js';
 
 
 export type DynamicImport = () => Promise<unknown>;
-
-
-export interface LanguageExport extends Record<LanguageCode, DynamicImport> {}
 
 
 export type FunctionParams<T> = T extends (...args: infer U) => string ? U : never;
@@ -54,8 +52,11 @@ export const update = async () => {
 	localizeData.documentDirection = document.documentElement.dir || 'ltr';
 	localizeData.documentLanguage = document.documentElement.lang || navigator.language;
 
-	await Promise.all(localizeData.languageStore
-		.get(localizeData.documentLanguage)?.map(langFn => langFn()) ?? []);
+	localizeData.languageStore
+		.get(localizeData.documentLanguage)
+		?.forEach(langFn => localizeData.loading.add(langFn()));
+
+	await waitForPromiseSet(localizeData.loading);
 
 	type UnknownElement = (HTMLElement & {requestUpdate?: Fn});
 	([ ...localizeData.connectedElements.keys() ] as UnknownElement[])
@@ -88,6 +89,7 @@ interface LocalizeData {
 	documentDirection: LocalizeDirection;
 	documentLanguage: string;
 	languageStore: Map<LanguageCode, DynamicImport[]>;
+	loading: Set<Promise<any>>;
 	fallback?: DefaultTranslation;
 }
 
@@ -96,6 +98,7 @@ export const localizeData: LocalizeData = {
 	connectedElements:       new Set<HTMLElement>(),
 	translations:            new Map<string, DefaultTranslation>(),
 	languageStore:           new Map<LanguageCode, DynamicImport[]>(),
+	loading:                 new Set<Promise<any>>(),
 	documentElementObserver: new ImprovedMutationObserver(update),
 	documentDirection:       document.documentElement.dir || 'ltr',
 	documentLanguage:        document.documentElement.lang || navigator.language,

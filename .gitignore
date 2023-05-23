@@ -2,9 +2,10 @@
 .mirage
 searchIndexes.json
 *-worker.js
+**/*/dist/**/*
 **/*/docs/workers/styles
 **/*/docs/public/styles
-**/*/src/**/*/index.ts
+**/*/src/**/*/index*
 
 #deployment folders
 _deploy-*

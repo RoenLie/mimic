@@ -1,7 +1,12 @@
+import { registerTranslation } from '@roenlie/mimic-core/localize';
 import { LocalizeController } from '@roenlie/mimic-lit/controllers';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
+
+import { spinnerLang } from './spinner-lang.js';
+
+registerTranslation(spinnerLang);
 
 
 /**
@@ -39,7 +44,7 @@ export class SpinnerElement extends LitElement {
 			part="base"
 			class="spinner"
 			role="progressbar"
-			aria-valuetext=${ this.localize.term('loading') }
+			aria-valuetext=${ this.localize.translate('loading') }
 		>
         <circle class="spinner__track"></circle>
         <circle class="spinner__indicator"></circle>

@@ -9,7 +9,7 @@ export class SymbolElement extends LitElement {
 	@property() public source = '';
 	@property() public icon = '';
 
-	public override connectedCallback(): void {
+	public override connectedCallback() {
 		super.connectedCallback();
 		this.setAttribute('inert', '');
 	}

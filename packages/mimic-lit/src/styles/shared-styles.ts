@@ -30,30 +30,22 @@ export const sharedStyles = css`
 			-webkit-tap-highlight-color: transparent;
 		}
 		:host::-webkit-scrollbar,
-		*::-webkit-scrollbar,
-		*::before::-webkit-scrollbar,
-		*::after::-webkit-scrollbar {
+		*::-webkit-scrollbar {
 			width: var(--scrollbar-width, 0.6rem);
 			height: var(--scrollbar-height, 0.6rem);
 		}
 		:host::-webkit-scrollbar-track,
-		*::-webkit-scrollbar-track,
-		*::before::-webkit-scrollbar-track,
-		*::after::-webkit-scrollbar-track {
+		*::-webkit-scrollbar-track {
 			background: var(--scrollbar-track, inherit);
 		}
 		:host::-webkit-scrollbar-thumb,
-		*::-webkit-scrollbar-thumb,
-		*::before::-webkit-scrollbar-thumb,
-		*::after::-webkit-scrollbar-thumb {
+		*::-webkit-scrollbar-thumb {
 			background: var(--scrollbar-thumb-bg, hsl(0, 0%, 70%));
 			border-radius: var(--scrollbar-thumb-border-radius, 2px);
 			background-clip: padding-box;
 		}
 		:host::-webkit-scrollbar-corner,
-		*::-webkit-scrollbar-corner,
-		*::before::-webkit-scrollbar-corner,
-		*::after::-webkit-scrollbar-corner {
+		*::-webkit-scrollbar-corner {
 			background: var(--scrollbar-corner, var(--scrollbar-track, inherit));
 		}
 	}

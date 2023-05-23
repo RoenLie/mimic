@@ -1,5 +1,8 @@
 import { lazyMap } from '../utils/structs/lazy-map.js';
-import { type LanguageExport, localizeData, update } from './localize.js';
+import { DynamicImport, LanguageCode, localizeData, update } from './localize.js';
+
+
+export interface LanguageExport extends Record<LanguageCode, DynamicImport> {}
 
 
 export const translationLoader = async (...languageExports: LanguageExport[]) => {
