@@ -24,7 +24,7 @@ export default defineToolbox(async () => {
 			defaultFilters:             [ exclude ],
 			defaultPackageExport:       true,
 			packageExportNameTransform: path => path
-				.replace('./src', './dist')
+				.replace('./src', './dist/lib')
 				.replace('.ts', '.js'),
 		},
 	};

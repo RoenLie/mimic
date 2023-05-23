@@ -1,5 +1,6 @@
 import { range } from '@roenlie/mimic-core/array';
 import { domId } from '@roenlie/mimic-core/dom';
+import { LocalizeController } from '@roenlie/mimic-lit/controllers';
 import { css, html, LitElement, TemplateResult } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
@@ -67,51 +68,13 @@ export class TemplateListDemo extends LitElement {
 		super.connectedCallback();
 	}
 
-	protected rowTemplate(fieldTemplate: TemplateResult | unknown) {
-		return html`
-		<mm-row>
-			${ fieldTemplate }
-		</mm-row>
-		`;
-	}
-
-	protected fieldTemplates = [
-		(rowData: User) => html`
-		<mm-field style="width: 100px;">${ rowData.firstname }</mm-field>
-		`,
-		(rowData: User) => html`
-		<mm-field style="width: 100px;">${ rowData.department }</mm-field>
-		`,
-		(rowData: User) => html`
-		<mm-field style="width: 100px;">${ rowData.company }</mm-field>
-		`,
-		(rowData: User) => html`
-		<mm-field style="width: 100px;">${ rowData.firstname }</mm-field>
-		`,
-		(rowData: User) => html`
-		<mm-field style="width: 100px;">${ rowData.department }</mm-field>
-		`,
-		(rowData: User) => html`
-		<mm-field style="width: 100px;">${ rowData.company }</mm-field>
-		`,
-		(rowData: User) => html`
-		<mm-field style="width: 100px;">${ rowData.firstname }</mm-field>
-		`,
-		(rowData: User) => html`
-		<mm-field style="width: 100px;">${ rowData.department }</mm-field>
-		`,
-		(rowData: User) => html`
-		<mm-field style="width: 100px;">${ rowData.company }</mm-field>
-		`,
-	];
+	protected localizeCtrl = new LocalizeController({ host: this });
 
 	public override render() {
 		return html`
 		<mm-template-list
 			.items=${ this.items }
 			.templates=${ this.templates }
-			.rowTemplate=${ this.rowTemplate }
-			.fieldTemplates=${ this.fieldTemplates }
 		></mm-template-list>
 		`;
 	}

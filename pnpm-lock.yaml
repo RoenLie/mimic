@@ -203,8 +203,8 @@ importers:
         specifier: ^1.2.6
         version: 1.2.6(@types/markdown-it@12.2.3)(lit@2.7.4)(tslib@2.5.2)(vite@4.3.8)
       '@roenlie/package-toolbox':
-        specifier: ^0.0.14
-        version: 0.0.14(@types/node@20.2.3)
+        specifier: ^0.0.15
+        version: 0.0.15(@types/node@20.2.3)
       rollup-plugin-copy:
         specifier: ^3.4.0
         version: 3.4.0
