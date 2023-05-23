@@ -1,3 +1,4 @@
+import { createEntrypointsFromDirectories } from '@roenlie/package-toolbox/dist/filesystem/create-index-entries.js';
 import { defineToolbox } from '@roenlie/package-toolbox/toolbox';
 
 
@@ -5,26 +6,26 @@ export default defineToolbox(async () => {
 	const exclude = (path: string) => [ '.demo', '.test', '.bench' ]
 		.every(seg => !path.includes(seg));
 
+	const entrypoints = createEntrypointsFromDirectories(
+		[ '/src', '/src/utils' ],
+		[],
+		[
+			(path => path.includes('sudoku')),
+			(path => path === './src/utils/index.ts'),
+		],
+	);
+
 	return {
 		indexBuilder: {
 			entrypoints: [
-				{ path: './src/index-fallback.ts',         filters: [ exclude ] },
-				{ path: './src/types/index.ts',            filters: [ exclude ] },
-				{ path: './src/localize/index.ts',         filters: [ exclude ] },
-				{ path: './src/node-tree/index.ts',        filters: [ exclude ] },
-				{ path: './src/animation/index.ts',        filters: [ exclude ] },
-				{ path: './src/utils/array/index.ts',      filters: [ exclude ] },
-				{ path: './src/utils/async/index.ts',      filters: [ exclude ] },
-				{ path: './src/utils/coms/index.ts',       filters: [ exclude ] },
-				{ path: './src/utils/dom/index.ts',        filters: [ exclude ] },
-				{ path: './src/utils/function/index.ts',   filters: [ exclude ] },
-				{ path: './src/utils/iterators/index.ts',  filters: [ exclude ] },
-				{ path: './src/utils/math/index.ts',       filters: [ exclude ] },
-				{ path: './src/utils/string/index.ts',     filters: [ exclude ] },
-				{ path: './src/utils/structs/index.ts',    filters: [ exclude ] },
-				{ path: './src/utils/timing/index.ts',     filters: [ exclude ] },
-				{ path: './src/utils/validation/index.ts', filters: [ exclude ] },
+				{ path: './src/index-fallback.ts', filters: [ exclude ] },
+				...entrypoints,
 			],
+			defaultFilters:             [ exclude ],
+			defaultPackageExport:       true,
+			packageExportNameTransform: path => path
+				.replace('./src', './dist')
+				.replace('.ts', '.js'),
 		},
 	};
 });

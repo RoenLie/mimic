@@ -5,7 +5,9 @@ searchIndexes.json
 **/*/dist/**/*
 **/*/docs/workers/styles
 **/*/docs/public/styles
+**/*/src/index.ts
 **/*/src/**/*/index.ts
+**/*/src/index-fallback.ts
 **/*/src/**/*/index-fallback.ts
 
 #deployment folders

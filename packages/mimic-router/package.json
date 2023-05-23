@@ -25,7 +25,7 @@
 		"urlpattern-polyfill": "^8.0.2"
 	},
 	"devDependencies": {
-		"@roenlie/package-toolbox": "^0.0.12",
+		"@roenlie/package-toolbox": "^0.0.14",
 		"vite": "^4.0.3"
 	},
 	"exports": {}
