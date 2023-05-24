@@ -417,7 +417,7 @@ export class UploadElement extends LitElement {
 		files.forEach(this.uploadFile.bind(this));
 	}
 
-	protected uploadFile(file: EnhancedFile): void {
+	protected async uploadFile(file: EnhancedFile) {
 		if (file.uploading)
 			return;
 
@@ -428,7 +428,7 @@ export class UploadElement extends LitElement {
 		let last: number;
 
 		// Onprogress is called always after onreadystatechange
-		xhr.upload.onprogress = (e) => {
+		xhr.upload.onprogress = async (e) => {
 			clearTimeout(stalledId);
 
 			last = Date.now();
@@ -448,14 +448,14 @@ export class UploadElement extends LitElement {
 			else if (!file.abort) {
 				if (progress < 100) {
 					this.setStatus(file, total, loaded, elapsed);
-					stalledId = setTimeout(() => {
-						file.status = this.localize.term('uploading.status.stalled');
+					stalledId = setTimeout(async () => {
+						file.status = await this.localize.term('uploading.status.stalled');
 						this.notifyFileChanges(file);
 					}, 2000);
 				}
 				else {
 					file.loadedStr = file.totalStr;
-					file.status = this.localize.term('uploading.status.processing');
+					file.status = await this.localize.term('uploading.status.processing');
 				}
 			}
 
@@ -465,7 +465,7 @@ export class UploadElement extends LitElement {
 		};
 
 		// More reliable than xhr.onload
-		xhr.onreadystatechange = () => {
+		xhr.onreadystatechange = async () => {
 			if (xhr.readyState === 4) {
 				clearTimeout(stalledId);
 				file.indeterminate = file.uploading = false;
@@ -487,11 +487,11 @@ export class UploadElement extends LitElement {
 					return;
 
 				if (xhr.status === 0)
-					file.error = this.localize.term('uploading.error.serverUnavailable');
+					file.error = await this.localize.term('uploading.error.serverUnavailable');
 				else if (xhr.status >= 500)
-					file.error = this.localize.term('uploading.error.unexpectedServerError');
+					file.error = await this.localize.term('uploading.error.unexpectedServerError');
 				else if (xhr.status >= 400)
-					file.error = this.localize.term('uploading.error.forbidden');
+					file.error = await this.localize.term('uploading.error.forbidden');
 
 				file.complete = !file.error;
 				emitEvent(this, `mm-upload-${ file.error ? 'error' : 'success' }`, {
@@ -522,7 +522,7 @@ export class UploadElement extends LitElement {
 		xhr.open(this.method, file.uploadTarget, true);
 		this.configureXhr(xhr);
 
-		file.status = this.localize.term('uploading.status.connecting');
+		file.status = await this.localize.term('uploading.status.connecting');
 		file.indeterminate = true;
 		file.uploading = file.indeterminate;
 		file.held = false;
@@ -587,19 +587,21 @@ export class UploadElement extends LitElement {
 	 *
 	 * Called internally for each file after picking files from dialog or dropping files.
 	 */
-	protected addFile(file: File): void {
+	protected async addFile(file: File) {
 		const enhancedFile = enhanceFile(file);
 
 		if (this.maxFilesReached) {
+			const error = await this.localize.term('error.tooManyFiles');
 			emitEvent(this, 'mm-file-reject', {
-				detail: { file: enhancedFile, error: this.localize.term('error.tooManyFiles') },
+				detail: { file: enhancedFile, error },
 			});
 
 			return;
 		}
 		if (this.maxFileSize >= 0 && enhancedFile.size > this.maxFileSize) {
+			const error = await this.localize.term('error.fileIsTooBig');
 			emitEvent(this, 'mm-file-reject', {
-				detail: { file: enhancedFile, error: this.localize.term('error.fileIsTooBig') },
+				detail: { file: enhancedFile, error },
 			});
 
 			return;
@@ -611,8 +613,9 @@ export class UploadElement extends LitElement {
 		// Create accept regex that can match comma separated patterns, star (*) wildcards
 		const re = new RegExp(`^(${ escapedAccept.replace(/[, ]+/g, '|').replace(/\/\*/g, '/.*') })$`, 'i');
 		if (this.accept && !(re.test(enhancedFile.type) || re.test(fileExt))) {
+			const error = await this.localize.term('error.incorrectFileType');
 			emitEvent(this, 'mm-file-reject', {
-				detail: { file: enhancedFile, error: this.localize.term('error.incorrectFileType') },
+				detail: { file: enhancedFile, error },
 			});
 
 			return;
@@ -620,7 +623,7 @@ export class UploadElement extends LitElement {
 
 		enhancedFile.loaded = 0;
 		enhancedFile.held = true;
-		enhancedFile.status = this.localize.term('uploading.status.held');
+		enhancedFile.status = await this.localize.term('uploading.status.held');
 		this.files = [ enhancedFile, ...this.files ];
 
 		if (!this.noAuto)
@@ -735,8 +738,8 @@ export class UploadElement extends LitElement {
 						?disabled =${ this.maxFilesReached }
 					>
 						${ this.maxFiles <= 1
-							? this.localize.term('addFiles.one')
-							: this.localize.term('addFiles.many') }
+							? this.localize.translate('addFiles.one')
+							: this.localize.translate('addFiles.many') }
 					</mm-button>
 				</slot>
 			</div>
@@ -759,8 +762,8 @@ export class UploadElement extends LitElement {
 					name ="drop-label"
 				>
 					${ this.maxFiles <= 1
-						? this.localize.term('dropFiles.one')
-						: this.localize.term('dropFiles.many') }
+						? this.localize.translate('dropFiles.one')
+						: this.localize.translate('dropFiles.many') }
 				</slot>
 			</div>
 		</div>
