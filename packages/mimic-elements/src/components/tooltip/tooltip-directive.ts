@@ -24,7 +24,7 @@ const tooltipInstance = document.createElement('mm-tooltip');
 class TooltipDirective extends AsyncDirective {
 
 	private _part: TooltipPart;
-	private _content: string | TemplateResult = '';
+	private _content: string | TemplateResult | unknown = '';
 	private _tooltipRef: TooltipElement | undefined;
 
 	constructor(part: PartInfo) {
@@ -97,7 +97,7 @@ class TooltipDirective extends AsyncDirective {
 	};
 
 
-	public render(_content: string | TemplateResult, _options?: TooltipDirectiveOptions) {
+	public render(_content: string | TemplateResult | unknown, _options?: TooltipDirectiveOptions) {
 		return noChange;
 	}
 

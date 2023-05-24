@@ -312,7 +312,7 @@ export class DrawerCmp extends LitElement {
 						<slot name="label"> ${ this.label } </slot>
 					</h2>
 					<pl-button
-						${ tooltip(this.localize.term('close')) }
+						${ tooltip(this.localize.translate('close')) }
 						part   ="close-button"
 						class  ="drawer__close"
 						type   ="icon"

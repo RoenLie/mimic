@@ -52,7 +52,7 @@ export class TooltipElement extends LitElement {
 	@property({ type: Object })  public target: HTMLElement;
 
 	/** The tooltip's content. */
-	@property({ type: Object })  public content: string | TemplateResult = '';
+	@property({ type: Object })  public content: string | TemplateResult | unknown = '';
 
 	/** Enables or disables the arrow pointing element */
 	@property({ type: Boolean }) public displayArrow = true;
