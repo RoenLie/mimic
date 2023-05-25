@@ -1,4 +1,4 @@
-import { libConfig } from '@roenlie/package-toolbox/vite';
+import { componentAutoImporter, libConfig } from '@roenlie/package-toolbox/vite';
 import { defineConfig } from 'vite';
 
 
@@ -18,5 +18,13 @@ export default defineConfig(async () => {
 				},
 			},
 		},
+		plugins: [
+			componentAutoImporter({
+				directories:   [ { path: './src/components' } ],
+				prefixes:      [ /mm-/ ],
+				loadWhitelist: [ /./ ],
+				loadBlacklist: [ /\.demo/ ],
+			}),
+		],
 	};
 });

@@ -258,6 +258,7 @@ export class UploadFileElement extends LitElement {
 			display: flex;
 			flex-flow: row nowrap;
 			align-self: flex-start;
+			gap: 8px;
 		}
 		button {
 			background: transparent;

@@ -4,8 +4,7 @@ import { AttributePart, directive, DirectiveParameters, PartInfo, PartType } fro
 
 import type { TooltipElement, TooltipProperties } from './tooltip-element.js';
 
-if (!customElements.get('mm-tooltip'))
-	import('./tooltip-element.js');
+customElements.get('mm-tooltip') || import('./tooltip-element.js');
 
 
 export interface TooltipPart extends AttributePart {
