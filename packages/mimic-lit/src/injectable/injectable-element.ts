@@ -1,4 +1,4 @@
-import './core.js';
+import { injectableShim } from './core.js';
 
 import { createPromiseResolver } from '@roenlie/mimic-core/async';
 import { RecordOf } from '@roenlie/mimic-core/types';
@@ -7,6 +7,9 @@ import { LitElement } from 'lit';
 import { $ElementScope, $InjectProps } from './constants.js';
 import { getContainer } from './container.js';
 import { ElementScope, PropMetadata } from './types.js';
+
+
+injectableShim();
 
 
 export class InjectableElement extends LitElement {
