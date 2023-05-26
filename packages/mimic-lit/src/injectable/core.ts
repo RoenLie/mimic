@@ -10,7 +10,14 @@ declare global {
 	}
 }
 
+let shimmed = false;
+
 export const injectableShim = () => {
+	if (shimmed)
+		return;
+	
+	shimmed = true;
+	
 	const customDefineOrigin = customElements.define;
 	customElements.define = function(name, constructor, options) {
 		if (!(constructor.prototype instanceof InjectableElement)) {
