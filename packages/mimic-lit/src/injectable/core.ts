@@ -10,57 +10,58 @@ declare global {
 	}
 }
 
+export const injectableShim = () => {
+	const customDefineOrigin = customElements.define;
+	customElements.define = function(name, constructor, options) {
+		if (!(constructor.prototype instanceof InjectableElement)) {
+			customDefineOrigin.call(this, name, constructor, options);
 
-const customDefineOrigin = customElements.define;
-customElements.define = function(name, constructor, options) {
-	if (!(constructor.prototype instanceof InjectableElement)) {
-		customDefineOrigin.call(this, name, constructor, options);
-
-		return;
-	}
-
-	type ParamMetadata = Map<number, ElementMetadata>
-
-	const paramMetadata: ParamMetadata | undefined = Reflect
-		.getMetadata($InjectParams, constructor.prototype.constructor);
-
-	if (!paramMetadata?.size) {
-		customDefineOrigin.call(this, name, constructor, options);
-
-		return;
-	}
-
-	const ctor = class extends constructor {
-
-		constructor() {
-			const paramMetadata: ParamMetadata | undefined = Reflect
-				.getMetadata($InjectParams, constructor.prototype.constructor);
-
-			const elementScope: ElementScope | undefined = Reflect
-				.getMetadata($ElementScope, constructor);
-
-			const container = getContainer(elementScope);
-
-			const args: any[] = [];
-			paramMetadata?.forEach((value, key) => {
-				try {
-					args[key] = container.get(value.identifier);
-				}
-				catch (error) {
-					console.error('Unable to resolve:', value.identifier, 'in element:', this.tagName);
-				}
-			});
-
-			super(...args);
+			return;
 		}
 
+		type ParamMetadata = Map<number, ElementMetadata>
+
+		const paramMetadata: ParamMetadata | undefined = Reflect
+			.getMetadata($InjectParams, constructor.prototype.constructor);
+
+		if (!paramMetadata?.size) {
+			customDefineOrigin.call(this, name, constructor, options);
+
+			return;
+		}
+
+		const ctor = class extends constructor {
+
+			constructor() {
+				const paramMetadata: ParamMetadata | undefined = Reflect
+					.getMetadata($InjectParams, constructor.prototype.constructor);
+
+				const elementScope: ElementScope | undefined = Reflect
+					.getMetadata($ElementScope, constructor);
+
+				const container = getContainer(elementScope);
+
+				const args: any[] = [];
+				paramMetadata?.forEach((value, key) => {
+					try {
+						args[key] = container.get(value.identifier);
+					}
+					catch (error) {
+						console.error('Unable to resolve:', value.identifier, 'in element:', this.tagName);
+					}
+				});
+
+				super(...args);
+			}
+
+		};
+
+		customDefineOrigin.call(this, name, ctor, options);
 	};
 
-	customDefineOrigin.call(this, name, ctor, options);
-};
 
-
-const customGetOrigin = customElements.get;
-customElements.exists = function(tagname: string) {
-	return !!customGetOrigin.call(this, tagname);
-};
+	const customGetOrigin = customElements.get;
+	customElements.exists = function(tagname: string) {
+		return !!customGetOrigin.call(this, tagname);
+	};
+}
