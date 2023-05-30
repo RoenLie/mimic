@@ -1,5 +1,5 @@
 import { emitEvent, isTouch } from '@roenlie/mimic-core/dom';
-import { Translation } from '@roenlie/mimic-core/localize';
+import { Translation, translationLoader } from '@roenlie/mimic-core/localize';
 import { EventController, LocalizeController, SlotController } from '@roenlie/mimic-lit/controllers';
 import { watch } from '@roenlie/mimic-lit/decorators';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
@@ -11,6 +11,9 @@ import { when } from 'lit/directives/when.js';
 
 import { systemIcons } from '../../utilities/system-icons.js';
 import { UploadFileElement } from './upload-file.cmp.js';
+import { uploadTranslation } from './upload-lang.js';
+
+translationLoader(uploadTranslation);
 
 
 type UploadMethod = 'POST' | 'PUT'

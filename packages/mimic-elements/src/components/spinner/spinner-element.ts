@@ -1,12 +1,12 @@
-import { registerTranslation } from '@roenlie/mimic-core/localize';
+import { translationLoader } from '@roenlie/mimic-core/localize';
 import { LocalizeController } from '@roenlie/mimic-lit/controllers';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
-import { spinnerLang } from './spinner-lang.js';
+import { spinnerTranslation } from './spinner-lang.js';
 
-registerTranslation(spinnerLang);
+translationLoader(spinnerTranslation);
 
 
 /**

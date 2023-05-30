@@ -1,11 +1,11 @@
 import { css, html, LitElement } from 'lit';
-import { customElement } from 'lit/decorators/custom-element.js';
+import { customElement } from 'lit/decorators.js';
 
 
 @customElement('mm-progress-bar-demo')
 export class ProgressBarDemo extends LitElement {
 
-	protected override render() {
+	public override render() {
 		return html`
 		<mm-progress-bar indeterminate></mm-progress-bar>
 		`;
@@ -18,4 +18,11 @@ export class ProgressBarDemo extends LitElement {
 		`,
 	];
 
+}
+
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'mm-progress-bar-demo': ProgressBarDemo;
+	}
 }
