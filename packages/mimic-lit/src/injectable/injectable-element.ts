@@ -38,9 +38,7 @@ export class InjectableElement extends LitElement {
 		});
 	});
 
-	constructor() {
-		super();
-
+	public override connectedCallback() {
 		const [ injPromise, injResolve ] = createPromiseResolver();
 		this.#injectionComplete = injPromise;
 
@@ -87,9 +85,7 @@ export class InjectableElement extends LitElement {
 			injResolve(true);
 			this.injectionCallback();
 		});
-	}
 
-	public override connectedCallback() {
 		super.connectedCallback();
 		this.__upgradeObserver.observe(this.renderRoot, { childList: true, subtree: true });
 	}
