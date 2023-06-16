@@ -4,7 +4,7 @@ import { RecordOf } from '@roenlie/mimic-core/types';
 import { LitElement } from 'lit';
 
 import { $ElementScope, $InjectProps } from './constants.js';
-import { getComponentModules, getComponentOptions, getContainer, isModuleLoaded, loadedModules } from './container.js';
+import { getComponentModules, getComponentOptions, getContainer, isModuleLoaded, loadedModules, unloadComponentModules } from './container.js';
 import { injectableShim } from './core.js';
 import { ElementScope, PropMetadata } from './types.js';
 
@@ -107,11 +107,8 @@ export class InjectableElement extends LitElement {
 			const elementScope: ElementScope | undefined = Reflect
 				.getMetadata($ElementScope, this.constructor);
 
-			const container = getContainer(elementScope);
-
-			const modules = getComponentModules(this.tagName);
-
-			container.unload(...modules);
+			if (elementScope)
+				unloadComponentModules(this.tagName, elementScope);
 		}
 	}
 
