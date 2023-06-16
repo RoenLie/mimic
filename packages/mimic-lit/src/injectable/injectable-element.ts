@@ -1,9 +1,10 @@
 import { createPromiseResolver } from '@roenlie/mimic-core/async';
+import { lazyWeakmap } from '@roenlie/mimic-core/structs';
 import { RecordOf } from '@roenlie/mimic-core/types';
 import { LitElement } from 'lit';
 
 import { $ElementScope, $InjectProps } from './constants.js';
-import { getContainer } from './container.js';
+import { getComponentModules, getComponentOptions, getContainer, isModuleLoaded, loadedModules } from './container.js';
 import { injectableShim } from './core.js';
 import { ElementScope, PropMetadata } from './types.js';
 
@@ -17,7 +18,7 @@ export class InjectableElement extends LitElement {
 	public static loadingTemplate = '';
 
 	/** Used internally to unload this components modules upon component disconnect. */
-	public static __unloadModules: () => void;
+	public static __unloadModules: () => void = () => undefined;
 
 	#injectionComplete?: Promise<any>;
 	protected get injectionComplete() { return this.#injectionComplete; }
@@ -50,6 +51,16 @@ export class InjectableElement extends LitElement {
 			.getMetadata($ElementScope, this.constructor);
 
 		const container = getContainer(elementScope);
+		const modules = getComponentModules((this.constructor as typeof InjectableElement).tagName);
+		modules.forEach(module => {
+			if (isModuleLoaded(container, module))
+				return;
+
+			const set = lazyWeakmap(loadedModules, container, () => new WeakSet());
+			set.add(module);
+
+			container.load(module);
+		});
 
 		const me: RecordOf<LitElement> = this as any;
 		const injectionPromises: Promise<any>[] = [];
@@ -89,13 +100,27 @@ export class InjectableElement extends LitElement {
 	public override disconnectedCallback() {
 		super.disconnectedCallback();
 		this.__upgradeObserver.disconnect();
-		InjectableElement.__unloadModules();
+		this.#unloadModules();
 	}
 
 	/** Called after all async injections have been resolved.
 	 * Only happens once, as its triggered through the elements constructor.
 	*/
 	protected injectionCallback() { }
+
+	#unloadModules() {
+		const options = getComponentOptions(this.tagName);
+		if (options.unload) {
+			const elementScope: ElementScope | undefined = Reflect
+				.getMetadata($ElementScope, this.constructor);
+
+			const container = getContainer(elementScope);
+
+			const modules = getComponentModules(this.tagName);
+
+			container.unload(...modules);
+		}
+	}
 
 	protected override async scheduleUpdate() {
 		/* Ensure that async bindings have been resolved before rendering. */

@@ -3,6 +3,7 @@ import { Container } from 'inversify';
 
 import { $Container } from './constants.js';
 import { ContainerModule } from './container-module.js';
+import { InjectableElementOptions } from './decorators.js';
 
 
 const $defaultContainer = Symbol();
@@ -28,5 +29,8 @@ export const isModuleLoaded = (container: Container, module: ContainerModule) =>
 	loadedModules.get(container)?.has(module);
 
 
-export const getComponentModules = (tagname: string) => componentModuleIndex.get(tagname) ?? new Set();
-export const componentModuleIndex = new Map<string, Set<ContainerModule>>();
+export const getComponentModules = (tagname: string) => componentModules.get(tagname) ?? new Set();
+export const componentModules = new Map<string, Set<ContainerModule>>();
+
+export const getComponentOptions = (tagname: string) => componentOptions.get(tagname) ?? {};
+export const componentOptions = new Map<string, InjectableElementOptions>();

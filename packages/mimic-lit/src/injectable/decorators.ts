@@ -3,7 +3,7 @@ import { lazyMap } from '@roenlie/mimic-core/structs';
 import { inject as invInject, injectable as invInjectable } from 'inversify';
 
 import { $ElementScope, $InjectParams, $InjectProps } from './constants.js';
-import { componentModuleIndex, getComponentModules, getContainer, isModuleLoaded, loadedModules } from './container.js';
+import { componentModules, componentOptions, getComponentModules, getContainer, isModuleLoaded, loadedModules } from './container.js';
 import { ContainerModule } from './container-module.js';
 import { ensureCE } from './ensure-element.js';
 import { InjectableElement } from './injectable-element.js';
@@ -11,21 +11,24 @@ import { Identifier, ParamMetadata, PropMetadata } from './types.js';
 
 
 export type ModuleOption = Promised<ContainerModule> | Promiser<ContainerModule>;
+export type InjectableElementOptions = {
+	/** The container this component will resolve dependencies from. */
+	scope?: string;
+	/** Container modules that are loaded on loading this component. */
+	modules?: ModuleOption | ModuleOption[];
+	/** If false, does not unload the modules on component disconnect. */
+	unload?: boolean
+}
 
 
 export const injectableElement = (
 	tagName: string,
-	options?: {
-		/** The container this component will resolve dependencies */
-		scope?: string;
-		/** Container modules that are loaded on loading this component. */
-		modules?: ModuleOption | ModuleOption[];
-		/** If false, does not unload the modules on component disconnect. */
-		unload?: boolean
-	},
+	options?: InjectableElementOptions,
 ) => {
 	return (target: typeof InjectableElement): any => {
 		target.tagName = tagName;
+
+		componentOptions.set(tagName, options ?? {});
 
 		Reflect.defineMetadata($ElementScope, options?.scope, target);
 
@@ -55,7 +58,7 @@ export const injectableElement = (
 		};
 
 		const registerModule = (module: ContainerModule) => {
-			const indexSet = lazyMap(componentModuleIndex, target.tagName, () => new Set());
+			const indexSet = lazyMap(componentModules, target.tagName, () => new Set());
 			indexSet.add(module);
 		};
 

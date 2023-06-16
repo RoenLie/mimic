@@ -3,3 +3,7 @@ export const ensureCE = (customElement: CustomElementConstructor & { tagName?: s
 	if (tag && !globalThis.customElements.get(tag))
 		globalThis.customElements.define(tag, customElement);
 };
+
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const includeCE = (...customElement: CustomElementConstructor[]) => {};
