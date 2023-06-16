@@ -17,9 +17,6 @@ export class InjectableElement extends LitElement {
 	public static tagName = '';
 	public static loadingTemplate = '';
 
-	/** Used internally to unload this components modules upon component disconnect. */
-	public static __unloadModules: () => void = () => undefined;
-
 	#injectionComplete?: Promise<any>;
 	protected get injectionComplete() { return this.#injectionComplete; }
 	protected __upgradeObserver = new MutationObserver(() => {

@@ -67,14 +67,6 @@ export const injectableElement = (
 
 		Promise.all(loading).then(() => ensureCE(target));
 
-		target.__unloadModules = async () => {
-			if (!options.unload || !options.modules)
-				return;
-
-			const modules = getComponentModules(target.tagName);
-			container.unload(...modules);
-		};
-
 		return target;
 	};
 };
