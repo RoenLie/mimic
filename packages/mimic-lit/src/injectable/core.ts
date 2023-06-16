@@ -1,5 +1,7 @@
+import { lazyWeakmap } from '@roenlie/mimic-core/structs';
+
 import { $ElementScope, $InjectParams } from './constants.js';
-import { getContainer } from './container.js';
+import { getComponentModules, getContainer, isModuleLoaded, loadedModules } from './container.js';
 import { InjectableElement } from './injectable-element.js';
 import { ElementMetadata, ElementScope } from './types.js';
 
@@ -15,9 +17,9 @@ let shimmed = false;
 export const injectableShim = () => {
 	if (shimmed)
 		return;
-	
+
 	shimmed = true;
-	
+
 	const customDefineOrigin = customElements.define;
 	customElements.define = function(name, constructor, options) {
 		if (!(constructor.prototype instanceof InjectableElement)) {
@@ -47,6 +49,16 @@ export const injectableShim = () => {
 					.getMetadata($ElementScope, constructor);
 
 				const container = getContainer(elementScope);
+				const modules = getComponentModules((constructor as typeof InjectableElement).tagName);
+				modules.forEach(module => {
+					if (isModuleLoaded(container, module))
+						return;
+
+					const set = lazyWeakmap(loadedModules, container, () => new WeakSet());
+					set.add(module);
+
+					container.load(module);
+				});
 
 				const args: any[] = [];
 				paramMetadata?.forEach((value, key) => {
@@ -71,4 +83,4 @@ export const injectableShim = () => {
 	customElements.exists = function(tagname: string) {
 		return !!customGetOrigin.call(this, tagname);
 	};
-}
+};

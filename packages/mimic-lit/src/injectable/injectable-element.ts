@@ -1,11 +1,10 @@
-import { injectableShim } from './core.js';
-
 import { createPromiseResolver } from '@roenlie/mimic-core/async';
 import { RecordOf } from '@roenlie/mimic-core/types';
 import { LitElement } from 'lit';
 
 import { $ElementScope, $InjectProps } from './constants.js';
 import { getContainer } from './container.js';
+import { injectableShim } from './core.js';
 import { ElementScope, PropMetadata } from './types.js';
 
 
@@ -16,6 +15,9 @@ export class InjectableElement extends LitElement {
 
 	public static tagName = '';
 	public static loadingTemplate = '';
+
+	/** Used internally to unload this components modules upon component disconnect. */
+	public static __unloadModules: () => void;
 
 	#injectionComplete?: Promise<any>;
 	protected get injectionComplete() { return this.#injectionComplete; }
@@ -87,6 +89,7 @@ export class InjectableElement extends LitElement {
 	public override disconnectedCallback() {
 		super.disconnectedCallback();
 		this.__upgradeObserver.disconnect();
+		InjectableElement.__unloadModules();
 	}
 
 	/** Called after all async injections have been resolved.

@@ -26,3 +26,7 @@ export const getContainer = (scope?: string | symbol) =>
 export const loadedModules = new WeakMap<Container, WeakSet<ContainerModule>>();
 export const isModuleLoaded = (container: Container, module: ContainerModule) =>
 	loadedModules.get(container)?.has(module);
+
+
+export const getComponentModules = (tagname: string) => componentModuleIndex.get(tagname) ?? new Set();
+export const componentModuleIndex = new Map<string, Set<ContainerModule>>();

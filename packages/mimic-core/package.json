@@ -13,12 +13,12 @@
 	},
 	"homepage": "https://github.com/RoenLie/mimic#readme",
 	"type": "module",
-	"main": "./dist/index-fallback.js",
-	"types": "./dist/index-fallback.d.ts",
+	"types": "./dist/lib/index-fallback.d.ts",
+	"main": "./dist/lib/index-fallback.js",
 	"exports": {
 		".": {
-			"types": "./dist/lib/index.d.ts",
-			"import": "./dist/lib/index.js"
+			"types": "./dist/lib/index-fallback.d.ts",
+			"import": "./dist/lib/index-fallback.js"
 		},
 		"./animation": {
 			"types": "./dist/lib/animation/index.d.ts",

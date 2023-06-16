@@ -1,9 +1,9 @@
 import { createPromiseResolver, Promised, Promiser, resolveDynamicPromise } from '@roenlie/mimic-core/async';
-import { lazyWeakmap } from '@roenlie/mimic-core/structs';
+import { lazyMap } from '@roenlie/mimic-core/structs';
 import { inject as invInject, injectable as invInjectable } from 'inversify';
 
 import { $ElementScope, $InjectParams, $InjectProps } from './constants.js';
-import { getContainer, isModuleLoaded, loadedModules } from './container.js';
+import { componentModuleIndex, getComponentModules, getContainer, isModuleLoaded, loadedModules } from './container.js';
 import { ContainerModule } from './container-module.js';
 import { ensureCE } from './ensure-element.js';
 import { InjectableElement } from './injectable-element.js';
@@ -16,8 +16,12 @@ export type ModuleOption = Promised<ContainerModule> | Promiser<ContainerModule>
 export const injectableElement = (
 	tagName: string,
 	options?: {
+		/** The container this component will resolve dependencies */
 		scope?: string;
+		/** Container modules that are loaded on loading this component. */
 		modules?: ModuleOption | ModuleOption[];
+		/** If false, does not unload the modules on component disconnect. */
+		unload?: boolean
 	},
 ) => {
 	return (target: typeof InjectableElement): any => {
@@ -38,42 +42,42 @@ export const injectableElement = (
 		const loading: any[] = [];
 		let container = getContainer(options?.scope);
 
-		const verifyAndAddModule = (module: ContainerModule) => {
-			if (isModuleLoaded(container, module))
-				return;
-
-			const set = lazyWeakmap(loadedModules, container, () => new WeakSet());
-			set.add(module);
-			container.load(module);
-		};
-
 		const resolve = (module: ModuleOption) => {
 			if (module instanceof ContainerModule)
-				return verifyAndAddModule(module);
+				return registerModule(module);
 
 			const [ promise, resolve ] = createPromiseResolver();
 			loading.push(promise);
 
 			resolveDynamicPromise(module).then(module => {
-				verifyAndAddModule(module);
-				resolve(true);
+				registerModule(module), resolve(true);
 			});
 		};
 
-		if (Array.isArray(options.modules))
-			options.modules.forEach(resolve);
-		else
-			resolve(options.modules);
+		const registerModule = (module: ContainerModule) => {
+			const indexSet = lazyMap(componentModuleIndex, target.tagName, () => new Set());
+			indexSet.add(module);
+		};
 
+		const modules = Array.isArray(options.modules) ? options.modules : [ options.modules ];
+		modules.forEach(resolve);
 
 		Promise.all(loading).then(() => ensureCE(target));
+
+		target.__unloadModules = async () => {
+			if (!options.unload || !options.modules)
+				return;
+
+			const modules = getComponentModules(target.tagName);
+			container.unload(...modules);
+		};
 
 		return target;
 	};
 };
 
 
-export const injectProp = (identifier: Identifier, options?: {async?: boolean}) => {
+export const injectProp = (identifier: Identifier, options?: { async?: boolean; }) => {
 	return (
 		target: InjectableElement,
 		property: string,
@@ -93,7 +97,7 @@ export const injectProp = (identifier: Identifier, options?: {async?: boolean}) 
 };
 
 
-export const injectParam = (identifier: Identifier, options?: {async?: boolean}) => {
+export const injectParam = (identifier: Identifier, options?: { async?: boolean; }) => {
 	return (
 		target: InjectableElement,
 		property: undefined,
