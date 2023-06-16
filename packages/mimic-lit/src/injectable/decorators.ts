@@ -26,6 +26,7 @@ export const injectableElement = (
 	options?: InjectableElementOptions,
 ) => {
 	return (target: typeof InjectableElement): any => {
+		tagName = tagName.toLowerCase();
 		target.tagName = tagName;
 
 		componentOptions.set(tagName, options ?? {});
@@ -40,10 +41,10 @@ export const injectableElement = (
 		}
 
 		// if there are modules to load.
-		// loop through the registrations and load them if not already loaded.
+		// loop through the registrations resolve them then add them to this components set of modules.
+		// the modules will then be syncronously loaded in its constructor.
 		// defer defining the custom element untill all modules are resolved.
 		const loading: any[] = [];
-		let container = getContainer(options?.scope);
 
 		const resolve = (module: ModuleOption) => {
 			if (module instanceof ContainerModule)
@@ -52,13 +53,12 @@ export const injectableElement = (
 			const [ promise, resolve ] = createPromiseResolver();
 			loading.push(promise);
 
-			resolveDynamicPromise(module).then(module => {
-				registerModule(module), resolve(true);
-			});
+			resolveDynamicPromise(module)
+				.then(module => { registerModule(module); resolve(true); });
 		};
 
 		const registerModule = (module: ContainerModule) => {
-			const indexSet = lazyMap(componentModules, target.tagName, () => new Set());
+			const indexSet = lazyMap(componentModules, tagName, () => new Set());
 			indexSet.add(module);
 		};
 
