@@ -10,7 +10,7 @@ import { ElementScope } from './types.js';
 const $defaultContainer = Symbol();
 
 
-const containerRegistry = new Map<string | symbol, Container>();
+const containerRegistry = new Map<ElementScope, Container>();
 
 
 const createContainer = () => {
@@ -21,7 +21,7 @@ const createContainer = () => {
 };
 
 
-export const getContainer = (scope?: string | symbol) =>
+export const getContainer = (scope?: ElementScope) =>
 	lazyMap(containerRegistry, scope ? scope : $defaultContainer, createContainer);
 
 
@@ -32,7 +32,7 @@ export const isModuleLoaded = (container: Container, module: ContainerModule) =>
 
 export const componentModules = new Map<string, Set<ContainerModule>>();
 export const getComponentModules = (tagname: string) => componentModules.get(tagname.toLowerCase()) ?? new Set();
-export const unloadComponentModules = (tagname: string, elementScope: ElementScope) => {
+export const unloadComponentModules = (tagname: string, elementScope?: ElementScope) => {
 	const container = getContainer(elementScope);
 	const loadedSet = lazyWeakmap(loadedModules, container, () => new WeakSet());
 	const modules = getComponentModules(tagname);

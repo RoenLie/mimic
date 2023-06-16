@@ -107,8 +107,7 @@ export class InjectableElement extends LitElement {
 			const elementScope: ElementScope | undefined = Reflect
 				.getMetadata($ElementScope, this.constructor);
 
-			if (elementScope)
-				unloadComponentModules(this.tagName, elementScope);
+			unloadComponentModules(this.tagName, elementScope);
 		}
 	}
 
