@@ -1,4 +1,6 @@
+import { lazyMap } from '@roenlie/mimic-core';
 import { sleep } from '@roenlie/mimic-core/async';
+import { lazyWeakmap } from '@roenlie/mimic-core/structs';
 import type { LitElement } from 'lit';
 
 
@@ -87,18 +89,10 @@ export class MimicStore {
 	) {
 		const _prop = prop as string;
 
-		if (!MimicStore.#listeners.has(this.__origin))
-			MimicStore.#listeners.set(this.__origin, new Map());
+		const elementMap = lazyWeakmap(MimicStore.#listeners, this.__origin, () => new Map());
+		const propMap = lazyMap(elementMap, object, () => new Map());
+		const funcSet = lazyMap(propMap, _prop, () => new Set());
 
-		const elementMap = MimicStore.#listeners.get(this.__origin)!;
-		if (!elementMap.has(object))
-			elementMap.set(object, new Map());
-
-		const propMap = elementMap.get(object)!;
-		if (!propMap.has(_prop))
-			propMap.set(_prop, new Set());
-
-		const funcSet = propMap.get(_prop)!;
 		funcSet.add(func);
 	}
 
@@ -110,18 +104,10 @@ export class MimicStore {
 	) {
 		const _prop = prop as string;
 
-		if (!MimicStore.#listeners.has(this.__origin))
-			MimicStore.#listeners.set(this.__origin, new Map());
+		const elementMap = lazyWeakmap(MimicStore.#listeners, this.__origin, () => new Map());
+		const propMap = lazyMap(elementMap, object, () => new Map());
+		const funcSet = lazyMap(propMap, _prop, () => new Set());
 
-		const elementMap = MimicStore.#listeners.get(this.__origin)!;
-		if (!elementMap.has(object))
-			elementMap.set(object, new Map());
-
-		const propMap = elementMap.get(object)!;
-		if (!propMap.has(_prop))
-			propMap.set(_prop, new Set());
-
-		const funcSet = propMap.get(_prop)!;
 		funcSet.delete(func);
 	}
 
@@ -137,15 +123,8 @@ export class MimicStore {
 		element: UpdatableElement,
 		...props: (keyof Omit<this, keyof MimicStore>)[]
 	) {
-		if (!MimicStore.#observers.has(this.__origin))
-			MimicStore.#observers.set(this.__origin, new Map());
-
-		const map = MimicStore.#observers.get(this.__origin)!;
-
-		if (!map.has(element))
-			map.set(element, new Set());
-
-		const elementMap = map.get(element)!;
+		const map = lazyWeakmap(MimicStore.#observers, this.__origin, () => new Map());
+		const elementMap = lazyMap(map, element, new Set());
 
 		for (const prop of props as string[]) {
 			if (!(prop in this.__origin))
@@ -160,10 +139,7 @@ export class MimicStore {
 		element: UpdatableElement,
 		...props: (keyof Omit<this, keyof MimicStore>)[]
 	) {
-		if (!MimicStore.#observers.has(this.__origin))
-			MimicStore.#observers.set(this.__origin, new Map());
-
-		const map = MimicStore.#observers.get(this.__origin)!;
+		const map = lazyWeakmap(MimicStore.#observers, this.__origin, () => new Map());
 
 		const propSet = map.get(element);
 		props.forEach(prop => propSet?.delete(prop as string));
@@ -176,8 +152,14 @@ export class MimicStore {
 
 	/** Connects a controller to the supplied element.
 	 * Allowing the controller to automatically handle cleanup
-	 * of any observers or listeners upon disconnecting. */
-	public connect(element: LitElement) {
+	 * of any observers or listeners upon disconnecting.
+	 * Also takes in a rest arg of props, which are props that will be observed */
+	public connect(
+		element: LitElement,
+		...props: (keyof Omit<this, keyof MimicStore>)[]
+	) {
+		this.observe(element, ...props);
+
 		element.addController({
 			hostDisconnected: () => {
 				this.unlistenAll(element);
