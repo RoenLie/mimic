@@ -12,13 +12,6 @@ type TrackedObservers = Map<string, Set<WeakRef<Updateable>>>;
 type UntrackedObservers = Map<string, Set<Observer>>;
 
 
-const generatorFns = {
-	set:     () => new Set(),
-	map:     () => new Map(),
-	weakmap: () => new WeakMap(),
-};
-
-
 export class LitStateStore {
 
 	#properties:         StoreProperties = clone(Reflect.getMetadata($StoreProp, this));
@@ -40,7 +33,7 @@ export class LitStateStore {
 				return this.#properties![key];
 
 			keys.push(key);
-			let set = lazyMap(this.#listeners, key, generatorFns.set);
+			let set = lazyMap(this.#listeners, key, () => new Set());
 			set.add(new WeakRef(el));
 		}
 
@@ -65,13 +58,13 @@ export class LitStateStore {
 
 	#propObserver(key: string, cb: (v: any) => void, el: Updateable | undefined): Unobserve {
 		if (el) {
-			let refSet = lazyMap(this.#trackedObservers, key, generatorFns.set) as Set<WeakRef<Updateable>>;
+			let refSet = lazyMap(this.#trackedObservers, key, () => new Set());
 			let ref = new WeakRef(el);
 			refSet.forEach(r => r.deref() === el && (ref = r));
 			refSet.add(ref);
 
-			let map = lazyMap(this.#mapToObserver, key, generatorFns.weakmap) as WeakMap<Updateable, Set<Observer>>;
-			let observers = lazyWeakmap(map, el, generatorFns.set) as Set<Observer>;
+			let map = lazyMap(this.#mapToObserver, key, () => new WeakMap());
+			let observers = lazyWeakmap(map, el, () => new Set());
 			observers.add(cb);
 
 			return () => {
@@ -80,7 +73,7 @@ export class LitStateStore {
 			};
 		}
 		else {
-			let set = lazyMap(this.#untrackedObservers, key, generatorFns.set);
+			let set = lazyMap(this.#untrackedObservers, key, () => new Set());
 
 			return () => {
 				set.delete(cb);
