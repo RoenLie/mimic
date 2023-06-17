@@ -1,5 +1,6 @@
-import { ValueProvider } from '../../types/delegates.types.js';
 import { resolveValueProvider } from '../function/value-provider.js';
+
+type Provider<T> = T | (() => T);
 
 
 /**
@@ -9,12 +10,12 @@ import { resolveValueProvider } from '../function/value-provider.js';
  * @param valueProvider - The creator function or value to use when the key does not already exist in the map.
  * @param retrieveAction - An optional action to perform on the value when it already exists in the map.
  */
-export const lazyMap = <TKey, TValue>(
-	map: Map<TKey, TValue>,
-	key: TKey,
-	valueProvider: ValueProvider<TValue>,
-	retrieveAction?: (value: TValue) => void,
-) => {
+export const lazyMap = <TMap extends Map<any, any>>(
+	map: TMap,
+	key: Parameters<TMap['get']>['0'],
+	valueProvider: Provider<Exclude<ReturnType<TMap['get']>, undefined>>,
+	retrieveAction?: (value: Exclude<ReturnType<TMap['get']>, undefined>) => void,
+): Exclude<ReturnType<TMap['get']>, undefined> => {
 	if (map.has(key)) {
 		const val = map.get(key)!;
 		retrieveAction?.(val);
@@ -34,9 +35,14 @@ export const lazyMap = <TKey, TValue>(
  *
  * {@link lazyMap}
  */
-export const lazyWeakmap = <TKey extends object, TValue>(
-	map: WeakMap<TKey, TValue>,
-	key: TKey,
-	valueProvider: ValueProvider<TValue>,
-	retrieveAction?: (value: TValue) => void,
-) => lazyMap(map as Map<TKey, TValue>, key, valueProvider, retrieveAction);
+export const lazyWeakmap = <TMap extends WeakMap<object, any>>(
+	map: TMap,
+	key: Parameters<TMap['get']>['0'],
+	valueProvider: Provider<Exclude<ReturnType<TMap['get']>, undefined>>,
+	retrieveAction?: (value: Exclude<ReturnType<TMap['get']>, undefined>) => void,
+): Exclude<ReturnType<TMap['get']>, undefined> => lazyMap(
+	map as unknown as Map<any, any>,
+	key,
+	valueProvider,
+	retrieveAction,
+);

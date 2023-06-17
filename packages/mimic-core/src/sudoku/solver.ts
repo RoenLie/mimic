@@ -354,7 +354,7 @@ const findDuplicateSets = (arr: SudokuCell[], size: number) => {
 		const count = setStrings.get(setStr) ?? 0;
 		setStrings.set(setStr, count + 1);
 
-		const objects = lazyMap(stringToObject, setStr, []);
+		const objects = lazyMap(stringToObject, setStr, () => []);
 		objects.push(obj);
 	});
 
