@@ -1,9 +1,10 @@
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { map } from 'lit/directives/map.js';
 
 import { alertPortal } from './alert-portal.cmp.js';
-import { Alerts } from './alert-setup-api.js';
+import { Alerts, IAlertProps } from './alert-setup-api.js';
 
 
 @customElement('mm-alert-demo')
@@ -50,10 +51,10 @@ export class AlertDemo extends LitElement {
 
 
 		<div class="variants">
-			${ map([ 'primary', 'success', 'neutral', 'warning', 'error' ], variant => html`
+			${ map([ 'primary', 'success', 'neutral', 'warning', 'error' ], (variant: IAlertProps['variant']) => html`
 			<div class="variant">
 				<span>${ variant }</span>
-				<mm-alert open variant=${ variant }>
+				<mm-alert open variant=${ ifDefined(variant) }>
 					<mm-icon slot="icon" url="https://icons.getbootstrap.com/assets/icons/info-circle.svg"></mm-icon>
 					<strong>This is super informative</strong><br />
 					You can tell by how pretty the alert is.

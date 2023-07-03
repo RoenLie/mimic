@@ -1,13 +1,14 @@
 {
-	"extends": "@roenlie/tsconfig",
+	"extends": "./tsconfig.json",
 	"compilerOptions": {
 		"moduleResolution": "NodeNext",
 		"module": "ESNext",
 		"target": "ESNext",
-		"rootDir": ".",
+		"outDir": "./dist",
+		"rootDir": "./src",
 		"baseUrl": ".",
-		"noEmit": true,
-		"emitDeclarationOnly": false,
+		"noEmit": false,
+		"emitDeclarationOnly": true,
 		"incremental": false,
 		"types": [
 			"vite/client",
@@ -17,7 +18,10 @@
 		"./src/**/*.ts",
 		"./src/**/*.d.ts",
 		"./src/**/*.js",
-		"vite.config.ts"
 	],
-	"exclude": []
+	"exclude": [
+		"./**/*.demo.ts",
+		"./**/*.test.ts",
+		"./**/*.bench.ts",
+	]
 }

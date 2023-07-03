@@ -85,8 +85,8 @@
 		"build": "pnpm build:prepare && pnpm build:index && pnpm build:types && vite build",
 		"build:prepare": "rimraf dist",
 		"build:index": "package-toolbox build-indexes",
-		"build:types": "tsc --project ./tsconfig.json",
-		"typecheck": "tsc --project ./src/tsconfig.json",
+		"build:types": "tsc --project ./tsconfig.build.json",
+		"typecheck": "tsc --project ./tsconfig.json",
 		"updatedeps": "pnpm update --latest --interactive",
 		"increment-version": "package-toolbox increment-version"
 	},
