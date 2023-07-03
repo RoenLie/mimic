@@ -1,10 +1,10 @@
 import { componentAutoImporter, libConfig } from '@roenlie/package-toolbox/vite';
-import { defineConfig } from 'vite';
+import { defineConfig, Plugin, UserConfigExport } from 'vite';
 
 
 export default defineConfig(async () => {
 	return {
-		...await libConfig(),
+		...await libConfig() as UserConfigExport,
 		esbuild: {
 			minifyIdentifiers: false,
 			tsconfigRaw:       {
@@ -24,7 +24,7 @@ export default defineConfig(async () => {
 				prefixes:      [ /mm-/ ],
 				loadWhitelist: [ /./ ],
 				loadBlacklist: [ /\.demo/ ],
-			}),
+			}) as Plugin,
 		],
 	};
 });

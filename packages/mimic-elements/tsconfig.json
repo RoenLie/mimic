@@ -7,8 +7,8 @@
 		"outDir": "./dist",
 		"rootDir": ".",
 		"baseUrl": ".",
-		"noEmit": true,
-		"emitDeclarationOnly": false,
+		"noEmit": false,
+		"emitDeclarationOnly": true,
 		"incremental": false,
 		"types": [
 			"vite/client",
@@ -20,6 +20,7 @@
 		"./**/*.js",
 	],
 	"exclude": [
+		"./**/*.demo.ts",
 		"./**/*.test.ts",
 		"./**/*.bench.ts",
 	]

@@ -4,11 +4,11 @@
 		"moduleResolution": "NodeNext",
 		"module": "ESNext",
 		"target": "ESNext",
-		"outDir": "../dist",
+		"outDir": "./dist",
 		"rootDir": ".",
 		"baseUrl": ".",
-		"noEmit": false,
-		"emitDeclarationOnly": true,
+		"noEmit": true,
+		"emitDeclarationOnly": false,
 		"incremental": false,
 		"types": [
 			"vite/client",
@@ -19,9 +19,4 @@
 		"./**/*.d.ts",
 		"./**/*.js",
 	],
-	"exclude": [
-		"./**/*.demo.ts",
-		"./**/*.test.ts",
-		"./**/*.bench.ts",
-	]
 }

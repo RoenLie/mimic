@@ -427,7 +427,7 @@ export class UploadElement extends LitElement {
 		const ini = Date.now();
 		const xhr = (file.xhr = this.createXhr());
 
-		let stalledId: number;
+		let stalledId: ReturnType<typeof setTimeout>;
 		let last: number;
 
 		// Onprogress is called always after onreadystatechange
