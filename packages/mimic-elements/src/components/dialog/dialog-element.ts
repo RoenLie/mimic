@@ -8,6 +8,7 @@ import { customElement, property, query, state } from 'lit/decorators.js';
 export class DialogElement extends LitElement {
 
 	@property({ type: Boolean }) public modal?: boolean;
+	@property({ type: Boolean }) public closeOnBlur?: boolean;
 	@query('#dialog') public innerDialog?: HTMLDivElement;
 	@query('dialog') public dialog?: HTMLDialogElement;
 	@query('input') public input?: HTMLInputElement;
@@ -110,6 +111,9 @@ export class DialogElement extends LitElement {
 	}
 
 	protected handleMousedown(ev: PointerEvent) {
+		if (!this.closeOnBlur)
+			return;
+
 		const path = ev.composedPath() as HTMLElement[];
 
 		if (!path.some(el => el === this.innerDialog))
