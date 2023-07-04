@@ -31,25 +31,28 @@ export class TextElement extends LitElement {
 	@property() public textTransform?: TextTransform;
 	@state() protected text = '';
 
+	protected observer = new MutationObserver(() => this.setText());
+
 	public override connectedCallback() {
 		super.connectedCallback();
 
 		this.addEventListener('mousedown', this.handleMousedown);
+		this.observer.observe(this, {
+			subtree:       true,
+			characterData: true,
+		});
 
-		setTimeout(() => this.handleSlotchange());
+		this.setText();
 	}
 
 	public override disconnectedCallback() {
 		super.disconnectedCallback();
+
 		this.removeEventListener('mousedown', this.handleMousedown);
+		this.observer.disconnect();
 	}
 
-	protected handleMousedown = (ev: MouseEvent) => {
-		if (ev.detail >= 2)
-			ev.preventDefault();
-	};
-
-	protected handleSlotchange = () => {
+	protected setText() {
 		let text = this.textContent ?? '';
 
 		if (this.textTransform === 'uppercase') {
@@ -66,11 +69,17 @@ export class TextElement extends LitElement {
 		}
 
 		this.text = text;
+	}
+
+	protected handleMousedown = (ev: MouseEvent) => {
+		if (ev.detail >= 2)
+			ev.preventDefault();
 	};
 
 	public override render() {
+		console.log('render text');
+
 		return html`
-		<slot @slotchange=${ this.handleSlotchange } style="display:none;"></slot>
 		<span class="outline" data-content=${ this.text }>${ this.text }</span>
 		`;
 	}
