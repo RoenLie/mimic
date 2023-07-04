@@ -76,6 +76,7 @@ export class IconElement extends LitElement {
 			place-items: center;
 			height: max-content;
 			width: max-content;
+			pointer-events: none;
 		}
 		div {
 			contain: strict;
