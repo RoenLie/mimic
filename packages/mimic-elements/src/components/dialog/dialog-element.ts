@@ -146,6 +146,7 @@ export class DialogElement extends LitElement {
 			overflow: hidden;
 			background: transparent;
 			border: none;
+			outline: none;
 		}
 		:where(.dialog) {
 			display: grid;

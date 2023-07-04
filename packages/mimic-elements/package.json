@@ -78,6 +78,10 @@
 		"./dialog": {
 			"types": "./dist/components/dialog/index.d.ts",
 			"default": "./dist/components/dialog/index.js"
+		},
+		"./input": {
+			"types": "./dist/components/input/index.d.ts",
+			"default": "./dist/components/input/index.js"
 		}
 	},
 	"scripts": {
