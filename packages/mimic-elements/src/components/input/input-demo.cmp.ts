@@ -7,6 +7,7 @@ export class InputDemo extends LitElement {
 
 	public override render() {
 		return html`
+		<mm-input size="large"></mm-input>
 		<mm-input label="Label" size="large"></mm-input>
 		<mm-input label="Label" size="medium"></mm-input>
 		<mm-input label="Label" size="small"></mm-input>

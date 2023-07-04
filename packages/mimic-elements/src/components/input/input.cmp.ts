@@ -26,6 +26,7 @@ export class InputCmp extends LitElement {
 		return {
 			[this.size]:  true,
 			[this.shape]: true,
+			label:        !!this.label,
 			filled:       this.value || this.placeholder,
 			placeholder:  !this.value && this.placeholder,
 		};
@@ -106,7 +107,7 @@ export class InputCmp extends LitElement {
 			top: 4px;
 			font-size: 8px;
 		}
-		.small input {
+		.small.label input {
 			padding-top: 12px;
 		}
 
@@ -122,7 +123,7 @@ export class InputCmp extends LitElement {
 			top: 5px;
 			font-size: 10px;
 		}
-		.medium input {
+		.medium.label input {
 			padding-top: 14px;
 		}
 
@@ -138,7 +139,7 @@ export class InputCmp extends LitElement {
 			top: 6px;
 			font-size: 12px;
 		}
-		.large input {
+		.large.label input {
 			padding-top: 18px;
 		}
 
