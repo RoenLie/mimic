@@ -46,7 +46,7 @@ export class DialogDemo extends LitElement {
 
 		this.renderRoot.append(el);
 
-		el.inprogress.then(() => console.log('dialog closed'));
+		el.complete.then(() => console.log('dialog closed'));
 	}
 
 	protected override render() {

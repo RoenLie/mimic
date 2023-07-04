@@ -17,7 +17,7 @@ export class DialogElement extends LitElement {
 		style: CSSResult;
 	};
 
-	public inprogress = TrackedPromise.resolve();
+	public complete = TrackedPromise.resolve();
 
 	protected override updated(props: PropertyValues) {
 		super.updated(props);
@@ -32,7 +32,7 @@ export class DialogElement extends LitElement {
 	}
 
 	public createConfig<T extends(dialog: DialogElement) => (Promise<any> | any)>(stateCreator: T) {
-		this.inprogress = new TrackedPromise(() => {});
+		this.complete = new TrackedPromise(() => {});
 
 		return {
 			actions: <TActions extends (dialog: DialogElement, state: Awaited<ReturnType<T>>) => any>(
@@ -98,9 +98,9 @@ export class DialogElement extends LitElement {
 		};
 	}
 
-	public close(returnValue?: string | undefined) {
+	public close(returnValue?: any) {
 		this.dialog?.close(returnValue);
-		this.inprogress.resolve(returnValue);
+		this.complete.resolve(returnValue);
 	}
 
 	protected handleClose(ev?: CloseEvent) {
