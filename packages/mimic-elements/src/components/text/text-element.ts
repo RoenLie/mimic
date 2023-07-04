@@ -28,19 +28,18 @@ export class TextElement extends LitElement {
 
 	@property({ reflect: true }) public type: TextType = 'body-medium';
 	@property({ type: Boolean, reflect: true }) public shadow?: boolean;
-	@property() public textTransform: TextTransform = 'capitalize';
+	@property() public textTransform?: TextTransform;
 	@state() protected text = '';
 
-	public override connectedCallback(): void {
+	public override connectedCallback() {
 		super.connectedCallback();
-		this.setAttribute('inert', '');
 
 		this.addEventListener('mousedown', this.handleMousedown);
 
-		this.updateComplete.then(() => this.handleSlotchange());
+		setTimeout(() => this.handleSlotchange());
 	}
 
-	public override disconnectedCallback(): void {
+	public override disconnectedCallback() {
 		super.disconnectedCallback();
 		this.removeEventListener('mousedown', this.handleMousedown);
 	}
@@ -52,20 +51,27 @@ export class TextElement extends LitElement {
 
 	protected handleSlotchange = () => {
 		let text = this.textContent ?? '';
-		if (this.textTransform === 'uppercase')
+
+		if (this.textTransform === 'uppercase') {
 			text = text.toLocaleUpperCase();
-		else if (this.textTransform === 'lowercase')
+		}
+		else if (this.textTransform === 'lowercase') {
 			text = text.toLocaleLowerCase();
-		else if (this.textTransform === 'capitalize')
-			text = text.slice(0, 1).toLocaleUpperCase() + text.slice(1).toLocaleLowerCase();
+		}
+		else if (this.textTransform === 'capitalize') {
+			text = text
+				.split(' ')
+				.map(t => t.slice(0, 1).toLocaleUpperCase() + t.slice(1).toLocaleLowerCase())
+				.join(' ');
+		}
 
 		this.text = text;
 	};
 
 	public override render() {
 		return html`
-		<span class="outline" data-content=${ this.text }>${ this.text }</span>
 		<slot @slotchange=${ this.handleSlotchange } style="display:none;"></slot>
+		<span class="outline" data-content=${ this.text }>${ this.text }</span>
 		`;
 	}
 
@@ -75,7 +81,7 @@ export class TextElement extends LitElement {
 			position: relative;
 			display: inline-block;
 		}
-		:host([shadow]) .outlidne {
+		:host([shadow]) .outline {
 			color: var(--on-background);
 			-webkit-text-stroke: 1px black;
 		}
