@@ -77,8 +77,6 @@ export class TextElement extends LitElement {
 	};
 
 	public override render() {
-		console.log('render text');
-
 		return html`
 		<span class="outline" data-content=${ this.text }>${ this.text }</span>
 		`;
