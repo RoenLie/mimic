@@ -1,5 +1,5 @@
-import { TrackedPromise } from '@roenlie/mimic-core';
-import { sharedStyles } from '@roenlie/mimic-lit';
+import { TrackedPromise } from '@roenlie/mimic-core/async';
+import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, CSSResult, html, LitElement, PropertyValues } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 

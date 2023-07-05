@@ -19,10 +19,6 @@
 	"main": "./dist/index-fallback.js",
 	"types": "./dist/index-fallback.d.ts",
 	"exports": {
-		".": {
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.js"
-		},
 		"./alert": {
 			"types": "./dist/components/alert/index.d.ts",
 			"default": "./dist/components/alert/index.js"
