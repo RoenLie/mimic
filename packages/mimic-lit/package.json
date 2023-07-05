@@ -1,6 +1,6 @@
 {
 	"name": "@roenlie/mimic-lit",
-	"version": "0.0.32",
+	"version": "0.0.33",
 	"description": "Extensions and utilities for the LIT framework.",
 	"license": "MIT",
 	"repository": {
