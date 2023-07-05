@@ -15,10 +15,6 @@
 	"types": "./dist/index-fallback.d.ts",
 	"main": "./dist/index-fallback.js",
 	"exports": {
-		".": {
-			"types": "./dist/index-fallback.d.ts",
-			"import": "./dist/index-fallback.js"
-		},
 		"./controllers": {
 			"types": "./dist/controllers/index.d.ts",
 			"import": "./dist/controllers/index.js"

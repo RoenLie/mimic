@@ -1,6 +1,5 @@
-import { lazyMap } from '@roenlie/mimic-core';
 import { sleep } from '@roenlie/mimic-core/async';
-import { lazyWeakmap } from '@roenlie/mimic-core/structs';
+import { lazyMap, lazyWeakmap } from '@roenlie/mimic-core/structs';
 import type { LitElement } from 'lit';
 
 
