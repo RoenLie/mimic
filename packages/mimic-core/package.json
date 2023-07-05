@@ -16,10 +16,6 @@
 	"types": "./dist/lib/index-fallback.d.ts",
 	"main": "./dist/lib/index-fallback.js",
 	"exports": {
-		".": {
-			"types": "./dist/lib/index-fallback.d.ts",
-			"import": "./dist/lib/index-fallback.js"
-		},
 		"./animation": {
 			"types": "./dist/lib/animation/index.d.ts",
 			"default": "./dist/lib/animation/index.js"
