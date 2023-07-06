@@ -12,20 +12,20 @@ export class RippleElement extends LitElement {
 
 	//#region properties
 	@property({ type: Number }) public speed = 500;
-
+	@property({ type: Boolean, reflect: true }) public disabled?: boolean;
 	protected animations = new Set<Animation>();
 	//#endregion
 
 
 	//#region lifecycle
-	public override connectedCallback(): void {
+	public override connectedCallback() {
 		super.connectedCallback();
 
 		this.addEventListener('mousedown', this.handleMousedown);
 		this.addEventListener('click', this.handleClick);
 	}
 
-	public override disconnectedCallback(): void {
+	public override disconnectedCallback() {
 		super.disconnectedCallback();
 
 		this.animations.forEach(animation => animation.cancel());
@@ -41,6 +41,9 @@ export class RippleElement extends LitElement {
 
 	//#region logic
 	public showRipple = (ev?: { x?: number, y?: number }) => {
+		if (this.disabled)
+			return;
+
 		const rippler = document.createElement('span');
 		const containerEl = this.renderRoot.querySelector<HTMLElement>('.ripple__control');
 		containerEl?.insertAdjacentElement('beforeend', rippler);

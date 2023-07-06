@@ -4,10 +4,10 @@ import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
 
-type ButtonType = '' | 'icon';
-type ButtonSize = 'x-small' | 'small' | 'medium' | 'large' | 'x-large';
-type ButtonShape = 'sharp' | 'rounded' | 'pill';
-type ButtonVariant =
+export type ButtonType = '' | 'icon';
+export type ButtonSize = 'x-small' | 'small' | 'medium' | 'large' | 'x-large';
+export type ButtonShape = 'sharp' | 'rounded' | 'pill';
+export type ButtonVariant =
 | 'primary'
 | 'primary-variant'
 | 'secondary'
@@ -32,13 +32,26 @@ export class ButtonElement extends LitElement {
 
 	public override render() {
 		return html`
-		<mm-ripple class=${ classMap({
-			[this.type]:    true,
-			[this.size]:    true,
-			[this.shape]:   true,
-			[this.variant]: true,
-		}) }>
-			<button part="base" class="base">
+		<mm-ripple
+			?disabled=${ this.disabled }
+			class=${ classMap({
+				[this.type]:    true,
+				[this.size]:    true,
+				[this.shape]:   true,
+				[this.variant]: true,
+			}) }
+		>
+			<button
+				?disabled=${ !!this.disabled }
+				part="base"
+				class=${ classMap({
+					base:           true,
+					[this.type]:    true,
+					[this.size]:    true,
+					[this.shape]:   true,
+					[this.variant]: true,
+				}) }
+			>
 				<slot name="prefix"></slot>
 				<slot></slot>
 				<slot name="suffix"></slot>
@@ -51,13 +64,18 @@ export class ButtonElement extends LitElement {
 		sharedStyles,
 		css`
 		:host {
+			--color-button-bg: 0 0 0;
+			--color-button-txt: 0 0 0;
+
 			position: relative;
 			display: block;
 			width: fit-content;
 			height: fit-content;
 			text-align: initial;
-			--color-button-bg: 0 0 0;
-			--color-button-txt: 0 0 0;
+		}
+		:host([disabled=""]) {
+			opacity: 0.5;
+			pointer-events: none;
 		}
 		button {
 			all: unset;
@@ -84,122 +102,131 @@ export class ButtonElement extends LitElement {
 		button:active::after {
 			outline-offset: 1px;
 		}
-		.icon button {
+		button.icon {
 			padding: 0;
 			aspect-ratio: 1;
 		}
-		.x-small button {
+		button.x-small  {
 			height: 20px;
+			padding-inline: 12px;
+			font-size: 12px;
 		}
-		.small button {
+		button.small {
 			height: 30px;
+			padding-inline: 18px;
+			font-size: 14px;
 		}
-		.medium button {
+		button.medium {
 			height: 40px;
+			padding-inline: 24px;
+			font-size: 16px;
 		}
-		.large button {
+		button.large {
 			height: 50px;
+			padding-inline: 24px;
+			font-size: 18px;
 		}
-		.x-large button {
+		button.x-large {
 			height: 60px;
+			padding-inline: 24px;
+			font-size: 20px;
 		}
-		.sharp button,
+		button.sharp,
 		mm-ripple.sharp {
 			border-radius: var(--border-radius-xs);
 		}
-		.rounded button,
+		button.rounded,
 		mm-ripple.rounded {
 			border-radius: var(--border-radius-m);
 		}
-		.pill button,
+		button.pill,
 		mm-ripple.pill {
 			border-radius: var(--border-pill);
 		}
-		.primary {
+		mm-ripple.primary {
 			--ripple-bg: var(--on-primary-press);
 			--color-button-bg: var(--primary);
 			--color-button-txt: var(--on-primary);
 		}
-		.primary-variant {
+		mm-ripple.primary-variant {
 			--ripple-bg: var(--on-primary-container-press);
 			--color-button-bg: var(--primary-container);
 			--color-button-txt: var(--on-primary-container);
 		}
-		.secondary {
+		mm-ripple.secondary {
 			--ripple-bg: var(--on-secondary-container-press);
 			--color-button-bg: var(--secondary-container);
 			--color-button-txt: var(--on-secondary-container);
 		}
-		.tertiary {
+		mm-ripple.tertiary {
 			--ripple-bg: var(--on-tertiary-container-press);
 			--color-button-bg: var(--tertiary-container);
 			--color-button-txt: var(--on-tertiary-container);
 		}
-		.neutral {
+		mm-ripple.neutral {
 			--ripple-bg: var(--on-surface-variant-press);
 			--color-button-bg: var(--surface-variant);
 			--color-button-txt: var(--on-surface-variant);
 		}
-		.error {
+		mm-ripple.error {
 			--ripple-bg: var(--on-error-container-press);
 			--color-button-bg: var(--error-container);
 			--color-button-txt: var(--on-error-container);
 		}
-		.warning {
+		mm-ripple.warning {
 			--ripple-bg: var(--on-warning-press);
 			--color-button-bg: var(--warning);
 			--color-button-txt: var(--on-warning);
 		}
-		.success {
+		mm-ripple.success {
 			--ripple-bg: var(--on-success-container-press);
 			--color-button-bg: var(--success-container);
 			--color-button-txt: var(--on-success-container);
 		}
-		.text {
+		mm-ripple.text {
 			--ripple-bg: var(--primary-press);
 			--color-button-bg: none;
 			--color-button-txt: var(--primary);
 		}
-		.outline {
+		mm-ripple.outline {
 			--ripple-bg: var(--primary-press);
 			--color-button-txt: var(--primary);
 		}
-		.outline button {
+		button.outline {
 			outline: 1px solid var(--outline);
 		}
-		.elevated {
+		mm-ripple.elevated {
 			--ripple-bg: var(--primary-press);
 			--color-button-txt: var(--primary);
 			backdrop-filter: blur(2px);
 		}
-		.text button,
-		.outline button,
-		.elevated button {
+		button.text,
+		button.outline,
+		button.elevated {
 			transition: box-shadow var(--transition-fast) ease-in-out;
 		}
-		.elevated button {
+		button.elevated {
 			box-shadow: var(--box-shadow-s);
 		}
-		.text:hover button,
-		.outline:hover button,
-		.elevated:hover button {
+		button.text:hover,
+		button.outline:hover,
+		button.elevated:hover {
 			box-shadow: var(--box-shadow-m);
 		}
-
 		::slotted(*) {
 			grid-area: text;
 		}
 		slot[name=prefix]::slotted(*) {
 			grid-area: prefix;
-			padding-right: var(--spacing-s);
+			padding-right: 8px;
 			margin-left: -8px;
 		}
 		slot[name=suffix]::slotted(*) {
 			grid-area: suffix;
-			padding-left: var(--spacing-s);
+			padding-left: 8px;
 			margin-right: -8px;
 		}
-	`,
+		`,
 	];
 
 }

@@ -589,7 +589,7 @@ export class TabGroupElement extends LitElement {
 			variant    ="elevated"
 			shape      ="rounded"
 			size       ="x-small"
-			label      =${ this.localizeCtrl.term('scrollToStart') }
+			.label      =${ this.localizeCtrl.term('scrollToStart') }
 			class      =${ classMap({
 				'tab-group__scroll-button': true,
 				[props.class]:              true,

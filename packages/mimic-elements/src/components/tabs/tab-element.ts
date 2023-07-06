@@ -108,7 +108,7 @@ export class TabElement extends LitElement {
 				name        ="x-lg"
 				library     ="system"
 				size        ="medium"
-				label       =${ this.localize.term('close') }
+				.label       =${ this.localize.term('close') }
 				@click      =${ this.handleCloseClick.bind(this) }
 			></mm-icon>
 			`) }

@@ -13,8 +13,6 @@ export class ProgressBarDemo extends LitElement {
 
 	public static override styles = [
 		css`
-		:host {
-		}
 		`,
 	];
 

@@ -20,6 +20,7 @@
 		"./src/**/*.js",
 	],
 	"exclude": [
+		"./**/*-demo.ts",
 		"./**/*.demo.ts",
 		"./**/*.test.ts",
 		"./**/*.bench.ts",

@@ -9,6 +9,7 @@ export default defineConfig(async () => {
 			minifyIdentifiers: false,
 			tsconfigRaw:       {
 				compilerOptions: {
+					experimentalDecorators:  true,
 					useDefineForClassFields: false,
 					lib:                     [
 						'ESNext',

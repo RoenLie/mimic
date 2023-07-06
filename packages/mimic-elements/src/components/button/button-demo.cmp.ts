@@ -3,11 +3,13 @@ import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
 
+import { ButtonShape, ButtonSize, ButtonVariant } from './button.cmp.js';
+
 
 @customElement('mm-button-demo')
 export class ButtonDemo extends LitElement {
 
-	protected variants = [
+	protected variants: ButtonVariant[] = [
 		'primary',
 		'primary-variant',
 		'secondary',
@@ -21,24 +23,33 @@ export class ButtonDemo extends LitElement {
 		'outline',
 	];
 
-	protected shapes = [ 'sharp', 'rounded', 'pill' ];
+	protected shapes: ButtonShape[] = [ 'sharp', 'rounded', 'pill' ];
 
-	protected sizes = [ 'small', 'medium', 'large' ];
+	protected sizes: ButtonSize[] = [ 'x-small', 'small', 'medium', 'large', 'x-large' ];
 
 	public override render() {
 		return html`
 		${ map(this.shapes, shape => html`
 		<section>
 			<span>${ shape }</span>
+
 			<div class="actions">
 				${ map(this.variants, variant => html`
 				<div>
 					<span>${ variant }</span>
-					<mm-button variant=${ variant } shape=${ shape }>
-						<mm-icon url="https://icons.getbootstrap.com/assets/icons/chevron-left.svg" slot="prefix"></mm-icon>
+					${ map(this.sizes, size => html`
+					<mm-button variant=${ variant } shape=${ shape } size=${ size }>
+						<mm-icon
+							slot="prefix"
+							url="https://icons.getbootstrap.com/assets/icons/chevron-left.svg"
+						></mm-icon>
 						<span>New</span>
-						<mm-icon url="https://icons.getbootstrap.com/assets/icons/chevron-right.svg" slot="suffix"></mm-icon>
+						<mm-icon
+							slot="suffix"
+							url="https://icons.getbootstrap.com/assets/icons/chevron-right.svg"
+						></mm-icon>
 					</mm-button>
+					`) }
 				</div>
 				`) }
 			</div>
@@ -69,6 +80,8 @@ export class ButtonDemo extends LitElement {
 		.actions>div {
 			display: grid;
 			place-items: center;
+			grid-auto-flow: row;
+			grid-auto-rows: max-content;
 			gap: 4px;
 		}
 	`,

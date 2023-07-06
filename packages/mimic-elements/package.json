@@ -91,17 +91,17 @@
 		"increment-version": "package-toolbox increment-version"
 	},
 	"dependencies": {
-		"@floating-ui/dom": "^1.4.3",
+		"@floating-ui/dom": "^1.4.4",
 		"@roenlie/mimic-core": "workspace:^",
 		"@roenlie/mimic-lit": "workspace:^",
-		"lit": "^2.7.5",
+		"lit": "^2.7.6",
 		"tslib": "^2.6.0"
 	},
 	"devDependencies": {
 		"@roenlie/mirage-docs": "^1.2.6",
 		"@roenlie/package-toolbox": "^0.0.17",
 		"rollup-plugin-copy": "^3.4.0",
-		"vite": "^4.3.9",
-		"vitest": "^0.32.4"
+		"vite": "^4.4.0",
+		"vitest": "^0.33.0"
 	}
 }
