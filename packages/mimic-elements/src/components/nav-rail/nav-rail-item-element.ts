@@ -1,4 +1,5 @@
 import { SlotController } from '@roenlie/mimic-lit/controllers';
+import { includeCE } from '@roenlie/mimic-lit/injectable';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html, LitElement } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
@@ -7,7 +8,7 @@ import { when } from 'lit/directives/when.js';
 
 import { RippleElement } from '../ripple/ripple-element.js';
 
-(() => [ RippleElement ])();
+includeCE(RippleElement);
 
 
 /**
@@ -121,7 +122,7 @@ export class NavRailItemElement extends LitElement {
 			display: block;
 
 			--nav-item-height-default: 80px;
-			height: var(--nav-item-height,var(--nav-item-height-default));
+			height: var(--nav-item-height, var(--nav-item-height-default));
 		}
 		:host(:focus-visible) {
 			outline: var(--focus-ring);

@@ -1,10 +1,11 @@
+import { includeCE } from '@roenlie/mimic-lit/injectable';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
 import { NavRailItemElement } from './nav-rail-item-element.js';
 
-(() => [ NavRailItemElement ])();
+includeCE(NavRailItemElement);
 
 
 /**
@@ -30,7 +31,7 @@ export class NavRailElement extends LitElement {
 
 	//#region logic
 	protected handleFooterSlotChange = () => {
-		const itemTag = 'es-navigation-rail-item';
+		const itemTag = 'mm-nav-rail-item';
 		const footerItems = this.querySelectorAll(`${ itemTag }[slot="end"], [slot="end"] ${ itemTag }`);
 		footerItems.forEach(item => item.setAttribute('role', 'button'));
 	};
@@ -44,12 +45,12 @@ export class NavRailElement extends LitElement {
 	//#region template
 	public override render() {
 		return html`
-		<main class="base" @mousedown=${ this.handleMousedown }>
-			<section>
+		<main part="base" class="base" @mousedown=${ this.handleMousedown }>
+			<section part="section">
 				<slot name="start"></slot>
 			</section>
 
-			<footer>
+			<footer part="footer">
 				<slot name="end" @slotchange=${ this.handleFooterSlotChange }></slot>
 			</footer>
 		</main>
