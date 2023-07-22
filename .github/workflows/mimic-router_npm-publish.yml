@@ -11,10 +11,6 @@ jobs:
   publish-npm:
     runs-on: ubuntu-latest
     steps:
-      - name: Sleep to allow mimic core to finish if it was also started.
-        run: sleep 60s
-        shell: bash
-
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:

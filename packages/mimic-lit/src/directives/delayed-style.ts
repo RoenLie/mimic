@@ -34,7 +34,6 @@ class DelayedStyleDirective extends Directive {
 
 /**
  * A directive that applies styles after a delay.
- *
  */
 export const delayedStyle = directive(DelayedStyleDirective);
 

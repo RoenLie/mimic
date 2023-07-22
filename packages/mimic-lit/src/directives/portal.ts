@@ -8,7 +8,7 @@ import { directive, DirectiveParameters, PartInfo, PartType } from 'lit/directiv
 @customElement('mimic-portal')
 export class PortalElement extends LitElement {
 
-	@property() public renderTemplate: TemplateResult;
+	@property({ type: Object }) public renderTemplate: TemplateResult;
 
 	protected override render() {
 		return this.renderTemplate;
@@ -70,6 +70,14 @@ class PortalDirective extends AsyncDirective {
 
 }
 
+
+/**
+ */
 export const portal = directive(PortalDirective);
 
+
+/**
+ * The type of the class that powers this directive. Necessary for naming the
+ * directive's return type.
+ */
 export type { PortalDirective };
