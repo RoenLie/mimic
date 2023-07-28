@@ -4,6 +4,11 @@ import { css, html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 
+declare global { interface HTMLElementTagNameMap {
+	'mm-tab-panel': TabPanelElement;
+} }
+
+
 /**
  * @slot - The tab panel's content.
  *
@@ -67,17 +72,10 @@ export class TabPanelElement extends LitElement {
 		.tab-panel {
 			height: 100%;
 			border: solid 1px transparent;
-			padding: var(--padding, 0);
+			padding: var(--tab-padding, 0);
 		}
 		`,
 	];
 	//#endregion
 
-}
-
-
-declare global {
-	interface HTMLElementTagNameMap {
-		'mm-tab-panel': TabPanelElement;
-	}
 }

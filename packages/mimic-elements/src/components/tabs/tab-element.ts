@@ -6,6 +6,13 @@ import { customElement, property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { when } from 'lit/directives/when.js';
 
+import { systemIcons } from '../../index-fallback.js';
+
+
+declare global { interface HTMLElementTagNameMap {
+	'mm-tab': TabElement;
+} }
+
 
 /**
  * @slot - The tab's label.
@@ -25,7 +32,6 @@ export class TabElement extends LitElement {
 
 	/** The locale to render the component in. */
 	@property() public override lang: string;
-	@property({ attribute: 'indicator-color' }) public indicatorColor?: string;
 
 	/** The name of the tab panel the tab will control.
 	 * The panel must be located in the same tab group. */
@@ -105,10 +111,9 @@ export class TabElement extends LitElement {
 				part        ="close-button"
 				exportparts ="base:close-button__base"
 				class       ="tab__close-button"
-				name        ="x-lg"
-				library     ="system"
-				size        ="medium"
-				.label       =${ this.localize.term('close') }
+				template    =${ systemIcons.xLg }
+				font-size   ="font-size:20px;"
+				.label      =${ this.localize.term('close') }
 				@click      =${ this.handleCloseClick.bind(this) }
 			></mm-icon>
 			`) }
@@ -123,19 +128,15 @@ export class TabElement extends LitElement {
 		sharedStyles,
 		css`
 		:host {
-			--border-radius: var(--border-radius-s);
-			--color-neutral: var(--on-surface);
-			--color-primary: var(--primary);
-
 			display: inline-grid;
 		}
 		.tab {
 			display: inline-flex;
 			align-items: center;
-			border-radius: var(--border-radius);
-			color: var(--color-neutral);
-			padding-inline: var(--spacing-s);
-			height: 48px;
+			color: var(--tab-color-neutral);
+			border-radius: var(--tab-border-radius);
+			padding-inline: var(--tab-spacing-s);
+			height: var(--tab-height);
 			box-sizing: content-box;
 
 			white-space: nowrap;
@@ -143,50 +144,43 @@ export class TabElement extends LitElement {
 			cursor: pointer;
 
 			outline: none;
-			transition: outline-offset var(--transition-fast) ease-out;
+			transition: outline-offset var(--tab-transition) ease-out;
 		}
 		@media (pointer: fine) {
 			.tab:hover:not(.tab--disabled) {
-				color: var(--color-primary);
+				color: var(--tab-color-primary);
 			}
 		}
 		.tab${ focusVisibleSelector }:not(.tab--disabled) {
-			outline: 3px solid var(--focus-primary-0-color);
+			outline: 3px solid var(--tab-focus-color);
 		}
 		.tab${ focusVisibleSelector }:active:not(.tab--disabled) {
 			outline-offset: -2px;
 		}
 		.tab.tab--active:not(.tab--disabled) {
-			color: var(--color-primary);
+			color: var(--tab-color-primary);
 		}
 		.tab.tab--closable {
-			padding-inline-end: var(--spacing-s);
+			padding-inline-end: var(--tab-spacing-s);
 		}
 		.tab.tab--disabled {
 			opacity: 0.5;
 			cursor: not-allowed;
 		}
 		.tab__close-button {
-			color: var(--color-neutral);
-			margin-inline-start: var(--spacing-xs);
+			color: var(--tab-color-neutral);
+			margin-inline-start: var(--tab-spacing-xs);
 		}
 		@media (pointer: fine) {
 			.tab:not(.tab--disabled) .tab__close-button:hover {
-				color: var(--color-primary);
+				color: var(--tab-color-primary);
 			}
 		}
 		.tab__close-button::part(base) {
-			padding: var(--spacing-xs);
+			padding: var(--tab-spacing-xs);
 		}
 		`,
 	];
 	//#endregion
 
-}
-
-
-declare global {
-	interface HTMLElementTagNameMap {
-		'mm-tab': TabElement;
-	}
 }

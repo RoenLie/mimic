@@ -14,6 +14,11 @@ import { TabElement } from './tab-element.js';
 import { TabPanelElement } from './tab-panel-element.js';
 
 
+declare global { interface HTMLElementTagNameMap {
+	'mm-tab-group': TabGroupElement;
+} }
+
+
 /**
  * @slot default                    - Used for grouping tab panels in the tab group.
  * @slot nav                        - Used for grouping tabs in the tab group.
@@ -31,9 +36,9 @@ import { TabPanelElement } from './tab-panel-element.js';
  * @csspart scroll-button--end      - Targets the ending scroll button.
  * @csspart scroll-button__base     - The scroll button's `base` part.
  *
- * @cssproperty --indicator-color - The color of the active tab indicator.
- * @cssproperty --track-color - The color of the indicator's track (i.e. the line that separates tabs from panels).
- * @cssproperty --track-width - The width of the indicator's track (the line that separates tabs from panels).
+ * @cssproperty --tab-indicator-color - The color of the active tab indicator.
+ * @cssproperty --tab-track-color - The color of the indicator's track (i.e. the line that separates tabs from panels).
+ * @cssproperty --tab-track-width - The width of the indicator's track (the line that separates tabs from panels).
  */
 @customElement('mm-tab-group')
 export class TabGroupElement extends LitElement {
@@ -65,7 +70,7 @@ export class TabGroupElement extends LitElement {
 	public activeTab?: TabElement;
 	protected blockAnimation = false;
 	protected tabs: TabElement[] = [];
-	protected  panels: TabPanelElement[] = [];
+	protected panels: TabPanelElement[] = [];
 	//#endregion
 
 
@@ -194,7 +199,7 @@ export class TabGroupElement extends LitElement {
 
 
 	//#region queries
-	@queryAssignedElements({ slot: 'nav' }) protected navSlot: HTMLElement[];
+	@queryAssignedElements({ slot: 'nav' }) protected navSlot: TabElement[];
 	@queryAssignedElements()        protected defaultSlot: HTMLElement[];
 	@query('.tab-group')            protected tabGroupQry: HTMLElement;
 	@query('.tab-group__nav')       protected navQry: HTMLElement;
@@ -231,13 +236,13 @@ export class TabGroupElement extends LitElement {
 	}
 
 	protected getAllTabs(includeDisabled = false) {
-		return (this.navSlot as TabElement[])
-			.filter(el => el.tagName === 'mm-TAB' && (includeDisabled || !el.disabled));
+		return this.navSlot.filter(el =>
+			el.tagName === 'MM-TAB' && (includeDisabled || !el.disabled));
 	}
 
 	protected getAllPanels() {
 		return (this.defaultSlot as TabPanelElement[])
-			.filter(el => el.tagName === 'mm-TAB-PANEL');
+			.filter(el => el.tagName === 'MM-TAB-PANEL');
 	}
 
 	protected getActiveTab() {
@@ -643,9 +648,18 @@ export class TabGroupElement extends LitElement {
 		sharedStyles,
 		css` /* variables */
 		:host {
-			--indicator-color: var(--primary);
-			--track-color: var(--surface-variant);
-			--track-width: 2px;
+			--tab-height: 30px;
+			--tab-track-width: 2px;
+			--tab-track-color: var(--surface-variant);
+			--tab-indicator-color: var(--primary);
+			--tab-spacing-s: var(--spacing-s);
+			--tab-spacing-xs: var(--spacing-xs);
+			--tab-spacing-xl: var(--spacing-xl);
+			--tab-border-radius: var(--border-radius-s);
+			--tab-color-neutral: var(--on-surface);
+			--tab-color-primary: var(--primary);
+			--tab-focus-color: var(--focus-primary-0-color);
+			--tab-transition: var(--transition-fast);
 		}
 		`,
 		css` /* defaults */
@@ -661,7 +675,7 @@ export class TabGroupElement extends LitElement {
 		.tab-group .tab-group__tabs {
 			position: relative;
 			display: flex;
-			gap: var(--spacing-s);
+			gap: var(--tab-spacing-s);
 		}
 		.tab-group__nav-container {
 			position: relative;
@@ -670,7 +684,7 @@ export class TabGroupElement extends LitElement {
 		}
 		.tab-group__nav {
 			display: grid;
-			padding: var(--spacing-xs);
+			padding: var(--tab-spacing-xs);
 
 		}
 		.tab-group .tab-group__indicator {
@@ -722,21 +736,21 @@ export class TabGroupElement extends LitElement {
 		}
 		.tab-group--top .tab-group__tabs {
 			flex-direction: row;
-			padding-bottom: var(--spacing-xs);
-			border-bottom: solid var(--track-width) var(--track-color);
+			padding-bottom: var(--tab-spacing-xs);
+			border-bottom: solid var(--tab-track-width) var(--tab-track-color);
 		}
 		.tab-group--top .tab-group__indicator {
-			bottom: calc(-1 * var(--track-width));
-			border-bottom: solid var(--track-width) var(--indicator-color);
+			bottom: calc(-1 * var(--tab-track-width));
+			border-bottom: solid var(--tab-track-width) var(--tab-indicator-color);
 		}
 		.tab-group--top .tab-group__body {
 			order: 2;
 		}
 		.tab-group--top ::slotted(mm-tab-panel) {
-			--padding: var(--spacing-s) 0;
+			--tab-padding: var(--tab-spacing-s) 0;
 		}
 		.tab-group--top.tab-group--has-scroll-controls .tab-group__nav-container {
-			padding: 0 var(--spacing-xl);
+			padding: 0 var(--tab-spacing-xl);
 		}
 		`,
 		css` /* Bottom */
@@ -759,21 +773,21 @@ export class TabGroupElement extends LitElement {
 		}
 		.tab-group--bottom .tab-group__tabs {
 			flex-direction: row;
-			padding-top: var(--spacing-xs);
-			border-top: solid var(--track-width) var(--track-color);
+			padding-top: var(--tab-spacing-xs);
+			border-top: solid var(--tab-track-width) var(--tab-track-color);
 		}
 		.tab-group--bottom .tab-group__indicator {
-			top: calc(-1 * var(--track-width));
-			border-top: solid var(--track-width) var(--indicator-color);
+			top: calc(-1 * var(--tab-track-width));
+			border-top: solid var(--tab-track-width) var(--tab-indicator-color);
 		}
 		.tab-group--bottom .tab-group__body {
 			order: 1;
 		}
 		.tab-group--bottom ::slotted(mm-tab-panel) {
-			--padding: var(--spacing-s) 0;
+			--tab-padding: var(--tab-spacing-s) 0;
 		}
 		.tab-group--bottom.tab-group--has-scroll-controls .tab-group__nav-container {
-			padding: 0 var(--spacing-xl);
+			padding: 0 var(--tab-spacing-xl);
 		}
 		`,
 		css` /* Start */
@@ -800,18 +814,18 @@ export class TabGroupElement extends LitElement {
 		}
 		.tab-group--start .tab-group__tabs {
 			flex-direction: column;
-			padding-right: var(--spacing-xs);
-			border-inline-end: solid var(--track-width) var(--track-color);
+			padding-right: var(--tab-spacing-xs);
+			border-inline-end: solid var(--tab-track-width) var(--tab-track-color);
 		}
 		.tab-group--start .tab-group__indicator {
-			right: calc(-1 * var(--track-width));
-			border-right: solid var(--track-width) var(--indicator-color);
+			right: calc(-1 * var(--tab-track-width));
+			border-right: solid var(--tab-track-width) var(--tab-indicator-color);
 		}
 		.tab-group--start .tab-group__body {
 			order: 2;
 		}
 		.tab-group--start ::slotted(mm-tab-panel) {
-			--padding: 0 var(--spacing-s);
+			--tab-padding: 0 var(--tab-spacing-s);
 		}
 		.tab-group--start.tab-group--has-scroll-controls .tab-group__nav-container {
 			padding: var(--spacing-xl) 0;
@@ -841,31 +855,24 @@ export class TabGroupElement extends LitElement {
 		}
 		.tab-group--end .tab-group__tabs {
 			flex-direction: column;
-			padding-left: var(--spacing-xs);
-			border-left: solid var(--track-width) var(--track-color);
+			padding-left: var(--tab-spacing-xs);
+			border-left: solid var(--tab-track-width) var(--tab-track-color);
 		}
 		.tab-group--end .tab-group__indicator {
-			left: calc(-1 * var(--track-width));
-			border-inline-start: solid var(--track-width) var(--indicator-color);
+			left: calc(-1 * var(--tab-track-width));
+			border-inline-start: solid var(--tab-track-width) var(--tab-indicator-color);
 		}
 		.tab-group--end .tab-group__body {
 			order: 1;
 		}
 		.tab-group--end ::slotted(mm-tab-panel) {
-			--padding: 0 var(--spacing-s);
+			--tab-padding: 0 var(--tab-spacing-s);
 		}
 		.tab-group--end.tab-group--has-scroll-controls .tab-group__nav-container {
-			padding: var(--spacing-xl) 0;
+			padding: var(--tab-spacing-xl) 0;
 		}
 		`,
 	];
 	//#endregion
 
-}
-
-
-declare global {
-	interface HTMLElementTagNameMap {
-		'mm-tab-group': TabGroupElement;
-	}
 }
