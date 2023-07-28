@@ -102,10 +102,6 @@ export class ButtonElement extends LitElement {
 		button:active::after {
 			outline-offset: 1px;
 		}
-		button.icon {
-			padding: 0;
-			aspect-ratio: 1;
-		}
 		button.x-small  {
 			height: 20px;
 			padding-inline: 12px;
@@ -130,6 +126,10 @@ export class ButtonElement extends LitElement {
 			height: 60px;
 			padding-inline: 24px;
 			font-size: 20px;
+		}
+		button.icon {
+			padding: 0;
+			aspect-ratio: 1;
 		}
 		button.sharp,
 		mm-ripple.sharp {
