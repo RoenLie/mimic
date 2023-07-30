@@ -1,4 +1,4 @@
-[component-header:es-tab-group]
+[component-header:mm-tab-group]
 
 <mm-tabs-demo></mm-tabs-demo>
 

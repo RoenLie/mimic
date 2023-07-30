@@ -1,8 +1,9 @@
-import { domId, emitEvent, focusVisibleSelector } from '@roenlie/mimic-core/dom';
+import { domId, emitEvent } from '@roenlie/mimic-core/dom';
 import { LocalizeController } from '@roenlie/mimic-lit/controllers';
+import { webComponent } from '@roenlie/mimic-lit/decorators';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html, LitElement } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
+import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { when } from 'lit/directives/when.js';
 
@@ -23,15 +24,13 @@ declare global { interface HTMLElementTagNameMap {
  * @csspart close-button - The close button.
  * @csspart close-button__base - The close button's `base` part.
  */
-@customElement('mm-tab')
+@webComponent
 export class TabElement extends LitElement {
 
-	//#region properties
-	protected readonly attrId = domId();
-	protected readonly componentId = `mm-tab-${ this.attrId }`;
+	public static tagName = 'mm-tab';
 
-	/** The locale to render the component in. */
-	@property() public override lang: string;
+	//#region properties
+	protected readonly componentId = `${ TabElement.tagName }-${ domId(4) }`;
 
 	/** The name of the tab panel the tab will control.
 	 * The panel must be located in the same tab group. */
@@ -87,7 +86,8 @@ export class TabElement extends LitElement {
 	public override render() {
 		// If the user didn't provide an ID,
 		// we'll set one so we can link tabs and tab panels with aria labels
-		this.id = this.id.length > 0 ? this.id : this.componentId;
+		if (!this.id)
+			this.id = this.componentId;
 
 		return html`
 		<button
@@ -106,16 +106,20 @@ export class TabElement extends LitElement {
 			<slot></slot>
 
 			${ when(this.closable, () => html`
-			<mm-icon
-				tabindex    ="-1"
-				part        ="close-button"
-				exportparts ="base:close-button__base"
-				class       ="tab__close-button"
-				template    =${ systemIcons.xLg }
-				font-size   ="font-size:20px;"
-				.label      =${ this.localize.term('close') }
-				@click      =${ this.handleCloseClick.bind(this) }
-			></mm-icon>
+			<mm-button
+				type       ="icon"
+				variant    ="text"
+				size       ="x-small"
+				part       ="close-button"
+				exportparts="base:close-button__base"
+				class      ="tab__close-button"
+				@click     =${ this.handleCloseClick.bind(this) }
+			>
+				<mm-icon
+					template =${ systemIcons.xLg }
+					font-size="font-size:20px;"
+				></mm-icon>
+			</mm-button>
 			`) }
 		</button>
 		`;
@@ -133,10 +137,10 @@ export class TabElement extends LitElement {
 		.tab {
 			display: inline-flex;
 			align-items: center;
-			color: var(--tab-color-neutral);
-			border-radius: var(--tab-border-radius);
-			padding-inline: var(--tab-spacing-s);
-			height: var(--tab-height);
+			color: var(--_tab-color-neutral);
+			border-radius: var(--_tab-border-radius);
+			padding-inline: var(--_tab-spacing-s);
+			height: var(--_tab-height);
 			box-sizing: content-box;
 
 			white-space: nowrap;
@@ -144,40 +148,40 @@ export class TabElement extends LitElement {
 			cursor: pointer;
 
 			outline: none;
-			transition: outline-offset var(--tab-transition) ease-out;
+			transition: outline-offset var(--_tab-transition) ease-out;
 		}
 		@media (pointer: fine) {
 			.tab:hover:not(.tab--disabled) {
-				color: var(--tab-color-primary);
+				color: var(--_tab-color-primary);
 			}
 		}
-		.tab${ focusVisibleSelector }:not(.tab--disabled) {
-			outline: 3px solid var(--tab-focus-color);
+		.tab:focus-visible:not(.tab--disabled) {
+			outline: 3px solid var(--_tab-color-focus);
 		}
-		.tab${ focusVisibleSelector }:active:not(.tab--disabled) {
+		.tab:focus-visible:active:not(.tab--disabled) {
 			outline-offset: -2px;
 		}
 		.tab.tab--active:not(.tab--disabled) {
-			color: var(--tab-color-primary);
+			color: var(--_tab-color-primary);
 		}
 		.tab.tab--closable {
-			padding-inline-end: var(--tab-spacing-s);
+			padding-inline-end: var(--_tab-spacing-s);
 		}
 		.tab.tab--disabled {
 			opacity: 0.5;
 			cursor: not-allowed;
 		}
 		.tab__close-button {
-			color: var(--tab-color-neutral);
-			margin-inline-start: var(--tab-spacing-xs);
+			color: var(--_tab-color-neutral);
+			margin-inline-start: var(--_tab-spacing-xs);
 		}
 		@media (pointer: fine) {
 			.tab:not(.tab--disabled) .tab__close-button:hover {
-				color: var(--tab-color-primary);
+				color: var(--_tab-color-primary);
 			}
 		}
 		.tab__close-button::part(base) {
-			padding: var(--tab-spacing-xs);
+			padding: var(--_tab-spacing-xs);
 		}
 		`,
 	];

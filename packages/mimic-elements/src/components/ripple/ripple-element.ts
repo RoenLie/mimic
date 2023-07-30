@@ -126,7 +126,7 @@ export class RippleElement extends LitElement {
 	public static override styles = [
 		css`
 		:host {
-			--ripple-bg-default: var(--ripple-bg, var(--surface-press));
+			--_ripl-color-bg: var(--ripl-color-bg, rgb(248 253 255 / .3));
 			border-radius: inherit;
 			position: relative;
 		}
@@ -149,9 +149,9 @@ export class RippleElement extends LitElement {
 		span {
 			position: absolute;
 			opacity: 0.75;
-			border-radius: var(--border-pill);
+			border-radius: 999px;
 			transform: scale(0);
-			background-color: var(--ripple-bg-default);
+			background-color: var(--_ripl-color-bg);
 		}
 	`,
 	];

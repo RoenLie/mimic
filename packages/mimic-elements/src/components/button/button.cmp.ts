@@ -1,29 +1,53 @@
+import { webComponent } from '@roenlie/mimic-lit/decorators';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html, LitElement } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
 
-export type ButtonType = '' | 'icon';
-export type ButtonSize = 'x-small' | 'small' | 'medium' | 'large' | 'x-large';
-export type ButtonShape = 'sharp' | 'rounded' | 'pill';
-export type ButtonVariant =
-| 'primary'
-| 'primary-variant'
-| 'secondary'
-| 'tertiary'
-| 'neutral'
-| 'error'
-| 'elevated'
-| 'warning'
-| 'success'
-| 'text'
-| 'outline';
+declare global { interface HTMLElementTagNameMap {
+	'mm-button': ButtonElement;
+} }
+
+export type ButtonType = [
+	'',
+	'icon'
+][number];
+
+export type ButtonSize = [
+	'auto',
+	'x-small',
+	'small',
+	'medium',
+	'large',
+	'x-large'
+][number];
+
+export type ButtonShape = [
+	'sharp',
+	'rounded',
+	'pill'
+][number];
+
+export type ButtonVariant = [
+	'primary',
+	'variant',
+	'secondary',
+	'tertiary',
+	'neutral',
+	'error',
+	'elevated',
+	'warning',
+	'success',
+	'text',
+	'outline'
+][number];
 
 
-@customElement('mm-button')
+@webComponent
 export class ButtonElement extends LitElement {
 
+	public static tagName = 'mm-button';
 	@property({ type: String }) public type: ButtonType = '';
 	@property() public size: ButtonSize = 'medium';
 	@property() public shape: ButtonShape = 'pill';
@@ -43,7 +67,7 @@ export class ButtonElement extends LitElement {
 		>
 			<button
 				?disabled=${ !!this.disabled }
-				part="base"
+				part="button"
 				class=${ classMap({
 					base:           true,
 					[this.type]:    true,
@@ -62,11 +86,77 @@ export class ButtonElement extends LitElement {
 
 	public static override styles = [
 		sharedStyles,
+		css` /* variables */
+		:host {
+			--_btn-transition:      var(--mm-btn-transition,   200ms);
+			--_btn-focus-index:     var(--mm-btn-focus-index,  2);
+			--_btn-focus-color:     var(--mm-btn-focus-color,  rgb(162 205 218));
+
+			--_btn-shadow-default:  0px 1px 3px 1px rgba(0, 0, 0, 0.25), 0px 0px 2px 0px rgba(0, 0, 0, 0.10);
+			--_btn-shadow-hover:    0px 1px 5px 2px rgba(0, 0, 0, 0.25), 0px 1px 2px 0px rgba(0, 0, 0, 0.10);
+			--_btn-elev-shadow1:    var(--mm-btn-elev-shadow1, var(--_btn-shadow-default));
+			--_btn-elev-shadow2:    var(--mm-btn-elev-shadow2, var(--_btn-shadow-hover));
+
+			--_btn-radius-sharp:    var(--mm-btn-radius-sharp, 2px);
+			--_btn-radius-round:    var(--mm-btn-radius-round, 8px);
+			--_btn-radius-pill:     var(--mm-btn-radius-pill,  999px);
+
+			--_btn-color-bg:        var(--mm-btn-color-bg,         rgb(0 0 0));
+			--_btn-color-txt:       var(--mm-btn-color-txt,        rgb(0 0 0));
+			--_btn-primary-bg:      var(--mm-btn-primary-bg,       rgb(226 197 75));
+			--_btn-primary-txt:     var(--mm-btn-primary-txt,      rgb(58 48 0));
+			--_btn-primary-ripple:  var(--mm-btn-primary-ripple,   rgb(58 48 0 / .3));
+			--_btn-variant-bg:      var(--mm-btn-variant-bg,       rgb(84 70 0));
+			--_btn-variant-txt:     var(--mm-btn-variant-txt,      rgb(255 225 101));
+			--_btn-variant-ripple:  var(--mm-btn-variant-ripple,   rgb(255 225 101 / .3));
+			--_btn-secondary-bg:    var(--mm-btn-secondary-bg,     rgb(24 67 143));
+			--_btn-secondary-txt:   var(--mm-btn-secondary-txt,    rgb(217 226 255));
+			--_btn-secondary-ripple:var(--mm-btn-secondary-ripple, rgb(217 226 255 / .3));
+			--_btn-tertiary-bg:     var(--mm-btn-tertiary-bg,      rgb(0 74 117));
+			--_btn-tertiary-txt:    var(--mm-btn-tertiary-txt,     rgb(206 229 255));
+			--_btn-tertiary-ripple: var(--mm-btn-tertiary-ripple,  rgb(206 229 255 / .3));
+			--_btn-neutral-bg:      var(--mm-btn-neutral-bg,       rgb(75 71 57));
+			--_btn-neutral-txt:     var(--mm-btn-neutral-txt,      rgb(205 198 180));
+			--_btn-neutral-ripple:  var(--mm-btn-neutral-ripple,   rgb(205 198 180 / .3));
+			--_btn-error-bg:        var(--mm-btn-error-bg,         rgb(147 0 10));
+			--_btn-error-txt:       var(--mm-btn-error-txt,        rgb(255 218 214));
+			--_btn-error-ripple:    var(--mm-btn-error-ripple,     rgb(255 218 214 / .3));
+			--_btn-warning-bg:      var(--mm-btn-warning-bg,       rgb(214 202 0));
+			--_btn-warning-txt:     var(--mm-btn-warning-txt,      rgb(53 49 0));
+			--_btn-warning-ripple:  var(--mm-btn-warning-ripple,   rgb(53 49 0 / .3));
+			--_btn-success-bg:      var(--mm-btn-success-bg,       rgb(35 81 0));
+			--_btn-success-txt:     var(--mm-btn-success-txt,      rgb(170 247 116));
+			--_btn-success-ripple:  var(--mm-btn-success-ripple,   rgb(170 247 116 / .3));
+			--_btn-text-bg:         var(--mm-btn-text-bg,          transparent);
+			--_btn-text-txt:        var(--mm-btn-text-txt,         rgb(226 197 75));
+			--_btn-text-ripple:     var(--mm-btn-text-ripple,      rgb(226 197 75 / .3));
+			--_btn-outline-bg:      var(--mm-btn-outline-bg,       transparent);
+			--_btn-outline-txt:     var(--mm-btn-outline-txt,      rgb(226 197 75));
+			--_btn-outline-ripple:  var(--mm-btn-outline-ripple,   rgb(226 197 75 / .3));
+			--_btn-outline-color:   var(--mm-btn-outline-color,    rgb(150 144 128));
+			--_btn-elevated-bg:     var(--mm-btn-elevated-bg,      transparent);
+			--_btn-elevated-txt:    var(--mm-btn-elevated-txt,     rgb(226 197 75));
+			--_btn-elevated-ripple: var(--mm-btn-elevated-ripple,  rgb(226 197 75 / .3));
+
+			--_btn-xsmall-height:   var(--mm-btn-xsmall-height,   20px);
+			--_btn-xsmall-padding:  var(--mm-btn-xsmall-padding,  12px);
+			--_btn-xsmall-fontsize: var(--mm-btn-xsmall-fontsize, 12px);
+			--_btn-small-height:    var(--mm-btn-small-height,    30px);
+			--_btn-small-padding:   var(--mm-btn-small-padding,   18px);
+			--_btn-small-fontsize:  var(--mm-btn-small-fontsize,  14px);
+			--_btn-medium-height:   var(--mm-btn-medium-height,   40px);
+			--_btn-medium-padding:  var(--mm-btn-medium-padding,  24px);
+			--_btn-medium-fontsize: var(--mm-btn-medium-fontsize, 16px);
+			--_btn-large-height:    var(--mm-btn-large-height,    50px);
+			--_btn-large-padding:   var(--mm-btn-large-padding,   24px);
+			--_btn-large-fontsize:  var(--mm-btn-large-fontsize,  18px);
+			--_btn-xlarge-height:   var(--mm-btn-xlarge-height,   60px);
+			--_btn-xlarge-padding:  var(--mm-btn-xlarge-padding,  24px);
+			--_btn-xlarge-fontsize: var(--mm-btn-xlarge-fontsize, 20px);
+		}
+		`,
 		css`
 		:host {
-			--color-button-bg: 0 0 0;
-			--color-button-txt: 0 0 0;
-
 			position: relative;
 			display: block;
 			width: fit-content;
@@ -84,134 +174,128 @@ export class ButtonElement extends LitElement {
 			grid-template-areas: "prefix text suffix";
 			grid-template-columns: auto 1fr auto;
 			place-items: center;
-			padding-inline: var(--spacing-xxl);
-			background-color: var(--color-button-bg);
-			color: var(--color-button-txt);
+			background-color: var(--_btn-color-bg);
+			color: var(--_btn-color-txt);
 			cursor: pointer;
 		}
 		button:focus-visible::after {
 			content: '';
 			inset: 0;
 			position: absolute;
-			outline: var(--focus-ring);
-			outline-offset: var(--focus-offset);
-			transition: var(--focus-transition);
-			z-index: var(--focus-index);
+			outline: 3px solid var(--_btn-focus-color);
+			outline-offset: 3px;
+			transition: outline var(--_btn-transition) ease-out;
+			z-index: var(--_btn-focus-index);
 			border-radius: inherit;
 		}
 		button:active::after {
 			outline-offset: 1px;
 		}
 		button.x-small  {
-			height: 20px;
-			padding-inline: 12px;
-			font-size: 12px;
+			height:         var(--_btn-xsmall-height);
+			padding-inline: var(--_btn-xsmall-padding);
+			font-size:      var(--_btn-xsmall-fontsize);
 		}
 		button.small {
-			height: 30px;
-			padding-inline: 18px;
-			font-size: 14px;
+			height:         var(--_btn-small-height);
+			padding-inline: var(--_btn-small-padding);
+			font-size:      var(--_btn-small-fontsize);
 		}
 		button.medium {
-			height: 40px;
-			padding-inline: 24px;
-			font-size: 16px;
+			height:         var(--_btn-medium-height);
+			padding-inline: var(--_btn-medium-padding);
+			font-size:      var(--_btn-medium-fontsize);
 		}
 		button.large {
-			height: 50px;
-			padding-inline: 24px;
-			font-size: 18px;
+			height:         var(--_btn-large-height);
+			padding-inline: var(--_btn-large-padding);
+			font-size:      var(--_btn-large-fontsize);
 		}
 		button.x-large {
-			height: 60px;
-			padding-inline: 24px;
-			font-size: 20px;
+			height:         var(--_btn-xlarge-height);
+			padding-inline: var(--_btn-xlarge-padding);
+			font-size:      var(--_btn-xlarge-fontsize);
 		}
 		button.icon {
 			padding: 0;
 			aspect-ratio: 1;
 		}
-		button.sharp,
-		mm-ripple.sharp {
-			border-radius: var(--border-radius-xs);
+		button.sharp, mm-ripple.sharp {
+			border-radius: var(--_btn-radius-sharp);
 		}
-		button.rounded,
-		mm-ripple.rounded {
-			border-radius: var(--border-radius-m);
+		button.rounded, mm-ripple.rounded {
+			border-radius: var(--_btn-radius-round);
 		}
-		button.pill,
-		mm-ripple.pill {
-			border-radius: var(--border-pill);
+		button.pill, mm-ripple.pill {
+			border-radius: var(--_btn-radius-pill);
 		}
 		mm-ripple.primary {
-			--ripple-bg: var(--on-primary-press);
-			--color-button-bg: var(--primary);
-			--color-button-txt: var(--on-primary);
+			--_btn-color-bg:  var(--_btn-primary-bg);
+			--_btn-color-txt: var(--_btn-primary-txt);
+			--_ripl-color-bg: var(--_btn-primary-ripple);
 		}
-		mm-ripple.primary-variant {
-			--ripple-bg: var(--on-primary-container-press);
-			--color-button-bg: var(--primary-container);
-			--color-button-txt: var(--on-primary-container);
+		mm-ripple.variant {
+			--_btn-color-bg:  var(--_btn-variant-bg);
+			--_btn-color-txt: var(--_btn-variant-txt);
+			--_ripl-color-bg: var(--_btn-variant-ripple);
 		}
 		mm-ripple.secondary {
-			--ripple-bg: var(--on-secondary-container-press);
-			--color-button-bg: var(--secondary-container);
-			--color-button-txt: var(--on-secondary-container);
+			--_btn-color-bg:  var(--_btn-secondary-bg);
+			--_btn-color-txt: var(--_btn-secondary-txt);
+			--_ripl-color-bg: var(--_btn-secondary-ripple);
 		}
 		mm-ripple.tertiary {
-			--ripple-bg: var(--on-tertiary-container-press);
-			--color-button-bg: var(--tertiary-container);
-			--color-button-txt: var(--on-tertiary-container);
+			--_btn-color-bg:  var(--_btn-tertiary-bg);
+			--_btn-color-txt: var(--_btn-tertiary-txt);
+			--_ripl-color-bg: var(--_btn-tertiary-ripple);
 		}
 		mm-ripple.neutral {
-			--ripple-bg: var(--on-surface-variant-press);
-			--color-button-bg: var(--surface-variant);
-			--color-button-txt: var(--on-surface-variant);
+			--_btn-color-bg:  var(--_btn-neutral-bg);
+			--_btn-color-txt: var(--_btn-neutral-txt);
+			--_ripl-color-bg: var(--_btn-neutral-ripple);
 		}
 		mm-ripple.error {
-			--ripple-bg: var(--on-error-container-press);
-			--color-button-bg: var(--error-container);
-			--color-button-txt: var(--on-error-container);
+			--_btn-color-bg:  var(--_btn-error-bg);
+			--_btn-color-txt: var(--_btn-error-txt);
+			--_ripl-color-bg: var(--_btn-error-ripple);
 		}
 		mm-ripple.warning {
-			--ripple-bg: var(--on-warning-press);
-			--color-button-bg: var(--warning);
-			--color-button-txt: var(--on-warning);
+			--_btn-color-bg:  var(--_btn-warning-bg);
+			--_btn-color-txt: var(--_btn-warning-txt);
+			--_ripl-color-bg: var(--_btn-warning-ripple);
 		}
 		mm-ripple.success {
-			--ripple-bg: var(--on-success-container-press);
-			--color-button-bg: var(--success-container);
-			--color-button-txt: var(--on-success-container);
+			--_btn-color-bg:  var(--_btn-success-bg);
+			--_btn-color-txt: var(--_btn-success-txt);
+			--_ripl-color-bg: var(--_btn-success-ripple);
 		}
 		mm-ripple.text {
-			--ripple-bg: var(--primary-press);
-			--color-button-bg: none;
-			--color-button-txt: var(--primary);
+			--_btn-color-bg:  var(--_btn-text-bg);
+			--_btn-color-txt: var(--_btn-text-txt);
+			--_ripl-color-bg: var(--_btn-text-ripple);
 		}
 		mm-ripple.outline {
-			--ripple-bg: var(--primary-press);
-			--color-button-txt: var(--primary);
+			--_btn-color-bg:  var(--_btn-outline-bg);
+			--_btn-color-txt: var(--_btn-outline-txt);
+			--_ripl-color-bg: var(--_btn-outline-ripple);
 		}
 		button.outline {
-			outline: 1px solid var(--outline);
+			outline: 1px solid var(--_btn-outline-color);
 		}
 		mm-ripple.elevated {
-			--ripple-bg: var(--primary-press);
-			--color-button-txt: var(--primary);
-			backdrop-filter: blur(2px);
+			--_btn-color-bg:  var(--_btn-elevated-bg);
+			--_btn-color-txt: var(--_btn-elevated-txt);
+			--_ripl-color-bg: var(--_btn-elevated-ripple);
+			backdrop-filter:  blur(2px);
 		}
-		button.text,
-		button.outline,
+		button.text, button.outline, button.elevated {
+			transition: box-shadow var(--_btn-transition) ease-in-out;
+		}
 		button.elevated {
-			transition: box-shadow var(--transition-fast) ease-in-out;
+			box-shadow: var(--_btn-elev-shadow1);
 		}
-		button.elevated {
-			box-shadow: var(--box-shadow-s);
-		}
-		button.text:hover,
-		button.outline:hover,
-		button.elevated:hover {
-			box-shadow: var(--box-shadow-m);
+		button.text:hover, button.outline:hover, button.elevated:hover {
+			box-shadow: var(--_btn-elev-shadow2);
 		}
 		::slotted(*) {
 			grid-area: text;
@@ -229,11 +313,4 @@ export class ButtonElement extends LitElement {
 		`,
 	];
 
-}
-
-
-declare global {
-	interface HTMLElementTagNameMap {
-		'mm-button': ButtonElement;
-	}
 }

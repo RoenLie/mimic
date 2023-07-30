@@ -37,6 +37,14 @@ export const scrollIntoView = (
 	direction: 'horizontal' | 'vertical' | 'both' = 'vertical',
 	behavior: 'smooth' | 'auto' = 'smooth',
 ) => {
+	const containerStyles = getComputedStyle(container);
+	const [ padInStart, padInEnd, padBlStart, padBlEnd ] = [
+		parseInt(containerStyles.paddingInlineStart),
+		parseInt(containerStyles.paddingInlineEnd),
+		parseInt(containerStyles.paddingBlockStart),
+		parseInt(containerStyles.paddingBlockEnd),
+	];
+
 	const offset = getOffset(element, container);
 	const offsetTop = offset.top + container.scrollTop;
 	const offsetLeft = offset.left + container.scrollLeft;
@@ -47,15 +55,15 @@ export const scrollIntoView = (
 
 	if (direction === 'horizontal' || direction === 'both') {
 		if (offsetLeft < minX)
-			container.scrollTo({ left: offsetLeft, behavior });
+			container.scrollTo({ left: offsetLeft - padInStart, behavior });
 		else if (offsetLeft + element.clientWidth > maxX)
-			container.scrollTo({ left: offsetLeft - container.offsetWidth + element.clientWidth, behavior });
+			container.scrollTo({ left: offsetLeft + padInEnd - container.offsetWidth + element.clientWidth, behavior });
 	}
 
 	if (direction === 'vertical' || direction === 'both') {
 		if (offsetTop < minY)
-			container.scrollTo({ top: offsetTop, behavior });
+			container.scrollTo({ top: offsetTop - padBlStart, behavior });
 		else if (offsetTop + element.clientHeight > maxY)
-			container.scrollTo({ top: offsetTop - container.offsetHeight + element.clientHeight, behavior });
+			container.scrollTo({ top: offsetTop + padBlEnd - container.offsetHeight + element.clientHeight, behavior });
 	}
 };

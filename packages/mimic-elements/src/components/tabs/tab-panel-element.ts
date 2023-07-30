@@ -1,7 +1,8 @@
 import { domId } from '@roenlie/mimic-core/dom';
+import { webComponent } from '@roenlie/mimic-lit/decorators';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html, LitElement } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
 
 
 declare global { interface HTMLElementTagNameMap {
@@ -16,8 +17,10 @@ declare global { interface HTMLElementTagNameMap {
  *
  * @cssproperty --padding - The tab panel's padding.
  */
-@customElement('mm-tab-panel')
+@webComponent
 export class TabPanelElement extends LitElement {
+
+	public static tagName = 'mm-tab-panel';
 
 	//#region properties
 	/** The tab panel's name. */
@@ -26,8 +29,7 @@ export class TabPanelElement extends LitElement {
 	/** When true, the tab panel will be shown. */
 	@property({ type: Boolean, reflect: true }) public active = false;
 
-	private readonly attrId = domId();
-	private readonly componentId = `mm-tab-panel-${ this.attrId }`;
+	private readonly componentId = `${ TabPanelElement.tagName }-${ domId(4) }`;
 	//#endregion
 
 
@@ -72,7 +74,7 @@ export class TabPanelElement extends LitElement {
 		.tab-panel {
 			height: 100%;
 			border: solid 1px transparent;
-			padding: var(--tab-padding, 0);
+			padding: var(--_tab-padding, 0);
 		}
 		`,
 	];

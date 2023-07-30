@@ -200,8 +200,8 @@ importers:
         version: 2.6.1
     devDependencies:
       '@roenlie/mirage-docs':
-        specifier: ^1.2.6
-        version: 1.2.6(@types/markdown-it@12.2.3)(lit@2.7.6)(tslib@2.6.1)(vite@4.4.7)
+        specifier: ^1.2.7
+        version: 1.2.7(@types/markdown-it@12.2.3)(lit@2.7.6)(tslib@2.6.1)(vite@4.4.7)
       '@roenlie/package-toolbox':
         specifier: ^0.0.17
         version: 0.0.17(@types/node@20.4.5)
@@ -289,6 +289,22 @@ packages:
 
   /@custom-elements-manifest/analyzer@0.6.9:
     resolution: {integrity: sha512-N6GQtDYf9yiFpf0fpjwQ7rtKlBbt9CDqXGenfrMQlo7RfC5HJVH9ZkrKsNBETiV01WPdvUBJRgag+Tbafb+jXA==}
+    hasBin: true
+    dependencies:
+      '@custom-elements-manifest/find-dependencies': 0.0.5
+      '@github/catalyst': 1.6.0
+      '@web/config-loader': 0.1.3
+      chokidar: 3.5.2
+      command-line-args: 5.1.2
+      comment-parser: 1.2.4
+      custom-elements-manifest: 1.0.0
+      debounce: 1.2.1
+      globby: 11.0.4
+      typescript: 4.3.5
+    dev: true
+
+  /@custom-elements-manifest/analyzer@0.8.4:
+    resolution: {integrity: sha512-hibYFNoqPc/xSH9ySuotOllz3UtQnnbG912oC0RtRwHGilnOVT5zeL3Ip26swCjiuFAp8Y0uLN5DwnMpa/xXYQ==}
     hasBin: true
     dependencies:
       '@custom-elements-manifest/find-dependencies': 0.0.5
@@ -928,6 +944,15 @@ packages:
       state-local: 1.0.7
     dev: true
 
+  /@monaco-editor/loader@1.3.3(monaco-editor@0.40.0):
+    resolution: {integrity: sha512-6KKF4CTzcJiS8BJwtxtfyYt9shBiEv32ateQ9T4UVogwn4HM/uPo9iJd2Dmbkpz8CM6Y0PDUpjnZzCwC+eYo2Q==}
+    peerDependencies:
+      monaco-editor: '>= 0.21.0 < 1'
+    dependencies:
+      monaco-editor: 0.40.0
+      state-local: 1.0.7
+    dev: true
+
   /@msgpack/msgpack@2.8.0:
     resolution: {integrity: sha512-h9u4u/jiIRKbq25PM+zymTyW6bhTzELvOoUd+AvYriWOAKpLGnIamaET3pnHYoI5iYphAHBI4ayx0MehR+VVPQ==}
     engines: {node: '>= 10'}
@@ -952,6 +977,45 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
+    dev: true
+
+  /@orama/orama@1.1.1:
+    resolution: {integrity: sha512-s52+s1ThY7Q/lAqwmws21Yq6LmSqwB9IJW9+Vwh21eonlwFGBaUkiiiQnuozl7ILWQSr+yfmZ8CVujr7cZQJ6Q==}
+    engines: {node: '>= 16.0.0'}
+    dev: true
+
+  /@orama/plugin-data-persistence@1.1.1:
+    resolution: {integrity: sha512-kE7sH9GuTFIEj0Jpl+zxPFooFkkLyagsk+dGgAAhQagI6qxZaPHFAJFqeWDWHys5+oHKCJUCSRoEdyYI81E8lA==}
+    dependencies:
+      '@msgpack/msgpack': 2.8.0
+      '@orama/orama': 1.1.1
+      dpack: 0.6.22
+    dev: true
+
+  /@orama/plugin-match-highlight@1.1.1:
+    resolution: {integrity: sha512-thVMRUahsttURCgdsUWZFDyqiuLuZ9njvZCLD07OK+bB7/JIyHtyUnKX9LGOx3nWm//h8WMNZxuDYwRJTdb1rw==}
+    dependencies:
+      '@orama/orama': 1.1.1
+    dev: true
+
+  /@orama/plugin-parsedoc@1.1.1:
+    resolution: {integrity: sha512-VP/9o926htsb9nmasF9STf7n1CivAYbqCHNhRLpRReoL+NjQeBxO2SWVuhgAXTBTDupLoNwOJMSZ+JYW6LZbQA==}
+    dependencies:
+      '@orama/orama': 1.1.1
+      glob: 8.1.0
+      hast-util-from-html: 1.0.2
+      hast-util-from-string: 2.0.0
+      hast-util-to-html: 8.0.4
+      hast-util-to-string: 2.0.0
+      rehype: 12.0.1
+      rehype-document: 6.1.0
+      rehype-parse: 8.0.4
+      rehype-preset-minify: 6.0.0
+      remark-parse: 10.0.2
+      remark-rehype: 10.1.0
+      unified: 10.1.2
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /@pkgjs/parseargs@0.11.0:
@@ -1014,29 +1078,29 @@ packages:
       - supports-color
     dev: true
 
-  /@roenlie/mirage-docs@1.2.6(@types/markdown-it@12.2.3)(lit@2.7.6)(tslib@2.6.1)(vite@4.4.7):
-    resolution: {integrity: sha512-NV2Um9CVC51kzrx99VAA+2p/o3QSM3WyvHyZx7RQFu8/stNKZad4g2cFGoU7lVJPBd8GOb+1x+QnydMCyPM0FA==}
+  /@roenlie/mirage-docs@1.2.7(@types/markdown-it@12.2.3)(lit@2.7.6)(tslib@2.6.1)(vite@4.4.7):
+    resolution: {integrity: sha512-Wofmrl/6VAEPRucm70rrp6EWr2Wm8ZND/yVrV2VswzqbeJbKBiggfPllR/E8LLb3xvEd5boDZNB4dX6a/L5Osw==}
     peerDependencies:
       lit: '*'
       tslib: '*'
       vite: '*'
     dependencies:
-      '@custom-elements-manifest/analyzer': 0.6.9
-      '@lyrasearch/lyra': 0.4.12
-      '@lyrasearch/plugin-data-persistence': 0.1.1
-      '@lyrasearch/plugin-match-highlight': 0.1.0
-      '@lyrasearch/plugin-parsedoc': 0.1.0
-      '@monaco-editor/loader': 1.3.3(monaco-editor@0.36.1)
+      '@custom-elements-manifest/analyzer': 0.8.4
+      '@monaco-editor/loader': 1.3.3(monaco-editor@0.40.0)
+      '@orama/orama': 1.1.1
+      '@orama/plugin-data-persistence': 1.1.1
+      '@orama/plugin-match-highlight': 1.1.1
+      '@orama/plugin-parsedoc': 1.1.1
       '@sindresorhus/slugify': 2.2.1
-      deepmerge-ts: 4.3.0
-      globby: 13.1.4
+      deepmerge-ts: 5.1.0
+      globby: 13.2.2
       highlight.js: 11.8.0
       lit: 2.7.6
       markdown-it: 13.0.1
       markdown-it-anchor: 8.6.7(@types/markdown-it@12.2.3)(markdown-it@13.0.1)
-      monaco-editor: 0.36.1
+      monaco-editor: 0.40.0
       rollup-plugin-copy: 3.4.0
-      tabbable: 6.1.2
+      tabbable: 6.2.0
       tslib: 2.6.1
       vite: 4.4.7(@types/node@20.4.5)
     transitivePeerDependencies:
@@ -1220,6 +1284,12 @@ packages:
       '@types/unist': 2.0.6
     dev: true
 
+  /@types/hast@2.3.5:
+    resolution: {integrity: sha512-SvQi0L/lNpThgPoleH53cdjB3y9zpLlVjRbqB3rH8hx1jiRSBGAhyjV3H+URFjNVRqt2EdYNrbZE5IsGlNfpRg==}
+    dependencies:
+      '@types/unist': 2.0.7
+    dev: true
+
   /@types/json-schema@7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
     dev: true
@@ -1290,6 +1360,10 @@ packages:
 
   /@types/unist@2.0.6:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
+    dev: true
+
+  /@types/unist@2.0.7:
+    resolution: {integrity: sha512-cputDpIbFgLUaGQn6Vqg3/YsJwxUwHLO13v3i5ouxT4lat0khip9AEWxtERujXV9wxIB1EyF97BSJFt6vpdI8g==}
     dev: true
 
   /@typescript-eslint/eslint-plugin@5.59.6(@typescript-eslint/parser@5.59.6)(eslint@8.41.0)(typescript@5.0.4):
@@ -2116,6 +2190,11 @@ packages:
     engines: {node: '>=12.4.0'}
     dev: true
 
+  /deepmerge-ts@5.1.0:
+    resolution: {integrity: sha512-eS8dRJOckyo9maw9Tu5O5RUi/4inFLrnoLkBe3cPfDMx3WZioXtmOew4TXQaxq7Rhl4xjDtR7c6x8nNTxOvbFw==}
+    engines: {node: '>=16.0.0'}
+    dev: true
+
   /default-browser-id@3.0.0:
     resolution: {integrity: sha512-OZ1y3y0SqSICtE8DE4S8YOE9UZOJ8wO16fKWVP5J1Qz42kV9jcnMVFrEE/noXb/ss3Q4pZIH79kxofzyNNtUNA==}
     engines: {node: '>=12'}
@@ -2914,6 +2993,17 @@ packages:
       micromatch: 4.0.5
     dev: true
 
+  /fast-glob@3.3.1:
+    resolution: {integrity: sha512-kNFPyjhh5cKjrUltxs+wFx+ZkbRaxxmZ+X0ZU31SOsxCEtP9VPgtq2teZw1DebupL5GmDaNQ6yKMMVcM41iqDg==}
+    engines: {node: '>=8.6.0'}
+    dependencies:
+      '@nodelib/fs.stat': 2.0.5
+      '@nodelib/fs.walk': 1.2.8
+      glob-parent: 5.1.2
+      merge2: 1.4.1
+      micromatch: 4.0.5
+    dev: true
+
   /fast-json-stable-stringify@2.1.0:
     resolution: {integrity: sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==}
     dev: true
@@ -3155,7 +3245,7 @@ packages:
     dependencies:
       array-union: 2.1.0
       dir-glob: 3.0.1
-      fast-glob: 3.2.12
+      fast-glob: 3.3.1
       ignore: 5.2.4
       merge2: 1.4.1
       slash: 3.0.0
@@ -3190,6 +3280,17 @@ packages:
     dependencies:
       dir-glob: 3.0.1
       fast-glob: 3.3.0
+      ignore: 5.2.4
+      merge2: 1.4.1
+      slash: 4.0.0
+    dev: true
+
+  /globby@13.2.2:
+    resolution: {integrity: sha512-Y1zNGV+pzQdh7H39l9zgB4PJqjRNqydvdYCDG4HFXM4XuvSaQQlEc91IU1yALL8gUTDomgBAfz3XJdmUS+oo0w==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dependencies:
+      dir-glob: 3.0.1
+      fast-glob: 3.3.1
       ignore: 5.2.4
       merge2: 1.4.1
       slash: 4.0.0
@@ -3372,8 +3473,8 @@ packages:
   /hast-util-to-html@8.0.4:
     resolution: {integrity: sha512-4tpQTUOr9BMjtYyNlt0P50mH7xj0Ks2xpo8M943Vykljf99HW6EzulIoJP1N3eKOSScEHzyzi9dm7/cn0RfGwA==}
     dependencies:
-      '@types/hast': 2.3.4
-      '@types/unist': 2.0.6
+      '@types/hast': 2.3.5
+      '@types/unist': 2.0.7
       ccount: 2.0.1
       comma-separated-tokens: 2.0.3
       hast-util-raw: 7.2.3
@@ -4195,6 +4296,10 @@ packages:
 
   /monaco-editor@0.36.1:
     resolution: {integrity: sha512-/CaclMHKQ3A6rnzBzOADfwdSJ25BFoFT0Emxsc4zYVyav5SkK9iA6lEtIeuN/oRYbwPgviJT+t3l+sjFa28jYg==}
+    dev: true
+
+  /monaco-editor@0.40.0:
+    resolution: {integrity: sha512-1wymccLEuFSMBvCk/jT1YDW/GuxMLYwnFwF9CDyYCxoTw2Pt379J3FUhwy9c43j51JdcxVPjwk0jm0EVDsBS2g==}
     dev: true
 
   /mri@1.2.0:
@@ -5201,6 +5306,10 @@ packages:
 
   /tabbable@6.1.2:
     resolution: {integrity: sha512-qCN98uP7i9z0fIS4amQ5zbGBOq+OSigYeGvPy7NDk8Y9yncqDZ9pRPgfsc2PJIVM9RrJj7GIfuRgmjoUU9zTHQ==}
+    dev: true
+
+  /tabbable@6.2.0:
+    resolution: {integrity: sha512-Cat63mxsVJlzYvN51JmVXIgNoUokrIaT2zLclCXjRd8boZ0004U4KCs/sToJ75C6sdlByWxpYnb5Boif1VSFew==}
     dev: true
 
   /text-table@0.2.0:

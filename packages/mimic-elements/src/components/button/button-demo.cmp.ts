@@ -11,7 +11,7 @@ export class ButtonDemo extends LitElement {
 
 	protected variants: ButtonVariant[] = [
 		'primary',
-		'primary-variant',
+		'variant',
 		'secondary',
 		'tertiary',
 		'neutral',
