@@ -3,9 +3,9 @@ import { paintCycle } from '@roenlie/mimic-core/async';
 import { emitEvent, scrollIntoView } from '@roenlie/mimic-core/dom';
 import { oneOf } from '@roenlie/mimic-core/validation';
 import { KeyboardController } from '@roenlie/mimic-lit/controllers';
-import { watch, webComponent } from '@roenlie/mimic-lit/decorators';
+import { customElement, MimicElement, watch } from '@roenlie/mimic-lit/decorators';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
-import { css, html, LitElement } from 'lit';
+import { css, html } from 'lit';
 import { property, query, queryAssignedElements, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { when } from 'lit/directives/when.js';
@@ -27,10 +27,8 @@ declare global { interface HTMLElementTagNameMap {
  * @event {name: string} mm-tab-show - Emitted when a tab is shown.
  * @event {name: string} mm-tab-hide - Emitted when a tab is hidden.
  */
-@webComponent
-export class TabGroupElement extends LitElement {
-
-	public static tagName = 'mm-tab-group';
+@customElement('mm-tab-group')
+export class TabGroupElement extends MimicElement {
 
 	//#region properties
 	/** Disables the scroll arrows that appear when tabs overflow. */

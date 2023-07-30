@@ -1,9 +1,6 @@
 {
 	"extends": "@roenlie/tsconfig",
 	"compilerOptions": {
-		"moduleResolution": "NodeNext",
-		"module": "ESNext",
-		"target": "ESNext",
 		"rootDir": ".",
 		"baseUrl": ".",
 		"noEmit": true,
@@ -17,6 +14,7 @@
 		"./src/**/*.ts",
 		"./src/**/*.d.ts",
 		"./src/**/*.js",
+		"package-toolbox.ts",
 		"vite.config.ts"
 	],
 	"exclude": []

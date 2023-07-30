@@ -14,6 +14,7 @@ const execPromise = (cmd: string) => {
 const buildOrder: string[][] = [
 	[ '@roenlie/mimic-core' ],
 	[ '@roenlie/mimic-lit', '@roenlie/mimic-router' ],
+	[ '@roenlie/mimic-elements' ],
 ];
 
 

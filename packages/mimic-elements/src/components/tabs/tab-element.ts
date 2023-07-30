@@ -1,8 +1,7 @@
 import { domId, emitEvent } from '@roenlie/mimic-core/dom';
-import { LocalizeController } from '@roenlie/mimic-lit/controllers';
-import { webComponent } from '@roenlie/mimic-lit/decorators';
+import { customElement, MimicElement } from '@roenlie/mimic-lit/decorators';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
-import { css, html, LitElement } from 'lit';
+import { css, html } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { when } from 'lit/directives/when.js';
@@ -18,16 +17,15 @@ declare global { interface HTMLElementTagNameMap {
 /**
  * @slot - The tab's label.
  *
- * @event mm-close - Emitted when the tab is closable and the close button is activated.
+ * @event mm-tab-close - Emitted when the tab is closable and the close button is activated.
  *
  * @csspart base - The component's internal wrapper.
  * @csspart close-button - The close button.
  * @csspart close-button__base - The close button's `base` part.
  */
-@webComponent
-export class TabElement extends LitElement {
+@customElement('mm-tab')
+export class TabElement extends MimicElement {
 
-	public static tagName = 'mm-tab';
 
 	//#region properties
 	protected readonly componentId = `${ TabElement.tagName }-${ domId(4) }`;
@@ -53,7 +51,6 @@ export class TabElement extends LitElement {
 
 
 	//#region controllers
-	protected readonly localize = new LocalizeController({ host: this });
 	//#endregion
 
 
@@ -77,7 +74,7 @@ export class TabElement extends LitElement {
 	}
 
 	public handleCloseClick() {
-		emitEvent(this, 'mm-close');
+		emitEvent(this, 'mm-tab-close');
 	}
 	//#endregion
 

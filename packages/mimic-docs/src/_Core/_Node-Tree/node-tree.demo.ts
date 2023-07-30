@@ -1,8 +1,7 @@
+import { range } from '@roenlie/mimic-core/array';
+import { NodeTree } from '@roenlie/mimic-core/node-tree';
 import { html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
-
-import { range } from '../../utils/array/range.js';
-import { NodeTree } from '../node-tree.js';
 
 
 @customElement('mimic-node-tree-demo')

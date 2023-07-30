@@ -1,101 +1,147 @@
 import { TrackedPromise } from '@roenlie/mimic-core/async';
+import { customElement, MimicElement } from '@roenlie/mimic-lit/decorators';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
-import { css, CSSResult, html, LitElement, PropertyValues } from 'lit';
-import { customElement, property, query, state } from 'lit/decorators.js';
+import { css, CSSResult, html } from 'lit';
+import { property, query } from 'lit/decorators.js';
 
 
-@customElement('mm-dialog')
-export class DialogElement extends LitElement {
+declare global { interface HTMLElementTagNameMap {
+	'mm-dialog': DialogElement;
+} }
 
-	@property({ type: Boolean }) public modal?: boolean;
-	@property({ type: Boolean }) public closeOnBlur?: boolean;
-	@query('#dialog') public innerDialog?: HTMLDivElement;
-	@query('dialog') public dialog?: HTMLDialogElement;
-	@query('input') public input?: HTMLInputElement;
-	@state() protected config?: {
-		render: () => unknown;
-		style: CSSResult;
-	};
 
-	public complete = TrackedPromise.resolve();
+export type DialogOptions = Partial<{modal: boolean; closeOnBlur: boolean;}>;
+export type StateConfigFn = (dialog: DialogElement) => (Promise<any> | any);
+export type ActionConfigFn<T extends StateConfigFn> = (dialog: DialogElement, state: Awaited<ReturnType<T>>) => any;
+export type TemplateConfigFn<TState extends StateConfigFn, TActions extends ActionConfigFn<TState>> = {
+	initialize?: (
+		dialog: DialogElement,
+		state: Awaited<ReturnType<TState>>,
+		actions: ReturnType<TActions>
+	) => (Promise<any> | any);
+	afterConnected?: (
+		dialog: DialogElement,
+		state: Awaited<ReturnType<TState>>,
+		actions: ReturnType<TActions>
+	) => (Promise<any> | any);
+	render: (
+		dialog: DialogElement,
+		state: Awaited<ReturnType<TState>>,
+		actions: ReturnType<TActions>
+		) => unknown,
+	style?: CSSResult
+}
 
-	protected override updated(props: PropertyValues) {
-		super.updated(props);
 
-		if (props.has('config')) {
-			if (!this.dialog?.open) {
-				this.modal
-					? this.dialog?.showModal()
-					: this.dialog?.show();
-			}
-		}
-	}
+export class DialogConfig {
 
-	public createConfig<T extends(dialog: DialogElement) => (Promise<any> | any)>(stateCreator: T) {
-		this.complete = new TrackedPromise(() => {});
+	public options: DialogOptions;
+	public stateCreator: StateConfigFn;
+	public actionCreator: ActionConfigFn<any>;
+	public templateCreator: TemplateConfigFn<any, any>;
+
+	public config(options: DialogOptions) {
+		this.options = options;
 
 		return {
-			actions: <TActions extends (dialog: DialogElement, state: Awaited<ReturnType<T>>) => any>(
-				actionCreator: TActions,
-			) => {
+			state: <T extends StateConfigFn>(stateCreator?: T) => {
+				this.stateCreator = stateCreator ?? (() => {});
+
 				return {
-					template: async (
-						templateCreator: {
-							initialize?: (
-								dialog: DialogElement,
-								state: Awaited<ReturnType<T>>,
-								actions: ReturnType<TActions>
-							) => (Promise<any> | any);
-							afterConnected?: (
-								dialog: DialogElement,
-								state: Awaited<ReturnType<T>>,
-								actions: ReturnType<TActions>
-							) => void;
-							render: (
-								dialog: DialogElement,
-								state: Awaited<ReturnType<T>>,
-								actions: ReturnType<TActions>
-								) => unknown,
-							style?: CSSResult
-						},
-					) => {
-						const awaitedState = await stateCreator(this) ?? {};
-						const state = new Proxy<Awaited<ReturnType<T>>>(
-							awaitedState, {
-								set: (target, p, newValue) => {
-									const oldValue = target[p];
-									if (oldValue !== newValue) {
-										target[p] = newValue;
-										this.requestUpdate();
+					actions: <TActions extends ActionConfigFn<T>>(actionCreator?: TActions) => {
+						this.actionCreator = actionCreator ?? (() => {});
 
-										return true;
-									}
+						return {
+							template: (templateCreator: TemplateConfigFn<T, TActions>) => {
+								this.templateCreator = templateCreator;
 
-									return true;
-								},
+								return this as DialogConfig;
 							},
-						);
-
-						const actions = actionCreator(this, state) ?? {};
-
-						await templateCreator.initialize?.(this, state, actions);
-
-						const render = () => templateCreator.render(this, state, actions);
-						const style = templateCreator.style;
-
-						this.config = {
-							render,
-							style: style ?? css``,
 						};
-						this.requestUpdate();
-
-						await this.updateComplete;
-
-						templateCreator.afterConnected?.(this, state, actions);
 					},
 				};
 			},
 		};
+	}
+
+	public create(host: HTMLElement) {
+		const appendFn = host.shadowRoot
+			? (el: DialogElement) => host.shadowRoot!.append(el)
+			: (el: DialogElement) => host.insertAdjacentElement('afterend', el);
+
+		const dialogEl = document.createElement(DialogElement.tagName) as DialogElement;
+		dialogEl.config = this;
+
+		appendFn(dialogEl);
+
+		return dialogEl;
+	}
+
+}
+
+
+@customElement('mm-dialog')
+export class DialogElement extends MimicElement {
+
+	@property({ type: Object }) public config?: DialogConfig;
+
+	public modal?: boolean;
+	public closeOnBlur?: boolean;
+
+	@query('.host') public innerDialog?: HTMLDivElement;
+	@query('dialog') public dialog?: HTMLDialogElement;
+	protected parsedConfig?: {
+		render: () => unknown;
+		style: CSSResult;
+	};
+
+	public complete = new TrackedPromise(() => {});
+
+	public override async connectedCallback() {
+		super.connectedCallback();
+
+		if (!this.config)
+			throw new Error('No config supplied to dialog.');
+
+		this.modal = this.config.options.modal;
+		this.closeOnBlur = this.config.options.closeOnBlur;
+
+		await this.updateComplete;
+
+		const awaitedState = await this.config?.stateCreator?.(this) ?? {};
+		const state = new Proxy(
+			awaitedState, {
+				set: (target, p, newValue) => {
+					const oldValue = target[p];
+					if (oldValue !== newValue) {
+						target[p] = newValue;
+						this.requestUpdate();
+
+						return true;
+					}
+
+					return true;
+				},
+			},
+		);
+
+		this.parsedConfig = {
+			render: () => this.config!.templateCreator.render(this, state, actions),
+			style:  this.config.templateCreator.style ?? css``,
+		};
+
+		const actions = this.config.actionCreator?.(this, state) ?? {};
+		await this.config.templateCreator.initialize?.(this, state, actions);
+
+		this.requestUpdate();
+		await this.updateComplete;
+
+		if (this.modal)
+			this.dialog?.showModal();
+		else
+			this.dialog?.show();
+
+		this.config.templateCreator.afterConnected?.(this, state, actions);
 	}
 
 	public close(returnValue?: any) {
@@ -115,22 +161,20 @@ export class DialogElement extends LitElement {
 			return;
 
 		const path = ev.composedPath() as HTMLElement[];
-
 		if (!path.some(el => el === this.innerDialog))
 			return this.dialog!.close();
 	}
 
 	protected override render() {
 		return html`
-		<style>${ this.config?.style }</style>
+		<style>${ this.parsedConfig?.style }</style>
 
 		<dialog part="dialog"
-			class="base"
 			@close=${ (ev: CloseEvent) => this.handleClose(ev) }
 			@mousedown=${ this.handleMousedown }
 		>
-			<div id="dialog" class="dialog host">
-				${ this.config?.render() }
+			<div class="host">
+				${ this.parsedConfig?.render() }
 			</div>
 		</dialog>
 		`;
@@ -138,39 +182,38 @@ export class DialogElement extends LitElement {
 
 	public static override styles = [
 		sharedStyles,
+		css` /* variables */
+		/* Here the props are on the inner host, as that's where we can override them from config. */
+		.host {
+			--_dialog-bg-color: var(--mm-dialog-bg-color, var(--surface));
+			--_dialog-txt-color: var(--mm-dialog-txt-color, var(--on-surface));
+			--_dialog-border-color: var(--mm-dialog-border-color: var(--outline-decoration-secondary-gradient));
+		}
+		`,
 		css`
 		:host {
 			display: contents;
-			--mm-dialog-color: var(--on-surface);
-			--mm-dialog-background-color: var(--surface);
-			--mm-dialog-border-color: var(--outline-decoration-secondary-gradient);
 		}
-		.base {
+		dialog {
 			padding: 0px;
 			overflow: hidden;
 			background: transparent;
 			border: none;
 			outline: none;
 		}
-		:where(.dialog) {
+		:where(.host) {
 			display: grid;
+			grid-auto-flow: row;
 			grid-auto-rows: max-content;
 			height: 100%;
 			gap: 8px;
 			padding: 6px;
-			border: 2px solid var(--mm-dialog-border-color);
+			color: var(--_dialog-txt-color);
+			background-color: var(--_dialog-bg-color);
+			border: 2px solid var(--_dialog-border-color);
 			border-radius: 16px;
-			color: var(--mm-dialog-color);
-			background-color: var(--mm-dialog-background-color);
 		}
 		`,
 	];
 
-}
-
-
-declare global {
-	interface HTMLElementTagNameMap {
-		'mm-dialog': DialogElement;
-	}
 }

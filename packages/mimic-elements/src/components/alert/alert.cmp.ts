@@ -1,10 +1,13 @@
-import { animateTo, animationSpeed, getAnimation, setDefaultAnimation, stopAnimations } from '@roenlie/mimic-core/animation';
+import {
+	animateTo, getAnimation,
+	setDefaultAnimation, stopAnimations,
+} from '@roenlie/mimic-core/animation';
 import { emitEvent, waitForEvent } from '@roenlie/mimic-core/dom';
-import { LocalizeController, SlotController } from '@roenlie/mimic-lit/controllers';
-import { watch } from '@roenlie/mimic-lit/decorators';
+import { SlotController } from '@roenlie/mimic-lit/controllers';
+import { customElement, MimicElement, watch } from '@roenlie/mimic-lit/decorators';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
-import { css, html, LitElement, PropertyValues } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
+import { css, html, PropertyValues } from 'lit';
+import {  property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { when } from 'lit/directives/when.js';
 
@@ -13,14 +16,19 @@ import { alertPortal } from './alert-portal.cmp.js';
 import { IAlertProps } from './alert-setup-api.js';
 
 
+declare global { interface HTMLElementTagNameMap {
+	'mm-alert': AlertElement;
+} }
+
+
 /**
  * @slot - The alert's content.
  * @slot icon - An icon to show in the alert.
  *
- * @event alert-show - Emitted when the alert opens.
- * @event alert-after-show - Emitted after the alert opens and all animations are complete.
- * @event alert-hide - Emitted when the alert closes.
- * @event alert-after-hide - Emitted after the alert closes and all animations are complete.
+ * @event mm-alert-show - Emitted when the alert opens.
+ * @event mm-alert-after-show - Emitted after the alert opens and all animations are complete.
+ * @event mm-alert-hide - Emitted when the alert closes.
+ * @event mm-alert-after-hide - Emitted after the alert closes and all animations are complete.
  *
  * @csspart base - The component's internal wrapper.
  * @csspart icon - The container that wraps the alert icon.
@@ -34,7 +42,7 @@ import { IAlertProps } from './alert-setup-api.js';
  * @animation alert.hide - The animation to use when hiding the alert.
  */
 @customElement('mm-alert')
-export class AlertElement extends LitElement {
+export class AlertElement extends MimicElement {
 
 	//#region properties
 	/** Indicates whether or not the alert is open. You can use this in lieu of the show/hide methods. */
@@ -61,8 +69,10 @@ export class AlertElement extends LitElement {
 
 	//#region controllers
 	protected autoHideTimeout: number;
-	protected readonly hasSlotController = new SlotController({ host: this, slotNames: [ 'icon', 'suffix' ] });
-	protected readonly localize = new LocalizeController({ host: this });
+	protected readonly slotController = new SlotController({
+		host:      this,
+		slotNames: [ 'icon', 'suffix' ],
+	});
 	//#endregion
 
 
@@ -75,7 +85,6 @@ export class AlertElement extends LitElement {
 		super.firstUpdated(props);
 		this.base.hidden = !this.open;
 	}
-
 	//#endregion
 
 
@@ -87,7 +96,7 @@ export class AlertElement extends LitElement {
 
 		this.open = true;
 
-		return waitForEvent(this, 'alert-after-show');
+		return waitForEvent(this, 'mm-alert-after-show');
 	}
 
 	/** Hides the alert */
@@ -97,7 +106,7 @@ export class AlertElement extends LitElement {
 
 		this.open = false;
 
-		return waitForEvent(this, 'alert-after-hide');
+		return waitForEvent(this, 'mm-alert-after-hide');
 	}
 
 	protected onAfterHide = (resolve: (value: void | PromiseLike<void>) => void) => {
@@ -105,10 +114,9 @@ export class AlertElement extends LitElement {
 		resolve();
 
 		// Remove the toast stack from the DOM when there are no more alerts
-		if (alertPortal.querySelector('mm-alert') === null)
+		if (alertPortal.querySelector(AlertElement.tagName) === null)
 			alertPortal.remove();
 	};
-
 
 	/**
 	 * Displays the alert as a toast notification. This will move the alert out of its position in the DOM and, when
@@ -142,13 +150,13 @@ export class AlertElement extends LitElement {
 					}
 
 					// Remove the toast stack from the DOM when there are no more alerts
-					if (alertPortal.renderRoot.querySelector('mm-alert') === null)
+					if (alertPortal.renderRoot.querySelector(AlertElement.tagName) === null)
 						alertPortal.remove();
 				};
 			}
 
-			this.removeEventListener('alert-after-hide', this.toastListenerRef);
-			this.addEventListener('alert-after-hide', this.toastListenerRef, { once: true });
+			this.removeEventListener('mm-alert-after-hide', this.toastListenerRef);
+			this.addEventListener('mm-alert-after-hide', this.toastListenerRef, { once: true });
 		});
 
 		return this.toastPromise;
@@ -172,30 +180,30 @@ export class AlertElement extends LitElement {
 	protected async handleOpenChange() {
 		if (this.open) {
 			// Show
-			emitEvent(this, 'alert-show');
+			emitEvent(this, 'mm-alert-show');
 
 			if (this.duration < Infinity)
 				this.restartAutoHide();
 
 			await stopAnimations(this.base);
 			this.base.hidden = false;
-			const { keyframes, options } = getAnimation(this, 'alert.show', { dir: this.localize.dir() });
+			const { keyframes, options } = getAnimation(this, 'mm-alert.show');
 			await animateTo(this.base, keyframes, options);
 
-			emitEvent(this, 'alert-after-show');
+			emitEvent(this, 'mm-alert-after-show');
 		}
 		else {
 			// Hide
-			emitEvent(this, 'alert-hide');
+			emitEvent(this, 'mm-alert-hide');
 
 			clearTimeout(this.autoHideTimeout);
 
 			await stopAnimations(this.base);
-			const { keyframes, options } = getAnimation(this, 'alert.hide', { dir: this.localize.dir() });
+			const { keyframes, options } = getAnimation(this, 'mm-alert.hide');
 			await animateTo(this.base, keyframes, options);
 			this.base.hidden = true;
 
-			emitEvent(this, 'alert-after-hide');
+			emitEvent(this, 'mm-alert-after-hide');
 		}
 	}
 
@@ -212,15 +220,11 @@ export class AlertElement extends LitElement {
 		<div
 			part="base"
 			class=${ classMap({
-				alert:             true,
-				'alert--open':     this.open,
-				'alert--closable': this.closable,
-				'alert--has-icon': this.hasSlotController.test('icon'),
-				'alert--primary':  this.variant === 'primary',
-				'alert--success':  this.variant === 'success',
-				'alert--neutral':  this.variant === 'neutral',
-				'alert--warning':  this.variant === 'warning',
-				'alert--error':    this.variant === 'error',
+				alert:                        true,
+				'alert--open':                this.open,
+				'alert--closable':            this.closable,
+				'alert--has-icon':            this.slotController.test('icon'),
+				[`alert--${ this.variant }`]: true,
 			}) }
 			role="alert"
 			aria-live="assertive"
@@ -258,23 +262,41 @@ export class AlertElement extends LitElement {
 	//#region style
 	public static override styles = [
 		sharedStyles,
+		css` /* Variables */
+		:host {
+			--_alert-bg-color:      var(--mm-alert-color-bg,      rgb(0 31 37));
+			--_alert-txt-color:     var(--mm-alert-color-txt,     rgb( 166 238 255 ));
+			--_alert-border-width:  var(--mm-alert-border-width,  1px);
+			--_alert-border-color:  var(--mm-alert-border-color,  var(--surface-variant));
+			--_alert-border-radius: var(--mm-alert-border-radius, 4px);
+
+			-_box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.25) , 0px 0px 2px 0px rgba(0, 0, 0, 0.10);
+			--_alert-shadow:   var(--mm-alert-shadow,   var(-_box-shadow));
+			--_alert-primary:  var(--mm-alert-primary,  rgb( 226 197 75 ));
+			--_alert-success:  var(--mm-alert-success,  rgb( 143 218 91 ));
+			--_alert-neutral:  var(--mm-alert-neutral,  rgb( 150 144 128 ));
+			--_alert-warning:  var(--mm-alert-warning,  rgb( 214 202 0 ));
+			--_alert-error:    var(--mm-alert-error,    rgb( 105 0 5 ));
+			--_alert-padding:  var(--mm-alert-padding,  16px);
+			--_alert-padleft:  var(--mm-alert-padleft,  16px);
+			--_alert-padright: var(--mm-alert-padright, 12px);
+		}
+		`,
 		css`
 		:host {
-			display: contents;
-			--border-width: 1px;
+			display: block;
 		}
 		.alert {
 			position: relative;
 			display: grid;
 			grid-template: "icon message button" 1fr / auto 1fr auto;
 			align-items: center;
-			background-color: var(--surface);
-			color: var(--on-surface);
-			border: var(--border-width) solid var(--surface-variant);
-			border-right-width: calc(var(--border-width) * 3);
-			border-radius: var(--border-radius-s);
-			margin: inherit;
-			box-shadow: var(--box-shadow-s);
+			background-color: var(--_alert-bg-color);
+			color: var(--_alert-txt-color);
+			border: var(--_alert-border-width) solid var(--_alert-border-color);
+			border-right-width: calc(var(--_alert-border-width) * 3);
+			border-radius: var(--_alert-border-radius);
+			box-shadow: var(--_alert-shadow);
 		}
 		.alert:not(.alert--has-icon) .alert__icon,
 		.alert:not(.alert--closable) .alert__close-button {
@@ -282,46 +304,46 @@ export class AlertElement extends LitElement {
 		}
 		.alert__icon {
 			grid-area: icon;
-			padding-inline-start: var(--spacing-l);
+			padding-left: var(--_alert-padleft);
 		}
 		.alert--primary {
-			border-right-color: var(--primary);
+			border-right-color: var(--_alert-primary);
 		}
 		.alert--primary .alert__icon {
-			color: var(--primary);
+			color: var(--_alert-primary);
 		}
 		.alert--success {
-			border-right-color: var(--success);
+			border-right-color: var(--_alert-success);
 		}
 		.alert--success .alert__icon {
-			color: var(--success);
+			color: var(--_alert-success);
 		}
 		.alert--neutral {
-			border-right-color: var(--outline);
+			border-right-color: var(--_alert-neutral);
 		}
 		.alert--neutral .alert__icon {
-			color: var(--outline);
+			color: var(--_alert-neutral);
 		}
 		.alert--warning {
-			border-right-color: var(--warning);
+			border-right-color: var(--_alert-warning);
 		}
 		.alert--warning .alert__icon {
-			color: var(--warning);
+			color: var(--_alert-warning);
 		}
 		.alert--error {
-			border-right-color: var(--on-error);
+			border-right-color: var(--_alert-error);
 		}
 		.alert--error .alert__icon {
-			color: var(--error);
+			color: var(--_alert-error);
 		}
 		.alert__message {
 			grid-area: message;
-			padding: var(--spacing-l);
+			padding: var(--_alert-padding);
 			overflow: hidden;
 		}
 		.alert__close-button {
 			grid-area: button;
-			padding-inline-end: var(--spacing-m);
+			padding-right: var(--_alert-padright);
 		}
 		`,
 	];
@@ -329,28 +351,18 @@ export class AlertElement extends LitElement {
 
 }
 
-
-declare global {
-	interface HTMLElementTagNameMap {
-		'mm-alert': AlertElement;
-	}
-}
-
-
-const animDuration = animationSpeed('medium');
-
-setDefaultAnimation('alert.show', {
+setDefaultAnimation('mm-alert.show', {
 	keyframes: [
 		{ opacity: 0, transform: 'scale(0.8)' },
 		{ opacity: 1, transform: 'scale(1)' },
 	],
-	options: { duration: animDuration, easing: 'ease-out' },
+	options: { duration: 300, easing: 'ease-out' },
 });
 
-setDefaultAnimation('alert.hide', {
+setDefaultAnimation('mm-alert.hide', {
 	keyframes: [
 		{ opacity: 1, transform: 'scale(1)' },
 		{ opacity: 0, transform: 'scale(0.8)' },
 	],
-	options: { duration: animDuration, easing: 'ease-in' },
+	options: { duration: 300, easing: 'ease-in' },
 });

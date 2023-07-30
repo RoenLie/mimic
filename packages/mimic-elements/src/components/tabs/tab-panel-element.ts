@@ -1,7 +1,7 @@
 import { domId } from '@roenlie/mimic-core/dom';
-import { webComponent } from '@roenlie/mimic-lit/decorators';
+import { customElement, MimicElement } from '@roenlie/mimic-lit/decorators';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
-import { css, html, LitElement } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
 
@@ -12,15 +12,9 @@ declare global { interface HTMLElementTagNameMap {
 
 /**
  * @slot - The tab panel's content.
- *
- * @csspart base - The component's internal wrapper.
- *
- * @cssproperty --padding - The tab panel's padding.
  */
-@webComponent
-export class TabPanelElement extends LitElement {
-
-	public static tagName = 'mm-tab-panel';
+@customElement('mm-tab-panel')
+export class TabPanelElement extends MimicElement {
 
 	//#region properties
 	/** The tab panel's name. */

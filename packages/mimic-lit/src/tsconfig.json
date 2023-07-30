@@ -1,9 +1,6 @@
 {
 	"extends": "@roenlie/tsconfig",
 	"compilerOptions": {
-		"moduleResolution": "NodeNext",
-		"module": "ESNext",
-		"target": "ESNext",
 		"outDir": "../dist",
 		"rootDir": ".",
 		"baseUrl": ".",

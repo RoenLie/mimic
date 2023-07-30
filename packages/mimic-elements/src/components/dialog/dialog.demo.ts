@@ -1,28 +1,33 @@
-import './dialog-element.js';
-
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
 import { systemIcons } from '../../utilities/system-icons.js';
+import { DialogConfig } from './dialog-element.js';
 
 
 @customElement('mm-dialog-demo')
 export class DialogDemo extends LitElement {
 
 	protected handleClick() {
-		const el = document.createElement('mm-dialog');
-		el.modal = false;
-		el.createConfig(() => {})
-			.actions(() => {})
-			.template({
+		const dialogCfg = new DialogConfig()
+			.config({ modal: true })
+			.state(() => ({
+				counter: 6,
+			}))
+			.actions(() => ({
+				laugh: () => console.log('laugh'),
+			})).template({
 				render: (dialog) => html`
 				<div class="header">
 					header
 
-					<mm-icon
-						template=${ systemIcons.xLg }
+					<mm-button
+						type="icon"
+						variant="text"
 						@click=${ () => dialog.close() }
-					></mm-icon>
+					>
+						<mm-icon template=${ systemIcons.xLg }></mm-icon>
+					</mm-button>
 				</div>
 
 				<div class="body">
@@ -44,9 +49,9 @@ export class DialogDemo extends LitElement {
 				`,
 			});
 
-		this.renderRoot.append(el);
-
-		el.complete.then(() => console.log('dialog closed'));
+		dialogCfg.create(this).complete.then(() => {
+			console.log('you can also listen for close promise!!');
+		});
 	}
 
 	protected override render() {

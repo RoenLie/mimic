@@ -19,14 +19,14 @@
 	"author": "Kristoffer Roen-Lie",
 	"dependencies": {
 		"@roenlie/mimic-core": "workspace:^",
-		"lit": "^2.2.8",
+		"lit": "^2.7.6",
 		"nanoid": "^4.0.0",
-		"tslib": "^2.4.0",
-		"urlpattern-polyfill": "^8.0.2"
+		"tslib": "^2.6.1",
+		"urlpattern-polyfill": "^9.0.0"
 	},
 	"devDependencies": {
-		"@roenlie/package-toolbox": "^0.0.14",
-		"vite": "^4.0.3"
+		"@roenlie/package-toolbox": "^0.0.17",
+		"vite": "^4.4.7"
 	},
 	"exports": {}
 }

@@ -56,15 +56,18 @@
 		"@roenlie/mimic-core": "workspace:^",
 		"fast-equals": "^5.0.1",
 		"inversify": "^6.0.1",
-		"lit": "^2.6.1",
 		"nanoid": "^4.0.1",
 		"reflect-metadata": "^0.1.13",
-		"tslib": "^2.5.0"
+		"tslib": "^2.6.1"
+	},
+	"peerDependencies": {
+		"lit": "*"
 	},
 	"devDependencies": {
-		"@roenlie/package-toolbox": "^0.0.14",
-		"vite": "^4.1.4",
-		"vitest": "^0.31.1"
+		"@roenlie/package-toolbox": "^0.0.17",
+		"lit": "^2.7.6",
+		"vite": "^4.4.7",
+		"vitest": "^0.33.0"
 	},
 	"sideEffects": [
 		"dist/injectable/core.js"

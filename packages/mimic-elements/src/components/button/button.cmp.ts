@@ -1,6 +1,6 @@
-import { webComponent } from '@roenlie/mimic-lit/decorators';
+import { customElement, MimicElement } from '@roenlie/mimic-lit/decorators';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
-import { css, html, LitElement } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
@@ -44,10 +44,9 @@ export type ButtonVariant = [
 ][number];
 
 
-@webComponent
-export class ButtonElement extends LitElement {
+@customElement('mm-button')
+export class ButtonElement extends MimicElement {
 
-	public static tagName = 'mm-button';
 	@property({ type: String }) public type: ButtonType = '';
 	@property() public size: ButtonSize = 'medium';
 	@property() public shape: ButtonShape = 'pill';

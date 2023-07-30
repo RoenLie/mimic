@@ -1,11 +1,8 @@
 name: Publish mimic-elements to NPM with auto-incremented patch release.
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - packages/mimic-elements/**
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   publish-npm:
@@ -25,14 +22,8 @@ jobs:
       - name: Install dependencies.
         run: pnpm install
 
-      - name: Build complete project.
-        run: |
-          cd packages/mimic-core
-          pnpm build
-          cd ../mimic-lit
-          pnpm build
-          cd ../mimic-elements
-          pnpm build
+      - name: Build all projects.
+        run: pnpm build
 
       - name: Change package version.
         run: |
