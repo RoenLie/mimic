@@ -91,8 +91,10 @@ export class ButtonElement extends MimicElement {
 			--_btn-focus-index:     var(--mm-btn-focus-index,  2);
 			--_btn-focus-color:     var(--mm-btn-focus-color,  rgb(162 205 218));
 
-			--_btn-shadow-default:  0px 1px 3px 1px rgba(0, 0, 0, 0.25), 0px 0px 2px 0px rgba(0, 0, 0, 0.10);
-			--_btn-shadow-hover:    0px 1px 5px 2px rgba(0, 0, 0, 0.25), 0px 1px 2px 0px rgba(0, 0, 0, 0.10);
+			--_btn-shadow-default:  0px 1px 3px 1px rgba(0, 0, 0, 0.25),
+				0px 0px 2px 0px rgba(0, 0, 0, 0.10);
+			--_btn-shadow-hover:    0px 1px 5px 2px rgba(0, 0, 0, 0.25),
+				0px 1px 2px 0px rgba(0, 0, 0, 0.10);
 			--_btn-elev-shadow1:    var(--mm-btn-elev-shadow1, var(--_btn-shadow-default));
 			--_btn-elev-shadow2:    var(--mm-btn-elev-shadow2, var(--_btn-shadow-hover));
 

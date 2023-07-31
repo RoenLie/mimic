@@ -3,7 +3,5 @@
 	"extends": [
 		"@roenlie/eslint-config"
 	],
-	"rules": {
-		"no-multi-spaces": "off"
-	}
+	"rules": {}
 }

@@ -75,6 +75,10 @@
 		"./validation": {
 			"types": "./dist/lib/utils/validation/index.d.ts",
 			"default": "./dist/lib/utils/validation/index.js"
+		},
+		"./enum": {
+			"types": "./dist/lib/enum/index.d.ts",
+			"default": "./dist/lib/enum/index.js"
 		}
 	},
 	"files": [

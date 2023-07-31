@@ -4,11 +4,11 @@
 		"build": "tsx ./scripts/build.ts"
 	},
 	"devDependencies": {
-		"@roenlie/eslint-config": "^1.0.0",
+		"@roenlie/eslint-config": "^1.1.0",
 		"@roenlie/tsconfig": "^1.0.1",
 		"@types/node": "20.4.5",
-		"@typescript-eslint/eslint-plugin": "^6.2.0",
-		"@typescript-eslint/parser": "^6.2.0",
+		"@typescript-eslint/eslint-plugin": "^6.2.1",
+		"@typescript-eslint/parser": "^6.2.1",
 		"eslint": "^8.46.0",
 		"eslint-plugin-import": "^2.28.0",
 		"eslint-plugin-lit": "^1.8.3",
