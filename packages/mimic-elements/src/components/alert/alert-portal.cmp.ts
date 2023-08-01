@@ -2,22 +2,22 @@ import { customElement, MimicElement } from '@roenlie/mimic-lit/decorators';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, render } from 'lit';
 
-import { AlertElement } from './alert.cmp.js';
+import { MMAlert } from './alert.cmp.js';
 import { type IAlertDefinition } from './alert-setup-api.js';
 
 
 declare global { interface HTMLElementTagNameMap {
-	'mm-alert-portal': AlertPortalCmp;
+	'mm-alert-portal': MMAlertPortal;
 } }
 
 
 @customElement('mm-alert-portal')
-export class AlertPortalCmp extends MimicElement {
+export class MMAlertPortal extends MimicElement {
 
 	public async display(definition: IAlertDefinition) {
 		const { properties, template } = definition;
 
-		const alertEl = document.createElement(AlertElement.tagName) as AlertElement;
+		const alertEl = document.createElement(MMAlert.tagName) as MMAlert;
 		const alert = Object.assign(alertEl, {
 			variant:  properties.variant ?? 'primary',
 			closable: properties.closeable ?? true,
@@ -56,4 +56,4 @@ export class AlertPortalCmp extends MimicElement {
 }
 
 
-export const alertPortal = document.createElement(AlertPortalCmp.tagName) as AlertPortalCmp;
+export const alertPortal = document.createElement(MMAlertPortal.tagName) as MMAlertPortal;

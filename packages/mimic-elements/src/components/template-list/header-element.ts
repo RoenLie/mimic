@@ -4,7 +4,7 @@ import { customElement } from 'lit/decorators.js';
 
 
 @customElement('mm-header')
-export class HeaderElement extends LitElement {
+export class MMHeader extends LitElement {
 
 	public override connectedCallback(): void {
 		super.connectedCallback();
@@ -40,6 +40,6 @@ export class HeaderElement extends LitElement {
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'mm-header': HeaderElement;
+		'mm-header': MMHeader;
 	}
 }

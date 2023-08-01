@@ -6,7 +6,7 @@ import { property } from 'lit/decorators.js';
 
 
 declare global { interface HTMLElementTagNameMap {
-	'mm-tab-panel': TabPanelElement;
+	'mm-tab-panel': MMTabPanel;
 } }
 
 
@@ -14,7 +14,7 @@ declare global { interface HTMLElementTagNameMap {
  * @slot - The tab panel's content.
  */
 @customElement('mm-tab-panel')
-export class TabPanelElement extends MimicElement {
+export class MMTabPanel extends MimicElement {
 
 	//#region properties
 	/** The tab panel's name. */
@@ -23,7 +23,7 @@ export class TabPanelElement extends MimicElement {
 	/** When true, the tab panel will be shown. */
 	@property({ type: Boolean, reflect: true }) public active = false;
 
-	private readonly componentId = `${ TabPanelElement.tagName }-${ domId(4) }`;
+	private readonly componentId = `${ MMTabPanel.tagName }-${ domId(4) }`;
 	//#endregion
 
 

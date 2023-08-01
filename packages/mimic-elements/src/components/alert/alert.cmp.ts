@@ -17,7 +17,7 @@ import { type IAlertProps } from './alert-setup-api.js';
 
 
 declare global { interface HTMLElementTagNameMap {
-	'mm-alert': AlertElement;
+	'mm-alert': MMAlert;
 } }
 
 
@@ -42,7 +42,7 @@ declare global { interface HTMLElementTagNameMap {
  * @animation alert.hide - The animation to use when hiding the alert.
  */
 @customElement('mm-alert')
-export class AlertElement extends MimicElement {
+export class MMAlert extends MimicElement {
 
 	//#region properties
 	/** Indicates whether or not the alert is open. You can use this in lieu of the show/hide methods. */
@@ -114,7 +114,7 @@ export class AlertElement extends MimicElement {
 		resolve();
 
 		// Remove the toast stack from the DOM when there are no more alerts
-		if (alertPortal.querySelector(AlertElement.tagName) === null)
+		if (alertPortal.querySelector(MMAlert.tagName) === null)
 			alertPortal.remove();
 	};
 
@@ -150,7 +150,7 @@ export class AlertElement extends MimicElement {
 					}
 
 					// Remove the toast stack from the DOM when there are no more alerts
-					if (alertPortal.renderRoot.querySelector(AlertElement.tagName) === null)
+					if (alertPortal.renderRoot.querySelector(MMAlert.tagName) === null)
 						alertPortal.remove();
 				};
 			}

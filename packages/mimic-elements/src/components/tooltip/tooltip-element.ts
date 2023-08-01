@@ -29,7 +29,7 @@ export type TooltipProperties = {
 
 
 @customElement('mm-tooltip')
-export class TooltipElement extends LitElement {
+export class MMTooltip extends LitElement {
 
 	//#region properties
 	/**
@@ -363,6 +363,6 @@ export class TooltipElement extends LitElement {
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'mm-tooltip': TooltipElement;
+		'mm-tooltip': MMTooltip;
 	}
 }

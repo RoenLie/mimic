@@ -63,7 +63,7 @@ registerDrawerAnimations();
  * @animation drawer.overlay.hide - The animation to use when hiding the drawer's overlay.
  */
 @customElement('mm-drawer')
-export class DrawerCmp extends LitElement {
+export class MMDrawer extends LitElement {
 
 	//#region properties
 	/** Indicates whether or not the drawer is open. You can use this in lieu of the show/hide methods. */
@@ -349,6 +349,6 @@ export class DrawerCmp extends LitElement {
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'mm-drawer': DrawerCmp;
+		'mm-drawer': MMDrawer;
 	}
 }

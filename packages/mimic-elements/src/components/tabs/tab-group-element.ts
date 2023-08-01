@@ -11,12 +11,12 @@ import { classMap } from 'lit/directives/class-map.js';
 import { when } from 'lit/directives/when.js';
 
 import { systemIcons } from '../../index-fallback.js';
-import { TabElement } from './tab-element.js';
-import { TabPanelElement } from './tab-panel-element.js';
+import { MMTab } from './tab-element.js';
+import { MMTabPanel } from './tab-panel-element.js';
 
 
 declare global { interface HTMLElementTagNameMap {
-	'mm-tab-group': TabGroupElement;
+	'mm-tab-group': MMTabGroup;
 } }
 
 
@@ -28,7 +28,7 @@ declare global { interface HTMLElementTagNameMap {
  * @event {name: string} mm-tab-hide - Emitted when a tab is hidden.
  */
 @customElement('mm-tab-group')
-export class TabGroupElement extends MimicElement {
+export class MMTabGroup extends MimicElement {
 
 	//#region properties
 	/** Disables the scroll arrows that appear when tabs overflow. */
@@ -47,11 +47,11 @@ export class TabGroupElement extends MimicElement {
 
 	@state() protected hasScrollControls = false;
 
-	public activeTab?: TabElement;
+	public activeTab?: MMTab;
 	public activeTabName?: string;
 	protected blockAnimation = false;
-	protected tabs: TabElement[] = [];
-	protected panels: TabPanelElement[] = [];
+	protected tabs: MMTab[] = [];
+	protected panels: MMTabPanel[] = [];
 	//#endregion
 
 
@@ -65,8 +65,8 @@ export class TabGroupElement extends MimicElement {
 		],
 		listener: (ev) => {
 			const target = ev.target as HTMLElement;
-			const tab = target.closest<TabElement>('mm-tab');
-			const tabGroup = tab?.closest<TabGroupElement>('mm-tab-group');
+			const tab = target.closest<MMTab>('mm-tab');
+			const tabGroup = tab?.closest<MMTabGroup>('mm-tab-group');
 
 			// Ensure the target tab is in this tab group
 			if (tabGroup !== this)
@@ -102,8 +102,8 @@ export class TabGroupElement extends MimicElement {
 		listener: (ev, options) => {
 			const key = Array.isArray(options.key) ? options.key.at(0)! : options.key;
 			const target = ev.target as HTMLElement;
-			const tab = target.closest<TabElement>('mm-tab');
-			const tabGroup = tab?.closest<TabGroupElement>('mm-tab-group');
+			const tab = target.closest<MMTab>('mm-tab');
+			const tabGroup = tab?.closest<MMTabGroup>('mm-tab-group');
 			const maxIndex = this.tabs.length - 1;
 			const minIndex = 0;
 
@@ -180,7 +180,7 @@ export class TabGroupElement extends MimicElement {
 
 
 	//#region queries
-	@queryAssignedElements({ slot: 'nav' }) protected navSlot: TabElement[];
+	@queryAssignedElements({ slot: 'nav' }) protected navSlot: MMTab[];
 	@queryAssignedElements()        protected defaultSlot: HTMLElement[];
 	@query('.tab-group')            protected tabGroupQry: HTMLElement;
 	@query('.tab-group__nav')       protected navQry: HTMLElement;
@@ -218,12 +218,12 @@ export class TabGroupElement extends MimicElement {
 
 	protected getAllTabs(includeDisabled = false) {
 		return this.navSlot.filter(el =>
-			el.tagName === TabElement.tagName && (includeDisabled || !el.disabled));
+			el.tagName === MMTab.tagName && (includeDisabled || !el.disabled));
 	}
 
 	protected getAllPanels() {
-		return (this.defaultSlot as TabPanelElement[])
-			.filter(el => el.tagName === TabPanelElement.tagName);
+		return (this.defaultSlot as MMTabPanel[])
+			.filter(el => el.tagName === MMTabPanel.tagName);
 	}
 
 	protected getActiveTab() {
@@ -232,8 +232,8 @@ export class TabGroupElement extends MimicElement {
 
 	protected handleClick(event: MouseEvent) {
 		const target = event.target as HTMLElement;
-		const tab = target.closest<TabElement>(TabElement.tagName);
-		const tabGroup = tab?.closest<TabGroupElement>(TabGroupElement.tagName);
+		const tab = target.closest<MMTab>(MMTab.tagName);
+		const tabGroup = tab?.closest<MMTabGroup>(MMTabGroup.tagName);
 
 		// Ensure the target tab is in this tab group
 		if (tabGroup !== this)
@@ -243,7 +243,7 @@ export class TabGroupElement extends MimicElement {
 			this.setActiveTab(tab, { scrollBehavior: 'smooth' });
 	}
 
-	protected handleScrollTo(placement: TabGroupElement['placement']) {
+	protected handleScrollTo(placement: MMTabGroup['placement']) {
 		({
 			top: () => {
 				this.navQry.scroll({
@@ -281,7 +281,7 @@ export class TabGroupElement extends MimicElement {
 	}
 
 	protected setActiveTab(
-		tab: TabElement,
+		tab: MMTab,
 		options?: { emitEvents?: boolean; scrollBehavior?: 'auto' | 'smooth' },
 	) {
 		options = {
@@ -423,7 +423,7 @@ export class TabGroupElement extends MimicElement {
 			part: string;
 			class: string;
 			icon: keyof typeof systemIcons;
-			click: Parameters<TabGroupElement['handleScrollTo']>[0];
+			click: Parameters<MMTabGroup['handleScrollTo']>[0];
 		}> = {
 			topfirst: {
 				part:  'scroll-button--start',

@@ -9,7 +9,7 @@ import { customElement, eventOptions, property, query, state } from 'lit/decorat
 import { map } from 'lit/directives/map.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
-import { RowElement } from './row-element.js';
+import { MMRow } from './row-element.js';
 
 
 export type HeaderTemplate = (template: TemplateResult<any> | unknown) => TemplateResult<any>;
@@ -25,7 +25,7 @@ export type ListTemplateConfig<T = any> = {
 
 
 @customElement('mm-template-list')
-export class TemplateListElement<T extends object = object> extends LitElement {
+export class MMTemplateList<T extends object = object> extends LitElement {
 
 	//#region Properties
 	@property({ type: Number }) public chunks = 15;
@@ -99,7 +99,7 @@ export class TemplateListElement<T extends object = object> extends LitElement {
 			if (ev.code === 'ArrowUp') {
 				ev.preventDefault();
 
-				if (prev instanceof RowElement) {
+				if (prev instanceof MMRow) {
 					prev.focus();
 					this.previousFocus = prev;
 					this.selectItem(prev);
@@ -107,7 +107,7 @@ export class TemplateListElement<T extends object = object> extends LitElement {
 			}
 			if (ev.code === 'ArrowDown') {
 				ev.preventDefault();
-				if (next instanceof RowElement) {
+				if (next instanceof MMRow) {
 					next.focus();
 					this.previousFocus = prev;
 					this.selectItem(next);
@@ -115,7 +115,7 @@ export class TemplateListElement<T extends object = object> extends LitElement {
 			}
 			if ([ 'Enter', 'NumpadEnter', 'Space' ].includes(ev.code)) {
 				ev.preventDefault();
-				if (activeElement instanceof RowElement)
+				if (activeElement instanceof MMRow)
 					this.activateItem(activeElement);
 			}
 			if (ev.code === 'Tab') {
@@ -137,7 +137,7 @@ export class TemplateListElement<T extends object = object> extends LitElement {
 				if (!row?.matches(':focus-visible') && !this.matches(':focus-visible'))
 					return;
 
-				if (row instanceof RowElement) {
+				if (row instanceof MMRow) {
 					row.focus();
 					this.selectItem(row);
 				}
@@ -187,7 +187,7 @@ export class TemplateListElement<T extends object = object> extends LitElement {
 		this.loadChunk();
 	}
 
-	protected selectItem(row: RowElement | undefined) {
+	protected selectItem(row: MMRow | undefined) {
 		if (!row)
 			return;
 
@@ -196,7 +196,7 @@ export class TemplateListElement<T extends object = object> extends LitElement {
 		emitEvent(this, 'mm-select-row', { detail: { index, row } });
 	}
 
-	protected activateItem(row: RowElement | undefined) {
+	protected activateItem(row: MMRow | undefined) {
 		if (!row)
 			return;
 
@@ -224,13 +224,13 @@ export class TemplateListElement<T extends object = object> extends LitElement {
 
 	protected singleClick(ev: PointerEvent) {
 		const path = ev.composedPath();
-		const row = path.find((el): el is RowElement => el instanceof RowElement);
+		const row = path.find((el): el is MMRow => el instanceof MMRow);
 		this.selectItem(row);
 	}
 
 	protected dblClick(ev: PointerEvent) {
 		const path = ev.composedPath();
-		const row = path.find((el): el is RowElement => el instanceof RowElement);
+		const row = path.find((el): el is MMRow => el instanceof MMRow);
 		this.activateItem(row);
 	}
 	//#endregion
@@ -298,15 +298,15 @@ export class TemplateListElement<T extends object = object> extends LitElement {
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'mm-template-list': TemplateListElement;
+		'mm-template-list': MMTemplateList;
 	}
 	interface HTMLElementEventMap {
 		/** Fired before items are retrieved from the items cache. */
 		'mm-append-items': PauseableEvent;
 		/** Fired when a row is clicked or selected through keyboard navigation. */
-		'mm-select-row': CustomEvent<{index: number; row: RowElement}>;
+		'mm-select-row': CustomEvent<{index: number; row: MMRow}>;
 		/** Fired when a row is double clicked or enter key is used when it focused. */
-		'mm-activate-row': CustomEvent<{index: number; row: RowElement}>;
+		'mm-activate-row': CustomEvent<{index: number; row: MMRow}>;
 	}
 }
 

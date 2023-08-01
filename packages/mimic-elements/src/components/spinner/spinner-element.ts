@@ -18,7 +18,7 @@ translationLoader(spinnerTranslation);
  * @cssproperty --speed - The time it takes for the spinner to complete one animation cycle.
  */
 @customElement('mm-spinner')
-export class SpinnerElement extends LitElement {
+export class MMSpinner extends LitElement {
 
 	//#region properties
 	//#endregion
@@ -115,6 +115,6 @@ export class SpinnerElement extends LitElement {
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'mm-spinner': SpinnerElement;
+		'mm-spinner': MMSpinner;
 	}
 }

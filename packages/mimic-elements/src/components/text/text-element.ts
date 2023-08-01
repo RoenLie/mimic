@@ -24,7 +24,7 @@ type TextType = 'display-large'
 
 
 @customElement('mm-text')
-export class TextElement extends LitElement {
+export class MMText extends LitElement {
 
 	@property({ reflect: true }) public type: TextType = 'body-medium';
 	@property({ type: Boolean, reflect: true }) public shadow?: boolean;
@@ -212,6 +212,6 @@ export class TextElement extends LitElement {
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'mm-text': TextElement;
+		'mm-text': MMText;
 	}
 }

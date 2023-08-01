@@ -4,7 +4,7 @@ import { customElement, property } from 'lit/decorators.js';
 
 
 @customElement('mm-row')
-export class RowElement extends LitElement {
+export class MMRow extends LitElement {
 
 	@property({ type: Boolean, reflect: true }) public active?: boolean;
 	@property({ type: Object, attribute: false }) public item?: object;
@@ -52,6 +52,6 @@ export class RowElement extends LitElement {
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'mm-row': RowElement;
+		'mm-row': MMRow;
 	}
 }

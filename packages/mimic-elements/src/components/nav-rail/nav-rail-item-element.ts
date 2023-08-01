@@ -6,9 +6,9 @@ import { customElement, property, query } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
 
-import { RippleElement } from '../ripple/ripple-element.js';
+import { MMRipple } from '../ripple/ripple-element.js';
 
-includeCE(RippleElement);
+includeCE(MMRipple);
 
 
 /**
@@ -20,7 +20,7 @@ includeCE(RippleElement);
  * If set to `button` a <button> element will be generated instead.
  */
 @customElement('mm-nav-rail-item')
-export class NavRailItemElement extends LitElement {
+export class MMNavRailItem extends LitElement {
 
 	//#region properties
 	@property({ type: String }) public href?: string;
@@ -28,7 +28,7 @@ export class NavRailItemElement extends LitElement {
 	@property({ type: Boolean, reflect: true }) public active?: boolean;
 	@property({ reflect: true }) public override role: string | null;
 	@property({ reflect: true }) public type: 'bare' | 'outlined' = 'bare';
-	@query('mm-ripple') protected rippleQry: RippleElement;
+	@query('mm-ripple') protected rippleQry: MMRipple;
 	//#endregion
 
 
@@ -201,6 +201,6 @@ export class NavRailItemElement extends LitElement {
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'mm-nav-rail-item': NavRailItemElement;
+		'mm-nav-rail-item': MMNavRailItem;
 	}
 }

@@ -4,7 +4,7 @@ import { customElement } from 'lit/decorators.js';
 
 
 @customElement('mm-field')
-export class FieldElement extends LitElement {
+export class MMField extends LitElement {
 
 	public override render() {
 		return html`
@@ -28,6 +28,6 @@ export class FieldElement extends LitElement {
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'mm-field': FieldElement;
+		'mm-field': MMField;
 	}
 }

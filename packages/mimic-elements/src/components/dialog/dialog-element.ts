@@ -6,26 +6,26 @@ import { property, query } from 'lit/decorators.js';
 
 
 declare global { interface HTMLElementTagNameMap {
-	'mm-dialog': DialogElement;
+	'mm-dialog': MMDialog;
 } }
 
 
 export type DialogOptions = Partial<{modal: boolean; closeOnBlur: boolean;}>;
-export type StateConfigFn = (dialog: DialogElement) => (Promise<any> | any);
-export type ActionConfigFn<T extends StateConfigFn> = (dialog: DialogElement, state: Awaited<ReturnType<T>>) => any;
+export type StateConfigFn = (dialog: MMDialog) => (Promise<any> | any);
+export type ActionConfigFn<T extends StateConfigFn> = (dialog: MMDialog, state: Awaited<ReturnType<T>>) => any;
 export type TemplateConfigFn<TState extends StateConfigFn, TActions extends ActionConfigFn<TState>> = {
 	initialize?: (
-		dialog: DialogElement,
+		dialog: MMDialog,
 		state: Awaited<ReturnType<TState>>,
 		actions: ReturnType<TActions>
 	) => (Promise<any> | any);
 	afterConnected?: (
-		dialog: DialogElement,
+		dialog: MMDialog,
 		state: Awaited<ReturnType<TState>>,
 		actions: ReturnType<TActions>
 	) => (Promise<any> | any);
 	render: (
-		dialog: DialogElement,
+		dialog: MMDialog,
 		state: Awaited<ReturnType<TState>>,
 		actions: ReturnType<TActions>
 		) => unknown,
@@ -66,10 +66,10 @@ export class DialogConfig {
 
 	public create(host: HTMLElement) {
 		const appendFn = host.shadowRoot
-			? (el: DialogElement) => host.shadowRoot!.append(el)
-			: (el: DialogElement) => host.insertAdjacentElement('afterend', el);
+			? (el: MMDialog) => host.shadowRoot!.append(el)
+			: (el: MMDialog) => host.insertAdjacentElement('afterend', el);
 
-		const dialogEl = document.createElement(DialogElement.tagName) as DialogElement;
+		const dialogEl = document.createElement(MMDialog.tagName) as MMDialog;
 		dialogEl.config = this;
 
 		appendFn(dialogEl);
@@ -81,7 +81,7 @@ export class DialogConfig {
 
 
 @customElement('mm-dialog')
-export class DialogElement extends MimicElement {
+export class MMDialog extends MimicElement {
 
 	@property({ type: Object }) public config?: DialogConfig;
 

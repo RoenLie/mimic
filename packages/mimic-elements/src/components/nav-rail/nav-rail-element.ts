@@ -3,9 +3,9 @@ import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
-import { NavRailItemElement } from './nav-rail-item-element.js';
+import { MMNavRailItem } from './nav-rail-item-element.js';
 
-includeCE(NavRailItemElement);
+includeCE(MMNavRailItem);
 
 
 /**
@@ -15,7 +15,7 @@ includeCE(NavRailItemElement);
  * es-navigation-rail-item placed in the end slot will be assigned the `button` role.
  */
 @customElement('mm-nav-rail')
-export class NavRailElement extends LitElement {
+export class MMNavRail extends LitElement {
 
 	//#region properties
 	//#endregion
@@ -103,6 +103,6 @@ export class NavRailElement extends LitElement {
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'mm-nav-rail': NavRailElement;
+		'mm-nav-rail': MMNavRail;
 	}
 }

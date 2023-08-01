@@ -2,14 +2,14 @@ import { css, html, LitElement, type PropertyValues } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 
-import { requestIcon } from './icon.js';
+import { requestIcon } from './helpers.js';
 
 
 let parser: DOMParser;
 
 
 @customElement('mm-icon')
-export class IconElement extends LitElement {
+export class MMIcon extends LitElement {
 
 	/** Can be set to change default behavior. */
 	public static mutator = (svg: SVGElement) => {
@@ -52,7 +52,7 @@ export class IconElement extends LitElement {
 		if (!svgEl)
 			return '';
 
-		IconElement.mutator(svgEl);
+		MMIcon.mutator(svgEl);
 
 		return svgEl.outerHTML;
 	}
@@ -100,6 +100,6 @@ export class IconElement extends LitElement {
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'mm-icon': IconElement;
+		'mm-icon': MMIcon;
 	}
 }

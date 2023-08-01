@@ -149,7 +149,7 @@ const enhanceFile = (file: File): EnhancedFile => {
   * @event mm-upload-abort              - Fired when upload abort is requested.
   */
 @customElement('mm-upload')
-export class UploadElement extends LitElement {
+export class MMUpload extends LitElement {
 
 	//#region properties
 	/**
@@ -841,7 +841,7 @@ export class UploadElement extends LitElement {
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'mm-upload': UploadElement;
+		'mm-upload': MMUpload;
 	}
 
 	interface HTMLElementEventMap {

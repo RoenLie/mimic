@@ -11,7 +11,7 @@ type InputShape = 'sharp' | 'rounded' | 'pill';
 
 
 @customElement('mm-input')
-export class InputCmp extends LitElement {
+export class MMInput extends LitElement {
 
 	@property() public label = '';
 	@property() public value = '';
@@ -212,6 +212,6 @@ export class InputCmp extends LitElement {
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'mm-input': InputCmp;
+		'mm-input': MMInput;
 	}
 }

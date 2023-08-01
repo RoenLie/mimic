@@ -8,7 +8,7 @@ import { customElement, property } from 'lit/decorators.js';
  * @event ripple-finished - emits when the ripple animation has finished.
  */
 @customElement('mm-ripple')
-export class RippleElement extends LitElement {
+export class MMRipple extends LitElement {
 
 	//#region properties
 	@property({ type: Number }) public speed = 500;
@@ -162,6 +162,6 @@ export class RippleElement extends LitElement {
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'mm-ripple': RippleElement;
+		'mm-ripple': MMRipple;
 	}
 }

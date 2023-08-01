@@ -1,11 +1,11 @@
 import type { TemplateResult } from 'lit';
 
-import type { AlertElement } from './alert.cmp.js';
+import type { MMAlert } from './alert.cmp.js';
 
 
 export interface IAlertDefinition {
 	properties: IAlertProps;
-	template: (alert: AlertElement) => TemplateResult<any> | unknown;
+	template: (alert: MMAlert) => TemplateResult<any> | unknown;
 	displayTo: (portal: IAlertPortal) => void;
 }
 
@@ -32,14 +32,14 @@ export class Alerts {
 
 	public static define(properties: IAlertProps) {
 		return {
-			template: (template: (alert: AlertElement) => TemplateResult<any> | unknown) =>
+			template: (template: (alert: MMAlert) => TemplateResult<any> | unknown) =>
 				this.createDefinition(properties, template),
 		};
 	}
 
 	private static createDefinition(
 		properties: IAlertProps,
-		template: (alert: AlertElement) => TemplateResult<any> | unknown,
+		template: (alert: MMAlert) => TemplateResult<any> | unknown,
 	): IAlertDefinition {
 		const def = {
 			properties,

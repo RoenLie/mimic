@@ -2,7 +2,7 @@ import { LitElement, noChange, type TemplateResult } from 'lit';
 import { AsyncDirective } from 'lit/async-directive.js';
 import { type AttributePart, directive, type DirectiveParameters, type PartInfo, PartType } from 'lit/directive.js';
 
-import type { TooltipElement, TooltipProperties } from './tooltip-element.js';
+import type { MMTooltip, TooltipProperties } from './tooltip-element.js';
 
 customElements.get('mm-tooltip') || import('./tooltip-element.js');
 
@@ -24,7 +24,7 @@ class TooltipDirective extends AsyncDirective {
 
 	private _part: TooltipPart;
 	private _content: string | TemplateResult | unknown = '';
-	private _tooltipRef: TooltipElement | undefined;
+	private _tooltipRef: MMTooltip | undefined;
 
 	constructor(part: PartInfo) {
 		super(part);

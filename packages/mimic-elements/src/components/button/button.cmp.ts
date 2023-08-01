@@ -6,7 +6,7 @@ import { classMap } from 'lit/directives/class-map.js';
 
 
 declare global { interface HTMLElementTagNameMap {
-	'mm-button': ButtonElement;
+	'mm-button': MMButton;
 } }
 
 export type ButtonType = [
@@ -45,7 +45,7 @@ export type ButtonVariant = [
 
 
 @customElement('mm-button')
-export class ButtonElement extends MimicElement {
+export class MMButton extends MimicElement {
 
 	@property({ type: String }) public type: ButtonType = '';
 	@property() public size: ButtonSize = 'medium';

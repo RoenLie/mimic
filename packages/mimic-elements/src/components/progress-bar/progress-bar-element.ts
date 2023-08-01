@@ -23,11 +23,14 @@ import { labelFontStyles } from '../../utilities/font-styles.js';
  * @cssproperty --label-color - The label color.
  */
 @customElement('mm-progress-bar')
-export class ProgressBarElement extends LitElement {
+export class MMProgressBar extends LitElement {
 
 	//#region properties
 	/** The current progress, 0 to 100. */
-	public get value() { return this._value; }
+	public get value() {
+		return this._value;
+	}
+
 	@property({ type: Number, reflect: true }) public set value(v: number) {
 		const old = this._value;
 		this._value = Math.max(Math.min(v, 100), 0);
@@ -159,6 +162,6 @@ export class ProgressBarElement extends LitElement {
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'mm-progress-bar': ProgressBarElement;
+		'mm-progress-bar': MMProgressBar;
 	}
 }

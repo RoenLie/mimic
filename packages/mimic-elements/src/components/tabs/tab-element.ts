@@ -10,7 +10,7 @@ import { systemIcons } from '../../index-fallback.js';
 
 
 declare global { interface HTMLElementTagNameMap {
-	'mm-tab': TabElement;
+	'mm-tab': MMTab;
 } }
 
 
@@ -24,11 +24,11 @@ declare global { interface HTMLElementTagNameMap {
  * @csspart close-button__base - The close button's `base` part.
  */
 @customElement('mm-tab')
-export class TabElement extends MimicElement {
+export class MMTab extends MimicElement {
 
 
 	//#region properties
-	protected readonly componentId = `${ TabElement.tagName }-${ domId(4) }`;
+	protected readonly componentId = `${ MMTab.tagName }-${ domId(4) }`;
 
 	/** The name of the tab panel the tab will control.
 	 * The panel must be located in the same tab group. */
