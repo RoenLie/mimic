@@ -53,6 +53,7 @@
 		"increment-version": "package-toolbox increment-version"
 	},
 	"dependencies": {
+		"@floating-ui/dom": "^1.5.1",
 		"@roenlie/mimic-core": "workspace:^",
 		"fast-equals": "^5.0.1",
 		"inversify": "^6.0.1",

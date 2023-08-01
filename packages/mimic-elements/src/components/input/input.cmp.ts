@@ -36,7 +36,11 @@ export class MMInput extends LitElement {
 		super.connectedCallback();
 
 		if (this.autoFocus)
-			paintCycle().then(() => this.inputQry.focus());
+			paintCycle().then(() => this.inputQry.focus({ preventScroll: true }));
+	}
+
+	public override focus(options?: FocusOptions | undefined) {
+		this.inputQry.focus(options);
 	}
 
 	protected handleFocus = () => {
@@ -60,6 +64,9 @@ export class MMInput extends LitElement {
 		return html`
 		<div class=${ classMap({ base: true, ...this.classes }) }>
 			<label class=${ classMap({ input__base: true, ...this.classes }) }>
+				<slot-wrapper>
+					<slot name="start"></slot>
+				</slot-wrapper>
 				<input
 					.value=${ this.value }
 					.placeholder=${ this.placeholder }
@@ -69,6 +76,9 @@ export class MMInput extends LitElement {
 					@change=${ this.handleChange }
 				/>
 				<span>${ this.label }</span>
+				<slot-wrapper>
+					<slot name="end"></slot>
+				</slot-wrapper>
 			</label>
 		</div>
 		`;
@@ -82,8 +92,8 @@ export class MMInput extends LitElement {
 		}
 		.base {
 			position: relative;
-			display: grid;
 			width: 100%;
+			display: grid;
 		}
 		.sharp {
 			border-radius: var(--border-radius-xs);
@@ -94,7 +104,6 @@ export class MMInput extends LitElement {
 		.pill  {
 			border-radius: var(--border-pill);
 		}
-
 		.small {
 			height: 30px;
 			font-size: 12px;
@@ -110,7 +119,6 @@ export class MMInput extends LitElement {
 		.small.label input {
 			padding-top: 12px;
 		}
-
 		.medium {
 			height: 40px;
 			font-size: 14px;
@@ -126,7 +134,6 @@ export class MMInput extends LitElement {
 		.medium.label input {
 			padding-top: 14px;
 		}
-
 		.large {
 			height: 50px;
 			font-size: 16px;
@@ -142,12 +149,21 @@ export class MMInput extends LitElement {
 		.large.label input {
 			padding-top: 18px;
 		}
-
 		label {
 			position: relative;
 			display: grid;
 			overflow: hidden;
 			background-color: rgb(var(--color-on-surface) / .04);
+			grid-template: "start input end" 1fr / max-content 1fr max-content;
+		}
+		label>:first-of-type(slot-wrapper) {
+			grid-area: start;
+		}
+		label>input {
+			grid-area: input;
+		}
+		label>:last-of-type(slot-wrapper) {
+			grid-area: end;
 		}
 		label:focus-within span,
 		label.filled span {
@@ -203,6 +219,10 @@ export class MMInput extends LitElement {
 		input::selection {
 			color: var(--on-primary);
 			background: var(--primary);
+		}
+		slot-wrapper {
+			display:grid;
+			place-items: center;
 		}
 	`,
 	];

@@ -1,5 +1,7 @@
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
+import { map } from 'lit/directives/map.js';
+import { range } from 'lit/directives/range.js';
 
 
 declare global { interface HTMLElementTagNameMap {
@@ -15,10 +17,13 @@ export class TypeaheadDemo extends LitElement {
 		<mm-typeahead
 			openOnFocus
 			openOnClick
+			label="hei der"
 		>
+			${ map(range(200), () => html`
 			<mm-typeahead-item>
 				Stuff
 			</mm-typeahead-item>
+			`) }
 
 			<mm-typeahead-item
 				slot="action"

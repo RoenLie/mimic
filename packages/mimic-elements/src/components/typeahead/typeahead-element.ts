@@ -1,12 +1,15 @@
 import { emitEvent, type EventOf } from '@roenlie/mimic-core/dom';
 import { Enum, type InferEnum } from '@roenlie/mimic-core/enum';
+import { PopoutController } from '@roenlie/mimic-lit/controllers';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html, LitElement } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { live } from 'lit/directives/live.js';
-import { styleMap } from 'lit/directives/style-map.js';
+import { createRef, type Ref, ref } from 'lit/directives/ref.js';
 import { when } from 'lit/directives/when.js';
+
+import { MMInput, systemIcons } from '../../index-fallback.js';
 
 
 declare global { interface HTMLElementTagNameMap {
@@ -19,12 +22,44 @@ export type TypeaheadEvents = InferEnum<typeof typeaheadEvents>;
 export const typeaheadEvents = Enum('mm-clear', 'mm-select-item');
 
 
+function scrollParentToChild(parent: HTMLElement, child: HTMLElement) {
+	// Where is the parent on page
+	const parentRect = parent.getBoundingClientRect();
+	// What can you see?
+	const parentViewableArea = {
+		height: parent.clientHeight,
+		width:  parent.clientWidth,
+	};
+
+	// Where is the child
+	const childRect = child.getBoundingClientRect();
+	// Is the child viewable?
+	const isViewable = (childRect.top >= parentRect.top) && (childRect.bottom <= parentRect.top + parentViewableArea.height);
+
+	// if you can't see the child try to scroll parent
+	if (!isViewable) {
+		// Should we scroll using top or bottom? Find the smaller ABS adjustment
+		const scrollTop = childRect.top - parentRect.top;
+		const scrollBot = childRect.bottom - parentRect.bottom;
+		if (Math.abs(scrollTop) < Math.abs(scrollBot)) {
+			// we're near the top of the list
+			parent.scrollTop += scrollTop;
+		}
+		else {
+			// we're near the bottom of the list
+			parent.scrollTop += scrollBot;
+		}
+	}
+}
+
+
 @customElement('mm-typeahead')
 export class MMTypeahead extends LitElement {
 
 	@property() public name?: string;
 	@property() public value?: string;
 	@property() public height?: string;
+	@property() public label?: string;
 	@property() public placeholder?: string;
 	@property({ type: Boolean }) public disabled?: boolean;
 	@property({ type: Boolean }) public openOnFocus?: boolean;
@@ -34,10 +69,17 @@ export class MMTypeahead extends LitElement {
 	@property({ type: Boolean }) public showClearWhenDisabled?: boolean;
 	@state() public open = false;
 	@query('slot') protected slotEl?: HTMLSlotElement;
-	@query('input') protected inputEl?: HTMLInputElement;
+	@query('mm-input') protected inputEl?: MMInput;
 	@query('input-container') protected inputWrapperEl?: HTMLElement;
+	protected popoutEl: Ref<HTMLDivElement> = createRef();
+	protected popoutListEl: Ref<HTMLOListElement> = createRef();
 	public activeEl?: MMTypeaheadItem;
 	protected resizeObs = new ResizeObserver(() => this.requestUpdate());
+	protected popoutCtrl = new PopoutController({
+		host:      this,
+		reference: () => this.inputEl,
+		floating:  () => this.popoutEl.value,
+	});
 
 	public override connectedCallback(): void {
 		super.connectedCallback();
@@ -54,14 +96,17 @@ export class MMTypeahead extends LitElement {
 				'input-container button',
 			);
 
-			buttonEl?.focus();
+			buttonEl?.focus({ preventScroll: true, ...options });
 		}
 		else {
-			this.inputEl?.focus(options);
+			this.inputEl?.focus({ preventScroll: true, ...options });
 		}
 	}
 
 	protected focusItem(item?: MMTypeaheadItem) {
+		if (!(item instanceof MMTypeaheadItem))
+			throw new Error('Invalid element type.');
+
 		this.querySelectorAll('*').forEach((el) =>
 			el instanceof MMTypeaheadItem
 				? el.classList.toggle('active', false)
@@ -171,6 +216,9 @@ export class MMTypeahead extends LitElement {
 	}
 
 	protected handleDefaultSlotChange(ev: EventOf<HTMLSlotElement>) {
+		if (!this.open)
+			return;
+
 		const slotContent = ev.target.assignedElements();
 
 		const previousExists = slotContent.some((el) => el === this.activeEl);
@@ -185,9 +233,13 @@ export class MMTypeahead extends LitElement {
 				this.focusItem(firstEl);
 		}
 
-		this.updateComplete.then(
-			() => this.activeEl?.scrollIntoView({ block: 'center' }),
-		);
+		this.updateComplete.then(() => {
+			const el = this.popoutListEl.value;
+			const active = this.activeEl;
+
+			if (active && el && el.scrollHeight > el.offsetHeight)
+				scrollParentToChild(el, active);
+		});
 	}
 
 	protected handleDropdownClick(ev: PointerEvent) {
@@ -212,60 +264,63 @@ export class MMTypeahead extends LitElement {
 
 	public override render() {
 		return html`
-		<input-container part="input-container">
-			<input
-				placeholder=${ ifDefined(this.placeholder) }
-				.value=${ live(this.value ?? '') }
-				?disabled=${ this.disabled }
-				@input=${ this.handleInput }
-				@click=${ this.handleClick }
-				@keydown=${ this.handleInputKeydown }
-				@focus=${ this.handleFocus }
-				@blur=${ this.handleBlur }
-			/>
-			${ when(
-				(this.value && this.showClearWhenDisabled && this.disabled) ||
-					(this.value && !this.disabled),
-				() => html`
-				<button
-					tabindex=${ this.disabled && this.showClearWhenDisabled
-						? '0' : '-1' }
-					@mousedown=${ (ev: MouseEvent) => ev.preventDefault() }
-					@click=${ () => emitEvent(this, typeaheadEvents.mmClear) }
-				>
-					<mm-icon
-						style="color: rgb(0 0 0 / 70%);"
-						url="/Dart/x-circle.svg"
-					></mm-icon>
-				</button>
-				`,
-			) }
-		</input-container>
-
-		${ when(this.open, () => {
-			const rects = this.inputWrapperEl?.getBoundingClientRect();
-
-			return html`
-			<input-dropdown
-				part="input-dropdown"
-				style=${ styleMap({
-					top:    rects?.bottom + 'px',
-					left:   rects?.left + 'px',
-					width:  rects?.width + 'px',
-					height: this.height ?? '150px',
-				}) }
-				@mousedown=${ this.handleDropdownClick }
+		<mm-input
+			label=${ ifDefined(this.label) }
+			placeholder=${ ifDefined(this.placeholder) }
+			.value=${ live(this.value ?? '') }
+			?disabled=${ this.disabled }
+			@input=${ this.handleInput }
+			@click=${ this.handleClick }
+			@keydown=${ this.handleInputKeydown }
+			@focus=${ this.handleFocus }
+			@blur=${ this.handleBlur }
+		>
+		${ when(
+			(this.value && this.showClearWhenDisabled && this.disabled) ||
+				(this.value && !this.disabled),
+			() => html`
+			<mm-button
+				slot="end"
+				type="icon"
+				variant="elevated"
+				size="x-small"
+				style="--mm-btn-xsmall-height:14px;margin-right:4px;"
+				tabindex=${ this.disabled && this.showClearWhenDisabled ? '0' : '-1' }
+				@mousedown=${ (ev: MouseEvent) => {
+					ev.preventDefault();
+					ev.stopPropagation();
+					ev.stopImmediatePropagation();
+				} }
+				@click=${ (ev: MouseEvent) => {
+					ev.preventDefault();
+					ev.stopPropagation();
+					emitEvent(this, typeaheadEvents.mmClear);
+				} }
 			>
-				<ol>
-					<slot @slotchange=${ this.handleDefaultSlotChange }></slot>
-				</ol>
+				<mm-icon
+					style="color: rgb(0 0 0 / 70%);"
+					template=${ systemIcons.xLg }
+				></mm-icon>
+			</mm-button>
+			`,
+			) }
+		</mm-input>
 
-				<div class="action">
-					<slot name="action"></slot>
-				</div>
-			</input-dropdown>
-			`;
-		}) }
+		${ when(this.open, () => html`
+		<input-dropdown
+			${ ref(this.popoutEl) }
+			part="input-dropdown"
+			@mousedown=${ this.handleDropdownClick }
+		>
+			<ol ${ ref(this.popoutListEl) }>
+				<slot @slotchange=${ this.handleDefaultSlotChange }></slot>
+			</ol>
+
+			<div class="action">
+				<slot name="action"></slot>
+			</div>
+		</input-dropdown>
+		`) }
 		`;
 	}
 
@@ -274,54 +329,26 @@ export class MMTypeahead extends LitElement {
 		css`
 		/* variables */
 		:host {
+			--_typea-popout-height: var(--mm-typea-popout-height, 200px);
+			--_typea-bg-color: var(var(--_typea-bg-color), rgb(25, 28, 26));
 		}
 		`,
 		css`
 		:host {
 			position: relative;
 			display: grid;
-		}
-		input-container {
-			display: grid;
-			grid-template-columns: 1fr max-content;
-			border: 1px solid black;
-		}
-		input-container input {
-			all: unset;
-			width: 100%;
-			text-align: center;
-			border-radius: 2px;
-			box-sizing: border-box;
-			grid-column: 1/3;
-			grid-row: 1/2;
-		}
-		input-container input:focus-within {
-			box-shadow: inset 0 0 2px black;
-		}
-		input-container button {
-			grid-column: 2/3;
-			grid-row: 1/2;
-			place-self: center;
-			display: grid;
-			place-items: center;
-			margin-right: 4px;
-			cursor: pointer;
-		}
-		input-container button:focus-visible {
-			outline: 1px solid rgb(200 200 200 / 50%);
-			border-radius: 999px;
-			box-shadow: 0 0 3px 3px rgb(0 0 0 / 50%);
+			background-color: var(--_typea-bg-color);
 		}
 		input-dropdown {
 			overflow: hidden;
-			position: fixed;
 			display: grid;
 			grid-template-rows: 1fr max-content;
 
-			background-color: rgb(250, 250, 250);
+			height: var(--_typea-popout-height);
+			background-color: rgb(var(--color-on-surface) / .04);
 			border-bottom-left-radius: 8px;
 			border-bottom-right-radius: 8px;
-			border: 1px solid black;
+			border: 1px solid rgb(var(--color-on-surface) / .08);
 			border-top: none;
 		}
 		ol,
@@ -333,8 +360,8 @@ export class MMTypeahead extends LitElement {
 			flex-flow: column nowrap;
 			overflow: auto;
 		}
-		.action {
-			border-top: 1px solid black;
+		.action ::slotted(*) {
+			border-top: 1px solid rgb(var(--color-on-surface) / .08);
 		}
 		`,
 	];
@@ -360,10 +387,10 @@ export class MMTypeaheadItem extends LitElement {
 			border: 1px solid transparent;
 		}
 		:host(:hover) {
-			background-color: rgb(180 204 185 / 25%);
+			background-color: rgb(var(--color-on-surface) / .05);
 		}
 		:host(.active) {
-			background-color: rgb(180 204 185);
+			background-color: rgb(var(--color-on-surface) / .07);
 		}
 		`,
 	];
