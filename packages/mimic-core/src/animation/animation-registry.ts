@@ -1,4 +1,4 @@
-import { StringLiteral } from '../types/strings.types.js';
+import { type stringliteral } from '../types/strings.types.js';
 
 
 export interface ElementAnimation {
@@ -13,7 +13,7 @@ export interface ElementAnimationMap {
 }
 
 
-export type Direction = 'ltr' | 'rtl' | StringLiteral;
+export type Direction = 'ltr' | 'rtl' | stringliteral;
 
 export interface GetAnimationOptions {
 	/**

@@ -1,10 +1,13 @@
-import { arrow, autoUpdate, computePosition, flip, offset, type Placement, shift } from '@floating-ui/dom';
+import {
+	arrow, autoUpdate, computePosition,
+	flip, offset, type Placement, shift,
+} from '@floating-ui/dom';
 import { animateTo, getAnimation, parseDuration, stopAnimations } from '@roenlie/mimic-core/animation';
 import { createPromiseResolver } from '@roenlie/mimic-core/async';
 import { emitEvent, hasKeyboardFocus, waitForEvent } from '@roenlie/mimic-core/dom';
 import { EventController } from '@roenlie/mimic-lit/controllers';
 import { watch } from '@roenlie/mimic-lit/decorators';
-import { html, LitElement, TemplateResult } from 'lit';
+import { html, LitElement, type TemplateResult } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
@@ -162,7 +165,9 @@ export class TooltipElement extends LitElement {
 		const delay = parseDuration(getComputedStyle(this).getPropertyValue('--hide-delay'));
 		clearTimeout(this.hoverTimeout);
 
-		this.hoverTimeout = window.setTimeout(() => { this.hide(); }, delay);
+		this.hoverTimeout = window.setTimeout(() => {
+			this.hide();
+		}, delay);
 	};
 
 	public handleMouseOut = () => {
@@ -172,7 +177,9 @@ export class TooltipElement extends LitElement {
 		const delay = parseDuration(getComputedStyle(this).getPropertyValue('--hide-delay'));
 		clearTimeout(this.hoverTimeout);
 
-		this.hoverTimeout = window.setTimeout(() => { this.hide(); }, delay);
+		this.hoverTimeout = window.setTimeout(() => {
+			this.hide();
+		}, delay);
 	};
 
 	private handleClick = () => {

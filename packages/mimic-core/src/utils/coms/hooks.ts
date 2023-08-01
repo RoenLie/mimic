@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 
-import { Fn } from '../../types/function.types.js';
+import { type Fn } from '../../types/function.types.js';
 import { lazyMap } from '../structs/lazy-map.js';
 import { ReflectMap } from '../structs/reflect-map.js';
 

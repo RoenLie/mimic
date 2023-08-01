@@ -78,6 +78,10 @@
 		"./input": {
 			"types": "./dist/components/input/index.d.ts",
 			"default": "./dist/components/input/index.js"
+		},
+		"./typeahead": {
+			"types": "./dist/components/typeahead/index.d.ts",
+			"default": "./dist/components/typeahead/index.js"
 		}
 	},
 	"scripts": {
@@ -85,7 +89,7 @@
 		"build": "pnpm build:prepare && pnpm build:index && pnpm build:types && vite build",
 		"build:prepare": "rimraf dist",
 		"build:index": "package-toolbox build-indexes",
-		"build:types": "tsc --project ./tsconfig.build.json",
+		"build:types": "tsc --project ./src/tsconfig.json",
 		"typecheck": "tsc --project ./tsconfig.json",
 		"updatedeps": "pnpm update --latest --interactive",
 		"increment-version": "package-toolbox increment-version"

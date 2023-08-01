@@ -1,4 +1,4 @@
-import { Ctor } from '@roenlie/mimic-core/types';
+import { type Ctor } from '@roenlie/mimic-core/types';
 
 export type PropertyName = string & Record<never, never>;
 export type ElementMetadata = {

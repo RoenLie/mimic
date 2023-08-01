@@ -1,5 +1,5 @@
 import { $Augmented, augment } from './augment.js';
-import { Key, Rec, RootNode, TreeNode } from './types.js';
+import { type Key, type Rec, type RootNode, type TreeNode } from './types.js';
 
 export const fromSingleObject = <TObj extends Rec, const TProp extends keyof TObj>(
 	object: TObj, childProp: TProp) => _traverse(object, childProp);

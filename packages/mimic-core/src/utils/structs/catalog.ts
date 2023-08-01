@@ -1,4 +1,4 @@
-import { RecordOf } from '../../types/record.types.js';
+import { type RecordOf } from '../../types/record.types.js';
 
 
 export interface Catalog<TObj extends object, TValue> {

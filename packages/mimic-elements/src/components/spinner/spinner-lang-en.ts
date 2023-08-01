@@ -1,4 +1,4 @@
-import { DefaultTranslation, registerTranslation } from '@roenlie/mimic-core/localize';
+import { type DefaultTranslation, registerTranslation } from '@roenlie/mimic-core/localize';
 
 
 export const spinnerLang: DefaultTranslation = {

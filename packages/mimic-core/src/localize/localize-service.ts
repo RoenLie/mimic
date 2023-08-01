@@ -1,10 +1,10 @@
 
-import { Fn } from '../types/function.types.js';
-import { StringLiteral } from '../types/strings.types.js';
+import { type Fn } from '../types/function.types.js';
+import { type stringliteral } from '../types/strings.types.js';
 import { waitForPromiseSet } from '../utils/async/wait-for-promise.js';
 import {
-	DefaultTranslation, FunctionParams, localizeData,
-	LocalizeDirection, Translation,
+	type DefaultTranslation, type FunctionParams, localizeData,
+	type LocalizeDirection, type Translation,
 } from './localize.js';
 
 
@@ -29,7 +29,7 @@ export class Localize<UserTranslation extends Translation = DefaultTranslation> 
 	}
 
 	public async term<K extends Extract<keyof UserTranslation, string>>(
-		key: K | StringLiteral,
+		key: K | stringliteral,
 		options?: {
 			args?: FunctionParams<UserTranslation[K]>,
 			silent?: boolean,

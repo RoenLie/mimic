@@ -1,12 +1,12 @@
 import { createPromiseResolver } from '@roenlie/mimic-core/async';
 import { lazyWeakmap } from '@roenlie/mimic-core/structs';
-import { RecordOf } from '@roenlie/mimic-core/types';
+import { type RecordOf } from '@roenlie/mimic-core/types';
 import { LitElement } from 'lit';
 
 import { $ElementScope, $InjectProps } from './constants.js';
 import { getComponentModules, getComponentOptions, getContainer, isModuleLoaded, loadedModules, unloadComponentModules } from './container.js';
 import { injectableShim } from './core.js';
-import { ElementScope, PropMetadata } from './types.js';
+import { type ElementScope, type PropMetadata } from './types.js';
 
 
 injectableShim();
@@ -18,7 +18,10 @@ export class InjectableElement extends LitElement {
 	public static loadingTemplate = '';
 
 	#injectionComplete?: Promise<any>;
-	protected get injectionComplete() { return this.#injectionComplete; }
+	protected get injectionComplete() {
+		return this.#injectionComplete;
+	}
+
 	protected __upgradeObserver = new MutationObserver(() => {
 		const elements = [ ...this.shadowRoot?.querySelectorAll('*') ?? [] ].filter(el => el.tagName.includes('-'));
 		elements.forEach(async element => {

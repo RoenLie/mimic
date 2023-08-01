@@ -2,18 +2,13 @@
 	"extends": "@roenlie/tsconfig",
 	"compilerOptions": {
 		"rootDir": ".",
-		"baseUrl": "./src",
-		"noEmit": true,
-		"emitDeclarationOnly": false,
-		"incremental": false,
+		"baseUrl": ".",
 		"types": [
 			"vite/client"
 		]
 	},
-	"include": [
-		"./**/*.ts",
-		"./**/*.d.ts",
-		"./**/*.js"
-	],
-	"exclude": []
+	"exclude": [
+		"dist",
+		"node_modules"
+	]
 }

@@ -1,1 +1,1 @@
-export type StringLiteral = string & Record<never, never>;
+export type stringliteral = string & Record<never, never>;

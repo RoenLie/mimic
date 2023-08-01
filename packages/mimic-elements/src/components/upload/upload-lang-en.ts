@@ -1,6 +1,6 @@
 import { registerTranslation } from '@roenlie/mimic-core/localize';
 
-import { UploadTranslation } from './upload-element.js';
+import { type UploadTranslation } from './upload-element.js';
 
 
 export const uploadLang: UploadTranslation = {

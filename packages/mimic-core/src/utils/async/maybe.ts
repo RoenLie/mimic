@@ -1,4 +1,4 @@
-import { Fn } from '../../types/function.types.js';
+import { type Fn } from '../../types/function.types.js';
 
 
 /**

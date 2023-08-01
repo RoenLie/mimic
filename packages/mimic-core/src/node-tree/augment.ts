@@ -1,5 +1,5 @@
 import { Node } from './node.js';
-import { Key, TreeNode } from './types.js';
+import { type Key, type TreeNode } from './types.js';
 
 
 export const $Augmented = Symbol();

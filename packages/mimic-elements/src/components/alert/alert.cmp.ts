@@ -6,14 +6,14 @@ import { emitEvent, waitForEvent } from '@roenlie/mimic-core/dom';
 import { SlotController } from '@roenlie/mimic-lit/controllers';
 import { customElement, MimicElement, watch } from '@roenlie/mimic-lit/decorators';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
-import { css, html, PropertyValues } from 'lit';
+import { css, html, type PropertyValues } from 'lit';
 import {  property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { when } from 'lit/directives/when.js';
 
 import { systemIcons } from '../../utilities/system-icons.js';
 import { alertPortal } from './alert-portal.cmp.js';
-import { IAlertProps } from './alert-setup-api.js';
+import { type IAlertProps } from './alert-setup-api.js';
 
 
 declare global { interface HTMLElementTagNameMap {

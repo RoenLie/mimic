@@ -3,16 +3,12 @@
 	"compilerOptions": {
 		"rootDir": ".",
 		"baseUrl": ".",
-		"noEmit": true,
-		"emitDeclarationOnly": false,
-		"incremental": false,
 		"types": [
 			"vite/client",
 		]
 	},
-	"include": [
-		"./src/**/*.ts",
-		"./src/**/*.js",
-	],
-	"exclude": []
+	"exclude": [
+		"dist",
+		"node_modules"
+	]
 }

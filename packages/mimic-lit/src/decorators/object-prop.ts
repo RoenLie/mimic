@@ -1,5 +1,5 @@
 import { deepEqual } from 'fast-equals';
-import { PropertyDeclaration } from 'lit';
+import { type PropertyDeclaration } from 'lit';
 import { property } from 'lit/decorators.js';
 
 

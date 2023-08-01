@@ -3,7 +3,7 @@ import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
 
-import { ButtonShape, ButtonSize, ButtonVariant } from './button.cmp.js';
+import { type ButtonShape, type ButtonSize, type ButtonVariant } from './button.cmp.js';
 
 
 @customElement('mm-button-demo')

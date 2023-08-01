@@ -1,6 +1,6 @@
 import { emitEvent } from '@roenlie/mimic-core/dom';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
-import { css, html, LitElement, PropertyValueMap } from 'lit';
+import { css, html, LitElement, type PropertyValueMap } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 

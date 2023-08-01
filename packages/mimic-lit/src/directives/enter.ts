@@ -1,5 +1,8 @@
 import { noChange } from 'lit';
-import { AttributePart, Directive, directive, DirectiveParameters, PartInfo, PartType } from 'lit/directive.js';
+import {
+	type AttributePart, Directive, directive,
+	type DirectiveParameters, type PartInfo, PartType,
+} from 'lit/directive.js';
 
 
 class EnterDirective extends Directive {

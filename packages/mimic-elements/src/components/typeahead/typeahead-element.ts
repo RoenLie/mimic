@@ -1,5 +1,5 @@
-import { emitEvent, EventOf } from '@roenlie/mimic-core/dom';
-import { Enum, InferEnum } from '@roenlie/mimic-core/enum';
+import { emitEvent, type EventOf } from '@roenlie/mimic-core/dom';
+import { Enum, type InferEnum } from '@roenlie/mimic-core/enum';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html, LitElement } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
@@ -20,7 +20,7 @@ export const typeaheadEvents = Enum('mm-clear', 'mm-select-item');
 
 
 @customElement('mm-typeahead')
-export default class MMTypeahead extends LitElement {
+export class MMTypeahead extends LitElement {
 
 	@property() public name?: string;
 	@property() public value?: string;

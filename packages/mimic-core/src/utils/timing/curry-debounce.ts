@@ -1,4 +1,4 @@
-import { AsyncFn, Fn } from '../../types/function.types.js';
+import { type AsyncFn, type Fn } from '../../types/function.types.js';
 import { noop } from '../function/noop.js';
 
 /**

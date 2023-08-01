@@ -3,8 +3,8 @@ import { Container } from 'inversify';
 
 import { $Container } from './constants.js';
 import { ContainerModule } from './container-module.js';
-import { InjectableElementOptions } from './decorators.js';
-import { ElementScope } from './types.js';
+import { type InjectableElementOptions } from './decorators.js';
+import { type ElementScope } from './types.js';
 
 
 const $defaultContainer = Symbol();

@@ -4,7 +4,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { map } from 'lit/directives/map.js';
 
 import { alertPortal } from './alert-portal.cmp.js';
-import { Alerts, IAlertProps } from './alert-setup-api.js';
+import { Alerts, type IAlertProps } from './alert-setup-api.js';
 
 
 @customElement('mm-alert-demo')

@@ -1,23 +1,23 @@
 import { componentAutoImporter, libConfig } from '@roenlie/package-toolbox/vite';
-import { defineConfig, Plugin, UserConfigExport } from 'vite';
+import { defineConfig } from 'vite';
 
 
 export default defineConfig(async () => {
 	return {
-		...await libConfig() as UserConfigExport,
+		...await libConfig(),
 		esbuild: {
-			minifyIdentifiers: false,
-			tsconfigRaw:       {
-				compilerOptions: {
-					experimentalDecorators:  true,
-					useDefineForClassFields: false,
-					lib:                     [
-						'ESNext',
-						'DOM',
-						'DOM.Iterable',
-					],
-				},
-			},
+			//minifyIdentifiers: false,
+			//tsconfigRaw:       {
+			//	compilerOptions: {
+			//		experimentalDecorators:  true,
+			//		useDefineForClassFields: false,
+			//		lib:                     [
+			//			'ESNext',
+			//			'DOM',
+			//			'DOM.Iterable',
+			//		],
+			//	},
+			//},
 		},
 		plugins: [
 			componentAutoImporter({

@@ -3,7 +3,7 @@ import { lazyWeakmap } from '@roenlie/mimic-core/structs';
 import { $ElementScope, $InjectParams } from './constants.js';
 import { getComponentModules, getContainer, isModuleLoaded, loadedModules } from './container.js';
 import { InjectableElement } from './injectable-element.js';
-import { ElementMetadata, ElementScope } from './types.js';
+import { type ElementMetadata, type ElementScope } from './types.js';
 
 
 declare global {

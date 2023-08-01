@@ -3,19 +3,12 @@
 	"compilerOptions": {
 		"rootDir": ".",
 		"baseUrl": ".",
-		"noEmit": true,
-		"emitDeclarationOnly": false,
-		"incremental": false,
 		"types": [
 			"vite/client",
 		]
 	},
-	"include": [
-		"./src/**/*.ts",
-		"./src/**/*.d.ts",
-		"./src/**/*.js",
-		"package-toolbox.ts",
-		"vite.config.ts"
-	],
-	"exclude": []
+	"exclude": [
+		"dist",
+		"node_modules"
+	]
 }

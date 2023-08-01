@@ -1,5 +1,5 @@
 import { lazyMap } from '../utils/structs/lazy-map.js';
-import { DynamicImport, LanguageCode, localizeData, update } from './localize.js';
+import { type DynamicImport, type LanguageCode, localizeData, update } from './localize.js';
 
 
 export interface LanguageExport extends Record<LanguageCode, DynamicImport> {}

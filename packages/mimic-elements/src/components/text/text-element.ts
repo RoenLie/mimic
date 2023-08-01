@@ -1,9 +1,9 @@
-import type { StringLiteral } from '@roenlie/mimic-core/types';
+import type { stringliteral } from '@roenlie/mimic-core/types';
 import { css, html, LitElement } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 
 
-type TextTransform = 'capitalize' | 'uppercase' | 'lowercase' | StringLiteral;
+type TextTransform = 'capitalize' | 'uppercase' | 'lowercase' | stringliteral;
 
 
 type TextType = 'display-large'

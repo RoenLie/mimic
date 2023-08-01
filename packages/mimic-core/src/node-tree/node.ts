@@ -1,5 +1,5 @@
 import { augment } from './augment.js';
-import { Key, TreeNode } from './types.js';
+import { type Key, type TreeNode } from './types.js';
 
 
 export class Node<
@@ -8,7 +8,10 @@ export class Node<
 	TNode extends TreeNode<TObj, TProp> = TreeNode<TObj, TProp>
 > {
 
-	public get parent() { return this.#parent; }
+	public get parent() {
+		return this.#parent;
+	}
+
 	#parent?: TNode;
 	#proxy: TNode;
 	#original: TObj;

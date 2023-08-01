@@ -1,13 +1,11 @@
 {
 	"extends": "@roenlie/tsconfig",
 	"compilerOptions": {
-		"moduleResolution": "NodeNext",
-		"module": "ESNext",
-		"target": "ESNext",
 		"outDir": "../dist",
 		"rootDir": ".",
 		"baseUrl": ".",
-		"incremental": false,
+		"noEmit": false,
+		"emitDeclarationOnly": true,
 		"types": [
 			"vite/client",
 		]

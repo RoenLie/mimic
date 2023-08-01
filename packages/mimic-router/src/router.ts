@@ -1,6 +1,6 @@
 import './utilities/polyfills.js';
 
-import { animateTo, ElementAnimation, stopAnimations } from '@roenlie/mimic-core/animation';
+import { animateTo, type ElementAnimation, stopAnimations } from '@roenlie/mimic-core/animation';
 import { createPromiseResolver } from '@roenlie/mimic-core/async';
 import { trimPostfix } from '@roenlie/mimic-core/string';
 import { clone } from '@roenlie/mimic-core/structs';

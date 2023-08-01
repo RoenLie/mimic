@@ -5,7 +5,7 @@
 	},
 	"devDependencies": {
 		"@roenlie/eslint-config": "^1.1.0",
-		"@roenlie/tsconfig": "^1.0.1",
+		"@roenlie/tsconfig": "^1.0.2",
 		"@types/node": "20.4.5",
 		"@typescript-eslint/eslint-plugin": "^6.2.1",
 		"@typescript-eslint/parser": "^6.2.1",

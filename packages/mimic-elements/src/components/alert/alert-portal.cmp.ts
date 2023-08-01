@@ -3,7 +3,7 @@ import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, render } from 'lit';
 
 import { AlertElement } from './alert.cmp.js';
-import { IAlertDefinition } from './alert-setup-api.js';
+import { type IAlertDefinition } from './alert-setup-api.js';
 
 
 declare global { interface HTMLElementTagNameMap {

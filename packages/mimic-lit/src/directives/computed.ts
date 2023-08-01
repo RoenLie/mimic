@@ -1,5 +1,5 @@
-import { RecordOf } from '@roenlie/mimic-core/types';
-import { LitElement, PropertyValues } from 'lit';
+import { type RecordOf } from '@roenlie/mimic-core/types';
+import { LitElement, type PropertyValues } from 'lit';
 
 
 export const computed = (options: {
@@ -11,9 +11,9 @@ export const computed = (options: {
 ) => {
 	const element = target as unknown as RecordOf<{
 		connectedCallback: () => void;
-		willUpdate:        (props: PropertyValues) => void;
-		update:            (props: PropertyValues) => void;
-		updated:           (props: PropertyValues) => void;
+		willUpdate:        (_props: PropertyValues) => void;
+		update:            (_props: PropertyValues) => void;
+		updated:           (_props: PropertyValues) => void;
 	}>;
 
 	let { events, props } = options;

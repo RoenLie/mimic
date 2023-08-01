@@ -1,9 +1,9 @@
 import { emitEvent, isTouch } from '@roenlie/mimic-core/dom';
-import { Translation, translationLoader } from '@roenlie/mimic-core/localize';
+import { type Translation, translationLoader } from '@roenlie/mimic-core/localize';
 import { EventController, LocalizeController, SlotController } from '@roenlie/mimic-lit/controllers';
 import { watch } from '@roenlie/mimic-lit/decorators';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
-import { css, CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from 'lit';
+import { css, type CSSResultGroup, html, LitElement, type PropertyValues, type TemplateResult } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { repeat } from 'lit/directives/repeat.js';

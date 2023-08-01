@@ -1,10 +1,10 @@
-import { PauseableEvent, pauseableEvent } from '@roenlie/mimic-core/async';
+import { type PauseableEvent, pauseableEvent } from '@roenlie/mimic-core/async';
 import { emitEvent, findActiveElement } from '@roenlie/mimic-core/dom';
 import { noop } from '@roenlie/mimic-core/function';
-import { Fn } from '@roenlie/mimic-core/types';
+import { type Fn } from '@roenlie/mimic-core/types';
 import { EventController } from '@roenlie/mimic-lit/controllers';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
-import { css, html, LitElement, TemplateResult } from 'lit';
+import { css, html, LitElement, type TemplateResult } from 'lit';
 import { customElement, eventOptions, property, query, state } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
 import { styleMap } from 'lit/directives/style-map.js';

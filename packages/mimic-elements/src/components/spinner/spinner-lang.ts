@@ -1,4 +1,4 @@
-import { LanguageExport } from '@roenlie/mimic-core/localize';
+import { type LanguageExport } from '@roenlie/mimic-core/localize';
 
 
 export const spinnerTranslation: LanguageExport = {

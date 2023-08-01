@@ -1,5 +1,4 @@
 import { defineDocConfig } from '@roenlie/mirage-docs';
-import { UserConfig } from 'vite';
 
 
 export default defineDocConfig({

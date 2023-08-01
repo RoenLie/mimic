@@ -1,5 +1,5 @@
 import { type Fn } from '../types/function.types.js';
-import { type StringLiteral } from '../types/strings.types.js';
+import { type stringliteral } from '../types/strings.types.js';
 import { waitForPromiseSet } from '../utils/async/wait-for-promise.js';
 
 
@@ -9,7 +9,7 @@ export type DynamicImport = () => Promise<unknown>;
 export type FunctionParams<T> = T extends (...args: infer U) => string ? U : never;
 
 
-export type LocalizeDirection = 'ltr' | 'rtl' | StringLiteral;
+export type LocalizeDirection = 'ltr' | 'rtl' | stringliteral;
 
 
 export type LanguageCode = string;

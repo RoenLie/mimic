@@ -1,5 +1,5 @@
-import { type DefaultTranslation, FunctionParams, Localize, localizeData, type LocalizeDirection, type Translation } from '@roenlie/mimic-core/localize';
-import { StringLiteral } from '@roenlie/mimic-core/types';
+import { type DefaultTranslation, type FunctionParams, Localize, localizeData, type LocalizeDirection, type Translation } from '@roenlie/mimic-core/localize';
+import { type stringliteral } from '@roenlie/mimic-core/types';
 import type { ReactiveController, ReactiveControllerHost } from 'lit';
 import { until } from 'lit/directives/until.js';
 
@@ -70,7 +70,7 @@ export class LocalizeController<UserTranslation extends Translation = DefaultTra
 	 * value until the language promise is resolved.
 	 */
 	public translate<K extends Extract<keyof UserTranslation, string>>(
-		key: StringLiteral | K,
+		key: stringliteral | K,
 		options?: {
 			args?: FunctionParams<UserTranslation[ K ]> | undefined;
 			silent?: boolean | undefined;

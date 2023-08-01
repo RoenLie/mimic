@@ -1,8 +1,8 @@
-import { Fn } from '@roenlie/mimic-core/types';
-import { ReactiveController } from 'lit';
+import { type Fn } from '@roenlie/mimic-core/types';
+import { type ReactiveController } from 'lit';
 import { nanoid } from 'nanoid';
 
-import { LitHost } from '../types/lit.js';
+import { type LitHost } from '../types/lit.js';
 
 
 export type Target = Window | HTMLElement | null | undefined;

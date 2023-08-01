@@ -1,13 +1,13 @@
-import { createPromiseResolver, Promised, Promiser, resolveDynamicPromise } from '@roenlie/mimic-core/async';
+import { createPromiseResolver, type Promised, type Promiser, resolveDynamicPromise } from '@roenlie/mimic-core/async';
 import { lazyMap } from '@roenlie/mimic-core/structs';
 import { inject as invInject, injectable as invInjectable } from 'inversify';
 
 import { $ElementScope, $InjectParams, $InjectProps } from './constants.js';
-import { componentModules, componentOptions, getComponentModules, getContainer, isModuleLoaded, loadedModules } from './container.js';
+import { componentModules, componentOptions } from './container.js';
 import { ContainerModule } from './container-module.js';
 import { ensureCE } from './ensure-element.js';
 import { InjectableElement } from './injectable-element.js';
-import { Identifier, ParamMetadata, PropMetadata } from './types.js';
+import { type Identifier, type ParamMetadata, type PropMetadata } from './types.js';
 
 
 export type ModuleOption = Promised<ContainerModule> | Promiser<ContainerModule>;
@@ -54,7 +54,9 @@ export const injectableElement = (
 			loading.push(promise);
 
 			resolveDynamicPromise(module)
-				.then(module => { registerModule(module); resolve(true); });
+				.then(module => {
+					registerModule(module); resolve(true);
+				});
 		};
 
 		const registerModule = (module: ContainerModule) => {

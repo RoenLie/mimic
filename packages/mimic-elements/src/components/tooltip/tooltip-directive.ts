@@ -1,6 +1,6 @@
-import { LitElement, noChange, TemplateResult } from 'lit';
+import { LitElement, noChange, type TemplateResult } from 'lit';
 import { AsyncDirective } from 'lit/async-directive.js';
-import { AttributePart, directive, DirectiveParameters, PartInfo, PartType } from 'lit/directive.js';
+import { type AttributePart, directive, type DirectiveParameters, type PartInfo, PartType } from 'lit/directive.js';
 
 import type { TooltipElement, TooltipProperties } from './tooltip-element.js';
 

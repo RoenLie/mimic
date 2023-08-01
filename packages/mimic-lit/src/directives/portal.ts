@@ -1,8 +1,8 @@
-import { ElementPart, LitElement, nothing, type TemplateResult } from 'lit';
+import { type ElementPart, LitElement, nothing, type TemplateResult } from 'lit';
 import { AsyncDirective } from 'lit/async-directive.js';
 import { customElement } from 'lit/decorators/custom-element.js';
 import { property } from 'lit/decorators/property.js';
-import { directive, DirectiveParameters, PartInfo, PartType } from 'lit/directive.js';
+import { directive, type DirectiveParameters, type PartInfo, PartType } from 'lit/directive.js';
 
 
 @customElement('mimic-portal')
