@@ -1,7 +1,5 @@
-import { libConfig } from '@roenlie/package-toolbox/vite';
+import { libConfig } from '@roenlie/package-toolbox/vite-utils';
 import { defineConfig } from 'vite';
 
 
-export default defineConfig(async () => {
-	return { ...await libConfig() };
-});
+export default defineConfig(libConfig());

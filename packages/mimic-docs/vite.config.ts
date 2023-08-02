@@ -6,7 +6,6 @@ export default defineDocConfig({
 	build: {
 		outDir: './dist',
 	},
-	plugins: [],
 }, {
 	cacheDir:   './.cache',
 	entryDir:   './src',

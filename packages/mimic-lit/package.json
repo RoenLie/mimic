@@ -65,10 +65,7 @@
 		"lit": "*"
 	},
 	"devDependencies": {
-		"@roenlie/package-toolbox": "^0.0.17",
-		"lit": "^2.7.6",
-		"vite": "^4.4.7",
-		"vitest": "^0.33.0"
+		"lit": "^2.7.6"
 	},
 	"sideEffects": [
 		"dist/injectable/core.js"

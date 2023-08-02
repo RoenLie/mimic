@@ -1,5 +1,6 @@
 import { emitEvent, type EventOf } from '@roenlie/mimic-core/dom';
 import { Enum, type InferEnum } from '@roenlie/mimic-core/enum';
+import type { Ctor } from '@roenlie/mimic-core/types';
 import { PopoutController } from '@roenlie/mimic-lit/controllers';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html, LitElement } from 'lit';
@@ -245,6 +246,12 @@ export class MMTypeahead extends LitElement {
 	protected handleDropdownClick(ev: PointerEvent) {
 		ev.preventDefault();
 
+		const findInstanceOf = <TOut extends Ctor>(
+			arr: any[], type: TOut,
+		): InstanceType<TOut> | undefined => arr.find(el => el instanceof type) as any;
+
+		const test1 = findInstanceOf(ev.composedPath(), HTMLAnchorElement);
+
 		const path = ev.composedPath();
 		const el = path.find(
 			(el): el is MMTypeaheadItem =>
@@ -330,7 +337,7 @@ export class MMTypeahead extends LitElement {
 		/* variables */
 		:host {
 			--_typea-popout-height: var(--mm-typea-popout-height, 200px);
-			--_typea-bg-color: var(var(--_typea-bg-color), rgb(25, 28, 26));
+			--_typea-bg-color: var(var(--mm-typea-bg-color), rgb(25, 28, 26));
 		}
 		`,
 		css`

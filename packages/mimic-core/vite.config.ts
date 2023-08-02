@@ -1,15 +1,9 @@
-import { libConfig } from '@roenlie/package-toolbox/vite';
-import { defineConfig, UserConfig } from 'vite';
+import { libConfig } from '@roenlie/package-toolbox/vite-utils';
+import { defineConfig } from 'vite';
 
 
-export default defineConfig(async () => {
-	const config = await libConfig() as UserConfig;
-
-	return {
-		...config,
-		build: {
-			...config.build,
-			outDir: './dist/lib',
-		},
-	};
-});
+export default defineConfig(libConfig({
+	build: {
+		outDir: './dist/lib',
+	},
+}));

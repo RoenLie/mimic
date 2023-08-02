@@ -1,4 +1,4 @@
-import { createEntrypointsFromDirectories } from '@roenlie/package-toolbox/dist/filesystem/create-index-entries.js';
+import { createEntrypointsFromDirectories } from '@roenlie/package-toolbox/filesystem/create-index-entries.js';
 import { defineToolbox } from '@roenlie/package-toolbox/toolbox';
 
 
@@ -17,10 +17,7 @@ export default defineToolbox(async () => {
 
 	return {
 		indexBuilder: {
-			entrypoints: [
-				{ path: './src/index-fallback.ts', filters: [ exclude ] },
-				...entrypoints,
-			],
+			entrypoints:                [ ...entrypoints ],
 			defaultFilters:             [ exclude ],
 			defaultPackageExport:       true,
 			packageExportNameTransform: path => path

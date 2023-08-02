@@ -1,1 +1,1 @@
-export type Ctor<T> = new (...args: any[]) => T;
+export type Ctor<T = any, TArgs extends any[] = any[]> = new (...args: TArgs) => T;
