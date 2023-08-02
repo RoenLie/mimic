@@ -39,7 +39,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build
+      - name: Build required projects
+        run: pnpm build
+
+      - name: Build docsite
         run: |
           cd packages/mimic-docs
           pnpm build
