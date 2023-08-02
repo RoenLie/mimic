@@ -9,10 +9,7 @@ export default defineToolbox(async () => {
 	const entrypoints = createEntrypointsFromDirectories(
 		[ '/src', '/src/utils' ],
 		[],
-		[
-			(path => path.includes('sudoku')),
-			(path => path === './src/utils/index.ts'),
-		],
+		[ (path => path === './src/utils/index.ts') ],
 	);
 
 	return {

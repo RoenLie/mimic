@@ -39,8 +39,7 @@
 	},
 	"dependencies": {
 		"@roenlie/mimic-core": "workspace:^",
-		"lit": "^2.7.6",
-		"nanoid": "^4.0.2"
+		"lit": "^2.7.6"
 	},
 	"devDependencies": {
 		"@roenlie/mirage-docs": "^1.2.7"

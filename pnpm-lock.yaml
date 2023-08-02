@@ -68,9 +68,6 @@ importers:
       lit:
         specifier: ^2.7.6
         version: 2.7.6
-      nanoid:
-        specifier: ^4.0.2
-        version: 4.0.2
     devDependencies:
       '@roenlie/mirage-docs':
         specifier: ^1.2.7
@@ -844,7 +841,7 @@ packages:
       rollup-plugin-copy: 3.4.0
       tabbable: 6.2.0
       tslib: 2.6.1
-      vite: 4.4.8
+      vite: 4.4.8(@types/node@20.4.6)
     transitivePeerDependencies:
       - '@types/markdown-it'
       - supports-color
@@ -4831,41 +4828,6 @@ packages:
       - sugarss
       - supports-color
       - terser
-    dev: true
-
-  /vite@4.4.8:
-    resolution: {integrity: sha512-LONawOUUjxQridNWGQlNizfKH89qPigK36XhMI7COMGztz8KNY0JHim7/xDd71CZwGT4HtSRgI7Hy+RlhG0Gvg==}
-    engines: {node: ^14.18.0 || >=16.0.0}
-    hasBin: true
-    peerDependencies:
-      '@types/node': '>= 14'
-      less: '*'
-      lightningcss: ^1.21.0
-      sass: '*'
-      stylus: '*'
-      sugarss: '*'
-      terser: ^5.4.0
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      less:
-        optional: true
-      lightningcss:
-        optional: true
-      sass:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      terser:
-        optional: true
-    dependencies:
-      esbuild: 0.18.17
-      postcss: 8.4.27
-      rollup: 3.27.0
-    optionalDependencies:
-      fsevents: 2.3.2
     dev: true
 
   /vite@4.4.8(@types/node@20.4.6):

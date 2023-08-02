@@ -79,6 +79,14 @@
 		"./enum": {
 			"types": "./dist/lib/enum/index.d.ts",
 			"default": "./dist/lib/enum/index.js"
+		},
+		"./sudoku": {
+			"types": "./dist/lib/sudoku/index.d.ts",
+			"default": "./dist/lib/sudoku/index.js"
+		},
+		"./utils": {
+			"types": "./dist/lib/utils/index.d.ts",
+			"default": "./dist/lib/utils/index.js"
 		}
 	},
 	"files": [

@@ -1,9 +1,9 @@
 import { clone } from '@roenlie/mimic-core/structs';
+import { type Change, SudokuSolver } from '@roenlie/mimic-core/sudoku';
 import { css, html, LitElement, nothing } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { repeat } from 'lit/directives/repeat.js';
-import { Change, SudokuSolver } from 'node_modules/@roenlie/mimic-core/dist/lib/sudoku/solver.js';
 
 
 @customElement('mimic-solver-demo')
