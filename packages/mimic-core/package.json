@@ -98,7 +98,6 @@
 		"increment-version": "package-toolbox increment-version"
 	},
 	"dependencies": {
-		"nanoid": "^4.0.2",
-		"tslib": "^2.6.1"
+		"nanoid": "^4.0.2"
 	}
 }

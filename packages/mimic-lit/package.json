@@ -58,8 +58,7 @@
 		"fast-equals": "^5.0.1",
 		"inversify": "^6.0.1",
 		"nanoid": "^4.0.1",
-		"reflect-metadata": "^0.1.13",
-		"tslib": "^2.6.1"
+		"reflect-metadata": "^0.1.13"
 	},
 	"peerDependencies": {
 		"lit": "*"

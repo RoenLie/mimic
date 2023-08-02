@@ -27,7 +27,6 @@
 		"@roenlie/mimic-core": "workspace:^",
 		"lit": "^2.7.6",
 		"nanoid": "^4.0.0",
-		"tslib": "^2.6.1",
 		"urlpattern-polyfill": "^9.0.0"
 	}
 }

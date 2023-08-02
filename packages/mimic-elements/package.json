@@ -97,8 +97,7 @@
 	"dependencies": {
 		"@floating-ui/dom": "^1.5.1",
 		"@roenlie/mimic-core": "workspace:^",
-		"@roenlie/mimic-lit": "workspace:^",
-		"tslib": "^2.6.1"
+		"@roenlie/mimic-lit": "workspace:^"
 	},
 	"peerDependencies": {
 		"lit": "*"
