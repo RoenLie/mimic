@@ -1,12 +1,7 @@
 {
 	"extends": "@roenlie/tsconfig",
 	"compilerOptions": {
-		"noEmit": true,
-		"emitDeclarationOnly": false,
-		"incremental": false,
-		"types": [
-			"vite/client"
-		]
+		"types": []
 	},
 	"include": [
 		"../src/**/*.ts",
