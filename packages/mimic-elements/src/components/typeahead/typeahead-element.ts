@@ -11,6 +11,7 @@ import { createRef, type Ref, ref } from 'lit/directives/ref.js';
 import { when } from 'lit/directives/when.js';
 
 import { MMInput, systemIcons } from '../../index-fallback.js';
+import { term } from '../../utilities/localize.js';
 
 
 declare global { interface HTMLElementTagNameMap {
@@ -269,7 +270,23 @@ export class MMTypeahead extends LitElement {
 		}
 	}
 
+	protected savedInProp = term('hallo');
+	@state() shoulditShould = true;
+
+
 	public override render() {
+		console.log(this.savedInProp);
+
+		return html`
+		<button @click=${ () => this.shoulditShould = !this.shoulditShould }>DO IT</button>
+		${ when(this.shoulditShould, () => html`
+		<div>
+		${ this.savedInProp }
+		</div>
+		`) }
+		`;
+
+
 		return html`
 		<mm-input
 			label=${ ifDefined(this.label) }

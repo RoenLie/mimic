@@ -7,7 +7,7 @@ export type DynamicPromise<T> = Promised<T> | Promiser<T>;
 
 
 /** Checks if data is a promise. */
-export const isPromise = <T>(promise: Promised<T>) => promise instanceof Promise;
+export const isPromise = <T>(promise: Promised<T>): promise is Promise<T> => promise instanceof Promise;
 
 /** Convert a dynamic promise to a promise. */
 export const resolveDynamicPromise = async <T>(dynamic: DynamicPromise<T>): Promise<T> => {

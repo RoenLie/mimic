@@ -1,5 +1,5 @@
 import { defineDocConfig } from '@roenlie/mirage-docs';
-import { viteCopy } from '@roenlie/package-toolbox/vite';
+import { viteCopy } from '@roenlie/package-toolbox/vite-utils';
 
 
 export default defineDocConfig({
