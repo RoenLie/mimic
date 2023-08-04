@@ -3,6 +3,12 @@ import { resolveValueProvider } from '../function/value-provider.js';
 type Provider<T> = T | (() => T);
 
 
+const createMap = <K, V>() => new Map<K, V>();
+const createWeakMap = <K extends object, V>() => new WeakMap<K, V>();
+const createSet = <T>() => new Set<T>();
+const createWeakSet = <T extends object>() => new WeakSet<T>();
+
+
 /**
  * Get a `TValue` from the `map`, and add it first if it doesn't already exist in the map.
  * @param map - The map containing values.
@@ -28,6 +34,10 @@ export const lazyMap = <TMap extends Map<any, any>>(
 
 	return val;
 };
+lazyMap.createMap = createMap;
+lazyMap.createWeakMap = createWeakMap;
+lazyMap.createSet = createSet;
+lazyMap.createWeakSet = createWeakSet;
 
 
 /**
@@ -46,3 +56,7 @@ export const lazyWeakmap = <TMap extends WeakMap<object, any>>(
 	valueProvider,
 	retrieveAction,
 );
+lazyWeakmap.createMap = createMap;
+lazyWeakmap.createWeakMap = createWeakMap;
+lazyWeakmap.createSet = createSet;
+lazyWeakmap.createWeakSet = createWeakSet;

@@ -45,6 +45,8 @@
 		}
 	},
 	"scripts": {
+		"test": "vitest",
+		"test:dom": "vitest --dom",
 		"build": "pnpm build:prepare && pnpm build:index && pnpm build:types && vite build",
 		"build:prepare": "rimraf dist",
 		"build:index": "package-toolbox build-indexes",
@@ -64,6 +66,7 @@
 		"lit": "*"
 	},
 	"devDependencies": {
+		"happy-dom": "^10.7.0",
 		"lit": "^2.7.6"
 	},
 	"sideEffects": [
