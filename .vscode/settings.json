@@ -61,7 +61,7 @@
 				{
 					"name": "docs",
 					"commands": [
-						"cd packages/mimic-docs"
+						"cd packages/docs"
 					]
 				}
 			]
@@ -71,7 +71,7 @@
 				{
 					"name": "core",
 					"commands": [
-						"cd packages/mimic-core"
+						"cd packages/core"
 					]
 				}
 			]
@@ -81,7 +81,7 @@
 				{
 					"name": "elements",
 					"commands": [
-						"cd packages/mimic-elements"
+						"cd packages/elements"
 					]
 				}
 			]
@@ -91,7 +91,7 @@
 				{
 					"name": "lit",
 					"commands": [
-						"cd packages/mimic-lit"
+						"cd packages/lit"
 					]
 				}
 			]
@@ -101,11 +101,20 @@
 				{
 					"name": "router",
 					"commands": [
-						"cd packages/mimic-router"
+						"cd packages/router"
+					]
+				}
+			]
+		},
+		{
+			"splitTerminals": [
+				{
+					"name": "localize",
+					"commands": [
+						"cd packages/localize"
 					]
 				}
 			]
 		}
 	],
-	"svg.preview.background": "transparent"
 }

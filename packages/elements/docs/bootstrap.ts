@@ -1,6 +1,6 @@
 import { sleep } from '@roenlie/mimic-core/async';
 import { lazyMap } from '@roenlie/mimic-core/structs';
-import { TermStore } from '@roenlie/mimic-lit/localize';
+import { TermStore } from '@roenlie/mimic-localize/core';
 
 import codes from '../src/misc/language-en.json';
 
@@ -63,4 +63,5 @@ class EsTermStore extends TermStore {
 
 }
 
-new EsTermStore();
+const store = new EsTermStore();
+console.log(store);

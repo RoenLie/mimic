@@ -1,5 +1,6 @@
 import { format } from '@roenlie/mimic-core/string';
-import { loadTerms, tTerm } from '@roenlie/mimic-lit/localize';
+import { loadTerms } from '@roenlie/mimic-localize/core';
+import { tTerm } from '@roenlie/mimic-localize/directive';
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
@@ -20,12 +21,15 @@ setTimeout(() => {
 @customElement('mm-typeahead-demo')
 export class TypeaheadDemo extends LitElement {
 
+	protected text1 = tTerm('value.AccommodationType.BARRACK_W_COOKING');
+	protected text2 = tTerm('typeahead.label', text => format(text, 'PLUM!'));
+
 	public override render() {
 		return html`
 		<mm-typeahead
 			openOnFocus
 			openOnClick
-			label=${ tTerm('typeahead.label', text => format(text, 'PLUM!')) }
+			label=${ this.text1 }
 		>
 			${ map(range(200), () => html`
 			<mm-typeahead-item>

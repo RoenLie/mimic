@@ -27,7 +27,7 @@ jobs:
 
       - name: Change package version.
         run: |
-          cd packages/mimic-core
+          cd packages/core
           pnpm increment-version
 
       - uses: EndBug/add-and-commit@v9
@@ -38,7 +38,7 @@ jobs:
 
       - name: Publish package.
         run: |
-          cd packages/mimic-core
+          cd packages/core
           pnpm publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

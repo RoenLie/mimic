@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"author": {
 		"name": "Kristoffer Roen-Lie",
-		"email": "KristofferRoenLie@gmail.com"
+		"url": "https://github.com/RoenLie"
 	},
 	"repository": {
 		"type": "git",
@@ -97,7 +97,8 @@
 	"dependencies": {
 		"@floating-ui/dom": "^1.5.1",
 		"@roenlie/mimic-core": "workspace:^",
-		"@roenlie/mimic-lit": "workspace:^"
+		"@roenlie/mimic-lit": "workspace:^",
+		"@roenlie/mimic-localize": "workspace:^"
 	},
 	"peerDependencies": {
 		"lit": "*"

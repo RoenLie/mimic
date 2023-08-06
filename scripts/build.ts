@@ -1,5 +1,7 @@
 import { exec } from 'child_process';
 
+import { packageBuildOrder } from './utilities/find-build-order.js';
+
 
 const execPromise = (cmd: string) => {
 	return new Promise((resolve, reject) => {
@@ -11,11 +13,7 @@ const execPromise = (cmd: string) => {
 };
 
 
-const buildOrder: string[][] = [
-	[ '@roenlie/mimic-core' ],
-	[ '@roenlie/mimic-lit', '@roenlie/mimic-router' ],
-	[ '@roenlie/mimic-elements' ],
-];
+const buildOrder = await packageBuildOrder();
 
 
 for await (const cmds of buildOrder)

@@ -3,8 +3,8 @@ import { AsyncDirective } from 'lit/async-directive.js';
 import { directive } from 'lit/directive.js';
 import { until } from 'lit/directives/until.js';
 
-import { term, toggleTermListener } from './localize-core.js';
-import type { DirectiveString, Dynamic } from './localize-types.js';
+import { term, toggleTermListener } from '../core/localize-core.js';
+import type { DirectiveString, Dynamic } from '../core/localize-types.js';
 
 
 class TermDirective extends AsyncDirective {

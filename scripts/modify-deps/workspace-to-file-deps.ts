@@ -1,10 +1,10 @@
 import { readFileSync, writeFileSync } from 'fs';
 import { relative } from 'path';
 
-import { getPackagePaths } from './get-project-package-paths.js';
+import { getPackageInfo } from './get-project-package-paths.js';
 
 
-const { packages, projectPathCache } = await getPackagePaths();
+const { packages, projectPathCache } = await getPackageInfo();
 
 
 const workspaceToFileDeps = () => {

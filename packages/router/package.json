@@ -2,6 +2,10 @@
 	"name": "@roenlie/mimic-router",
 	"version": "1.0.4",
 	"description": "",
+	"author": {
+		"name": "Kristoffer Roen-Lie",
+		"url": "https://github.com/RoenLie"
+	},
 	"type": "module",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -16,7 +20,6 @@
 		"updatedeps": "pnpm update --latest --interactive",
 		"increment-version": "package-toolbox increment-version"
 	},
-	"author": "Kristoffer Roen-Lie",
 	"exports": {
 		".": {
 			"types": "./dist/index.d.js",

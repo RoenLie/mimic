@@ -54,6 +54,15 @@ importers:
         specifier: ^0.34.1
         version: 0.34.1
 
+  packages/localize:
+    devDependencies:
+      happy-dom:
+        specifier: ^10.8.0
+        version: 10.8.0
+      lit:
+        specifier: ^2.8.0
+        version: 2.8.0
+
   packages/mimic-core:
     dependencies:
       nanoid:
@@ -84,6 +93,9 @@ importers:
       '@roenlie/mimic-lit':
         specifier: workspace:^
         version: link:../mimic-lit
+      '@roenlie/mimic-localize':
+        specifier: workspace:^
+        version: link:../localize
     devDependencies:
       '@roenlie/mirage-docs':
         specifier: ^1.2.8

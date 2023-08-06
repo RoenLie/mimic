@@ -1,8 +1,11 @@
 {
 	"name": "@roenlie/mimic-docs",
-	"author": "Kristoffer Roen-Lie",
 	"version": "0.0.5",
 	"description": "Documentation for the Mimic project.",
+	"author": {
+		"name": "Kristoffer Roen-Lie",
+		"url": "https://github.com/RoenLie"
+	},
 	"license": "MIT",
 	"repository": {
 		"type": "git",

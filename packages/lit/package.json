@@ -2,6 +2,10 @@
 	"name": "@roenlie/mimic-lit",
 	"version": "0.0.38",
 	"description": "Extensions and utilities for the LIT framework.",
+	"author": {
+		"name": "Kristoffer Roen-Lie",
+		"url": "https://github.com/RoenLie"
+	},
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -34,10 +38,6 @@
 		"./injectable": {
 			"types": "./dist/injectable/index.d.ts",
 			"default": "./dist/injectable/index.js"
-		},
-		"./localize": {
-			"types": "./dist/localize/index.d.ts",
-			"default": "./dist/localize/index.js"
 		},
 		"./state-store": {
 			"types": "./dist/state-store/index.d.ts",

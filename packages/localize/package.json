@@ -1,0 +1,48 @@
+{
+	"name": "@roenlie/mimic-localize",
+	"version": "0.0.0",
+	"description": "A lightweight and reactive localization package, with a focus on use with LIT web components.",
+	"author": {
+		"name": "Kristoffer Roen-Lie",
+		"url": "https://github.com/RoenLie"
+	},
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/RoenLie/mimic.git"
+	},
+	"bugs": {
+		"url": "https://github.com/RoenLie/mimic/issues"
+	},
+	"homepage": "https://github.com/RoenLie/mimic#readme",
+	"type": "module",
+	"exports": {
+		"./core": {
+			"types": "./dist/core/index.d.ts",
+			"default": "./dist/core/index.js"
+		},
+		"./directive": {
+			"types": "./dist/directive/index.d.ts",
+			"default": "./dist/directive/index.js"
+		}
+	},
+	"scripts": {
+		"test": "vitest",
+		"test:dom": "vitest --dom",
+		"build": "pnpm build:prepare && pnpm build:index && pnpm build:types && vite build",
+		"build:prepare": "rimraf dist",
+		"build:index": "package-toolbox build-indexes",
+		"build:types": "tsc --project ./src/tsconfig.json",
+		"updatedeps": "pnpm update --latest --interactive",
+		"increment-version": "package-toolbox increment-version"
+	},
+	"dependencies": {},
+	"peerDependencies": {
+		"lit": "*"
+	},
+	"devDependencies": {
+		"happy-dom": "^10.8.0",
+		"lit": "^2.8.0"
+	},
+	"sideEffects": false
+}
