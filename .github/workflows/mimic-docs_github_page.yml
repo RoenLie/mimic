@@ -42,18 +42,13 @@ jobs:
       - name: Build required projects
         run: pnpm build
 
-      - name: Build docsite
-        run: |
-          cd packages/mimic-docs
-          pnpm build
-
       - name: Setup Pages
         uses: actions/configure-pages@v3
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: "./packages/mimic-docs/dist"
+          path: "./packages/docs/dist"
 
       - name: Deploy to GitHub Pages
         id: deployment
