@@ -8,7 +8,7 @@ import codes from '../src/misc/language-en.json';
 const languageMap = (() => {
 	const codeMap = new Map<string, Map<string, string>>();
 
-	type LangBlock = {
+	interface LangBlock {
 		[key: string]: LangBlock | string
 	}
 

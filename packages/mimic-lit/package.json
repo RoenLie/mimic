@@ -74,8 +74,8 @@
 		"lit": "*"
 	},
 	"devDependencies": {
-		"happy-dom": "^10.7.0",
-		"lit": "^2.7.6"
+		"happy-dom": "^10.8.0",
+		"lit": "^2.8.0"
 	},
 	"sideEffects": [
 		"dist/injectable/core.js"

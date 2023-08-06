@@ -1,5 +1,3 @@
-import { until } from 'lit/directives/until.js';
-
 import type { Dynamic } from './localize-types.js';
 
 

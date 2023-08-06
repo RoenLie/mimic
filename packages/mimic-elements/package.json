@@ -103,7 +103,7 @@
 		"lit": "*"
 	},
 	"devDependencies": {
-		"@roenlie/mirage-docs": "^1.2.7",
-		"lit": "^2.7.6"
+		"@roenlie/mirage-docs": "^1.2.8",
+		"lit": "^2.8.0"
 	}
 }

@@ -39,9 +39,9 @@
 	},
 	"dependencies": {
 		"@roenlie/mimic-core": "workspace:^",
-		"lit": "^2.7.6"
+		"lit": "^2.8.0"
 	},
 	"devDependencies": {
-		"@roenlie/mirage-docs": "^1.2.7"
+		"@roenlie/mirage-docs": "^1.2.8"
 	}
 }

@@ -3,7 +3,6 @@ import { Enum, type InferEnum } from '@roenlie/mimic-core/enum';
 import type { Ctor } from '@roenlie/mimic-core/types';
 import { PopoutController } from '@roenlie/mimic-lit/controllers';
 import { MimicElement } from '@roenlie/mimic-lit/decorators';
-import { onLanguageChange } from '@roenlie/mimic-lit/localize';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html, LitElement } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
