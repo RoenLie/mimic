@@ -28,6 +28,7 @@ export default defineDocConfig({
 	},
 	siteConfig: {
 		links: {
+			scripts:    [ '/docs/bootstrap.ts' ],
 			darkTheme:  '/styles/tokens-dark.css',
 			lightTheme: '/styles/tokens-light.css',
 			styles:     [

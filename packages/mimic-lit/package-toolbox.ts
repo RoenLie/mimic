@@ -1,5 +1,5 @@
+import { createEntrypointsFromDirectories } from '@roenlie/package-toolbox/filesystem/create-index-entries.js';
 import { defineToolbox } from '@roenlie/package-toolbox/toolbox';
-
 
 export default defineToolbox(async () => {
 	const exclude = (path: string) => [
@@ -8,18 +8,16 @@ export default defineToolbox(async () => {
 		'.bench',
 	].every(seg => !path.includes(seg));
 
+	const entrypoints = createEntrypointsFromDirectories([ '/src' ]);
+
 	return {
 		indexBuilder: {
-			entrypoints: [
-				{ path: './src/index-fallback.ts',    filters: [ exclude ] },
-				{ path: './src/directives/index.ts',  filters: [ exclude ] },
-				{ path: './src/decorators/index.ts',  filters: [ exclude ] },
-				{ path: './src/controllers/index.ts', filters: [ exclude ] },
-				{ path: './src/injectable/index.ts',  filters: [ exclude ] },
-				{ path: './src/state-store/index.ts', filters: [ exclude ] },
-				{ path: './src/context/index.ts',     filters: [ exclude ] },
-				{ path: './src/styles/index.ts',      filters: [ exclude ] },
-			],
+			entrypoints,
+			defaultFilters:             [ exclude ],
+			defaultPackageExport:       true,
+			packageExportNameTransform: path => path
+				.replace('/src', '/dist')
+				.replace('.ts', '.js'),
 		},
 	};
 });

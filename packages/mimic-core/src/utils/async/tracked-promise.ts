@@ -23,7 +23,7 @@ export const TrackedPromise = function<T>(
 	this: ITrackedPromise<T>,
 	executor: ConstructorParameters<PromiseConstructorLike>[0],
 ) {
-	let id = nanoid(5);
+	let id = nanoid();
 	let resolver: (value?: any) => void = () => {};
 	let rejector: () => void = () => {};
 

@@ -1,3 +1,4 @@
+import { tTerm } from '@roenlie/mimic-lit/localize';
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
@@ -17,7 +18,7 @@ export class TypeaheadDemo extends LitElement {
 		<mm-typeahead
 			openOnFocus
 			openOnClick
-			label="hei der"
+			label=${ tTerm('search.summary.header') }
 		>
 			${ map(range(200), () => html`
 			<mm-typeahead-item>
@@ -46,6 +47,14 @@ export class TypeaheadDemo extends LitElement {
 			display: block;
 			height: 200px;
 			aspect-ratio: 1;
+		}
+		.testbox {
+			overflow: auto;
+			height: 200px;
+			aspect-ratio: 1;
+			display: flex;
+			flex-flow: column nowrap;
+			border: 2px solid hotpink;
 		}
 		`,
 	];
