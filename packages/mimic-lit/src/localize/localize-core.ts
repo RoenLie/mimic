@@ -1,40 +1,43 @@
 import { until } from 'lit/directives/until.js';
 
-
-type Dynamic<T> = T | Promise<T> | (() => Promise<T>) | (() => T);
+import type { Dynamic } from './localize-types.js';
 
 
 export abstract class TermStore {
 
-	protected static loadRef: (lang: string, terms: [term: string, text: string][]) => void;
-	protected static requestRef: (term: Dynamic<string>, formatter?: (text: string) => string) => Promise<string>;
-	protected static toggleRef: (callback: Function, state: boolean) => void;
+	protected static loadRef: TermStore['setTerms'];
+	protected static toggleRef: TermStore['toggleListener'];
+	protected static requestRef: TermStore['requestTerm'];
 
-	public static loadTerms(lang: string, terms: [term: string, text: string][]) {
-		return TermStore.loadRef(lang, terms);
+	public static loadTerms(...args: Parameters<TermStore['setTerms']>) {
+		return TermStore.loadRef(...args);
 	}
 
-	public static requestTerm(term: Dynamic<string>, formatter?: (text: string) => string) {
-		return TermStore.requestRef(term, formatter);
+	public static requestTerm(...args: Parameters<TermStore['requestTerm']>) {
+		return TermStore.requestRef(...args);
 	}
 
-	public static toggleListener(callback: Function, state: boolean) {
-		return TermStore.toggleRef(callback, state);
+	public static toggleListener(...args: Parameters<TermStore['toggleListener']>) {
+		return TermStore.toggleRef(...args);
 	}
 
-	protected store = new Map<string, Map<string, string>>();
-	protected listeners = new Set<Function>();
+	protected store = new Map<string, string>();
+	protected listeners = new Map<string, Set<Function>>();
 	protected langChangeObs = new MutationObserver(() => this.onLanguageChange());
 
 	constructor() {
 		if (!TermStore.requestRef)
-			TermStore.requestRef = (term, formatter) => this.requestTerm(term, formatter);
+			TermStore.requestRef = this.requestTerm.bind(this);
 		if (!TermStore.toggleRef)
-			TermStore.toggleRef = (callback, state) => this.toggleListener(callback, state);
+			TermStore.toggleRef = this.toggleListener.bind(this);
 		if (!TermStore.loadRef)
-			TermStore.loadRef = (lang, terms) => this.setTerms(lang, terms);
+			TermStore.loadRef = this.setTerms.bind(this);
 
 		this.listenForLanguageChange();
+	}
+
+	protected createCacheKey(lang: string, term: string) {
+		return lang + '-' + term;
 	}
 
 	protected async requestTerm(term: Dynamic<string>, formatter?: (text: string) => string) {
@@ -54,19 +57,28 @@ export abstract class TermStore {
 		return text;
 	}
 
-	protected toggleListener(callback: Function, state: boolean) {
+	protected toggleListener(term: string, callback: Function, state: boolean) {
+		const set = this.listeners.get(term) ?? (() => {
+			const set = new Set<Function>();
+
+			return this.listeners.set(term, set), set;
+		})();
+
 		if (state)
-			this.listeners.add(callback);
+			set.add(callback);
 		else
-			this.listeners.delete(callback);
+			set.delete(callback);
 	}
 
 	protected onLanguageChange() {
-		for (const listener of this.listeners)
-			listener();
+		for (const [ , listeners ] of this.listeners) {
+			for (const listener of listeners)
+				listener();
+		}
 	}
 
-	//  TODO: Make this into a callback function or something that gets registered, so that there is no inherit connection to window.
+	//  TODO-maybe: Make this into a callback function or something that gets registered
+	// so that there is no inherit connection to window.
 	protected listenForLanguageChange() {
 		this.langChangeObs.disconnect();
 		this.langChangeObs.observe(
@@ -76,27 +88,25 @@ export abstract class TermStore {
 	}
 
 	public setTerm(lang: string, term: string, text: string) {
-		const terms = this.store.get(term) ?? (() => {
-			const map = new Map<string, string>();
-			this.store.set(term, map);
+		this.store.set(this.createCacheKey(lang, term), text);
 
-			return map;
-		})();
-
-		terms.set(lang, text);
+		// Invoke any listeners for this term.
+		this.listeners.get(term)?.forEach(l => l());
 	}
 
 	public setTerms(lang: string, terms: [term: string, text: string][]) {
 		for (const [ term, text ] of terms)
 			this.setTerm(lang, term, text);
+
+		this.onLanguageChange();
 	}
 
 	public getTerm(term: string, lang: string) {
-		return this.store.get(term)?.get(lang);
+		return this.store.get(this.createCacheKey(lang, term));
 	}
 
 	public hasTerm(term: string, lang: string) {
-		return this.store.get(term)?.has(lang);
+		return this.store.has(this.createCacheKey(lang, term));
 	}
 
 	public detectLanguage() {
@@ -120,14 +130,11 @@ export const term = (text: Dynamic<string>, formatter?: (text: string) => string
 };
 
 
-/** Uses a `until` directive to render the language code until the term is resolved from the term store. */
-export const tTerm = (...args: Parameters<typeof term>) => until(...term(...args));
-
-
 /** Register a callback function that is run upon detecting a language change in the browser. */
-export const onLanguageChange = (callback: Function, state: boolean) => {
-	TermStore.toggleListener(callback, state);
+export const toggleTermListener = (...args: Parameters<TermStore['toggleListener']>) => {
+	TermStore.toggleListener(...args);
 };
+
 
 /** Loads terms for a spesified language into the term store. */
 export const loadTerms = (lang: string, terms: [term: string, text: string][]) => {

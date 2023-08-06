@@ -36,12 +36,12 @@ class EsTermStore extends TermStore {
 	public langBlockRequests = new Map<string, Promise<any>>();
 
 	public async retrieveLangBlock(block: string, lang: string) {
-		await sleep(2000);
+		await sleep(500);
 
 		return languageMap.get(block);
 	}
 
-	override async onTermDoesNotExist(requestedTerm: string, lang: string) {
+	public override async onTermDoesNotExist(requestedTerm: string, lang: string) {
 		const head = requestedTerm.split('.').slice(0, -1).join('.');
 
 		const requestKey = lang + ':' + head;
