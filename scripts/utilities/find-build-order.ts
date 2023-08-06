@@ -50,12 +50,12 @@ export const packageBuildOrder = async (excludePkg: string[] = []) => {
 			const sameAmountOfDeps = pkgLength === pkg.deps.length;
 			if (sameAmountOfDeps || currentPkgs.length === 0) {
 				const depsAreTheSame = currentPkgs.every(pkg => pkg.deps.every(d => set.has(d)));
-				console.log(pkg.name, depsAreTheSame);
+				if (depsAreTheSame) {
+					grouped[insertAt] ??= [];
+					grouped[insertAt]?.push(pkg);
 
-				grouped[insertAt] ??= [];
-				grouped[insertAt]?.push(pkg);
-
-				return true;
+					return true;
+				}
 			}
 
 			return false;
