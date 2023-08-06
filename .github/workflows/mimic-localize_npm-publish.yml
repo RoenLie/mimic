@@ -1,4 +1,4 @@
-name: Publish mimic-router to NPM with auto-incremented patch release.
+name: Publish mimic-localize to NPM with auto-incremented patch release.
 
 on:
   # Allows you to run this workflow manually from the Actions tab
