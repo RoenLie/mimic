@@ -1,5 +1,5 @@
-import { createEntrypointsFromDirectories } from '@roenlie/package-toolbox/filesystem/create-index-entries.js';
 import { defineToolbox } from '@roenlie/package-toolbox/toolbox';
+
 
 export default defineToolbox(async () => {
 	const exclude = (path: string) => [
@@ -8,11 +8,9 @@ export default defineToolbox(async () => {
 		'.bench',
 	].every(seg => !path.includes(seg));
 
-	const entrypoints = createEntrypointsFromDirectories([ '/src' ]);
-
 	return {
 		indexBuilder: {
-			entrypoints,
+			entrypoints:                [ { path: './src/index.ts' } ],
 			defaultFilters:             [ exclude ],
 			defaultPackageExport:       true,
 			packageExportNameTransform: path => path
