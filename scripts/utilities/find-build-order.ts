@@ -3,6 +3,26 @@ import { readFileSync } from 'node:fs';
 import { getPackagePaths } from './get-package-paths.js';
 
 
+export const getPackageDeps = (json: any) => {
+	const dependencies: Record<string, string> = json.dependencies;
+	const devDependencies: Record<string, string> = json.devDependencies;
+
+	const deps = Object.entries({
+		...dependencies,
+		...devDependencies,
+	});
+
+	return deps;
+};
+
+
+export const getWorkspaceDeps = (json: any) => {
+	return getPackageDeps(json)
+		.filter(([ , ver ]) => ver.startsWith('workspace:'))
+		.map(([ name ]) => name);
+};
+
+
 export const packageBuildOrder = async (excludePkg: string[] = []) => {
 	const packages = await getPackagePaths('./packages');
 

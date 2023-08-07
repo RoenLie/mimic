@@ -3,6 +3,9 @@
 	"compilerOptions": {
 		"rootDir": ".",
 		"baseUrl": ".",
+		"types": [
+			"node"
+		]
 	},
 	"exclude": [
 		"node_modules",

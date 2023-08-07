@@ -10,6 +10,7 @@
 		"@roenlie/eslint-config": "^1.2.0",
 		"@roenlie/package-toolbox": "^0.0.19",
 		"@roenlie/tsconfig": "^1.0.2",
+		"@types/node": "^20.4.8",
 		"@typescript-eslint/eslint-plugin": "^6.2.1",
 		"@typescript-eslint/parser": "^6.2.1",
 		"eslint": "^8.46.0",
