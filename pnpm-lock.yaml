@@ -147,6 +147,16 @@ importers:
         specifier: ^9.0.0
         version: 9.0.0
 
+  packages/state-store:
+    dependencies:
+      '@roenlie/mimic-core':
+        specifier: workspace:^
+        version: link:../core
+    devDependencies:
+      lit:
+        specifier: ^2.8.0
+        version: 2.8.0
+
 packages:
 
   /@aashutoshrathi/word-wrap@1.2.6:

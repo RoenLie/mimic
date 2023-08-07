@@ -115,6 +115,16 @@
 					]
 				}
 			]
+		},
+		{
+			"splitTerminals": [
+				{
+					"name": "store",
+					"commands": [
+						"cd packages/state-store"
+					]
+				}
+			]
 		}
 	],
 }
