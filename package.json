@@ -1,7 +1,9 @@
 {
 	"type": "module",
 	"scripts": {
-		"build": "tsx ./scripts/build.ts"
+		"build": "tsx ./scripts/build.ts",
+		"increment-version": "pnpm --filter \"!@roenlie/mimic-docs\" increment-version",
+		"publish-packages": "pnpm --filter \"!@roenlie/mimic-docs\" publish --access public --no-git-checks"
 	},
 	"dependencies": {
 		"tslib": "^2.6.1"

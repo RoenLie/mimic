@@ -26,10 +26,10 @@ jobs:
         run: pnpm build
 
       - name: Increment package version.
-        run: pnpm --filter \"!@roenlie/mimic-docs\" increment-version
+        run: pnpm increment-version
 
       - name: Publish packages.
-        run: pnpm --filter \"!@roenlie/mimic-docs\" publish --access public --no-git-checks
+        run: pnpm publish-packages
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
