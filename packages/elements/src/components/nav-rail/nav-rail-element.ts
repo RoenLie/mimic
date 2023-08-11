@@ -1,11 +1,10 @@
-import { includeCE } from '@roenlie/mimic-lit/injectable';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
 import { MMNavRailItem } from './nav-rail-item-element.js';
 
-includeCE(MMNavRailItem);
+[ MMNavRailItem ];
 
 
 /**

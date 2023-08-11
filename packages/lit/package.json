@@ -35,14 +35,6 @@
 			"types": "./dist/directives/index.d.ts",
 			"default": "./dist/directives/index.js"
 		},
-		"./injectable": {
-			"types": "./dist/injectable/index.d.ts",
-			"default": "./dist/injectable/index.js"
-		},
-		"./state-store": {
-			"types": "./dist/state-store/index.d.ts",
-			"default": "./dist/state-store/index.js"
-		},
 		"./styles": {
 			"types": "./dist/styles/index.d.ts",
 			"default": "./dist/styles/index.js"

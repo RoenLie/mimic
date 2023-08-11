@@ -1,5 +1,4 @@
 import { SlotController } from '@roenlie/mimic-lit/controllers';
-import { includeCE } from '@roenlie/mimic-lit/injectable';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html, LitElement } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
@@ -8,7 +7,7 @@ import { when } from 'lit/directives/when.js';
 
 import { MMRipple } from '../ripple/ripple-element.js';
 
-includeCE(MMRipple);
+[ MMRipple ];
 
 
 /**

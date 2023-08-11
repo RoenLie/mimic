@@ -98,7 +98,8 @@
 		"@floating-ui/dom": "^1.5.1",
 		"@roenlie/mimic-core": "workspace:^",
 		"@roenlie/mimic-lit": "workspace:^",
-		"@roenlie/mimic-localize": "workspace:^"
+		"@roenlie/mimic-localize": "workspace:^",
+		"@roenlie/aegis": "workspace:^"
 	},
 	"peerDependencies": {
 		"lit": "*"
