@@ -4,8 +4,6 @@ import { packageBuildOrder } from './utilities/find-build-order.js';
 
 const buildOrder = await packageBuildOrder();
 
-console.log(buildOrder);
-
 
 for await (const cmds of buildOrder)
 	await Promise.all(cmds.map(cmd => execPromise(`pnpm --filter=${ cmd } run build`)));
