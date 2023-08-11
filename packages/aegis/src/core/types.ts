@@ -1,8 +1,9 @@
 import { type Ctor } from '@roenlie/mimic-core/types';
 
 export type PropertyName = string & Record<never, never>;
-export type ElementMetadata = {
+export interface ElementMetadata {
 	async: boolean;
+	scope?: string;
 	identifier: Identifier;
 }
 

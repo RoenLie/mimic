@@ -3,7 +3,7 @@ import { Container } from 'inversify';
 
 import { $Container } from './constants.js';
 import { ContainerModule } from './container-module.js';
-import { type InjectableElementOptions } from './decorators.js';
+import { type AegisElementOptions } from './decorators.js';
 import { type ElementScope } from './types.js';
 
 
@@ -43,5 +43,5 @@ export const unloadComponentModules = (tagname: string, elementScope?: ElementSc
 };
 
 
-export const componentOptions = new Map<string, InjectableElementOptions>();
+export const componentOptions = new Map<string, AegisElementOptions>();
 export const getComponentOptions = (tagname: string) => componentOptions.get(tagname.toLowerCase()) ?? {};

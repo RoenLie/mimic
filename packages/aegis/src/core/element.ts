@@ -12,7 +12,7 @@ import { type ElementScope, type PropMetadata } from './types.js';
 injectableShim();
 
 
-export class InjectableElement extends LitElement {
+export class AegisElement extends LitElement {
 
 	public static tagName = '';
 	public static loadingTemplate = '';
@@ -32,7 +32,7 @@ export class InjectableElement extends LitElement {
 			if (!element.hasAttribute('awaiting-upgrade')) {
 				element.setAttribute('awaiting-upgrade', '');
 
-				element.innerHTML = InjectableElement.loadingTemplate;
+				element.innerHTML = AegisElement.loadingTemplate;
 
 				customElements.whenDefined(tagname).then(() => {
 					element.removeAttribute('awaiting-upgrade');
@@ -49,7 +49,7 @@ export class InjectableElement extends LitElement {
 			.getMetadata($ElementScope, this.constructor);
 
 		const container = getContainer(elementScope);
-		const modules = getComponentModules((this.constructor as typeof InjectableElement).tagName);
+		const modules = getComponentModules((this.constructor as typeof AegisElement).tagName);
 		modules.forEach(module => {
 			if (isModuleLoaded(container, module))
 				return;
@@ -67,15 +67,19 @@ export class InjectableElement extends LitElement {
 			.getMetadata($InjectProps, this);
 
 		propMetadata?.forEach((metadata, property) => {
+			const cont = (!metadata.scope || metadata.scope === elementScope)
+				? container
+				: getContainer(metadata.scope);
+
 			try {
 				if (metadata.async) {
-					me[property] = container.getAsync(metadata.identifier)
+					me[property] = cont.getAsync(metadata.identifier)
 						.then(value => me[property] = value);
 
 					injectionPromises.push(me[property]);
 				}
 				else {
-					me[property] = container.get(metadata.identifier);
+					me[property] = cont.get(metadata.identifier);
 				}
 			}
 			catch (error) {

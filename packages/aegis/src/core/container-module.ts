@@ -1,7 +1,7 @@
 import { id, type interfaces  } from 'inversify';
 
 
-type ModuleOptions = {
+interface ModuleOptions {
 	bind: interfaces.Bind;
 	unbind: interfaces.Unbind;
 	isBound: interfaces.IsBound;
@@ -10,17 +10,16 @@ type ModuleOptions = {
 	onActivation: interfaces.Container['onActivation'];
 	onDeactivation: interfaces.Container['onDeactivation'];
 	bindOnce: <T>(serviceIdentifier: interfaces.ServiceIdentifier<T>) => interfaces.BindingToSyntax<T> | undefined;
-	rebindSafely: <T>(serviceIdentifier: interfaces.ServiceIdentifier<T>) => interfaces.BindingToSyntax<T> | undefined;
+	rebindSafe: <T>(serviceIdentifier: interfaces.ServiceIdentifier<T>) => interfaces.BindingToSyntax<T> | undefined;
 }
 
 
 export class ContainerModule implements interfaces.ContainerModule {
 
+	public id = id();
 	public registry: interfaces.ContainerModuleCallBack;
-	public id: number;
 
 	constructor(registry: (options: ModuleOptions) => void) {
-		this.id = id();
 		this.registry = (...args) => registry(this.#moduleArgs(args));
 	}
 
@@ -30,9 +29,11 @@ export class ContainerModule implements interfaces.ContainerModule {
 			if (!isBound(serviceIdentifier))
 				return bind(serviceIdentifier);
 		};
-		const rebindSafely = <T>(serviceIdentifier: interfaces.ServiceIdentifier<T>) => {
+		const rebindSafe = <T>(serviceIdentifier: interfaces.ServiceIdentifier<T>) => {
 			if (isBound(serviceIdentifier)) {
-				try { return rebind(serviceIdentifier); }
+				try {
+					return rebind(serviceIdentifier);
+				}
 				catch (error) { /*  */ }
 			}
 		};
@@ -46,7 +47,7 @@ export class ContainerModule implements interfaces.ContainerModule {
 			onActivation,
 			onDeactivation,
 			bindOnce,
-			rebindSafely,
+			rebindSafe,
 		} satisfies ModuleOptions;
 	}
 

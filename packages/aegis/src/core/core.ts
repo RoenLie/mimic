@@ -2,7 +2,7 @@ import { lazyWeakmap } from '@roenlie/mimic-core/structs';
 
 import { $ElementScope, $InjectParams } from './constants.js';
 import { getComponentModules, getContainer, isModuleLoaded, loadedModules } from './container.js';
-import { InjectableElement } from './injectable-element.js';
+import { AegisElement } from './element.js';
 import { type ElementMetadata, type ElementScope } from './types.js';
 
 
@@ -12,7 +12,9 @@ declare global {
 	}
 }
 
+
 let shimmed = false;
+
 
 export const injectableShim = () => {
 	if (shimmed)
@@ -20,10 +22,10 @@ export const injectableShim = () => {
 
 	shimmed = true;
 
-	const customDefineOrigin = customElements.define;
+	const nativeDefine = customElements.define;
 	customElements.define = function(name, constructor, options) {
-		if (!(constructor.prototype instanceof InjectableElement)) {
-			customDefineOrigin.call(this, name, constructor, options);
+		if (!(constructor.prototype instanceof AegisElement)) {
+			nativeDefine.call(this, name, constructor, options);
 
 			return;
 		}
@@ -34,7 +36,7 @@ export const injectableShim = () => {
 			.getMetadata($InjectParams, constructor.prototype.constructor);
 
 		if (!paramMetadata?.size) {
-			customDefineOrigin.call(this, name, constructor, options);
+			nativeDefine.call(this, name, constructor, options);
 
 			return;
 		}
@@ -49,7 +51,7 @@ export const injectableShim = () => {
 					.getMetadata($ElementScope, constructor);
 
 				const container = getContainer(elementScope);
-				const modules = getComponentModules((constructor as typeof InjectableElement).tagName);
+				const modules = getComponentModules((constructor as typeof AegisElement).tagName);
 				modules.forEach(module => {
 					if (isModuleLoaded(container, module))
 						return;
@@ -75,12 +77,11 @@ export const injectableShim = () => {
 
 		};
 
-		customDefineOrigin.call(this, name, ctor, options);
+		nativeDefine.call(this, name, ctor, options);
 	};
 
-
-	const customGetOrigin = customElements.get;
+	const nativeGet = customElements.get;
 	customElements.exists = function(tagname: string) {
-		return !!customGetOrigin.call(this, tagname);
+		return !!nativeGet.call(this, tagname);
 	};
 };

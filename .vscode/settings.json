@@ -125,6 +125,16 @@
 					]
 				}
 			]
+		},
+		{
+			"splitTerminals": [
+				{
+					"name": "aegis",
+					"commands": [
+						"cd packages/aegis"
+					]
+				}
+			]
 		}
 	],
 }

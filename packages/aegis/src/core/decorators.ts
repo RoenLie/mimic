@@ -5,13 +5,14 @@ import { inject as invInject, injectable as invInjectable } from 'inversify';
 import { $ElementScope, $InjectParams, $InjectProps } from './constants.js';
 import { componentModules, componentOptions } from './container.js';
 import { ContainerModule } from './container-module.js';
+import { AegisElement } from './element.js';
 import { ensureCE } from './ensure-element.js';
-import { InjectableElement } from './injectable-element.js';
-import { type Identifier, type ParamMetadata, type PropMetadata } from './types.js';
+import { type ElementMetadata, type Identifier, type ParamMetadata, type PropMetadata } from './types.js';
 
 
 export type ModuleOption = Promised<ContainerModule> | Promiser<ContainerModule>;
-export type InjectableElementOptions = {
+export type DecoratorOptions = Omit<ElementMetadata, 'identifier'>;
+export interface AegisElementOptions {
 	/** The container this component will resolve dependencies from. */
 	scope?: string;
 	/** Container modules that are loaded on loading this component. */
@@ -23,9 +24,9 @@ export type InjectableElementOptions = {
 
 export const injectableElement = (
 	tagName: string,
-	options?: InjectableElementOptions,
+	options?: AegisElementOptions,
 ) => {
-	return (target: typeof InjectableElement): any => {
+	return (target: typeof AegisElement): any => {
 		tagName = tagName.toLowerCase();
 		target.tagName = tagName;
 
@@ -54,9 +55,7 @@ export const injectableElement = (
 			loading.push(promise);
 
 			resolveDynamicPromise(module)
-				.then(module => {
-					registerModule(module); resolve(true);
-				});
+				.then(module => (registerModule(module), resolve(true)));
 		};
 
 		const registerModule = (module: ContainerModule) => {
@@ -74,9 +73,9 @@ export const injectableElement = (
 };
 
 
-export const injectProp = (identifier: Identifier, options?: { async?: boolean; }) => {
+export const injectProp = (identifier: Identifier, options?: DecoratorOptions) => {
 	return (
-		target: InjectableElement,
+		target: AegisElement,
 		property: string,
 	) => {
 		let metadata: PropMetadata = Reflect.getMetadata($InjectProps, target);
@@ -89,14 +88,15 @@ export const injectProp = (identifier: Identifier, options?: { async?: boolean; 
 		metadata.set(property, {
 			identifier,
 			async: options?.async ?? false,
+			scope: options?.scope,
 		});
 	};
 };
 
 
-export const injectParam = (identifier: Identifier, options?: { async?: boolean; }) => {
+export const injectParam = (identifier: Identifier, options?: DecoratorOptions) => {
 	return (
-		target: InjectableElement,
+		target: AegisElement,
 		property: undefined,
 		parameterIndex: number,
 	) => {
@@ -110,6 +110,7 @@ export const injectParam = (identifier: Identifier, options?: { async?: boolean;
 		metadata.set(parameterIndex, {
 			identifier,
 			async: options?.async ?? false,
+			scope: options?.scope,
 		});
 	};
 };
@@ -118,43 +119,22 @@ export const injectParam = (identifier: Identifier, options?: { async?: boolean;
 export const inject = (
 	identifier: Identifier,
 	/** Only relevant if used on an instance of InjectableElement */
-	options?: { async?: boolean; },
+	options?: DecoratorOptions,
 ) => {
 	return (
 		target: object,
 		property: string | undefined,
 		parameterIndex?: number,
 	) => {
-		if (!(target instanceof InjectableElement))
+		if (!(target instanceof AegisElement))
 			return invInject(identifier)(target, property, parameterIndex);
 
-		if (typeof property === 'string') {
-			let metadata: PropMetadata = Reflect.getMetadata($InjectProps, target);
-
-			if (!metadata) {
-				metadata = new Map();
-				Reflect.defineMetadata($InjectProps, metadata, target);
-			}
-
-			metadata.set(property, {
-				identifier,
-				async: options?.async ?? false,
-			});
-		}
-		else if (typeof parameterIndex === 'number') {
-			let metadata: ParamMetadata = Reflect.getMetadata($InjectParams, target);
-
-			if (!metadata) {
-				metadata = new Map();
-				Reflect.defineMetadata($InjectParams, metadata, target);
-			}
-
-			metadata.set(parameterIndex, {
-				identifier,
-				async: options?.async ?? false,
-			});
-		}
+		if (typeof property === 'string')
+			injectProp(identifier, options)(target, property);
+		else if (typeof parameterIndex === 'number')
+			injectParam(identifier, options)(target, property, parameterIndex);
 	};
 };
+
 
 export const injectable = invInjectable;
