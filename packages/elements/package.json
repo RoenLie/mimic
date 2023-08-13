@@ -96,16 +96,16 @@
 	},
 	"dependencies": {
 		"@floating-ui/dom": "^1.5.1",
+		"@roenlie/aegis": "workspace:^",
 		"@roenlie/mimic-core": "workspace:^",
 		"@roenlie/mimic-lit": "workspace:^",
-		"@roenlie/mimic-localize": "workspace:^",
-		"@roenlie/aegis": "workspace:^"
+		"@roenlie/mimic-localize": "workspace:^"
 	},
 	"peerDependencies": {
 		"lit": "*"
 	},
 	"devDependencies": {
-		"@roenlie/mirage-docs": "^1.2.8",
+		"@roenlie/mirage-docs": "^1.2.9",
 		"lit": "^2.8.0"
 	}
 }

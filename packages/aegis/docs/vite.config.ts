@@ -12,7 +12,7 @@ export default defineDocConfig({
 			targets: [
 				{
 					from: './styles/*',
-					to:   './docs/assets/styles',
+					to:   './docs/public/styles',
 				},
 			],
 			hook:     'config',
@@ -28,15 +28,7 @@ export default defineDocConfig({
 	},
 	siteConfig: {
 		links: {
-			scripts:    [ '/bootstrap.ts' ],
-			darkTheme:  '/styles/tokens-dark.css',
-			lightTheme: '/styles/tokens-light.css',
-			styles:     [
-				'/styles/tokens-all.css',
-				'/styles/tokens-all.css',
-				'/styles/tokens-extra.css',
-				'/styles/tokens-font.css',
-			],
+			scripts: [ '/bootstrap.ts' ],
 		},
 		styles: {
 			sidebar: `

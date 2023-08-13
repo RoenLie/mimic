@@ -36,12 +36,11 @@
 		"updatedeps": "pnpm update --latest --interactive",
 		"increment-version": "package-toolbox increment-version"
 	},
-	"dependencies": {},
 	"peerDependencies": {
 		"lit": "*"
 	},
 	"devDependencies": {
-		"happy-dom": "^10.8.0",
+		"happy-dom": "^10.9.0",
 		"lit": "^2.8.0"
 	},
 	"sideEffects": false

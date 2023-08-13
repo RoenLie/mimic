@@ -27,6 +27,7 @@
 	"scripts": {
 		"test": "vitest",
 		"test:dom": "vitest --dom",
+		"dev": "pnpm vite --config ./docs/vite.config.ts",
 		"build": "pnpm build:prepare && pnpm build:index && pnpm build:types && vite build",
 		"build:prepare": "rimraf dist",
 		"build:index": "package-toolbox build-indexes",
@@ -43,7 +44,8 @@
 		"lit": "*"
 	},
 	"devDependencies": {
-		"happy-dom": "^10.8.0",
+		"@roenlie/mirage-docs": "^1.2.9",
+		"happy-dom": "^10.9.0",
 		"lit": "^2.8.0"
 	},
 	"sideEffects": false
