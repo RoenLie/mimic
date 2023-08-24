@@ -1,6 +1,6 @@
 {
-	"name": "@roenlie/mimic-store",
-	"version": "0.0.3",
+	"name": "@roenlie/lit-state-store",
+	"version": "0.0.0",
 	"description": "State store primarily for use with LIT web components.",
 	"author": {
 		"name": "Kristoffer Roen-Lie",
@@ -25,6 +25,7 @@
 		}
 	},
 	"scripts": {
+		"dev": "vite --config ./demo/vite.config.ts",
 		"test": "vitest",
 		"test:dom": "vitest --dom",
 		"build": "pnpm build:prepare && pnpm build:index && pnpm build:types && vite build",
