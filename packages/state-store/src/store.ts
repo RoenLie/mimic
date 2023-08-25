@@ -47,19 +47,38 @@ export class StateStore {
 		}
 
 		const listenerMap = StateStore.#listeners.get(target);
-		for (const map of listenerMap?.values() ?? []) {
-			const listeners = map.get(key);
-			listeners?.forEach(listener => listener());
+		for (const [ _key, map ] of listenerMap ?? []) {
+			if (_key !== key)
+				continue;
+
+			for (const [ ref, listeners ] of map) {
+				if (!ref.deref()) {
+					map.delete(ref);
+					continue;
+				}
+
+				for (const listenerRef of listeners) {
+					const listener = listenerRef.deref();
+					if (!listener)
+						listeners.delete(listenerRef);
+					else
+						listener();
+				}
+			}
 		}
 	}
 
 	static #observers = new WeakMap<StateStore, Map<string, Set<WeakRef<UpdatableElement>>>>();
-	static #listeners = new WeakMap<StateStore, Map<object, Map<string, Set<Function>>>>();
+	static #listeners = new WeakMap<StateStore, Map<string, Map<WeakRef<object>, Set<WeakRef<Function>>>>>();
 	static #refRegistry = new FinalizationRegistry<{origin: StateStore; ref: WeakRef<any>;}>(
 		({ origin, ref }) => {
-			const map = StateStore.#observers.get(origin);
-			for (const set of map?.values() ?? [])
+			const obsMap = StateStore.#observers.get(origin);
+			for (const set of obsMap?.values() ?? [])
 				set.delete(ref);
+
+			const lisMap = StateStore.#listeners.get(origin);
+			for (const [ , map ] of lisMap ?? [])
+				map.delete(ref);
 		},
 	);
 
@@ -94,41 +113,86 @@ export class StateStore {
 	 * Registers a listener function that runs when the property is either set or updated.
 	 */
 	public listen(
-		object: object,
+		reference: object,
 		prop: keyof Omit<this, keyof StateStore>,
 		func: () => any,
 	) {
 		const _prop = prop as string;
-
 		const elementMap = lazyWeakmap(StateStore.#listeners, this.__origin, () => new Map());
-		const propMap = lazyMap(elementMap, object, () => new Map());
-		const funcSet = lazyMap(propMap, _prop, () => new Set());
+		const propMap = lazyMap(elementMap, _prop, () => new Map());
 
-		funcSet.add(func);
+		let funcEntry = [ ...propMap.entries() ].find(([ ref ]) => ref.deref() === reference);
+		if (!funcEntry) {
+			const ref = new WeakRef(reference);
+			const funcSet = new Set<WeakRef<Function>>();
+			propMap.set(ref, funcSet);
+			StateStore.#refRegistry.register(reference, { origin: this.__origin, ref }, reference);
+
+			funcEntry = [ ref, funcSet ] as [WeakRef<object>, Set<WeakRef<Function>>];
+		}
+
+		funcEntry[1].add(new WeakRef(func));
 	}
 
 	/** Removes a listener from the store. */
 	public unlisten(
-		object: object,
+		reference: object,
 		prop: keyof Omit<this, keyof StateStore>,
 		func?: () => void,
 	) {
 		const _prop = prop as string;
 
-		const elementMap = lazyWeakmap(StateStore.#listeners, this.__origin, () => new Map());
-		const propMap = lazyMap(elementMap, object, () => new Map());
-		const funcSet = lazyMap(propMap, _prop, () => new Set());
+		const map = StateStore.#listeners.get(this.__origin);
+		const propMap = map?.get(_prop);
+		for (const [ ref, set ] of propMap ?? []) {
+			const obj = ref.deref();
+			if (!obj) {
+				propMap?.delete(ref);
+				continue;
+			}
 
-		if (func)
-			funcSet.delete(func);
-		else
-			funcSet.clear();
+			if (obj !== reference)
+				continue;
+
+			if (!func) {
+				set.clear();
+				continue;
+			}
+
+			for (const funcRef of set) {
+				const fn = funcRef.deref();
+				if (!fn) {
+					set.delete(funcRef);
+					continue;
+				}
+
+				if (fn === func)
+					set.delete(funcRef);
+			}
+		}
 	}
 
 	/** Removes all listeners in the store from its connected object */
-	public unlistenAll(object: object) {
-		StateStore.#listeners.get(this.__origin)?.get(object)?.forEach(set => set.clear());
-		StateStore.#listeners.get(this.__origin)?.get(object)?.clear();
+	public unlistenAll(reference: object) {
+		const storeMap = StateStore.#listeners.get(this.__origin);
+		for (const [ prop, refMap ] of storeMap ?? []) {
+			for (const ref of refMap.keys()) {
+				const obj = ref.deref();
+				if (!obj) {
+					refMap.delete(ref);
+					continue;
+				}
+
+				if (obj !== reference)
+					continue;
+
+				refMap.delete(ref);
+				StateStore.#refRegistry.unregister(reference);
+			}
+
+			if (!refMap.size)
+				storeMap?.delete(prop);
+		}
 	}
 
 	/**
@@ -197,24 +261,32 @@ export class StateStore {
 	) {
 		this.observe(element, ...props);
 
-		element.addController({
+		const controller = {
 			hostDisconnected: () => {
 				this.unlistenAll(element);
 				this.unobserveAll(element);
+				element.removeController(controller);
 			},
-		});
+		};
+
+		element.addController(controller);
 	}
 
 	/** Completely removes all listeners and observers from the store this is used from. */
 	public dispose() {
-		StateStore.#observers.get(this.__origin)?.forEach(map => {
-			map.clear();
-		});
+		// Clear all observers
+		for (const [ , set ] of StateStore.#observers.get(this.__origin) ?? [])
+			set.clear();
+
 		StateStore.#observers.delete(this.__origin);
 
-		StateStore.#listeners.get(this.__origin)?.forEach(map => {
-			map.forEach(set => set.clear()), map.clear();
-		});
+		// Clear all listeners
+		for (const [ , map ] of StateStore.#listeners.get(this.__origin) ?? []) {
+			for (const [ , set ] of map)
+				set.clear();
+
+			map.clear();
+		}
 		StateStore.#listeners.delete(this.__origin);
 	}
 

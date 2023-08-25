@@ -1,5 +1,3 @@
-import { registerTranslation } from '@roenlie/mimic-core/localize';
-
 import { type UploadTranslation } from './upload-element.js';
 
 

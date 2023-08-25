@@ -1,6 +1,5 @@
 import { emitEvent, isTouch } from '@roenlie/mimic-core/dom';
-import { type Translation, translationLoader } from '@roenlie/mimic-core/localize';
-import { EventController, LocalizeController, SlotController } from '@roenlie/mimic-lit/controllers';
+import { EventController, SlotController } from '@roenlie/mimic-lit/controllers';
 import { watch } from '@roenlie/mimic-lit/decorators';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, type CSSResultGroup, html, LitElement, type PropertyValues, type TemplateResult } from 'lit';
@@ -11,15 +10,11 @@ import { when } from 'lit/directives/when.js';
 
 import { systemIcons } from '../../utilities/system-icons.js';
 import { UploadFileElement } from './upload-file.cmp.js';
-import { uploadTranslation } from './upload-lang.js';
-
-translationLoader(uploadTranslation);
-
 
 type UploadMethod = 'POST' | 'PUT'
 
 
-export interface UploadTranslation extends Translation {
+export interface UploadTranslation {
 	'dropFiles.one':                         string,
 	'dropFiles.many':                        string,
 	'addFiles.one':                          string,
@@ -274,10 +269,6 @@ export class MMUpload extends LitElement {
 	protected readonly mutations = new MutationObserver(() => this.requestUpdate());
 
 	protected readonly events = new EventController({ host: this });
-
-	protected readonly localize = new LocalizeController<UploadTranslation>({
-		host: this,
-	});
 
 	protected readonly slots = new SlotController({
 		host:      this,

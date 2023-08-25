@@ -14,6 +14,7 @@ class TestStore extends StateStore {
 }
 
 const testStore = new TestStore();
+(globalThis as any)['testStore'] = testStore;
 
 
 @customElement('demo-main')
@@ -64,19 +65,12 @@ export class MainCmp extends LitElement {
 @customElement('demo-counter')
 export class CounterCmp extends LitElement {
 
+	protected func() {}
+
 	public override connectedCallback(): void {
 		super.connectedCallback();
 		testStore.connect(this, 'counter');
-
-
-		const theObject = {};
-		const func = () => {
-
-		};
-
-		testStore.listen(theObject, 'counter', func);
-		testStore.unlisten(theObject, 'counter');
-		testStore.unlistenAll(theObject);
+		testStore.listen(this, 'counter', this.func.bind(this));
 	}
 
 	protected override render() {
