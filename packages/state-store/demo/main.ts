@@ -67,8 +67,17 @@ export class CounterCmp extends LitElement {
 	public override connectedCallback(): void {
 		super.connectedCallback();
 		testStore.connect(this, 'counter');
-	}
 
+
+		const theObject = {};
+		const func = () => {
+
+		};
+
+		testStore.listen(theObject, 'counter', func);
+		testStore.unlisten(theObject, 'counter');
+		testStore.unlistenAll(theObject);
+	}
 
 	protected override render() {
 		const fontSize = Math.ceil(Math.random() * 16) + 'px';

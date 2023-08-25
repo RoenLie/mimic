@@ -1,6 +1,9 @@
 import { lazyMap, lazyWeakmap } from '@roenlie/mimic-core/structs';
 import type { ReactiveControllerHost } from 'lit';
 
+// TODO
+// Add the same weakref cleanup for listeners as was added to observers.
+
 
 export interface UpdatableElement {
 	requestUpdate: Function;
@@ -108,7 +111,7 @@ export class StateStore {
 	public unlisten(
 		object: object,
 		prop: keyof Omit<this, keyof StateStore>,
-		func: () => void,
+		func?: () => void,
 	) {
 		const _prop = prop as string;
 
@@ -116,13 +119,16 @@ export class StateStore {
 		const propMap = lazyMap(elementMap, object, () => new Map());
 		const funcSet = lazyMap(propMap, _prop, () => new Set());
 
-		funcSet.delete(func);
+		if (func)
+			funcSet.delete(func);
+		else
+			funcSet.clear();
 	}
 
 	/** Removes all listeners in the store from its connected object */
-	public unlistenAll(element: object) {
-		StateStore.#listeners.get(this.__origin)?.get(element)?.forEach(set => set.clear());
-		StateStore.#listeners.get(this.__origin)?.get(element)?.clear();
+	public unlistenAll(object: object) {
+		StateStore.#listeners.get(this.__origin)?.get(object)?.forEach(set => set.clear());
+		StateStore.#listeners.get(this.__origin)?.get(object)?.clear();
 	}
 
 	/**
