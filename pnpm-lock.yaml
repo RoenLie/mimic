@@ -71,7 +71,7 @@ importers:
     devDependencies:
       '@roenlie/mirage-docs':
         specifier: ^1.2.9
-        version: 1.2.9(@types/markdown-it@13.0.0)(lit@2.8.0)(tslib@2.6.2)(vite@4.4.9)
+        version: 1.2.9(@types/markdown-it@13.0.1)(lit@2.8.0)(tslib@2.6.2)(vite@4.4.9)
       happy-dom:
         specifier: ^10.9.0
         version: 10.9.0
@@ -104,8 +104,8 @@ importers:
         version: link:../localize
     devDependencies:
       '@roenlie/mirage-docs':
-        specifier: ^1.2.9
-        version: 1.2.9(@types/markdown-it@13.0.0)(lit@2.8.0)(tslib@2.6.2)(vite@4.4.9)
+        specifier: ^1.2.17
+        version: 1.2.17(@types/markdown-it@13.0.1)(lit@2.8.0)(tslib@2.6.2)(vite@4.4.9)
       lit:
         specifier: ^2.8.0
         version: 2.8.0
@@ -141,8 +141,8 @@ importers:
   packages/localize:
     devDependencies:
       happy-dom:
-        specifier: ^10.9.0
-        version: 10.9.0
+        specifier: ^10.11.0
+        version: 10.11.0
       lit:
         specifier: ^2.8.0
         version: 2.8.0
@@ -1025,7 +1025,7 @@ packages:
       hast-util-to-string: 2.0.0
       rehype: 12.0.1
       rehype-document: 6.1.0
-      rehype-parse: 8.0.4
+      rehype-parse: 8.0.5
       rehype-preset-minify: 6.0.0
       remark-parse: 10.0.2
       remark-rehype: 10.1.0
@@ -1060,7 +1060,37 @@ packages:
       - supports-color
     dev: true
 
-  /@roenlie/mirage-docs@1.2.9(@types/markdown-it@13.0.0)(lit@2.8.0)(tslib@2.6.2)(vite@4.4.9):
+  /@roenlie/mirage-docs@1.2.17(@types/markdown-it@13.0.1)(lit@2.8.0)(tslib@2.6.2)(vite@4.4.9):
+    resolution: {integrity: sha512-lwuZ+HxyDldgLhI6/r8B0+wRovmOCy2kNdqD5S4vRYL/9LTquIsTHbi6WvLKwcfJEqE9htLvSNS5ZXSMhuLhHw==}
+    peerDependencies:
+      lit: '*'
+      tslib: '*'
+      vite: '*'
+    dependencies:
+      '@custom-elements-manifest/analyzer': 0.8.4
+      '@monaco-editor/loader': 1.3.3(monaco-editor@0.41.0)
+      '@orama/orama': 1.2.1
+      '@orama/plugin-data-persistence': 1.2.1
+      '@orama/plugin-match-highlight': 1.2.1
+      '@orama/plugin-parsedoc': 1.2.1
+      '@sindresorhus/slugify': 2.2.1
+      deepmerge-ts: 5.1.0
+      globby: 13.2.2
+      highlight.js: 11.8.0
+      lit: 2.8.0
+      markdown-it: 13.0.1
+      markdown-it-anchor: 8.6.7(@types/markdown-it@13.0.1)(markdown-it@13.0.1)
+      monaco-editor: 0.41.0
+      rollup-plugin-copy: 3.4.0
+      tabbable: 6.2.0
+      tslib: 2.6.2
+      vite: 4.4.9(@types/node@20.5.6)
+    transitivePeerDependencies:
+      - '@types/markdown-it'
+      - supports-color
+    dev: true
+
+  /@roenlie/mirage-docs@1.2.9(@types/markdown-it@13.0.1)(lit@2.8.0)(tslib@2.6.2)(vite@4.4.9):
     resolution: {integrity: sha512-M/nVn8h8e/ho1yq80llIn7Oo6zzO8SI78bbJMKhsUDamNgWW1TpvJ0iqqAxoX8cSb9K5VZF5267turKPgTVIPg==}
     peerDependencies:
       lit: '*'
@@ -1079,7 +1109,7 @@ packages:
       highlight.js: 11.8.0
       lit: 2.8.0
       markdown-it: 13.0.1
-      markdown-it-anchor: 8.6.7(@types/markdown-it@13.0.0)(markdown-it@13.0.1)
+      markdown-it-anchor: 8.6.7(@types/markdown-it@13.0.1)(markdown-it@13.0.1)
       monaco-editor: 0.41.0
       rollup-plugin-copy: 3.4.0
       tabbable: 6.2.0
@@ -1179,8 +1209,8 @@ packages:
     resolution: {integrity: sha512-HZQYqbiFVWufzCwexrvh694SOim8z2d+xJl5UNamcvQFejLY/2YUtzXHYi3cHdI7PMlS8ejH2slRAOJQ32aNbA==}
     dev: true
 
-  /@types/markdown-it@13.0.0:
-    resolution: {integrity: sha512-mPTaUl5glYfzdJFeCsvhXQwZKdyszNAZcMm5ZTP5SfpTu+vIbog7J3z8Fa4x/Fzv5TB4R6OA/pHBYIYmkYOWGQ==}
+  /@types/markdown-it@13.0.1:
+    resolution: {integrity: sha512-SUEb8Frsxs3D5Gg9xek6i6EG6XQ5s+O+ZdQzIPESZVZw3Pv3CPQfjCJBI+RgqZd1IBeu18S0Rn600qpPnEK37w==}
     dependencies:
       '@types/linkify-it': 3.0.2
       '@types/mdurl': 1.0.2
@@ -2829,6 +2859,17 @@ packages:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
     dev: true
 
+  /happy-dom@10.11.0:
+    resolution: {integrity: sha512-CmUT4LOLzvAsbYqgTJESrPyvF0gxLDkDG/KK1o/HYU7+c9o/VVIKXl3feJZnuCYbGqemw7meiQaZcL4SMgn1jQ==}
+    dependencies:
+      css.escape: 1.5.1
+      entities: 4.5.0
+      iconv-lite: 0.6.3
+      webidl-conversions: 7.0.0
+      whatwg-encoding: 2.0.0
+      whatwg-mimetype: 3.0.0
+    dev: true
+
   /happy-dom@10.9.0:
     resolution: {integrity: sha512-SGZ8QqSNDVkWt5T7GNACKS+CpGvr58OKurqCR1iH371dMgpXyUI2tJA91cASG6fe2d5xYnVFOgOwx4MmOaXepw==}
     dependencies:
@@ -3439,13 +3480,13 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /markdown-it-anchor@8.6.7(@types/markdown-it@13.0.0)(markdown-it@13.0.1):
+  /markdown-it-anchor@8.6.7(@types/markdown-it@13.0.1)(markdown-it@13.0.1):
     resolution: {integrity: sha512-FlCHFwNnutLgVTflOYHPW2pPcl2AACqVzExlkGQNsi4CJgqOHN7YTgDd4LuhgN1BFO3TS0vLAruV1Td6dwWPJA==}
     peerDependencies:
       '@types/markdown-it': '*'
       markdown-it: '*'
     dependencies:
-      '@types/markdown-it': 13.0.0
+      '@types/markdown-it': 13.0.1
       markdown-it: 13.0.1
     dev: true
 
@@ -4236,6 +4277,15 @@ packages:
 
   /rehype-parse@8.0.4:
     resolution: {integrity: sha512-MJJKONunHjoTh4kc3dsM1v3C9kGrrxvA3U8PxZlP2SjH8RNUSrb+lF7Y0KVaUDnGH2QZ5vAn7ulkiajM9ifuqg==}
+    dependencies:
+      '@types/hast': 2.3.5
+      hast-util-from-parse5: 7.1.2
+      parse5: 6.0.1
+      unified: 10.1.2
+    dev: true
+
+  /rehype-parse@8.0.5:
+    resolution: {integrity: sha512-Ds3RglaY/+clEX2U2mHflt7NlMA72KspZ0JLUJgBBLpRddBcEw3H8uYZQliQriku22NZpYMfjDdSgHcjxue24A==}
     dependencies:
       '@types/hast': 2.3.5
       hast-util-from-parse5: 7.1.2

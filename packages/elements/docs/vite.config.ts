@@ -20,6 +20,7 @@ export default defineDocConfig({
 		}),
 	],
 }, {
+	base:       '',
 	root:       '/docs',
 	source:     '/src',
 	autoImport: {

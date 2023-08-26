@@ -1,11 +1,7 @@
 import { type UploadTranslation } from './upload-element.js';
 
 
-export const uploadLang: UploadTranslation = {
-	$code: 'en',
-	$name: 'English',
-	$dir:  'ltr',
-
+export const uploadLangBlock: UploadTranslation = {
 	'dropFiles.one':                         'Drop file here',
 	'dropFiles.many':                        'Drop files here',
 	'addFiles.one':                          'Upload File...',
@@ -25,20 +21,13 @@ export const uploadLang: UploadTranslation = {
 	'file.retry':                            'Retry',
 	'file.start':                            'Start',
 	'file.remove':                           'Remove',
-	'units.size':                            (size) => ({
-		0: 'B',
-		1: 'kB',
-		2: 'MB',
-		3: 'GB',
-		4: 'TB',
-		5: 'PB',
-		6: 'EB',
-		7: 'ZB',
-		8: 'YB',
-	}[size] ?? 'err...'),
+	'units.size.0':                          'B',
+	'units.size.1':                          'kB',
+	'units.size.2':                          'MB',
+	'units.size.3':                          'GB',
+	'units.size.4':                          'TB',
+	'units.size.5':                          'PB',
+	'units.size.6':                          'EB',
+	'units.size.7':                          'ZB',
+	'units.size.8':                          'YB',
 };
-
-
-export default (async () => {
-	registerTranslation(uploadLang);
-})();

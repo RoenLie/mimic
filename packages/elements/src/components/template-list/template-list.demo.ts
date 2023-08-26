@@ -1,10 +1,9 @@
 import { range } from '@roenlie/mimic-core/array';
 import { domId } from '@roenlie/mimic-core/dom';
-import { LocalizeController } from '@roenlie/mimic-lit/controllers';
-import { css, html, LitElement, TemplateResult } from 'lit';
+import { css, html, LitElement, type TemplateResult } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
-import { ListTemplateConfig } from './template-list-element.js';
+import { type ListTemplateConfig } from './template-list-element.js';
 
 
 export interface User {
@@ -67,8 +66,6 @@ export class TemplateListDemo extends LitElement {
 	public override connectedCallback(): void {
 		super.connectedCallback();
 	}
-
-	protected localizeCtrl = new LocalizeController({ host: this });
 
 	public override render() {
 		return html`

@@ -1,5 +1,4 @@
 import { format } from '@roenlie/mimic-core/string';
-import { loadTerms } from '@roenlie/mimic-localize/core';
 import { tTerm } from '@roenlie/mimic-localize/directive';
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
@@ -10,12 +9,6 @@ import { range } from 'lit/directives/range.js';
 declare global { interface HTMLElementTagNameMap {
 	'mm-typeahead-demo': TypeaheadDemo;
 } }
-
-
-loadTerms('en', [ [ 'typeahead.label', 'I AM A {0}' ] ]);
-setTimeout(() => {
-	loadTerms('en', [ [ 'typeahead.label', 'I THE {0}' ] ]);
-}, 2000);
 
 
 @customElement('mm-typeahead-demo')

@@ -20,7 +20,11 @@ export abstract class TermStore {
 	}
 
 	protected store = new Map<string, string>();
-	protected listeners = new Map<string, Set<Function>>();
+	protected listeners = new Map<string, Set<WeakRef<Function>>>();
+	protected gcRegistry = new FinalizationRegistry<{ref: WeakRef<Function>; set: Set<WeakRef<Function>>;}>(
+		({ set, ref }) => void set.delete(ref),
+	);
+
 	protected langChangeObs = new MutationObserver(() => this.onLanguageChange());
 
 	constructor() {
@@ -55,27 +59,45 @@ export abstract class TermStore {
 		return text;
 	}
 
-	protected toggleListener(term: string, callback: Function, state: boolean) {
+	protected toggleListener(term: string, callback: Function, state: boolean): void {
 		const set = this.listeners.get(term) ?? (() => {
-			const set = new Set<Function>();
+			const set = new Set<WeakRef<Function>>();
 
 			return this.listeners.set(term, set), set;
 		})();
 
-		if (state)
-			set.add(callback);
-		else
-			set.delete(callback);
+		if (state) {
+			const ref = new WeakRef(callback);
+			set.add(ref);
+			this.gcRegistry.register(callback, { ref, set }, callback);
+
+			return;
+		}
+
+		for (const ref of set) {
+			const func = ref.deref();
+			if (!func || func === callback) {
+				set.delete(ref);
+				this.gcRegistry.unregister(callback);
+			}
+		}
 	}
 
 	protected onLanguageChange() {
 		for (const [ , listeners ] of this.listeners) {
-			for (const listener of listeners)
+			for (const listenerRef of listeners) {
+				const listener = listenerRef.deref();
+				if (!listener) {
+					listeners.delete(listenerRef);
+					continue;
+				}
+
 				listener();
+			}
 		}
 	}
 
-	//  TODO-maybe: Make this into a callback function or something that gets registered
+	// TODO-maybe: Make this into a callback function or something that gets registered
 	// so that there is no inherit connection to window.
 	protected listenForLanguageChange() {
 		this.langChangeObs.disconnect();
@@ -89,7 +111,16 @@ export abstract class TermStore {
 		this.store.set(this.createCacheKey(lang, term), text);
 
 		// Invoke any listeners for this term.
-		this.listeners.get(term)?.forEach(l => l());
+		const listeners = this.listeners.get(term);
+		for (const ref of listeners ?? []) {
+			const listener = ref.deref();
+			if (!listener) {
+				listeners?.delete(ref);
+				continue;
+			}
+
+			listener();
+		}
 	}
 
 	public setTerms(lang: string, terms: [term: string, text: string][]) {

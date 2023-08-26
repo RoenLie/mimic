@@ -1,8 +1,9 @@
 import { animateTo, getAnimation, stopAnimations } from '@roenlie/mimic-core/animation';
 import { emitEvent, findActiveElement, lockBodyScrolling, Modal, unlockBodyScrolling, waitForEvent } from '@roenlie/mimic-core/dom';
 import { uppercaseFirstLetter } from '@roenlie/mimic-core/string';
-import { LocalizeController, SlotController } from '@roenlie/mimic-lit/controllers';
+import { SlotController } from '@roenlie/mimic-lit/controllers';
 import { watch } from '@roenlie/mimic-lit/decorators';
+import { tTerm } from '@roenlie/mimic-localize/directive';
 import { html, LitElement } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
@@ -104,7 +105,6 @@ export class MMDrawer extends LitElement {
 
 	//#region controllers
 	protected readonly slotController = new SlotController({ host: this, slotNames: [ 'footer' ] });
-	protected readonly localize = new LocalizeController({ host: this });
 	//#endregion
 
 
@@ -159,7 +159,7 @@ export class MMDrawer extends LitElement {
 		});
 
 		if (requestClose.defaultPrevented) {
-			const animation = getAnimation(this, 'drawer.denyClose', { dir: this.localize.dir() });
+			const animation = getAnimation(this, 'drawer.denyClose');
 			animateTo(this.panel, animation.keyframes, animation.options);
 
 			return;
@@ -219,10 +219,8 @@ export class MMDrawer extends LitElement {
 					autoFocusTarget.setAttribute('autofocus', '');
 			});
 
-			const panelAnimation = getAnimation(this, `drawer.show${ uppercaseFirstLetter(this.placement) }`, {
-				dir: this.localize.dir(),
-			});
-			const overlayAnimation = getAnimation(this, 'drawer.overlay.show', { dir: this.localize.dir() });
+			const panelAnimation = getAnimation(this, `drawer.show${ uppercaseFirstLetter(this.placement) }`);
+			const overlayAnimation = getAnimation(this, 'drawer.overlay.show');
 			await Promise.all([
 				animateTo(this.panel, panelAnimation.keyframes, panelAnimation.options),
 				animateTo(this.overlay, overlayAnimation.keyframes, overlayAnimation.options),
@@ -237,10 +235,8 @@ export class MMDrawer extends LitElement {
 			unlockBodyScrolling(this);
 
 			await Promise.all([ stopAnimations(this.drawer), stopAnimations(this.overlay) ]);
-			const panelAnimation = getAnimation(this, `drawer.hide${ uppercaseFirstLetter(this.placement) }`, {
-				dir: this.localize.dir(),
-			});
-			const overlayAnimation = getAnimation(this, 'drawer.overlay.hide', { dir: this.localize.dir() });
+			const panelAnimation = getAnimation(this, `drawer.hide${ uppercaseFirstLetter(this.placement) }`);
+			const overlayAnimation = getAnimation(this, 'drawer.overlay.hide');
 
 			// Animate the overlay and the panel at the same time. Because animation durations might be different, we need to
 			// hide each one individually when the animation finishes, otherwise the first one that finishes will reappear
@@ -285,7 +281,6 @@ export class MMDrawer extends LitElement {
 				'drawer--start':      this.placement === 'start',
 				'drawer--contained':  this.contained,
 				'drawer--fixed':      !this.contained,
-				'drawer--rtl':        this.localize.dir() === 'rtl',
 				'drawer--has-footer': this.slotController.test('footer'),
 			}) }
 			@keydown=${ this.handleKeyDown }
@@ -312,7 +307,7 @@ export class MMDrawer extends LitElement {
 						<slot name="label"> ${ this.label } </slot>
 					</h2>
 					<pl-button
-						${ tooltip(this.localize.translate('close')) }
+						${ tooltip(tTerm('close')) }
 						part   ="close-button"
 						class  ="drawer__close"
 						type   ="icon"

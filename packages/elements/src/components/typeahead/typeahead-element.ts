@@ -11,7 +11,8 @@ import { live } from 'lit/directives/live.js';
 import { createRef, type Ref, ref } from 'lit/directives/ref.js';
 import { when } from 'lit/directives/when.js';
 
-import { MMInput, systemIcons } from '../../index-fallback.js';
+import { systemIcons } from '../../utilities/system-icons.js';
+import type { MMInput } from '../input/input.cmp.js';
 
 
 declare global { interface HTMLElementTagNameMap {

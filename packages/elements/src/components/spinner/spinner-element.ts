@@ -1,12 +1,7 @@
-import { translationLoader } from '@roenlie/mimic-core/localize';
-import { LocalizeController } from '@roenlie/mimic-lit/controllers';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
+import { tTerm } from '@roenlie/mimic-localize/directive';
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
-
-import { spinnerTranslation } from './spinner-lang.js';
-
-translationLoader(spinnerTranslation);
 
 
 /**
@@ -25,7 +20,6 @@ export class MMSpinner extends LitElement {
 
 
 	//#region controllers
-	protected readonly localize = new LocalizeController({ host: this });
 	//#endregion
 
 
@@ -44,7 +38,7 @@ export class MMSpinner extends LitElement {
 			part="base"
 			class="spinner"
 			role="progressbar"
-			aria-valuetext=${ this.localize.translate('loading') }
+			aria-valuetext=${ tTerm('loading') }
 		>
         <circle class="spinner__track"></circle>
         <circle class="spinner__indicator"></circle>

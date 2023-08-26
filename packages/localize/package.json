@@ -24,6 +24,14 @@
 		"./directive": {
 			"types": "./dist/directive/index.d.ts",
 			"default": "./dist/directive/index.js"
+		},
+		"./implement": {
+			"types": "./dist/implement/index.d.ts",
+			"default": "./dist/implement/index.js"
+		},
+		"./utilities": {
+			"types": "./dist/utilities/index.d.ts",
+			"default": "./dist/utilities/index.js"
 		}
 	},
 	"scripts": {
@@ -40,7 +48,7 @@
 		"lit": "*"
 	},
 	"devDependencies": {
-		"happy-dom": "^10.9.0",
+		"happy-dom": "^10.11.0",
 		"lit": "^2.8.0"
 	},
 	"sideEffects": false

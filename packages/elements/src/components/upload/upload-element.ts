@@ -1,7 +1,9 @@
 import { emitEvent, isTouch } from '@roenlie/mimic-core/dom';
+import { format } from '@roenlie/mimic-core/string';
 import { EventController, SlotController } from '@roenlie/mimic-lit/controllers';
 import { watch } from '@roenlie/mimic-lit/decorators';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
+import { tTerm } from '@roenlie/mimic-localize/directive';
 import { css, type CSSResultGroup, html, LitElement, type PropertyValues, type TemplateResult } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
@@ -15,26 +17,34 @@ type UploadMethod = 'POST' | 'PUT'
 
 
 export interface UploadTranslation {
-	'dropFiles.one':                         string,
-	'dropFiles.many':                        string,
-	'addFiles.one':                          string,
-	'addFiles.many':                         string,
-	'error.tooManyFiles':                    string,
-	'error.fileIsTooBig':                    string,
-	'error.incorrectFileType':               string,
-	'uploading.status.connecting':           string,
-	'uploading.status.stalled':              string,
-	'uploading.status.processing':           string,
-	'uploading.status.held':                 string,
-	'uploading.remainingTime.prefix':        string,
-	'uploading.remainingTime.unknown':       string,
-	'uploading.error.serverUnavailable':     string,
-	'uploading.error.unexpectedServerError': string,
-	'uploading.error.forbidden':             string,
-	'file.retry':                            string,
-	'file.start':                            string,
-	'file.remove':                           string,
-	'units.size':                            (size: number) => string
+	'dropFiles.one':                         string;
+	'dropFiles.many':                        string;
+	'addFiles.one':                          string;
+	'addFiles.many':                         string;
+	'error.tooManyFiles':                    string;
+	'error.fileIsTooBig':                    string;
+	'error.incorrectFileType':               string;
+	'uploading.status.connecting':           string;
+	'uploading.status.stalled':              string;
+	'uploading.status.processing':           string;
+	'uploading.status.held':                 string;
+	'uploading.remainingTime.prefix':        string;
+	'uploading.remainingTime.unknown':       string;
+	'uploading.error.serverUnavailable':     string;
+	'uploading.error.unexpectedServerError': string;
+	'uploading.error.forbidden':             string;
+	'file.retry':                            string;
+	'file.start':                            string;
+	'file.remove':                           string;
+	'units.size.0':                          string;
+	'units.size.1':                          string;
+	'units.size.2':                          string;
+	'units.size.3':                          string;
+	'units.size.4':                          string;
+	'units.size.5':                          string;
+	'units.size.6':                          string;
+	'units.size.7':                          string;
+	'units.size.8':                          string;
 }
 
 
@@ -282,9 +292,9 @@ export class MMUpload extends LitElement {
 		super.connectedCallback();
 
 		this.mutations.observe(this, { childList: true });
-		this.events.addEventListener(this, 'dragover', this.handleDragover.bind(this));
-		this.events.addEventListener(this, 'dragleave', this.handleDragleave.bind(this));
-		this.events.addEventListener(this, 'drop', this.handleDrop.bind(this));
+		this.events.addEventListener(this, 'dragover',          this.handleDragover.bind(this));
+		this.events.addEventListener(this, 'dragleave',         this.handleDragleave.bind(this));
+		this.events.addEventListener(this, 'drop',              this.handleDrop.bind(this));
 		this.events.addEventListener(this, 'mm-file-retry',     this.handleFileRetry.bind(this) as any);
 		this.events.addEventListener(this, 'mm-file-abort',     this.handleFileAbort.bind(this) as any);
 		this.events.addEventListener(this, 'mm-file-remove',    this.handleFileRemove.bind(this) as any);
@@ -330,7 +340,7 @@ export class MMUpload extends LitElement {
 		const dec = Math.max(0, Math.min(3, unit - 1));
 		const size = parseFloat((bytes / base ** unit).toFixed(dec));
 
-		return `${ size } ${ this.localize.term('units.size', { args: [ unit ] }) }`;
+		return `${ size } ${ tTerm('units.size', (text) => format(text, size.toString())) }`;
 	}
 
 	protected splitTimeByUnits(time: number): number[] {
@@ -359,8 +369,8 @@ export class MMUpload extends LitElement {
 	protected formatFileProgress(file: EnhancedFile): string {
 		const remainingTime =
 		file.loaded > 0
-			? this.localize.term('uploading.remainingTime.prefix') + file.remainingStr
-			: this.localize.term('uploading.remainingTime.unknown');
+			? tTerm('uploading.remainingTime.prefix') + file.remainingStr
+			: tTerm('uploading.remainingTime.unknown');
 
 		return `${ file.totalStr }: ${ file.progress }% (${ remainingTime })`;
 	}
@@ -411,7 +421,7 @@ export class MMUpload extends LitElement {
 		files.forEach(this.uploadFile.bind(this));
 	}
 
-	protected async uploadFile(file: EnhancedFile) {
+	protected uploadFile(file: EnhancedFile) {
 		if (file.uploading)
 			return;
 
@@ -422,7 +432,7 @@ export class MMUpload extends LitElement {
 		let last: number;
 
 		// Onprogress is called always after onreadystatechange
-		xhr.upload.onprogress = async (e) => {
+		xhr.upload.onprogress = (e) => {
 			clearTimeout(stalledId);
 
 			last = Date.now();
@@ -443,13 +453,13 @@ export class MMUpload extends LitElement {
 				if (progress < 100) {
 					this.setStatus(file, total, loaded, elapsed);
 					stalledId = setTimeout(async () => {
-						file.status = await this.localize.term('uploading.status.stalled');
+						file.status = tTerm('uploading.status.stalled');
 						this.notifyFileChanges(file);
 					}, 2000);
 				}
 				else {
 					file.loadedStr = file.totalStr;
-					file.status = await this.localize.term('uploading.status.processing');
+					file.status = tTerm('uploading.status.processing');
 				}
 			}
 
@@ -459,7 +469,7 @@ export class MMUpload extends LitElement {
 		};
 
 		// More reliable than xhr.onload
-		xhr.onreadystatechange = async () => {
+		xhr.onreadystatechange = () => {
 			if (xhr.readyState === 4) {
 				clearTimeout(stalledId);
 				file.indeterminate = file.uploading = false;
@@ -481,11 +491,11 @@ export class MMUpload extends LitElement {
 					return;
 
 				if (xhr.status === 0)
-					file.error = await this.localize.term('uploading.error.serverUnavailable');
+					file.error = tTerm('uploading.error.serverUnavailable');
 				else if (xhr.status >= 500)
-					file.error = await this.localize.term('uploading.error.unexpectedServerError');
+					file.error = tTerm('uploading.error.unexpectedServerError');
 				else if (xhr.status >= 400)
-					file.error = await this.localize.term('uploading.error.forbidden');
+					file.error = tTerm('uploading.error.forbidden');
 
 				file.complete = !file.error;
 				emitEvent(this, `mm-upload-${ file.error ? 'error' : 'success' }`, {
@@ -516,7 +526,7 @@ export class MMUpload extends LitElement {
 		xhr.open(this.method, file.uploadTarget, true);
 		this.configureXhr(xhr);
 
-		file.status = await this.localize.term('uploading.status.connecting');
+		file.status = tTerm('uploading.status.connecting');
 		file.indeterminate = true;
 		file.uploading = file.indeterminate;
 		file.held = false;
@@ -581,11 +591,11 @@ export class MMUpload extends LitElement {
 	 *
 	 * Called internally for each file after picking files from dialog or dropping files.
 	 */
-	protected async addFile(file: File) {
+	protected addFile(file: File) {
 		const enhancedFile = enhanceFile(file);
 
 		if (this.maxFilesReached) {
-			const error = await this.localize.term('error.tooManyFiles');
+			const error = tTerm('error.tooManyFiles');
 			emitEvent(this, 'mm-file-reject', {
 				detail: { file: enhancedFile, error },
 			});
@@ -593,7 +603,7 @@ export class MMUpload extends LitElement {
 			return;
 		}
 		if (this.maxFileSize >= 0 && enhancedFile.size > this.maxFileSize) {
-			const error = await this.localize.term('error.fileIsTooBig');
+			const error = tTerm('error.fileIsTooBig');
 			emitEvent(this, 'mm-file-reject', {
 				detail: { file: enhancedFile, error },
 			});
@@ -607,7 +617,7 @@ export class MMUpload extends LitElement {
 		// Create accept regex that can match comma separated patterns, star (*) wildcards
 		const re = new RegExp(`^(${ escapedAccept.replace(/[, ]+/g, '|').replace(/\/\*/g, '/.*') })$`, 'i');
 		if (this.accept && !(re.test(enhancedFile.type) || re.test(fileExt))) {
-			const error = await this.localize.term('error.incorrectFileType');
+			const error = tTerm('error.incorrectFileType');
 			emitEvent(this, 'mm-file-reject', {
 				detail: { file: enhancedFile, error },
 			});
@@ -617,7 +627,7 @@ export class MMUpload extends LitElement {
 
 		enhancedFile.loaded = 0;
 		enhancedFile.held = true;
-		enhancedFile.status = await this.localize.term('uploading.status.held');
+		enhancedFile.status = tTerm('uploading.status.held');
 		this.files = [ enhancedFile, ...this.files ];
 
 		if (!this.noAuto)
@@ -732,8 +742,8 @@ export class MMUpload extends LitElement {
 						?disabled =${ this.maxFilesReached }
 					>
 						${ this.maxFiles <= 1
-							? this.localize.translate('addFiles.one')
-							: this.localize.translate('addFiles.many') }
+							? tTerm('addFiles.one')
+							: tTerm('addFiles.many') }
 					</mm-button>
 				</slot>
 			</div>
@@ -755,9 +765,7 @@ export class MMUpload extends LitElement {
 					id   ="dropLabel"
 					name ="drop-label"
 				>
-					${ this.maxFiles <= 1
-						? this.localize.translate('dropFiles.one')
-						: this.localize.translate('dropFiles.many') }
+				${ tTerm(this.maxFiles <= 1 ? 'dropFiles.one' : 'dropFiles.many') }
 				</slot>
 			</div>
 		</div>

@@ -6,7 +6,7 @@ import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { when } from 'lit/directives/when.js';
 
-import { systemIcons } from '../../index-fallback.js';
+import { systemIcons } from '../../utilities/system-icons.js';
 
 
 declare global { interface HTMLElementTagNameMap {

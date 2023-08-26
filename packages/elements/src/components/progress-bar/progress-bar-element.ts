@@ -1,5 +1,5 @@
-import { LocalizeController } from '@roenlie/mimic-lit/controllers';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
+import { tTerm } from '@roenlie/mimic-localize/directive';
 import { css, html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
@@ -55,7 +55,6 @@ export class MMProgressBar extends LitElement {
 
 
 	//#region controllers
-	protected readonly localize = new LocalizeController({ host: this });
 	//#endregion
 
 
@@ -79,7 +78,7 @@ export class MMProgressBar extends LitElement {
 			}) }
 			role="progressbar"
 			title=${ ifDefined(this.title) }
-			aria-label=${ this.label.length > 0 ? this.label : this.localize.term('progress') }
+			aria-label=${ this.label.length > 0 ? this.label : tTerm('progress') }
 			aria-valuemin="0"
 			aria-valuemax="100"
 			aria-valuenow=${ this.indeterminate ? 0 : this._value }
