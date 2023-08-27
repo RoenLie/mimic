@@ -2,42 +2,50 @@ export interface LangBlock {
 	[key: string]: LangBlock | string
 }
 
+export type Language = string & Record<never, never>;
+export type LangCodePath = string & Record<never, never>;
+export type LangCode = string & Record<never, never>;
+export type LangValue = string & Record<never, never>;
+export type CodeMap = Map<LangCodePath, Map<LangCode, LangValue>>;
+export type LangMap = Map<Language, CodeMap>;
 
-export type LangMap = Map<string, Map<string, string>>;
 
+export const createLangMapFromJson = (language: Language, langBlock: LangBlock) => {
+	const langMap: LangMap = new Map<string, Map<string, Map<string, string>>>();
+	const codeMap = createCodeMapFromJson(langBlock);
 
-export const createLangMapFromJson = (langBlock: LangBlock) => {
-	const codeMap = new Map<string, Map<string, string>>();
+	langMap.set(language, codeMap);
 
-	const processBlock = (prefix: string, obj: LangBlock) => {
-		const entries = Object.entries(obj);
-		entries.forEach(([ key, value ]) => {
-			if (typeof value === 'string') {
-				const map = codeMap.get(prefix) ?? (() =>
-					codeMap.set(prefix, new Map()).get(prefix)!)();
-
-				map.set(key, value);
-			}
-			else {
-				processBlock((prefix ? prefix + '.' : '') + key, value);
-			}
-		});
-
-		return codeMap;
-	};
-
-	return processBlock('', langBlock);
+	return langMap;
 };
 
 
-export const appendToLangMap = (langMap: LangMap, langBlock: LangBlock) => {
-	const newLangMap = createLangMapFromJson(langBlock);
+export const createCodeMapFromJson = (
+	langBlock: LangBlock,
+	codeMap: CodeMap = new Map<string, Map<string, string>>(),
+) => (function processBlock(prefix: string, obj: LangBlock) {
+	const entries = Object.entries(obj);
+	entries.forEach(([ key, value ]) => {
+		if (typeof value === 'string') {
+			const map = codeMap.get(prefix) ?? (() =>
+				codeMap.set(prefix, new Map()).get(prefix)!)();
 
-	for (const [ lang, map ] of langMap) {
-		const newCodes = newLangMap.get(lang);
-		for (const [ code, value ] of newCodes ?? [])
-			map.set(code, value);
-	}
+			map.set(key, value);
+		}
+		else {
+			processBlock((prefix ? prefix + '.' : '') + key, value);
+		}
+	});
+
+	return codeMap;
+})('', langBlock);
+
+
+export const appendToLangMap = (langMap: LangMap, language: Language, langBlock: LangBlock) => {
+	const codeMap = langMap.get(language) ??
+		(() => langMap.set(language, new Map()).get(language)!)();
+
+	createCodeMapFromJson(langBlock, codeMap);
 
 	return langMap;
 };

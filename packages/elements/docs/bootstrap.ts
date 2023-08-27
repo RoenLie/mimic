@@ -5,16 +5,19 @@ import { appendToLangMap, createLangMapFromJson } from '@roenlie/mimic-localize/
 import codes from '../src/misc/language-en.json';
 
 
-const langMap = createLangMapFromJson({});
-appendToLangMap(langMap, codes);
+const langMap = createLangMapFromJson('en', {});
+//const langMap = createLangMapFromJson('en', codes);
+appendToLangMap(langMap, 'en', codes);
+
+console.log(langMap);
 
 
 class EsTermStore extends LangBlockStore {
 
-	public async retrieveLangBlock(block: string, _lang: string) {
+	public async retrieveLangBlock(block: string, lang: string) {
 		await sleep(500);
 
-		return langMap.get(block);
+		return langMap.get(lang)?.get(block);
 	}
 
 }

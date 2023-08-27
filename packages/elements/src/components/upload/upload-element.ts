@@ -3,115 +3,99 @@ import { format } from '@roenlie/mimic-core/string';
 import { EventController, SlotController } from '@roenlie/mimic-lit/controllers';
 import { watch } from '@roenlie/mimic-lit/decorators';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
+import { loadTerms } from '@roenlie/mimic-localize/core';
 import { tTerm } from '@roenlie/mimic-localize/directive';
-import { css, type CSSResultGroup, html, LitElement, type PropertyValues, type TemplateResult } from 'lit';
+import { css, html, LitElement, type PropertyValues } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { when } from 'lit/directives/when.js';
 
 import { systemIcons } from '../../utilities/system-icons.js';
+import { type EnhancedFile, enhanceFile } from './enhanced-file.js';
 import { UploadFileElement } from './upload-file.cmp.js';
+import { uploadTerms } from './upload-lang-en.js';
 
-type UploadMethod = 'POST' | 'PUT'
+loadTerms('en', uploadTerms);
 
 
-export interface UploadTranslation {
-	'dropFiles.one':                         string;
-	'dropFiles.many':                        string;
-	'addFiles.one':                          string;
-	'addFiles.many':                         string;
-	'error.tooManyFiles':                    string;
-	'error.fileIsTooBig':                    string;
-	'error.incorrectFileType':               string;
-	'uploading.status.connecting':           string;
-	'uploading.status.stalled':              string;
-	'uploading.status.processing':           string;
-	'uploading.status.held':                 string;
-	'uploading.remainingTime.prefix':        string;
-	'uploading.remainingTime.unknown':       string;
-	'uploading.error.serverUnavailable':     string;
-	'uploading.error.unexpectedServerError': string;
-	'uploading.error.forbidden':             string;
-	'file.retry':                            string;
-	'file.start':                            string;
-	'file.remove':                           string;
-	'units.size.0':                          string;
-	'units.size.1':                          string;
-	'units.size.2':                          string;
-	'units.size.3':                          string;
-	'units.size.4':                          string;
-	'units.size.5':                          string;
-	'units.size.6':                          string;
-	'units.size.7':                          string;
-	'units.size.8':                          string;
+declare global {
+	interface HTMLElementTagNameMap {
+		'mm-upload': MMUpload;
+	}
+
+	interface HTMLElementEventMap {
+		/**
+		 * Fired before the XHR is opened. Could be used for changing the request
+		 * URL. If the default is prevented, then XHR would not be opened.
+		 */
+		'mm-upload-before': CustomEvent<{xhr: XMLHttpRequest; file: EnhancedFile; uploadTarget: string}>;
+
+		/**
+		 * Fired when the XHR has been opened but not sent yet.
+		 *
+		 * Useful for appending data keys to the FormData object,
+		 * for changing some parameters like headers, etc.
+		 *
+		 * If the event is defaultPrevented, `mm-upload` will not
+		 * send the request allowing the user to do something on his own.
+		 */
+		'mm-upload-request': CustomEvent<{xhr: XMLHttpRequest; file: EnhancedFile; formData: FormData}>;
+
+		/**
+		 * Fired when the XHR is sent.
+		 */
+		'mm-upload-start': CustomEvent<{xhr: XMLHttpRequest; file: EnhancedFile;}>;
+
+		/**
+		 * Fired as many times as the progress is updated.
+		 */
+		'mm-upload-progress': CustomEvent<{xhr: XMLHttpRequest; file: EnhancedFile;}>;
+
+		/**
+		 * Fired when we have the actual server response, and before the component analyses it.
+		 *
+		 * It's useful for developers to make the upload fail depending on the server response.
+		 *
+		 * If the event is defaultPrevented the mm-upload will return allowing the user to do
+		 * something on his own like retry the upload, etc,
+		 * since it has full access to the `xhr` and `file` objects.
+		 *
+		 * Otherwise, if the event is not prevented default `mm-upload` continues
+		 * with the normal workflow checking the `xhr.status` and `file.error`
+		 * which also might be modified by the user to force a customized response.
+		 */
+		'mm-upload-response': CustomEvent<{xhr: XMLHttpRequest; file: EnhancedFile;}>;
+
+		/**
+		 * Fired in case the upload process succeed.
+		 */
+		'mm-upload-success': CustomEvent<{xhr: XMLHttpRequest; file: EnhancedFile;}>;
+
+		/**
+		 * Fired in case the upload process failed.
+		 */
+		'mm-upload-error': CustomEvent<{xhr: XMLHttpRequest; file: EnhancedFile}>;
+
+		/**
+		 * Fired when retry upload is requested. If the default is prevented, then
+		 * retry would not be performed.
+		 */
+		'mm-upload-retry': CustomEvent<{xhr: XMLHttpRequest; file: EnhancedFile}>;
+
+		/**
+		 * Fired when retry abort is requested. If the default is prevented, then the
+		 * file upload would not be aborted.
+		 */
+		'mm-upload-abort': CustomEvent<{xhr: XMLHttpRequest; file: EnhancedFile}>;
+
+		/**
+		 * Fired when a file cannot be added to the queue due to a constrain:
+		 * file-size, file-type or maxFiles
+		 */
+		'mm-file-reject': CustomEvent<{ file: EnhancedFile; error: string }>;
+	}
 }
-
-
-export interface EnhancedFile extends File {
-	/** The target URL used to upload this file. */
-	uploadTarget: string;
-	/** Elapsed time since the upload started. */
-	elapsed: number;
-	/** Human-readable elapsed time. */
-	elapsedStr: string;
-	/** Number of seconds remaining for the upload to finish. */
-	remaining: number;
-	/** Human-readable remaining time for the upload to finish. */
-	remainingStr: string;
-	/** Percentage of the file already uploaded. */
-	progress: number;
-	/** Upload speed in kB/s. */
-	speed: number;
-	/** Human-readable total size of the file. */
-	totalStr: string;
-	/** Bytes transferred so far. */
-	loaded: number;
-	/** Human-readable uploaded size at the moment. */
-	loadedStr: string;
-	/** Status of the upload process. */
-	status: string;
-	/** Error message in case the upload failed. */
-	error: string;
-	/** True if the file was canceled by the user. */
-	abort: boolean;
-	/** True when the file was transferred to the server. */
-	complete: boolean;
-	/** True while transferring data to the server. */
-	uploading: boolean;
-	/** True when the data transfer is on hold. */
-	held: boolean;
-	/** True when the data transfer is in the process of starting. */
-	indeterminate: boolean;
-	/** Specifies the 'name' property at Content-Disposition. */
-	formDataName: string;
-	/** The request object for this file. */
-	xhr: XMLHttpRequest
-}
-
-
-const enhanceFile = (file: File): EnhancedFile => {
-	return Object.assign(file, {
-		uploadTarget:  '',
-		elapsed:       0,
-		elapsedStr:    '',
-		remaining:     0,
-		remainingStr:  '',
-		progress:      0,
-		speed:         0,
-		totalStr:      '',
-		loaded:        0,
-		loadedStr:     '',
-		status:        '',
-		error:         '',
-		held:          false,
-		abort:         false,
-		complete:      false,
-		uploading:     false,
-		indeterminate: false,
-		formDataName:  '',
-	}) as EnhancedFile;
-};
 
 
 /**
@@ -165,7 +149,7 @@ export class MMUpload extends LitElement {
 	@property({ type: String }) public target = '';
 
 	/** HTTP Method used to send the files. Only POST and PUT are allowed. */
-	@property({ type: String }) public method: UploadMethod = 'POST';
+	@property({ type: String }) public method: 'POST' | 'PUT' = 'POST';
 
 	/**
 	 * Specifies the types of files that the server accepts.
@@ -726,7 +710,7 @@ export class MMUpload extends LitElement {
 
 
 	//#region template
-	public override render(): TemplateResult {
+	public override render(): unknown {
 		return html`
 		<div part="primary-buttons">
 			<div
@@ -804,7 +788,7 @@ export class MMUpload extends LitElement {
 
 
 	//#region style
-	public static override styles: CSSResultGroup = [
+	public static override styles = [
 		sharedStyles,
 		css`
 		:host {
@@ -835,83 +819,4 @@ export class MMUpload extends LitElement {
 	];
 	//#endregion
 
-}
-
-
-declare global {
-	interface HTMLElementTagNameMap {
-		'mm-upload': MMUpload;
-	}
-
-	interface HTMLElementEventMap {
-		/**
-		 * Fired before the XHR is opened. Could be used for changing the request
-		 * URL. If the default is prevented, then XHR would not be opened.
-		 */
-		'mm-upload-before': CustomEvent<{xhr: XMLHttpRequest; file: EnhancedFile; uploadTarget: string}>;
-
-		/**
-		 * Fired when the XHR has been opened but not sent yet.
-		 *
-		 * Useful for appending data keys to the FormData object,
-		 * for changing some parameters like headers, etc.
-		 *
-		 * If the event is defaultPrevented, `mm-upload` will not
-		 * send the request allowing the user to do something on his own.
-		 */
-		'mm-upload-request': CustomEvent<{xhr: XMLHttpRequest; file: EnhancedFile; formData: FormData}>;
-
-		/**
-		 * Fired when the XHR is sent.
-		 */
-		'mm-upload-start': CustomEvent<{xhr: XMLHttpRequest; file: EnhancedFile;}>;
-
-		/**
-		 * Fired as many times as the progress is updated.
-		 */
-		'mm-upload-progress': CustomEvent<{xhr: XMLHttpRequest; file: EnhancedFile;}>;
-
-		/**
-		 * Fired when we have the actual server response, and before the component analyses it.
-		 *
-		 * It's useful for developers to make the upload fail depending on the server response.
-		 *
-		 * If the event is defaultPrevented the mm-upload will return allowing the user to do
-		 * something on his own like retry the upload, etc,
-		 * since it has full access to the `xhr` and `file` objects.
-		 *
-		 * Otherwise, if the event is not prevented default `mm-upload` continues
-		 * with the normal workflow checking the `xhr.status` and `file.error`
-		 * which also might be modified by the user to force a customized response.
-		 */
-		'mm-upload-response': CustomEvent<{xhr: XMLHttpRequest; file: EnhancedFile;}>;
-
-		/**
-		 * Fired in case the upload process succeed.
-		 */
-		'mm-upload-success': CustomEvent<{xhr: XMLHttpRequest; file: EnhancedFile;}>;
-
-		/**
-		 * Fired in case the upload process failed.
-		 */
-		'mm-upload-error': CustomEvent<{xhr: XMLHttpRequest; file: EnhancedFile}>;
-
-		/**
-		 * Fired when retry upload is requested. If the default is prevented, then
-		 * retry would not be performed.
-		 */
-		'mm-upload-retry': CustomEvent<{xhr: XMLHttpRequest; file: EnhancedFile}>;
-
-		/**
-		 * Fired when retry abort is requested. If the default is prevented, then the
-		 * file upload would not be aborted.
-		 */
-		'mm-upload-abort': CustomEvent<{xhr: XMLHttpRequest; file: EnhancedFile}>;
-
-		/**
-		 * Fired when a file cannot be added to the queue due to a constrain:
-		 * file-size, file-type or maxFiles
-		 */
-		'mm-file-reject': CustomEvent<{ file: EnhancedFile; error: string }>;
-	}
 }
