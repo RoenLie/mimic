@@ -15,7 +15,7 @@ export function component(
 			sideEffects.forEach(reg => reg(this));
 		}
 
-		protected override render() {
+		protected override render(): unknown {
 			return render(this);
 		}
 
@@ -29,6 +29,7 @@ export function component(
 	component.sideEffects.clear();
 
 	return {
+		tagName,
 		register() {
 			if (!globalThis.customElements.get(tagName))
 				globalThis.customElements.define(tagName, Component);

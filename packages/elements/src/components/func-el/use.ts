@@ -85,14 +85,14 @@ export const useConnected = (func: (element: LitElement) => void) => {
 	const cls = getCurrentRef();
 	invariant(cls, 'Could not get base component');
 
-	const connectedCallbackNative = cls.prototype.connectedCallback;
+	const native = cls.prototype.connectedCallback;
 	cls.prototype.connectedCallback = function() {
-		connectedCallbackNative.call(this);
+		native.call(this);
 		func(this);
 	};
 };
 
-export const useEffect = (
+export const useWillUpdate = (
 	func: (changedProps: PropertyValues, element: LitElement) => void,
 	deps?: string[],
 ) => {
@@ -100,22 +100,77 @@ export const useEffect = (
 	invariant(cls, 'Could not get base component');
 
 	//@ts-ignore
-	const updatedNative = cls.prototype.updated;
+	const native = cls.prototype.willUpdate;
 	//@ts-ignore
-	cls.prototype.updated = function(props) {
-		updatedNative.call(this, props);
+	cls.prototype.willUpdate = function(props) {
+		native.call(this, props);
 
 		if (deps?.some(dep => props.has(dep)) ?? true)
 			func(props, this);
 	};
 };
 
-export const useRender = (func: (element: LitElement) => unknown) => {
+
+export const useUpdate = (
+	func: (changedProps: PropertyValues, element: LitElement) => void,
+	deps?: string[],
+) => {
 	const cls = getCurrentRef();
 	invariant(cls, 'Could not get base component');
 
 	//@ts-ignore
-	cls.prototype.render = function() {
-		return func(this);
+	const native = cls.prototype.update;
+	//@ts-ignore
+	cls.prototype.update = function(props) {
+		native.call(this, props);
+
+		if (deps?.some(dep => props.has(dep)) ?? true)
+			func(props, this);
+	};
+};
+
+
+export const useUpdated = (
+	func: (changedProps: PropertyValues, element: LitElement) => void,
+	deps?: string[],
+) => {
+	const cls = getCurrentRef();
+	invariant(cls, 'Could not get base component');
+
+	//@ts-ignore
+	const native = cls.prototype.updated;
+	//@ts-ignore
+	cls.prototype.updated = function(props) {
+		native.call(this, props);
+
+		if (deps?.some(dep => props.has(dep)) ?? true)
+			func(props, this);
+	};
+};
+
+export const useAfterConnected = (func: (element: LitElement) => void) => {
+	const cls = getCurrentRef();
+	invariant(cls, 'Could not get base component');
+
+	let firstUpdated = true;
+
+	const {
+		//@ts-ignore
+		updated: nativeUpdated,
+		connectedCallback: nativeConnected,
+	} = cls.prototype;
+
+	cls.prototype.connectedCallback = function() {
+		nativeConnected.call(this);
+		firstUpdated = true;
+	};
+
+	//@ts-ignore
+	cls.prototype.updated = function(changedProps) {
+		nativeUpdated.call(this, changedProps);
+		if (firstUpdated) {
+			firstUpdated = false;
+			func(this);
+		}
 	};
 };

@@ -2,7 +2,7 @@ import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
 import { component } from './component.js';
-import { useConnected, useEffect, useProperty, useState, useStyles } from './use.js';
+import { useAfterConnected, useConnected, useProperty, useState, useStyles, useUpdated } from './use.js';
 
 
 @customElement('mm-func-el-demo')
@@ -29,6 +29,7 @@ export class FuncElDemo extends LitElement {
 const testDivCmp = component('test-div', () => {
 	const [ label, setLabel ] = useProperty('label', 'test-label', { type: String });
 	const [ counter, setCounter ] = useState('counter', 0, { type: Number });
+	const subCounter = 0;
 
 	useStyles(css`
 		button {
@@ -42,13 +43,17 @@ const testDivCmp = component('test-div', () => {
 		console.log('connected', element);
 	});
 
-	useEffect((props) => {
+	useAfterConnected(() => {
+		console.log('after connected!');
+	});
+
+	useUpdated((props) => {
 		console.log('effect!', props);
-	}, [ 'label' ]);
+	}, [ 'counter' ]);
 
 	return () => html`
 	<button @click=${ () => setCounter(counter.value + 1) }>
-		${ label?.value } ${ counter.value }
+		${ label?.value } ${ counter.value } ${ subCounter }
 	</button>
 
 	<input @input=${ (ev: InputEvent) => setLabel((ev.target as any).value) } />
