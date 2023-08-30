@@ -1,11 +1,12 @@
-import type { CSSResultGroup, LitElement, PropertyDeclaration } from 'lit';
+import { invariant } from '@roenlie/mimic-core/validation';
+import type { CSSResultGroup, LitElement, PropertyDeclaration, PropertyValues } from 'lit';
 
-import { component } from './component.js';
+import { component, getCurrentRef } from './component.js';
 
 
-class Reactive<T = any> {
+class Prop<T = any> {
 
-	public static bind(obj: Reactive, name: string, ref: Record<keyof any, any>) {
+	public static bind(obj: Prop, name: string, ref: Record<keyof any, any>) {
 		obj.#name = name;
 		obj.#ref = new WeakRef(ref);
 		obj.setter(obj.#initial);
@@ -41,49 +42,80 @@ class Reactive<T = any> {
 
 }
 
-
-export function useProperty<TType>(
-	prop: {name: string; value: TType;} & PropertyDeclaration,
-	cls: typeof LitElement,
-) {
-	console.log(this);
-
-	cls.properties ??= {};
-	Object.assign(cls.properties, { [prop.name]: prop });
-
-	function sideEffect(this: LitElement) {
-		Reactive.bind(reactive, prop.name, this);
-	}
-
-	component.sideEffects.add(sideEffect);
-
-	const reactive = new Reactive<TType>(prop.value);
-
-	return [ reactive.getter(), reactive.setter ] as const;
-}
+type Property<T> = readonly [{ value: T; }, (value: T) => void];
 
 
-export const useState = <TType>(
-	prop: {name: string; value: TType;} & PropertyDeclaration,
-	cls: typeof LitElement,
+export const useProperty = <T>(
+	name: string,
+	value: T,
+	options: PropertyDeclaration<T> = {},
 ) => {
+	const cls = getCurrentRef();
+	invariant(cls, 'Could not get base component');
+
 	cls.properties ??= {};
-	Object.assign(cls.properties, { [prop.name]: { ...prop, state: true } });
+	Object.assign(cls.properties, { [name]: options });
 
-	function sideEffect(this: LitElement) {
-		Reactive.bind(reactive, prop.name, this);
-	}
+	component.sideEffects.add(element =>
+		Prop.bind(reactive, name, element));
 
-	component.sideEffects.add(sideEffect);
+	const reactive = new Prop<T>(value);
 
-	const reactive = new Reactive<TType>(prop.value);
-
-	return [ reactive.getter(), reactive.setter ] as const;
+	return [ reactive.getter(), reactive.setter ] as Property<T>;
 };
 
 
-export const useStyles = (css: CSSResultGroup, cls: typeof LitElement) => {
+export const useState = <T>(
+	name: string,
+	value: T,
+	options: PropertyDeclaration<T>,
+) => useProperty(name, value, { ...options, state: true });
+
+
+export const useStyles = (css: CSSResultGroup) => {
+	const cls = getCurrentRef();
+	invariant(cls, 'Could not get base component');
+
 	const existing = cls.styles ?? [];
 
 	cls.styles = [	existing, css ];
+};
+
+export const useConnected = (func: (element: LitElement) => void) => {
+	const cls = getCurrentRef();
+	invariant(cls, 'Could not get base component');
+
+	const connectedCallbackNative = cls.prototype.connectedCallback;
+	cls.prototype.connectedCallback = function() {
+		connectedCallbackNative.call(this);
+		func(this);
+	};
+};
+
+export const useEffect = (
+	func: (changedProps: PropertyValues, element: LitElement) => void,
+	deps?: string[],
+) => {
+	const cls = getCurrentRef();
+	invariant(cls, 'Could not get base component');
+
+	//@ts-ignore
+	const updatedNative = cls.prototype.updated;
+	//@ts-ignore
+	cls.prototype.updated = function(props) {
+		updatedNative.call(this, props);
+
+		if (deps?.some(dep => props.has(dep)) ?? true)
+			func(props, this);
+	};
+};
+
+export const useRender = (func: (element: LitElement) => unknown) => {
+	const cls = getCurrentRef();
+	invariant(cls, 'Could not get base component');
+
+	//@ts-ignore
+	cls.prototype.render = function() {
+		return func(this);
+	};
 };

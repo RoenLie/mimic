@@ -1,43 +1,40 @@
 import { LitElement } from 'lit';
 
 
-export function wrapper<T extends(...args: any[]) => any>(
-	this: { cmp: typeof LitElement; },
-	func: T) {
-	console.log('shit wrapped');
-
-	return func.bind(this, this.cmp)();
-}
+export const getCurrentRef = () => component.ref;
 
 
-export function component<TProps extends Record<string, any>>(
+export function component(
 	tagName: string,
-	create: (cls: typeof LitElement) =>
-		(props: TProps, element: LitElement) => unknown,
+	create: (cls: typeof LitElement) => (element: LitElement) => unknown,
 ) {
 	class Component extends LitElement {
 
-
 		constructor() {
 			super();
-			sideEffects.forEach(reg => reg.call(this));
+			sideEffects.forEach(reg => reg(this));
 		}
 
 		protected override render() {
-			return template(this as any, this as any) as any;
+			return render(this);
 		}
 
 	}
 
-	const template: (props: TProps, element: LitElement) => unknown = wrapper.bind({ cmp: Component }, create)();
+	component.ref = Component;
+	const render = create(Component);
+	component.ref = undefined;
+
 	const sideEffects = [ ...component.sideEffects ];
 	component.sideEffects.clear();
 
 	return {
 		register() {
-			globalThis.customElements.define(tagName, Component);
+			if (!globalThis.customElements.get(tagName))
+				globalThis.customElements.define(tagName, Component);
 		},
 	};
 }
 
-component.sideEffects = new Set<Function>();
+component.sideEffects = new Set<((element: LitElement) => void)>();
+component.ref = undefined as typeof LitElement | undefined;

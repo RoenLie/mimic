@@ -2,7 +2,7 @@ import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
 import { component } from './component.js';
-import { useProperty, useState, useStyles } from './use.js';
+import { useConnected, useEffect, useProperty, useState, useStyles } from './use.js';
 
 
 @customElement('mm-func-el-demo')
@@ -12,7 +12,6 @@ export class FuncElDemo extends LitElement {
 		return html`
 		<button @click=${ () => void this.requestUpdate() }>UPDATE</button>
 		<test-div label="jeg er en label"></test-div>
-		<!--<test-div></test-div>-->
 		`;
 	}
 
@@ -27,11 +26,9 @@ export class FuncElDemo extends LitElement {
 }
 
 
-const testDivCmp = component<{label: string}>('test-div', (cmp) => {
-	console.log(this);
-
-	const [ label ] = useProperty({ name: 'label', value: 'test-label' }, cmp);
-	const [ counter, setCounter ] = useState({ name: 'counter', value: 0 }, cmp);
+const testDivCmp = component('test-div', () => {
+	const [ label, setLabel ] = useProperty('label', 'test-label', { type: String });
+	const [ counter, setCounter ] = useState('counter', 0, { type: Number });
 
 	useStyles(css`
 		button {
@@ -39,12 +36,22 @@ const testDivCmp = component<{label: string}>('test-div', (cmp) => {
 			width: 200px;
 			height: 100px;
 		}
-	`, cmp);
+	`);
 
-	return (props, element) => html`
+	useConnected((element) => {
+		console.log('connected', element);
+	});
+
+	useEffect((props) => {
+		console.log('effect!', props);
+	}, [ 'label' ]);
+
+	return () => html`
 	<button @click=${ () => setCounter(counter.value + 1) }>
 		${ label?.value } ${ counter.value }
 	</button>
+
+	<input @input=${ (ev: InputEvent) => setLabel((ev.target as any).value) } />
 	`;
 });
 
