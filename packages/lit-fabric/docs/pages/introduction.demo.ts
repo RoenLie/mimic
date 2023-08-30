@@ -3,7 +3,7 @@ import { css, html } from 'lit';
 import { component } from '../../src/core/component.js';
 import {
 	useAfterConnected, useConnected,
-	useProperty, useState,
+	useProperty, useQuery, useState,
 	useStyles, useUpdated,
 } from '../../src/hooks/use.js';
 
@@ -12,6 +12,7 @@ component('demo-introduction', () => {
 	const [ label, setLabel ] = useProperty('label', 'test-label', { type: String });
 	const [ counter, setCounter ] = useState('counter', 0, { type: Number });
 	const subCounter = 0;
+	const inputQry = useQuery('inputQry', 'input');
 
 	useStyles(css`
 		button {
@@ -26,12 +27,13 @@ component('demo-introduction', () => {
 	});
 
 	useAfterConnected(() => {
-		console.log('after connected!');
+		console.log('after connected!', inputQry.value);
 	});
 
 	useUpdated((props) => {
 		console.log('effect!', props);
 	}, [ 'counter' ]);
+
 
 	return () => html`
 	<button @click=${ () => setCounter(counter.value + 1) }>
