@@ -9,8 +9,6 @@ const langMap = createLangMapFromJson('en', {});
 //const langMap = createLangMapFromJson('en', codes);
 appendToLangMap(langMap, 'en', codes);
 
-console.log(langMap);
-
 
 class EsTermStore extends LangBlockStore {
 
@@ -23,4 +21,3 @@ class EsTermStore extends LangBlockStore {
 }
 
 const store = new EsTermStore();
-console.log(store);
