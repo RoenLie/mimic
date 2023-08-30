@@ -1,7 +1,7 @@
 {
 	"name": "@roenlie/lit-fabric",
 	"version": "1.0.0",
-	"description": "",
+	"description": "React hooks syntax for LIT",
 	"author": {
 		"name": "Kristoffer Roen-Lie",
 		"url": "https://github.com/RoenLie"
