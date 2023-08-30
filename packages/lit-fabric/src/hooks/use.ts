@@ -1,7 +1,7 @@
 import { invariant } from '@roenlie/mimic-core/validation';
 import type { CSSResultGroup, LitElement, PropertyDeclaration, PropertyValues } from 'lit';
 
-import { component, getCurrentRef } from './component.js';
+import { component, getCurrentRef } from '../core/component.js';
 
 
 class Prop<T = any> {
@@ -42,14 +42,14 @@ class Prop<T = any> {
 
 }
 
-type Property<T> = readonly [{ value: T; }, (value: T) => void];
-
 
 export const useProperty = <T>(
 	name: string,
 	value: T,
 	options: PropertyDeclaration<T> = {},
 ) => {
+	type Property<T> = readonly [{ value: T; }, (value: T) => void];
+
 	const cls = getCurrentRef();
 	invariant(cls, 'Could not get base component');
 

@@ -1,0 +1,42 @@
+{
+	"name": "@roenlie/lit-fabric",
+	"version": "1.0.0",
+	"description": "",
+	"author": {
+		"name": "Kristoffer Roen-Lie",
+		"url": "https://github.com/RoenLie"
+	},
+	"license": "MIT",
+	"keywords": [],
+	"type": "module",
+	"exports": {
+		"./hooks": {
+			"types": "./dist/hooks/index.d.ts",
+			"default": "./dist/hooks/index.js"
+		},
+		"./core": {
+			"types": "./dist/core/index.d.ts",
+			"default": "./dist/core/index.js"
+		}
+	},
+	"scripts": {
+		"dev": "vite --config ./docs/vite.config.ts",
+		"build": "pnpm build:prepare && pnpm build:index && pnpm build:types && vite build",
+		"build:prepare": "rimraf dist",
+		"build:index": "package-toolbox build-indexes",
+		"build:types": "tsc --project ./src/tsconfig.json",
+		"typecheck": "tsc --project ./tsconfig.json",
+		"updatedeps": "pnpm update --latest --interactive",
+		"increment-version": "package-toolbox increment-version"
+	},
+	"dependencies": {
+		"@roenlie/mimic-core": "workspace:^"
+	},
+	"peerDependencies": {
+		"lit": "*"
+	},
+	"devDependencies": {
+		"@roenlie/mirage-docs": "^1.2.17",
+		"lit": "^2.8.0"
+	}
+}
