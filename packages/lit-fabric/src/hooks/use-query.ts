@@ -2,6 +2,7 @@ import { invariant } from '@roenlie/mimic-core/validation';
 import type { ReactiveElement } from 'lit';
 
 import { component, getCurrentRef } from '../core/component.js';
+import { Getter } from '../utilities/getter.js';
 
 
 export const useQuery = <T extends Element = HTMLElement>(name: string, selector: string, cache?: boolean) => {
@@ -29,21 +30,6 @@ export const useQuery = <T extends Element = HTMLElement>(name: string, selector
 
 	Object.defineProperty(cls.prototype, name, descriptor);
 
-	class Getter<T = any> {
-
-		public static bind(getter: Getter, name: string, ref: Record<keyof any, any>) {
-			getter.#name = name;
-			getter.#ref = new WeakRef(ref);
-		}
-
-		#name: string;
-		#ref: WeakRef<Record<keyof any, any>>;
-
-		public get value(): T {
-			return this.#ref.deref()?.[this.#name];
-		}
-
-	}
 	const getter = new Getter<T>();
 	component.sideEffects.add((element) => Getter.bind(getter, name, element));
 

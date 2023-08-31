@@ -35,10 +35,11 @@ export const component = (
 		mixins?: ((...args: any[]) => any)[];
 	},
 ) => {
-	const base = (options?.mixins ?? []).reduce(
-		(acc, cur) => cur(acc),
-		(options?.base ?? LitElement),
-	) as unknown as FabricConstructor;
+	let base = (options?.base ?? LitElement) as unknown as FabricConstructor;
+	if (options?.mixins) {
+		for (const mixin of options.mixins)
+			base = mixin(base);
+	}
 
 	return class extends base {
 

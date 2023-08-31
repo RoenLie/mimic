@@ -1,9 +1,12 @@
 import { css, html, LitElement } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { customElement, state } from 'lit/decorators.js';
+import { when } from 'lit/directives/when.js';
 
 import { component } from '../../src/core/component.js';
 import { useAfterConnected } from '../../src/hooks/use-after-connected.js';
 import { useConnected } from '../../src/hooks/use-connected.js';
+import { useController } from '../../src/hooks/use-controller.js';
+import { useDisconnected } from '../../src/hooks/use-disconnected.js';
 import { useProperty, useState } from '../../src/hooks/use-property.js';
 import { useQuery } from '../../src/hooks/use-query.js';
 import { useStyles } from '../../src/hooks/use-styles.js';
@@ -13,11 +16,25 @@ import { useUpdated } from '../../src/hooks/use-updated.js';
 @customElement('demo-introduction')
 export class DemoIntroduction extends LitElement {
 
+	@state() protected toggle = true;
+
 	protected override render() {
 		return html`
+		<button @click=${ () => this.toggle = !this.toggle }>Toggle</button>
+		${ when(this.toggle, () => html`
 		<new-demo></new-demo>
+		`) }
 		`;
 	}
+
+	public static override styles = [
+		css`
+		:host {
+			display: grid;
+			grid-auto-rows: max-content;
+		}
+		`,
+	];
 
 }
 
@@ -58,6 +75,10 @@ component('demo-button', () => {
 		console.dir(element.constructor);
 	});
 
+	useDisconnected(() => {
+		console.log('disconnecting');
+	});
+
 	useAfterConnected(() => {
 		console.log('after connected!', inputQry.value);
 	});
@@ -66,6 +87,17 @@ component('demo-button', () => {
 		console.log('effect!', props);
 	}, [ 'counter' ]);
 
+	useController('testController', {
+		hostUpdate() {
+			console.log('controller updating');
+		},
+		hostConnected() {
+			console.log('host connected');
+		},
+		hostDisconnected() {
+			console.log('controller disconnecting');
+		},
+	});
 
 	return () => html`
 	<button @click=${ () => setCounter(counter.value + 1) }>
