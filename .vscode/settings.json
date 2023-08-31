@@ -59,16 +59,6 @@
 		{
 			"splitTerminals": [
 				{
-					"name": "docs",
-					"commands": [
-						"cd packages/docs"
-					]
-				}
-			]
-		},
-		{
-			"splitTerminals": [
-				{
 					"name": "core",
 					"commands": [
 						"cd packages/core"
@@ -92,6 +82,16 @@
 					"name": "lit",
 					"commands": [
 						"cd packages/lit"
+					]
+				}
+			]
+		},
+		{
+			"splitTerminals": [
+				{
+					"name": "lit-fabric",
+					"commands": [
+						"cd packages/lit-fabric"
 					]
 				}
 			]
@@ -135,6 +135,6 @@
 					]
 				}
 			]
-		}
+		},
 	],
 }
