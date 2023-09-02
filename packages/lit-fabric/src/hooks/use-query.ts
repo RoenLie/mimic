@@ -4,8 +4,18 @@ import type { ReactiveElement } from 'lit';
 import { component, getCurrentRef } from '../core/component.js';
 import { Getter } from '../utilities/getter.js';
 
+type UseQuery = <T extends Element = HTMLElement>(
+	name: string,
+	selector: string,
+	cache?: boolean,
+) => ({ value: T; });
 
-export const useQuery = <T extends Element = HTMLElement>(name: string, selector: string, cache?: boolean) => {
+
+export const useQuery = (<T extends Element = HTMLElement>(
+	name: string,
+	selector: string,
+	cache?: boolean,
+) => {
 	const cls = getCurrentRef();
 	invariant(cls, 'Could not get base component');
 
@@ -34,4 +44,4 @@ export const useQuery = <T extends Element = HTMLElement>(name: string, selector
 	component.sideEffects.add((element) => Getter.bind(getter, name, element));
 
 	return getter;
-};
+}) satisfies UseQuery;

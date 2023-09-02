@@ -4,10 +4,16 @@ import type { PropertyDeclaration } from 'lit';
 import { component, getCurrentRef } from '../core/component.js';
 import { Prop } from '../utilities/prop.js';
 
-
-export const useProperty = <T>(
+type UseProperty<T = any> = (
 	name: string,
-	value: T,
+	initialValue: T,
+	options?: PropertyDeclaration<T>
+) => readonly [ { value: T; }, (value: T) => void ];
+
+
+export const useProperty = (<T>(
+	name: string,
+	initialValue: T,
 	options: PropertyDeclaration<T> = {},
 ) => {
 	type Property<T> = readonly [{ value: T; }, (value: T) => void];
@@ -20,14 +26,18 @@ export const useProperty = <T>(
 
 	component.sideEffects.add(element => Prop.bind(reactive, name, element));
 
-	const reactive = new Prop<T>(value);
+	const reactive = new Prop<T>(initialValue);
 
 	return [ reactive.getter(), reactive.setter ] as Property<T>;
-};
+}) satisfies UseProperty;
 
 
-export const useState = <T>(
+export const useState = (<T>(
 	name: string,
-	value: T,
-	options: PropertyDeclaration<T>,
-) => useProperty(name, value, { ...options, state: true });
+	initialValue: T,
+	options?: PropertyDeclaration<T>,
+) => useProperty(
+	name,
+	initialValue,
+	{ ...options, state: true },
+)) satisfies UseProperty;
