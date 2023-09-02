@@ -4,7 +4,13 @@ import type { LitElement, PropertyValues } from 'lit';
 import { getCurrentRef } from '../core/component.js';
 
 
-export const useUpdated = (
+type UseUpdated = (
+	func: (changedProps: PropertyValues, element: LitElement) => void,
+	deps?: string[],
+) => void;
+
+
+export const useUpdated = ((
 	func: (changedProps: PropertyValues, element: LitElement) => void,
 	deps?: string[],
 ) => {
@@ -20,4 +26,4 @@ export const useUpdated = (
 		if (deps?.some(dep => props.has(dep)) ?? true)
 			func(props, this);
 	};
-};
+}) satisfies UseUpdated;

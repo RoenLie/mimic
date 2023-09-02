@@ -4,7 +4,12 @@ import type { LitElement } from 'lit';
 import { getCurrentRef } from '../core/component.js';
 
 
-export const useAfterConnected = (func: (element: LitElement) => void) => {
+type UseAfterConnected = (
+	func: (element: LitElement) => void,
+) => void;
+
+
+export const useAfterConnected = ((func: (element: LitElement) => void) => {
 	const cls = getCurrentRef();
 	invariant(cls, 'Could not get base component');
 
@@ -29,4 +34,4 @@ export const useAfterConnected = (func: (element: LitElement) => void) => {
 			func(this);
 		}
 	};
-};
+}) satisfies UseAfterConnected;

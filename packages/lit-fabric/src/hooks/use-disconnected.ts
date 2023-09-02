@@ -4,7 +4,12 @@ import type { LitElement } from 'lit';
 import { getCurrentRef } from '../core/component.js';
 
 
-export const useDisconnected = (func: (element: LitElement) => void) => {
+type UseDisconnected = (
+	func: (element: LitElement) => void,
+) => void;
+
+
+export const useDisconnected = ((func: (element: LitElement) => void) => {
 	const cls = getCurrentRef();
 	invariant(cls, 'Could not get base component');
 
@@ -13,4 +18,4 @@ export const useDisconnected = (func: (element: LitElement) => void) => {
 		native.call(this);
 		func(this);
 	};
-};
+}) satisfies UseDisconnected;
