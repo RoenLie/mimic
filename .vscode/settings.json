@@ -99,6 +99,16 @@
 		{
 			"splitTerminals": [
 				{
+					"name": "lit-aegis",
+					"commands": [
+						"cd packages/lit-aegis"
+					]
+				}
+			]
+		},
+		{
+			"splitTerminals": [
+				{
 					"name": "router",
 					"commands": [
 						"cd packages/router"
@@ -122,16 +132,6 @@
 					"name": "store",
 					"commands": [
 						"cd packages/state-store"
-					]
-				}
-			]
-		},
-		{
-			"splitTerminals": [
-				{
-					"name": "aegis",
-					"commands": [
-						"cd packages/aegis"
 					]
 				}
 			]
