@@ -11,7 +11,7 @@ type UseAfterConnected = (
 
 export const useAfterConnected = ((func: (element: LitElement) => void) => {
 	const cls = getCurrentRef();
-	invariant(cls, 'Could not get base component');
+	invariant(cls, 'Could not get component instance.');
 
 	let firstUpdated = true;
 
@@ -19,15 +19,15 @@ export const useAfterConnected = ((func: (element: LitElement) => void) => {
 		//@ts-ignore
 		updated: nativeUpdated,
 		connectedCallback: nativeConnected,
-	} = cls.prototype;
+	} = cls;
 
-	cls.prototype.connectedCallback = function() {
+	cls.connectedCallback = function() {
 		nativeConnected.call(this);
 		firstUpdated = true;
 	};
 
 	//@ts-ignore
-	cls.prototype.updated = function(changedProps) {
+	cls.updated = function(changedProps) {
 		nativeUpdated.call(this, changedProps);
 		if (firstUpdated) {
 			firstUpdated = false;

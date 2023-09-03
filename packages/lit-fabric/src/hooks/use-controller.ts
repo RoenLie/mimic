@@ -6,24 +6,21 @@ import { Getter } from '../utilities/getter.js';
 
 
 type UseController = <T extends ReactiveController = ReactiveController>(
-	name: string,
 	controller: T,
-) => ({ value: T; });
+) => T;
 
 
 export const useController = (<T extends ReactiveController>(
-	name: string, controller: ((element: LitElement) => T) | T,
+	controller: ((element: LitElement) => T) | T,
 ) => {
 	const cls = getCurrentRef();
-	invariant(cls, 'Could not get base component');
+	invariant(cls, 'Could not get component instance.');
 
-	const getter = new Getter<T>();
-	component.sideEffects.add((element) => {
-		element.addController(typeof controller === 'function'
-			? controller(element) : controller);
+	const ctrl = typeof controller === 'function'
+		? controller(cls)
+		: controller;
 
-		Getter.bind(getter, name, element);
-	});
+	cls.addController(ctrl);
 
-	return getter;
+	return ctrl;
 }) satisfies UseController;

@@ -15,12 +15,12 @@ export const useWillUpdate = ((
 	deps?: string[],
 ) => {
 	const cls = getCurrentRef();
-	invariant(cls, 'Could not get base component');
+	invariant(cls, 'Could not get component instance.');
 
 	//@ts-ignore
-	const native = cls.prototype.willUpdate;
+	const native = cls.willUpdate;
 	//@ts-ignore
-	cls.prototype.willUpdate = function(props) {
+	cls.willUpdate = function(props) {
 		native.call(this, props);
 
 		if (deps?.some(dep => props.has(dep)) ?? true)

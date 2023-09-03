@@ -11,10 +11,10 @@ type UseDisconnected = (
 
 export const useDisconnected = ((func: (element: LitElement) => void) => {
 	const cls = getCurrentRef();
-	invariant(cls, 'Could not get base component');
+	invariant(cls, 'Could not get component instance.');
 
-	const native = cls.prototype.disconnectedCallback;
-	cls.prototype.disconnectedCallback = function() {
+	const native = cls.disconnectedCallback;
+	cls.disconnectedCallback = function() {
 		native.call(this);
 		func(this);
 	};

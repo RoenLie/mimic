@@ -8,7 +8,6 @@ import { useAfterConnected } from '../../src/hooks/use-after-connected.js';
 import { useConnected } from '../../src/hooks/use-connected.js';
 import { useController } from '../../src/hooks/use-controller.js';
 import { useDisconnected } from '../../src/hooks/use-disconnected.js';
-import { useElement } from '../../src/hooks/use-element.js';
 import { useOnEvent } from '../../src/hooks/use-onevent.js';
 import { useProperty, useState } from '../../src/hooks/use-property.js';
 import { useQuery } from '../../src/hooks/use-query.js';
@@ -54,6 +53,7 @@ component('new-demo', () => {
 	});
 
 	return () => html`
+	<demo-button></demo-button>
 	<demo-button @stuff=${ () => console.log('button event') }></demo-button>
 	`;
 }).register();
@@ -63,19 +63,11 @@ interface DemoButton extends LitElement {
 	label: string;
 }
 
-component('demo-button', () => {
+component('demo-button', (element) => {
 	const [ label, setLabel ] = useProperty('label', 'test-label', { type: String });
 	const [ counter, setCounter ] = useState('counter', 0, { type: Number });
 	const subCounter = 0;
 	const inputQry = useQuery('inputQry', 'input');
-
-	useStyles(css`
-		button {
-			background-color: hotpink;
-			width: 200px;
-			height: 100px;
-		}
-	`);
 
 	useConnected((element) => {
 		console.log('connected');
@@ -94,7 +86,7 @@ component('demo-button', () => {
 		console.log('effect!', props);
 	}, [ 'counter' ]);
 
-	useController('testController', {
+	useController({
 		hostUpdate() {
 			console.log('controller updating');
 		},
@@ -106,18 +98,25 @@ component('demo-button', () => {
 		},
 	});
 
-	const emit = useElement((element) => () => {
-		emitEvent(element, 'stuff');
-	});
+	useStyles(css`
+		button {
+			background-color: hotpink;
+			width: 200px;
+			height: 100px;
+		}
+	`);
 
-	return () => html`
-	<button @click=${ () => {
-		setCounter(counter.value + 1);
-		emit();
-	} }>
-		${ label?.value } ${ counter.value } ${ subCounter }
-	</button>
+	return () => {
+		return html`
+		<button @click=${ () => {
+			setCounter(counter.value + 1);
+			emitEvent(element, 'stuff');
+		} }>
+			${ label?.value } ${ counter.value } ${ subCounter }
+		</button>
 
-	<input @input=${ (ev: InputEvent) => setLabel((ev.target as any).value) } />
-	`;
+		<input @input=${ (ev: InputEvent) =>
+			setLabel((ev.target as any).value) } />
+		`;
+	};
 }).register();

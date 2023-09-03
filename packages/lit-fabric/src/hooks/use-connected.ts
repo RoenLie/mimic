@@ -11,10 +11,10 @@ type UseConnected = (
 
 export const useConnected = ((func: (element: LitElement) => void) => {
 	const cls = getCurrentRef();
-	invariant(cls, 'Could not get base component');
+	invariant(cls, 'Could not get component instance.');
 
-	const native = cls.prototype.connectedCallback;
-	cls.prototype.connectedCallback = function() {
+	const native = cls.connectedCallback;
+	cls.connectedCallback = function() {
 		native.call(this);
 		func(this);
 	};

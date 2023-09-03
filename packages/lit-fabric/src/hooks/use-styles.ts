@@ -1,17 +1,16 @@
 import { invariant } from '@roenlie/mimic-core/validation';
-import type { CSSResultGroup } from 'lit';
+import type { CSSResultGroup, CSSResultOrNative } from 'lit';
 
 import { getCurrentRef } from '../core/component.js';
 
 
-type UseStyles = (css: CSSResultGroup) => void;
+type UseStyles = (css: CSSResultOrNative | CSSResultOrNative[]) => void;
 
 
 export const useStyles = ((css: CSSResultGroup) => {
 	const cls = getCurrentRef();
-	invariant(cls, 'Could not get base component');
+	invariant(cls, 'Could not get component instance.');
 
-	const existing = cls.styles ?? [];
-
-	cls.styles = [	existing, css ];
+	//@ts-ignore
+	cls.constructor.elementStyles = cls.constructor.finalizeStyles(css);
 }) satisfies UseStyles;

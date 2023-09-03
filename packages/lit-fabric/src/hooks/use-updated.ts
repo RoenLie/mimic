@@ -15,12 +15,12 @@ export const useUpdated = ((
 	deps?: string[],
 ) => {
 	const cls = getCurrentRef();
-	invariant(cls, 'Could not get base component');
+	invariant(cls, 'Could not get component instance.');
 
 	//@ts-ignore
-	const native = cls.prototype.updated;
+	const native = cls.updated;
 	//@ts-ignore
-	cls.prototype.updated = function(props) {
+	cls.updated = function(props) {
 		native.call(this, props);
 
 		if (deps?.some(dep => props.has(dep)) ?? true)

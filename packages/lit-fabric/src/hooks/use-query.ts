@@ -4,6 +4,7 @@ import type { ReactiveElement } from 'lit';
 import { component, getCurrentRef } from '../core/component.js';
 import { Getter } from '../utilities/getter.js';
 
+
 type UseQuery = <T extends Element = HTMLElement>(
 	name: string,
 	selector: string,
@@ -17,7 +18,7 @@ export const useQuery = (<T extends Element = HTMLElement>(
 	cache?: boolean,
 ) => {
 	const cls = getCurrentRef();
-	invariant(cls, 'Could not get base component');
+	invariant(cls, 'Could not get component instance.');
 
 	const descriptor = {
 		get(this: ReactiveElement) {
@@ -38,10 +39,11 @@ export const useQuery = (<T extends Element = HTMLElement>(
 		};
 	}
 
-	Object.defineProperty(cls.prototype, name, descriptor);
+	Object.defineProperty(cls.constructor.prototype, name, descriptor);
 
-	const getter = new Getter<T>();
-	component.sideEffects.add((element) => Getter.bind(getter, name, element));
-
-	return getter;
+	return {
+		get value(): T {
+			return (cls as any)[name];
+		},
+	};
 }) satisfies UseQuery;

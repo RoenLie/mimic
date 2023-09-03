@@ -1,8 +1,8 @@
 import { invariant } from '@roenlie/mimic-core/validation';
 import type { PropertyDeclaration } from 'lit';
 
-import { component, getCurrentRef } from '../core/component.js';
-import { Prop } from '../utilities/prop.js';
+import { getCurrentRef } from '../core/component.js';
+
 
 type UseProperty<T = any> = (
 	name: string,
@@ -16,19 +16,25 @@ export const useProperty = (<T>(
 	initialValue: T,
 	options: PropertyDeclaration<T> = {},
 ) => {
-	type Property<T> = readonly [{ value: T; }, (value: T) => void];
+	type Property<T> = readonly [{ readonly value: T; }, (value: T) => void];
 
 	const cls = getCurrentRef();
-	invariant(cls, 'Could not get base component');
+	invariant(cls, 'Could not get component instance.');
 
-	cls.properties ??= {};
-	Object.assign(cls.properties, { [name]: options });
+	cls.constructor.createProperty(name, options);
+	(cls as any)[name] = initialValue;
 
-	component.sideEffects.add(element => Prop.bind(reactive, name, element));
+	const setter = (value: T) => (cls as any)[name] = value;
+	const getter = {
+		get value() {
+			return (cls as any)[name];
+		},
+	};
 
-	const reactive = new Prop<T>(initialValue);
-
-	return [ reactive.getter(), reactive.setter ] as Property<T>;
+	return [
+		getter,
+		setter,
+	] as Property<T>;
 }) satisfies UseProperty;
 
 

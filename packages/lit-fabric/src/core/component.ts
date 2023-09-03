@@ -1,7 +1,5 @@
 import { LitElement } from 'lit';
 
-import type { Getter } from '../utilities/getter.js';
-
 
 type Interface<T> = {
 	[P in keyof T]: T[P]
@@ -11,8 +9,6 @@ type Interface<T> = {
 declare class IFabricComponent extends LitElement {
 
 	public static readonly tagName: string;
-	public static __sideEffects: ((element: LitElement) => void)[];
-	public static __render: (element: LitElement) => unknown;
 
 }
 
@@ -31,7 +27,7 @@ export const getCurrentRef = () => component.ref;
 
 export const component = (
 	tagName: string,
-	create: (cls: FabricConstructor) => (element: LitElement) => unknown,
+	create: (element: LitElement) => () => unknown,
 	options?: {
 		base?: typeof LitElement;
 		mixins?: ((...args: any[]) => any)[];
@@ -46,29 +42,17 @@ export const component = (
 	return class extends base {
 
 		public static readonly tagName = tagName;
-		public static __sideEffects: ((element: LitElement) => void)[];
-		public static __render: (element: LitElement) => unknown;
 		public static register()  {
 			if (!globalThis.customElements.get(tagName))
 				globalThis.customElements.define(tagName, this);
 		}
 
-		static {
-			component.ref = this;
-			this.__render = create(this);
-			component.ref = undefined;
-
-			this.__sideEffects = [ ...component.sideEffects ];
-			component.sideEffects.clear();
-		}
-
 		constructor() {
 			super();
-			this.constructor.__sideEffects.forEach(reg => reg(this));
-		}
 
-		protected override render(): unknown {
-			return this.constructor.__render(this);
+			component.ref = this;
+			this.render = create(this);
+			component.ref = undefined;
 		}
 
 	} as unknown as {
@@ -77,5 +61,4 @@ export const component = (
 	};
 };
 
-component.sideEffects = new Set<((element: LitElement) => void)>();
-component.ref = undefined as FabricConstructor | undefined;
+component.ref = undefined as InstanceType<FabricConstructor> | undefined;
