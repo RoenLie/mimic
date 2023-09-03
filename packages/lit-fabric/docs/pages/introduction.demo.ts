@@ -2,7 +2,6 @@ import { emitEvent } from '@roenlie/mimic-core/dom';
 import { css, html, LitElement, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { cache } from 'lit/directives/cache.js';
-import { when } from 'lit/directives/when.js';
 
 import { component } from '../../src/core/component.js';
 import { useAfterConnected } from '../../src/hooks/use-after-connected.js';
@@ -10,6 +9,7 @@ import { useConnected } from '../../src/hooks/use-connected.js';
 import { useController } from '../../src/hooks/use-controller.js';
 import { useDisconnected } from '../../src/hooks/use-disconnected.js';
 import { useElement } from '../../src/hooks/use-element.js';
+import { useOnEvent } from '../../src/hooks/use-onevent.js';
 import { useProperty, useState } from '../../src/hooks/use-property.js';
 import { useQuery } from '../../src/hooks/use-query.js';
 import { useStyles } from '../../src/hooks/use-styles.js';
@@ -47,6 +47,10 @@ component('new-demo', () => {
 
 	useAfterConnected(() => {
 		console.log(buttonQry.value);
+	});
+
+	useOnEvent('stuff', (ev, element) => {
+		console.log('stuff event:', ev, element);
 	});
 
 	return () => html`
