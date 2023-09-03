@@ -1,6 +1,7 @@
 import { emitEvent } from '@roenlie/mimic-core/dom';
-import { css, html, LitElement } from 'lit';
+import { css, html, LitElement, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
+import { cache } from 'lit/directives/cache.js';
 import { when } from 'lit/directives/when.js';
 
 import { component } from '../../src/core/component.js';
@@ -23,9 +24,9 @@ export class DemoIntroduction extends LitElement {
 	protected override render() {
 		return html`
 		<button @click=${ () => this.toggle = !this.toggle }>Toggle</button>
-		${ when(this.toggle, () => html`
+		${ cache(this.toggle ? html`
 		<new-demo></new-demo>
-		`) }
+		` : nothing) }
 		`;
 	}
 
@@ -101,16 +102,14 @@ component('demo-button', () => {
 		},
 	});
 
-	const emit = useElement((element) => {
-		return () => {
-			emitEvent(element, 'stuff');
-		};
+	const emit = useElement((element) => () => {
+		emitEvent(element, 'stuff');
 	});
 
 	return () => html`
 	<button @click=${ () => {
 		setCounter(counter.value + 1);
-		emit.func();
+		emit();
 	} }>
 		${ label?.value } ${ counter.value } ${ subCounter }
 	</button>
