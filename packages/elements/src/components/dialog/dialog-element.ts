@@ -13,7 +13,7 @@ declare global { interface HTMLElementTagNameMap {
 export type DialogOptions = Partial<{modal: boolean; closeOnBlur: boolean;}>;
 export type StateConfigFn = (dialog: MMDialog) => (Promise<any> | any);
 export type ActionConfigFn<T extends StateConfigFn> = (dialog: MMDialog, state: Awaited<ReturnType<T>>) => any;
-export type TemplateConfigFn<TState extends StateConfigFn, TActions extends ActionConfigFn<TState>> = {
+export interface TemplateConfigFn<TState extends StateConfigFn, TActions extends ActionConfigFn<TState>> {
 	initialize?: (
 		dialog: MMDialog,
 		state: Awaited<ReturnType<TState>>,

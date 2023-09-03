@@ -1,13 +1,14 @@
-import { getAnimation, setDefaultAnimation } from '../src/utilities/animate-registry.js';
-
+import { getAnimation, setDefaultAnimation } from '@roenlie/mimic-core/animation';
 
 export const generateRoutes = (el: Element) => {
 	return [
 		{
 			path:      '',
 			component: 'ha-layout',
-			action:    async () => { await import('./layout.cmp.js'); },
-			children:  [
+			action:    async () => {
+				await import('./layout.cmp.js');
+			},
+			children: [
 				{
 					name:      'firstPage',
 					path:      '/',
@@ -16,7 +17,9 @@ export const generateRoutes = (el: Element) => {
 						show: getAnimation(el, 'route.show'),
 						hide: getAnimation(el, 'route.hide'),
 					},
-					action: async () => { await import('./route1.cmp.js'); },
+					action: async () => {
+						await import('./route1.cmp.js');
+					},
 				},
 				{
 					name:      'editor',
@@ -26,7 +29,9 @@ export const generateRoutes = (el: Element) => {
 						show: getAnimation(el, 'route.show'),
 						hide: getAnimation(el, 'route.hide'),
 					},
-					action: async () => { await import('./route2.cmp.js'); },
+					action: async () => {
+						await import('./route2.cmp.js');
+					},
 				},
 			],
 		},

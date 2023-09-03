@@ -1,3 +1,4 @@
+import { emitEvent } from '@roenlie/mimic-core/dom';
 import { css, html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
@@ -7,6 +8,7 @@ import { useAfterConnected } from '../../src/hooks/use-after-connected.js';
 import { useConnected } from '../../src/hooks/use-connected.js';
 import { useController } from '../../src/hooks/use-controller.js';
 import { useDisconnected } from '../../src/hooks/use-disconnected.js';
+import { useElement } from '../../src/hooks/use-element.js';
 import { useProperty, useState } from '../../src/hooks/use-property.js';
 import { useQuery } from '../../src/hooks/use-query.js';
 import { useStyles } from '../../src/hooks/use-styles.js';
@@ -47,7 +49,7 @@ component('new-demo', () => {
 	});
 
 	return () => html`
-	<demo-button></demo-button>
+	<demo-button @stuff=${ () => console.log('button event') }></demo-button>
 	`;
 }).register();
 
@@ -99,8 +101,17 @@ component('demo-button', () => {
 		},
 	});
 
+	const emit = useElement((element) => {
+		return () => {
+			emitEvent(element, 'stuff');
+		};
+	});
+
 	return () => html`
-	<button @click=${ () => setCounter(counter.value + 1) }>
+	<button @click=${ () => {
+		setCounter(counter.value + 1);
+		emit.func();
+	} }>
 		${ label?.value } ${ counter.value } ${ subCounter }
 	</button>
 

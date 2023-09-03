@@ -1,5 +1,7 @@
 import { LitElement } from 'lit';
 
+import type { Getter } from '../utilities/getter.js';
+
 
 type Interface<T> = {
 	[P in keyof T]: T[P]

@@ -70,6 +70,8 @@ export class Router {
 		this.routes = this.parseRoutes(routes);
 
 		this.initialize();
+
+		console.log(this.routes);
 	}
 
 	public location() {
@@ -105,7 +107,7 @@ export class Router {
 		for (let i = 0; i < futureRoute.component.length; i++) {
 			const component = futureRoute.component[i];
 
-			let actionResult = await futureRoute.action[i]?.();
+			const actionResult = await futureRoute.action[i]?.();
 
 			let el: RouteElement | undefined;
 			if (actionResult)
@@ -133,7 +135,7 @@ export class Router {
 		/* parse any route parameters that are part of target route. */
 		const correctedPath = futureRoute.path.join('/').split('/').filter(Boolean);
 
-		let remainingPaths = correctedPath
+		const remainingPaths = correctedPath
 			.reduce((remaining, path) => remaining.replace(path, ''), route)
 			.split('/')
 			.filter(Boolean);
@@ -253,12 +255,12 @@ export class Router {
 	}
 
 	protected async replaceRouteNodes(elements: RouteElement[], parent: Element, depth = 0) {
-		let nodeToInsert = elements[depth];
+		const nodeToInsert = elements[depth];
 		if (!nodeToInsert)
 			return await this.reversedRouteNodeRemoval(parent as RouteElement);
 
-		let childElements = Array.from(parent.children) as RouteElement[];
-		let invalidNodes = childElements.filter(el => el.tagName !== nodeToInsert?.tagName);
+		const childElements = Array.from(parent.children) as RouteElement[];
+		const invalidNodes = childElements.filter(el => el.tagName !== nodeToInsert?.tagName);
 		for (const el of invalidNodes)
 			await this.reversedRouteNodeRemoval(el, true);
 
@@ -270,7 +272,7 @@ export class Router {
 		else {
 			parent.insertAdjacentElement('afterbegin', nodeToInsert);
 
-			let animation = animationCache.get(nodeToInsert)?.show;
+			const animation = animationCache.get(nodeToInsert)?.show;
 			if (animation) {
 				await stopAnimations(nodeToInsert);
 				await animateTo(nodeToInsert, animation.keyframes, animation.options);
@@ -281,7 +283,7 @@ export class Router {
 	}
 
 	protected async removeRouteElement(el: RouteElement) {
-		let anim = animationCache.get(el)?.hide;
+		const anim = animationCache.get(el)?.hide;
 		if (anim) {
 			await stopAnimations(el);
 			await animateTo(el, anim.keyframes, anim.options);
@@ -293,7 +295,7 @@ export class Router {
 
 	protected async reversedRouteNodeRemoval(node: RouteElement, removeParent?: boolean) {
 		while (node.firstChild) {
-			let child = node.firstChild as RouteElement;
+			const child = node.firstChild as RouteElement;
 			await this.reversedRouteNodeRemoval(child);
 			await this.removeRouteElement(child);
 		}

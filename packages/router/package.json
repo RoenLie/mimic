@@ -13,6 +13,7 @@
 		"dist"
 	],
 	"scripts": {
+		"dev": "vite",
 		"build": "pnpm build:prepare && pnpm build:index && pnpm build:types && vite build",
 		"build:prepare": "rimraf dist",
 		"build:index": "package-toolbox build-indexes",

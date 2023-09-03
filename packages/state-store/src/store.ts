@@ -1,9 +1,6 @@
 import { lazyMap, lazyWeakmap } from '@roenlie/mimic-core/structs';
 import type { ReactiveControllerHost } from 'lit';
 
-// TODO
-// Add the same weakref cleanup for listeners as was added to observers.
-
 
 export interface UpdatableElement {
 	requestUpdate: Function;
