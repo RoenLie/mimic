@@ -10,9 +10,9 @@ type UseOnEvent = (
 ) => any;
 
 
-export const useOnEvent = ((
+export const useOnEvent = (<T extends Event>(
 	eventName: string,
-	func: (event: Event, element: LitElement) => any,
+	func: (event: T, element: LitElement) => any,
 ) => {
 	const cls = getCurrentRef();
 	invariant(cls, 'Could not get base component');
@@ -23,7 +23,7 @@ export const useOnEvent = ((
 	cls.prototype.connectedCallback = function() {
 		nativeConnectedCallback.call(this);
 
-		fn = (ev: Event) => func(ev, this);
+		fn = (ev: Event) => func(ev as T, this);
 		this.addEventListener(eventName, fn);
 	};
 
