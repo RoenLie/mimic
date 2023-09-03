@@ -143,13 +143,13 @@ importers:
       '@roenlie/mimic-core':
         specifier: workspace:^
         version: link:../core
+      lit:
+        specifier: ^2.8.0
+        version: 2.8.0
     devDependencies:
       '@roenlie/mirage-docs':
         specifier: ^1.2.17
         version: 1.2.17(@types/markdown-it@13.0.1)(lit@2.8.0)(tslib@2.6.2)(vite@4.4.9)
-      lit:
-        specifier: ^2.8.0
-        version: 2.8.0
 
   packages/localize:
     devDependencies:

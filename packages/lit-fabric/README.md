@@ -1,5 +1,8 @@
 # Lit Fabric
 
+[![npm](https://img.shields.io/npm/dt/@roenlie/lit-fabric)](https://npm.im/@roenlie/lit-fabric)
+[![npm](https://img.shields.io/npm/v/@roenlie/lit-fabric)](https://npm.im/@roenlie/lit-fabric)
+
 Fabric offers an alternative syntax for writing web-components through the [Lit component and templating system](https://lit.dev/).<br>
 The syntax and method of component creation is similar to React Hooks. With some minor changes to make it useable with standard web components. While being as minimal of a wrapper as possible.
 

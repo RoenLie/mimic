@@ -17,6 +17,10 @@
 		"./core": {
 			"types": "./dist/core/index.d.ts",
 			"default": "./dist/core/index.js"
+		},
+		"./utilities": {
+			"types": "./dist/utilities/index.d.ts",
+			"default": "./dist/utilities/index.js"
 		}
 	},
 	"scripts": {
