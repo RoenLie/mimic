@@ -1,6 +1,6 @@
 {
 	"name": "@roenlie/mimic-elements",
-	"version": "0.0.28",
+	"version": "0.0.29",
 	"description": "Standalone custom elements created with LIT",
 	"license": "MIT",
 	"author": {
