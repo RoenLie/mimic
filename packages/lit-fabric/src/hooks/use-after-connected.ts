@@ -1,5 +1,4 @@
 import { invariant } from '@roenlie/mimic-core/validation';
-import type { LitElement } from 'lit';
 
 import { getCurrentRef } from '../core/component.js';
 
