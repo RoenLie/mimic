@@ -109,6 +109,16 @@
 		{
 			"splitTerminals": [
 				{
+					"name": "lit-context",
+					"commands": [
+						"cd packages/lit-context"
+					]
+				}
+			]
+		},
+		{
+			"splitTerminals": [
+				{
 					"name": "router",
 					"commands": [
 						"cd packages/router"

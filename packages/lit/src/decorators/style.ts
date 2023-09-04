@@ -12,7 +12,7 @@
  * Host style is mutated and not replaced by this action.
  */
 export const style = (styleName: string, unit = '', lazy = false) => {
-	return (protoOrDescriptor: HTMLElement & { [ key: string ]: any; }, name: string): any => {
+	return (protoOrDescriptor: HTMLElement & Record<string, any>, name: string): any => {
 		const { update } = protoOrDescriptor;
 
 		protoOrDescriptor['update'] = function(changedProps: Map<string, any>) {

@@ -1,11 +1,10 @@
-import { type stringliteral } from '@roenlie/mimic-core/types';
-import { LitElement } from 'lit';
+import { type RecordOf, type stringliteral } from '@roenlie/mimic-core/types';
+import { type LitElement } from 'lit';
 import { state } from 'lit/decorators.js';
 
 
-type RecordOf<T> = T & Record<keyof any, any>;
-type ConsumeContextEvent = CustomEvent<{value: any}>;
-
+type ConsumeContextEvent<T = any> = CustomEvent<{prop: {value: T;} }>;
+export interface ContextProp<T = any> {value: T}
 
 const createEventName = (prop: string) => 'consume-context:' + prop;
 const createHydrateName = (prop: string) => 'hydrate-context:' + prop;
@@ -27,11 +26,17 @@ export const provide = <T extends any[]>(name: T[number] | stringliteral) => {
 				ev.stopPropagation();
 				ev.stopImmediatePropagation();
 
+				const me = this as RecordOf<LitElement>;
 				const event = ev as ConsumeContextEvent;
-				event.detail.value = this[prop];
+				event.detail.prop = {
+					get value() {
+						return me[prop];
+					},
+					set value(value: T) {
+						me[prop] = value;
+					},
+				};
 			};
-
-			this.removeEventListener(eventName, provideHandler);
 			this.addEventListener(eventName, provideHandler);
 
 			connected.call(this);
@@ -39,7 +44,6 @@ export const provide = <T extends any[]>(name: T[number] | stringliteral) => {
 
 		target.disconnectedCallback = function() {
 			this.removeEventListener(eventName, provideHandler);
-
 			disconnected.call(this);
 		};
 
@@ -48,11 +52,12 @@ export const provide = <T extends any[]>(name: T[number] | stringliteral) => {
 
 			if (changedProperties.has(prop)) {
 				const ev = new CustomEvent(hydrateName, {
-					bubbles:  true,
-					composed: true,
+					bubbles:    true,
+					composed:   true,
+					cancelable: false,
 				});
 
-				this.dispatchEvent(ev);
+				globalThis.dispatchEvent(ev);
 			}
 		};
 
@@ -63,24 +68,23 @@ export const provide = <T extends any[]>(name: T[number] | stringliteral) => {
 
 export const consume = <T extends any[]>(name: T[number] | stringliteral) => {
 	return (target: RecordOf<LitElement>, prop: string) => {
-		const connected = target.connectedCallback;
-		const disconnected = target.disconnectedCallback;
-
 		const eventName = createEventName(name);
 		const hydrateName = createHydrateName(name);
 
 		let hydrateHandler: (ev: Event) => any;
 
+		const connected = target.connectedCallback;
 		target.connectedCallback = function() {
 			const request = () => {
 				const event = new CustomEvent(eventName, {
-					bubbles:  true,
-					composed: true,
-					detail:   { value: undefined },
+					bubbles:    true,
+					composed:   true,
+					cancelable: false,
+					detail:     { prop: undefined },
 				});
 				this.dispatchEvent(event);
 
-				const value = event.detail.value;
+				const value = event.detail.prop;
 				if (value !== undefined)
 					this[prop] = value;
 				else
@@ -90,12 +94,12 @@ export const consume = <T extends any[]>(name: T[number] | stringliteral) => {
 			request();
 
 			hydrateHandler = () => request();
-			globalThis.removeEventListener(hydrateName, hydrateHandler);
 			globalThis.addEventListener(hydrateName, hydrateHandler);
 
 			connected.call(this);
 		};
 
+		const disconnected = target.disconnectedCallback;
 		target.disconnectedCallback = function() {
 			globalThis.removeEventListener(hydrateName, hydrateHandler);
 

@@ -19,10 +19,6 @@
 	"types": "./dist/index-fallback.d.ts",
 	"main": "./dist/index-fallback.js",
 	"exports": {
-		"./context": {
-			"types": "./dist/context/index.d.ts",
-			"default": "./dist/context/index.js"
-		},
 		"./controllers": {
 			"types": "./dist/controllers/index.d.ts",
 			"default": "./dist/controllers/index.js"
@@ -42,14 +38,6 @@
 		"./types": {
 			"types": "./dist/types/index.d.ts",
 			"default": "./dist/types/index.js"
-		},
-		"./injectable": {
-			"types": "./dist/injectable/index.d.ts",
-			"default": "./dist/injectable/index.js"
-		},
-		"./state-store": {
-			"types": "./dist/state-store/index.d.ts",
-			"default": "./dist/state-store/index.js"
 		}
 	},
 	"scripts": {
@@ -74,7 +62,7 @@
 		"lit": "*"
 	},
 	"devDependencies": {
-		"happy-dom": "^10.9.0",
+		"happy-dom": "^10.11.2",
 		"lit": "^2.8.0"
 	},
 	"sideEffects": [

@@ -1,7 +1,7 @@
 {
-	"name": "@roenlie/lit-aegis",
+	"name": "@roenlie/lit-context",
 	"version": "1.0.0",
-	"description": "Dependency injection framework based on LIT and inversify.",
+	"description": "Context provider and consumer for Lit Elements",
 	"author": {
 		"name": "Kristoffer Roen-Lie",
 		"url": "https://github.com/RoenLie"
@@ -36,9 +36,7 @@
 		"increment-version": "package-toolbox increment-version"
 	},
 	"dependencies": {
-		"@roenlie/mimic-core": "workspace:^",
-		"inversify": "^6.0.1",
-		"reflect-metadata": "^0.1.13"
+		"@roenlie/mimic-core": "workspace:^"
 	},
 	"peerDependencies": {
 		"lit": "*"

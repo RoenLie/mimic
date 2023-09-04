@@ -34,10 +34,14 @@
 		"increment-version": "package-toolbox increment-version"
 	},
 	"dependencies": {
-		"@roenlie/mimic-core": "workspace:^",
-		"lit": "^2.8.0"
+		"@roenlie/mimic-core": "workspace:^"
+	},
+	"peerDependencies": {
+		"lit": "*"
 	},
 	"devDependencies": {
-		"@roenlie/mirage-docs": "^1.2.17"
-	}
+		"@roenlie/mirage-docs": "^1.2.17",
+		"lit": "^2.8.0"
+	},
+	"sideEffects": false
 }
