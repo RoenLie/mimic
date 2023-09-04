@@ -17,20 +17,13 @@ export const useOnEvent = (<T extends Event>(
 	const cls = getCurrentRef();
 	invariant(cls, 'Could not get component instance.');
 
-	let fn = (_ev: Event) => {};
+	const fn = (ev: Event) => func(ev as T, cls);
 
-	const nativeConnectedCallback = cls.connectedCallback;
-	cls.connectedCallback = function() {
-		nativeConnectedCallback.call(this);
+	cls.__connectedHooks.push(() => {
+		cls.addEventListener(eventName, fn);
+	});
 
-		fn = (ev: Event) => func(ev as T, this);
-		this.addEventListener(eventName, fn);
-	};
-
-	const nativeDisconnectedCallback = cls.disconnectedCallback;
-	cls.disconnectedCallback = function() {
-		nativeDisconnectedCallback.call(this);
-
-		this.removeEventListener(eventName, fn);
-	};
+	cls.__disconnectedHooks.push(() => {
+		cls.removeEventListener(eventName, fn);
+	});
 }) satisfies UseOnEvent;

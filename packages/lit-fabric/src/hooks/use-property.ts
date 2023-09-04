@@ -16,20 +16,25 @@ export const useProperty = (<T>(
 	initialValue: T,
 	options: PropertyDeclaration<T> = {},
 ) => {
-	type Property<T> = readonly [{ readonly value: T; }, (value: T) => void];
-
-	const cls = getCurrentRef();
+	type Cls = ReturnType<typeof getCurrentRef> & Record<keyof any, any>;
+	const cls = getCurrentRef() as Cls;
 	invariant(cls, 'Could not get component instance.');
 
-	cls.constructor.createProperty(name, options);
-	(cls as any)[name] = initialValue;
+	if (!(name in cls.constructor.prototype))
+		cls.constructor.createProperty(name, options);
 
-	const setter = (value: T) => (cls as any)[name] = value;
+	cls[name] = initialValue;
+
+	const setter = (value: T) => cls[name] = value;
 	const getter = {
 		get value() {
-			return (cls as any)[name];
+			return cls[name];
 		},
 	};
+
+	type Property<T> = readonly [
+		{ readonly value: T; }, (value: T) => void
+	];
 
 	return [
 		getter,

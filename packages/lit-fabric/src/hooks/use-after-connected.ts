@@ -5,33 +5,18 @@ import { getCurrentRef } from '../core/component.js';
 
 
 type UseAfterConnected = (
-	func: (element: LitElement) => void,
+	func: () => void,
 ) => void;
 
 
-export const useAfterConnected = ((func: (element: LitElement) => void) => {
+export const useAfterConnected = ((func: () => void) => {
 	const cls = getCurrentRef();
 	invariant(cls, 'Could not get component instance.');
 
 	let firstUpdated = true;
-
-	const {
-		//@ts-ignore
-		updated: nativeUpdated,
-		connectedCallback: nativeConnected,
-	} = cls;
-
-	cls.connectedCallback = function() {
-		nativeConnected.call(this);
-		firstUpdated = true;
-	};
-
-	//@ts-ignore
-	cls.updated = function(changedProps) {
-		nativeUpdated.call(this, changedProps);
-		if (firstUpdated) {
-			firstUpdated = false;
-			func(this);
-		}
-	};
+	cls.__connectedHooks.push(() => firstUpdated = true);
+	cls.__updatedHooks.push(() => {
+		firstUpdated && func();
+		firstUpdated = false;
+	});
 }) satisfies UseAfterConnected;

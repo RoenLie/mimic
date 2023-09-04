@@ -11,7 +11,6 @@ import { useDisconnected } from '../../src/hooks/use-disconnected.js';
 import { useOnEvent } from '../../src/hooks/use-onevent.js';
 import { useProperty, useState } from '../../src/hooks/use-property.js';
 import { useQuery } from '../../src/hooks/use-query.js';
-import { useStyles } from '../../src/hooks/use-styles.js';
 import { useUpdated } from '../../src/hooks/use-updated.js';
 
 
@@ -52,10 +51,15 @@ component('new-demo', () => {
 		console.log('stuff event:', ev, element);
 	});
 
-	return () => html`
-	<demo-button></demo-button>
-	<demo-button @stuff=${ () => console.log('button event') }></demo-button>
-	`;
+	return ({
+		render: () => html`
+		<demo-button></demo-button>
+		<demo-button
+			@stuff=${ () => console.log('button event') }
+		></demo-button>
+		`,
+		styles: [ css`` ],
+	});
 }).register();
 
 
@@ -69,9 +73,8 @@ component('demo-button', (element) => {
 	const subCounter = 0;
 	const inputQry = useQuery('inputQry', 'input');
 
-	useConnected((element) => {
+	useConnected(() => {
 		console.log('connected');
-		console.dir(element.constructor);
 	});
 
 	useDisconnected(() => {
@@ -98,16 +101,8 @@ component('demo-button', (element) => {
 		},
 	});
 
-	useStyles(css`
-		button {
-			background-color: hotpink;
-			width: 200px;
-			height: 100px;
-		}
-	`);
-
-	return () => {
-		return html`
+	return ({
+		render: () => html`
 		<button @click=${ () => {
 			setCounter(counter.value + 1);
 			emitEvent(element, 'stuff');
@@ -117,6 +112,13 @@ component('demo-button', (element) => {
 
 		<input @input=${ (ev: InputEvent) =>
 			setLabel((ev.target as any).value) } />
-		`;
-	};
+		`,
+		styles: css`
+		button {
+			background-color: hotpink;
+			width: 200px;
+			height: 100px;
+		}
+		`,
+	});
 }).register();

@@ -1,21 +1,21 @@
-import { LitElement } from 'lit';
-
-
-type Interface<T> = {
-	[P in keyof T]: T[P]
-}
+import { type CSSResultGroup, LitElement, type PropertyValues } from 'lit';
 
 
 declare class IFabricComponent extends LitElement {
 
 	public static readonly tagName: string;
+	public __connectedHooks:    (() => any)[];
+	public __disconnectedHooks: (() => any)[];
+	public __willUpdateHooks:   ((changedProps: PropertyValues) => any)[];
+	public __updateHooks:       ((changedProps: PropertyValues) => any)[];
+	public __updatedHooks:      ((changedProps: PropertyValues) => any)[];
 
 }
 
 
-type FabricConstructor = Interface<typeof LitElement> & {
-	prototype: LitElement;
-	new(): LitElement & { constructor: typeof IFabricComponent; };
+interface FabricConstructor {
+	prototype: IFabricComponent;
+	new(): IFabricComponent & { constructor: typeof IFabricComponent; };
 }
 
 
@@ -27,7 +27,7 @@ export const getCurrentRef = () => component.ref;
 
 export const component = (
 	tagName: string,
-	create: (element: LitElement) => () => unknown,
+	create: (element: LitElement) => { render: () => unknown; styles: CSSResultGroup; },
 	options?: {
 		base?: typeof LitElement;
 		mixins?: ((...args: any[]) => any)[];
@@ -47,12 +47,52 @@ export const component = (
 				globalThis.customElements.define(tagName, this);
 		}
 
+		public override __connectedHooks:    (() => any)[] = [];
+		public override __disconnectedHooks: (() => any)[] = [];
+		public override __willUpdateHooks:   ((changedProps: PropertyValues) => any)[] = [];
+		public override __updateHooks:       ((changedProps: PropertyValues) => any)[] = [];
+		public override __updatedHooks:      ((changedProps: PropertyValues) => any)[] = [];
+
 		constructor() {
 			super();
 
 			component.ref = this;
-			this.render = create(this);
+			const { render, styles } = create(this);
 			component.ref = undefined;
+
+			this.render = render;
+			if (!this.constructor.elementStyles.length)
+				this.constructor.elementStyles = this.constructor.finalizeStyles(styles);
+		}
+
+		public override connectedCallback(): void {
+			super.connectedCallback();
+			for (const hook of this.__connectedHooks)
+				hook();
+		}
+
+		public override disconnectedCallback(): void {
+			super.disconnectedCallback();
+			for (const hook of this.__disconnectedHooks)
+				hook();
+		}
+
+		public override willUpdate(changedProps: PropertyValues): void {
+			super.willUpdate(changedProps);
+			for (const hook of this.__willUpdateHooks)
+				hook(changedProps);
+		}
+
+		public override update(changedProps: PropertyValues): void {
+			super.update(changedProps);
+			for (const hook of this.__updateHooks)
+				hook(changedProps);
+		}
+
+		public override updated(changedProps: PropertyValues): void {
+			super.updated(changedProps);
+			for (const hook of this.__updatedHooks)
+				hook(changedProps);
 		}
 
 	} as unknown as {

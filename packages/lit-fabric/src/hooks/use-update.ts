@@ -1,29 +1,24 @@
 import { invariant } from '@roenlie/mimic-core/validation';
-import type { LitElement, PropertyValues } from 'lit';
+import type { PropertyValues } from 'lit';
 
 import { getCurrentRef } from '../core/component.js';
 
 
 type UseUpdate = (
-	func: (changedProps: PropertyValues, element: LitElement) => void,
+	func: (changedProps: PropertyValues) => void,
 	deps?: string[],
 ) => void;
 
 
 export const useUpdate = ((
-	func: (changedProps: PropertyValues, element: LitElement) => void,
+	func: (changedProps: PropertyValues) => void,
 	deps?: string[],
 ) => {
 	const cls = getCurrentRef();
 	invariant(cls, 'Could not get component instance.');
 
-	//@ts-ignore
-	const native = cls.update;
-	//@ts-ignore
-	cls.update = function(props) {
-		native.call(this, props);
-
+	cls.__updateHooks.push((props) => {
 		if (deps?.some(dep => props.has(dep)) ?? true)
-			func(props, this);
-	};
+			func(props);
+	});
 }) satisfies UseUpdate;

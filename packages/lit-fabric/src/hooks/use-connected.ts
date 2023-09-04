@@ -5,17 +5,13 @@ import { getCurrentRef } from '../core/component.js';
 
 
 type UseConnected = (
-	func: (element: LitElement) => void,
+	func: () => void,
 ) => void;
 
 
-export const useConnected = ((func: (element: LitElement) => void) => {
+export const useConnected = ((func: () => void) => {
 	const cls = getCurrentRef();
 	invariant(cls, 'Could not get component instance.');
 
-	const native = cls.connectedCallback;
-	cls.connectedCallback = function() {
-		native.call(this);
-		func(this);
-	};
+	cls.__connectedHooks.push(func);
 }) satisfies UseConnected;

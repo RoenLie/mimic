@@ -20,26 +20,28 @@ export const useQuery = (<T extends Element = HTMLElement>(
 	const cls = getCurrentRef();
 	invariant(cls, 'Could not get component instance.');
 
-	const descriptor = {
-		get(this: ReactiveElement) {
-			return this.renderRoot?.querySelector(selector) || undefined;
-		},
-		enumerable:   true,
-		configurable: true,
-	};
-
-	if (cache) {
-		const key = `__${ name }`;
-		descriptor.get = function(this: ReactiveElement) {
-			const me = this as unknown as Record<string, Element | null>;
-			if (me[key] === undefined)
-				me[key] = this.renderRoot?.querySelector(selector) ?? null;
-
-			return me[key]!;
+	if (!(name in cls.constructor.prototype)) {
+		const descriptor = {
+			get(this: ReactiveElement) {
+				return this.renderRoot?.querySelector(selector) || undefined;
+			},
+			enumerable:   true,
+			configurable: true,
 		};
-	}
 
-	Object.defineProperty(cls.constructor.prototype, name, descriptor);
+		if (cache) {
+			const key = `__${ name }`;
+			descriptor.get = function(this: ReactiveElement) {
+				const me = this as unknown as Record<string, Element | null>;
+				if (me[key] === undefined)
+					me[key] = this.renderRoot?.querySelector(selector) ?? null;
+
+				return me[key]!;
+			};
+		}
+
+		Object.defineProperty(cls.constructor.prototype, name, descriptor);
+	}
 
 	return {
 		get value(): T {
