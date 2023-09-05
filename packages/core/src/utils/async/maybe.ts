@@ -30,3 +30,32 @@ export const maybe = async <T>(
 			finallyCb();
 	}
 };
+
+
+/**
+ * Allows for calling a function that might throw, and receiving its error message for further processing.
+ * @returns A [data: T, error: unknown] tuple.
+ *
+ * When the `invoker` throws this will be [null, error] and when it does not throw it will be [data, null].
+ */
+export const maybeSync = <T extends Fn, E = Error>(
+	invoker: T,
+	catchCb?: Fn<unknown, E>,
+	finallyCb?: Function,
+): [data: ReturnType<T> | null, error: E | null] => {
+	try {
+		const data = invoker();
+
+		return [ data, null ];
+	}
+	catch (error) {
+		if (catchCb)
+			return [ null, catchCb(error) ];
+
+		return [ null, error as E ];
+	}
+	finally {
+		if (finallyCb)
+			finallyCb();
+	}
+};
