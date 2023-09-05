@@ -599,8 +599,7 @@ export class MMTabGroup extends MimicElement {
 		}
 		/* Hide scrollbar in Chrome/Safari */
 		.tab-group__nav::-webkit-scrollbar {
-			width: 0;
-			height: 0;
+			display: none;
 		}
 		`,
 		css` /* Top */
@@ -629,17 +628,18 @@ export class MMTabGroup extends MimicElement {
 		}
 		.tab-group--top .tab-group__tabs {
 			flex-direction: row;
+			margin-inline: var(--_tab-spacing-xs);
 			padding-bottom: var(--_tab-spacing-xs);
 			border-bottom: solid var(--_tab-track-width) var(--_tab-color-track);
 		}
 		.tab-group--top .tab-group__indicator {
 			bottom: calc(-1 * var(--_tab-track-width));
-			border-bottom: solid var(--_tab-track-width) var(--_tab-color-indicator);
+			border-bottom: solid var(--_tab-indicator-width) var(--_tab-color-indicator);
 		}
 		.tab-group--top .tab-group__body {
 			order: 2;
 		}
-		.tab-group--top ::slotted(mm-tab-panel) {
+		.tab-group--top ::slotted(es-tab-panel) {
 			--_tab-padding: var(--_tab-spacing-s) 0;
 		}
 		.tab-group--top.tab-group--has-scroll-controls .tab-group__nav-container {
@@ -657,6 +657,12 @@ export class MMTabGroup extends MimicElement {
 			top: 0;
 			bottom: 0;
 		}
+		.tab-group--bottom .tab-group__scroll-button:first-of-type {
+			left: 0px;
+		}
+		.tab-group--bottom .tab-group__scroll-button:last-of-type {
+			right: 0px;
+		}
 		.tab-group--bottom .tab-group__nav-container {
 			order: 2;
 		}
@@ -666,18 +672,19 @@ export class MMTabGroup extends MimicElement {
 		}
 		.tab-group--bottom .tab-group__tabs {
 			flex-direction: row;
+			margin-inline: var(--_tab-spacing-xs);
 			padding-top: var(--_tab-spacing-xs);
 			border-top: solid var(--_tab-track-width) var(--_tab-color-track);
 		}
 		.tab-group--bottom .tab-group__indicator {
 			top: calc(-1 * var(--_tab-track-width));
-			border-top: solid var(--_tab-track-width) var(--_tab-color-indicator);
+			border-top: solid var(--_tab-indicator-width) var(--_tab-color-indicator);
 		}
 		.tab-group--bottom .tab-group__body {
 			order: 1;
 		}
-		.tab-group--bottom ::slotted(mm-tab-panel) {
-			--tab-padding: var(--_tab-spacing-s) 0;
+		.tab-group--bottom ::slotted(es-tab-panel) {
+			--_tab-padding: var(--_tab-spacing-s) 0;
 		}
 		.tab-group--bottom.tab-group--has-scroll-controls .tab-group__nav-container {
 			padding: 0 var(--_tab-spacing-xl);
@@ -707,18 +714,19 @@ export class MMTabGroup extends MimicElement {
 		}
 		.tab-group--start .tab-group__tabs {
 			flex-direction: column;
-			padding-right: var(--_tab-spacing-xs);
+			margin-block: var(--_tab-spacing-xs);
+			padding-inline-end: var(--_tab-spacing-xs);
 			border-inline-end: solid var(--_tab-track-width) var(--_tab-color-track);
 		}
 		.tab-group--start .tab-group__indicator {
 			right: calc(-1 * var(--_tab-track-width));
-			border-right: solid var(--_tab-track-width) var(--_tab-color-indicator);
+			border-right: solid var(--_tab-indicator-width) var(--_tab-color-indicator);
 		}
 		.tab-group--start .tab-group__body {
 			order: 2;
 		}
-		.tab-group--start ::slotted(mm-tab-panel) {
-			--tab-padding: 0 var(--_tab-spacing-s);
+		.tab-group--start ::slotted(es-tab-panel) {
+			--_tab-padding: 0 var(--_tab-spacing-s);
 		}
 		.tab-group--start.tab-group--has-scroll-controls .tab-group__nav-container {
 			padding: var(--_spacing-xl) 0;
@@ -748,18 +756,19 @@ export class MMTabGroup extends MimicElement {
 		}
 		.tab-group--end .tab-group__tabs {
 			flex-direction: column;
-			padding-left: var(--_tab-spacing-xs);
-			border-left: solid var(--_tab-track-width) var(--_tab-color-track);
+			margin-block: var(--_tab-spacing-xs);
+			padding-inline-start: var(--_tab-spacing-xs);
+			border-inline-start: solid var(--_tab-track-width) var(--_tab-color-track);
 		}
 		.tab-group--end .tab-group__indicator {
 			left: calc(-1 * var(--_tab-track-width));
-			border-inline-start: solid var(--_tab-track-width) var(--_tab-color-indicator);
+			border-inline-start: solid var(--_tab-indicator-width) var(--_tab-color-indicator);
 		}
 		.tab-group--end .tab-group__body {
 			order: 1;
 		}
-		.tab-group--end ::slotted(mm-tab-panel) {
-			--tab-padding: 0 var(--_tab-spacing-s);
+		.tab-group--end ::slotted(es-tab-panel) {
+			--_tab-padding: 0 var(--_tab-spacing-s);
 		}
 		.tab-group--end.tab-group--has-scroll-controls .tab-group__nav-container {
 			padding: var(--_tab-spacing-xl) 0;
