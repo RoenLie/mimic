@@ -1,6 +1,9 @@
-import { html, LitElement } from 'lit';
+import { css, html, LitElement } from 'lit';
 
+import { type Context, ContextProvider } from '../../src/context.cmp.js';
 import { consume, type ContextProp, provide } from '../../src/context.js';
+
+ContextProvider.register();
 
 
 export class IntroCmp extends LitElement {
@@ -9,13 +12,37 @@ export class IntroCmp extends LitElement {
 		globalThis.customElements.define('mm-intro', this);
 	}
 
+	protected context: Context[] = [
+		{ name: 'label', value: 'this is the label' },
+		{ name: 'counter', value: 0 },
+	];
+
 	protected override render() {
 		return html`
-		<mm-provider>
+		<context-provider .context=${ this.context }>
 			<mm-consumer></mm-consumer>
-		</mm-provider>
+			<mm-consumer></mm-consumer>
+			<mm-consumer></mm-consumer>
+			<mm-consumer></mm-consumer>
+		</context-provider>
 		`;
 	}
+	//protected override render() {
+	//	return html`
+	//	<mm-provider>
+	//		<mm-consumer></mm-consumer>
+	//		<mm-consumer></mm-consumer>
+	//		<mm-consumer></mm-consumer>
+	//		<mm-consumer></mm-consumer>
+	//	</mm-provider>
+	//	`;
+	//}
+
+	public static override styles = css`
+	:host {
+		display: grid;
+	}
+	`;
 
 }
 IntroCmp.register();
@@ -44,12 +71,14 @@ class ConsumerCmp extends LitElement {
 	}
 
 	@consume('label') public label: ContextProp<string>;
+	@consume('counter') public counter: ContextProp<number>;
 
 	protected override render(): unknown {
 		return html`
 		${ this.label.value }
+		${ this.counter.value }
 
-		<button @click=${ () => this.label.value = Math.random().toString() }>
+		<button @click=${ () => this.counter.value++ }>
 			Math!
 		</button>
 		`;
