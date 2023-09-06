@@ -20,8 +20,20 @@ export const useProperty = (<T>(
 	const cls = getCurrentRef() as Cls;
 	invariant(cls, 'Could not get component instance.');
 
-	if (!(name in cls.constructor.prototype))
-		cls.constructor.createProperty(name, options);
+	const ctor = cls.constructor;
+	if (!(name in ctor.prototype)) {
+		ctor.createProperty(name, options);
+
+		//@ts-ignore
+		const attr = ctor.__attributeNameForProperty(name, options);
+		if (attr !== undefined) {
+			//@ts-ignore
+			ctor.__attributeToPropertyMap.set(attr, options);
+			const attrVal = cls.getAttribute(attr);
+			if (attrVal)
+				initialValue = attrVal as T;
+		}
+	}
 
 	cls[name] = initialValue;
 

@@ -23,7 +23,7 @@ export class DemoIntroduction extends LitElement {
 		return html`
 		<button @click=${ () => this.toggle = !this.toggle }>Toggle</button>
 		${ cache(this.toggle ? html`
-		<new-demo></new-demo>
+		<demo-button label="from outside"></demo-button>
 		` : nothing) }
 		`;
 	}
@@ -39,33 +39,20 @@ export class DemoIntroduction extends LitElement {
 
 }
 
-
-component('new-demo', () => {
-	const buttonQry = useQuery<DemoButton>('buttonQry', 'demo-button');
-
-	useAfterConnected(() => {
-		console.log(buttonQry.value);
-	});
-
-	useOnEvent('stuff', (ev, element) => {
-		console.log('stuff event:', ev, element);
-	});
-
-	return ({
-		render: () => html`
-		<demo-button></demo-button>
-		<demo-button
-			@stuff=${ () => console.log('button event') }
-		></demo-button>
-		`,
-		styles: [ css`` ],
-	});
-}).register();
-
-
-interface DemoButton extends LitElement {
-	label: string;
+declare global {
+	interface HTMLElementTagNameMap {
+		'demo-button': DemoButton;
+	}
 }
+
+declare class DemoButton extends LitElement {
+
+	public label: string;
+
+}
+
+export type { DemoButton };
+
 
 component('demo-button', (element) => {
 	const [ label, setLabel ] = useProperty('label', 'test-label', { type: String });
@@ -74,30 +61,30 @@ component('demo-button', (element) => {
 	const inputQry = useQuery('inputQry', 'input');
 
 	useConnected(() => {
-		console.log('connected');
+		//console.log('connected');
 	});
 
 	useDisconnected(() => {
-		console.log('disconnecting');
+		//console.log('disconnecting');
 	});
 
 	useAfterConnected(() => {
-		console.log('after connected!', inputQry.value);
+		//console.log('after connected!', inputQry.value);
 	});
 
 	useUpdated((props) => {
-		console.log('effect!', props);
+		//console.log('effect!', props);
 	}, [ 'counter' ]);
 
 	useController({
 		hostUpdate() {
-			console.log('controller updating');
+			//console.log('controller updating');
 		},
 		hostConnected() {
-			console.log('host connected');
+			//console.log('host connected');
 		},
 		hostDisconnected() {
-			console.log('controller disconnecting');
+			//console.log('controller disconnecting');
 		},
 	});
 
