@@ -558,7 +558,7 @@ export class MMTabGroup extends MimicElement {
 			--_tab-color-primary:   var(--mm-tab-color-primary,   rgb(226 197 75));
 			--_tab-color-focus:     var(--mm-tab-color-focus,     rgb(162 205 218));
 			--_tab-color-indicator: var(--mm-tab-color-indicator, rgb(226 197 75));
-			--_tab-indicator-width: var(--es-tab-indicator-width, 3px);
+			--_tab-indicator-width: var(--mm-tab-indicator-width, 3px);
 			--_tab-color-track:     var(--mm-tab-color-track,     rgb(75 71 57));
 			--_tab-track-width:     var(--mm-tab-track-width,     2px);
 			--_tab-spacing-xs:      var(--mm-tab-spacing-xs,      4px);
