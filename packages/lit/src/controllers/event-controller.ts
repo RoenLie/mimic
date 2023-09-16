@@ -14,7 +14,7 @@ type EventMap = HTMLElementEventMap & WindowEventMap;
 type EventList = keyof EventMap;
 
 
-interface FlexibleHTMLElement extends HTMLElement { [ key: string ]: any; }
+interface FlexibleHTMLElement extends HTMLElement, Record<string, any> {}
 
 
 type Listener<R extends EventList = EventList, K extends string = R> = [
@@ -94,7 +94,7 @@ export class EventController implements ReactiveController {
 	};
 
 	public removeEventListener = (...id: (string | Fn)[]) => {
-		let resolvedIds = id.map(id => typeof id === 'function' ? this.listenerRefs.get(id) : id);
+		const resolvedIds = id.map(id => typeof id === 'function' ? this.listenerRefs.get(id) : id);
 
 		const removeListener = (id: string) => {
 			if (!this.listeners.has(id))

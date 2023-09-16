@@ -1,6 +1,3 @@
-import { typeOf } from '@roenlie/mimic-core/validation';
-
-
 export const listen = <T extends string>(
 	event: T | T[],
 	options?: boolean | AddEventListenerOptions,
@@ -12,35 +9,31 @@ export const listen = <T extends string>(
 	const connected = target.connectedCallback;
 	const disconnected = target.disconnectedCallback;
 
-	const isString = typeOf(event).string();
+	const isString = typeof event === 'string';
 
 	target.connectedCallback = function() {
 		connected?.call(this);
 
 		if (isString) {
-			this.addEventListener(event as string, descriptor.value, options);
+			this.addEventListener(event, descriptor.value, options);
 
 			return;
 		}
 
-		for (let i = 0; i < event.length; i++) {
-			const eventName = event[ i ] || '';
+		for (const eventName of event)
 			this.addEventListener(eventName, descriptor.value, options);
-		}
 	};
 
 	target.disconnectedCallback = function() {
 		disconnected?.call(this);
 
 		if (isString) {
-			this.removeEventListener(event as string, descriptor.value);
+			this.removeEventListener(event, descriptor.value);
 
 			return;
 		}
 
-		for (let i = 0; i < event.length; i++) {
-			const eventName = event[ i ] || '';
+		for (const eventName of event)
 			this.removeEventListener(eventName, descriptor.value);
-		}
 	};
 };

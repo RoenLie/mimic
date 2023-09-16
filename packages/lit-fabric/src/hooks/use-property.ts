@@ -1,7 +1,12 @@
 import { invariant } from '@roenlie/mimic-core/validation';
-import type { PropertyDeclaration } from 'lit';
+import type { LitElement, PropertyDeclaration } from 'lit';
 
-import { getCurrentRef } from '../core/component.js';
+import { component, getCurrentRef } from '../core/component.js';
+
+
+class HookGetter {
+
+}
 
 
 type UseProperty<T = any> = (
@@ -9,6 +14,24 @@ type UseProperty<T = any> = (
 	initialValue: T,
 	options?: PropertyDeclaration<T>
 ) => readonly [ { value: T; }, (value: T) => void ];
+
+export const useProperty2 = <T>(
+	name: string,
+	initialValue: T,
+	options: PropertyDeclaration<T> = {},
+) => {
+	const ctor = component.ctorRef as unknown as typeof LitElement;
+	invariant(ctor, 'Could not get constructor');
+
+	ctor.properties ??= {};
+	Object.assign(ctor.properties, {
+		[name]: options,
+	});
+
+	const sideEffects = component.sideEffects.get(ctor) ?? (() => {
+		return component.sideEffects.set(ctor, []).get(ctor)!;
+	})();
+};
 
 
 export const useProperty = (<T>(

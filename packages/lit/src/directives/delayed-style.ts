@@ -58,9 +58,9 @@ export const transformElementStyle = <T extends StyleRec | undefined = undefined
 	el: HTMLElement, styleObj?: T,
 ): T extends unknown ? StyleRec : void => {
 	if (!styleObj)
-		return <any>transformStyle(el.getAttribute('style') || '');
+		return transformStyle(el.getAttribute('style') || '') as any;
 
-	return <any>el.setAttribute('style', transformStyle(styleObj!));
+	return el.setAttribute('style', transformStyle(styleObj!)) as any;
 };
 
 
@@ -71,9 +71,9 @@ export const transformElementStyle = <T extends StyleRec | undefined = undefined
  */
 export const transformStyle = <T extends StyleShape>(style: T): StringOrRecord<T> => {
 	if (typeof style === 'string')
-		return <any>stringToStyleObj(<string>style);
+		return stringToStyleObj((style as string)) as any;
 
-	return <any>styleObjToString(<StyleRec>style);
+	return styleObjToString((style as StyleRec)) as any;
 };
 
 
@@ -97,7 +97,7 @@ const stringToStyleObj = (style: string) => {
 		key && val && (prev[key.trim()] = val.trim());
 
 		return prev;
-	}, <StyleRec>{});
+	}, ({} as StyleRec));
 };
 
 

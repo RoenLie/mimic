@@ -20,7 +20,7 @@ export type KeyboardEventType = 'keydown' | 'keypress' | 'keyup';
 export type KeyboardModifier = 'ctrl' | 'alt' | 'shift';
 
 
-export type KeyboardKey<TState extends object> = {
+export interface KeyboardKey<TState extends object> {
 	/**
 	 * A string value that matches the events code or key property.
 	 * This value is automatically uppercased internally to avoid any string compare confusion.
@@ -52,7 +52,7 @@ export type KeyboardKey<TState extends object> = {
 	 *	The keyboard event that the listener will be registrered to.
 	 */
 	eventType?: KeyboardEventType | KeyboardEventType[];
-};
+}
 
 
 /**
@@ -142,10 +142,10 @@ export class KeyboardController<
 			if (!k.listener)
 				return;
 
-			let target = k.target || this.target;
-			let resolvedTarget = typeof target === 'function' ? target() : target;
+			const target = k.target || this.target;
+			const resolvedTarget = typeof target === 'function' ? target() : target;
 			let types: KeyboardEventType[];
-			let fn = this.enhanceListener(k.listener, [ k ], this.state);
+			const fn = this.enhanceListener(k.listener, [ k ], this.state);
 
 			if (Array.isArray(k.eventType))
 				types = k.eventType;

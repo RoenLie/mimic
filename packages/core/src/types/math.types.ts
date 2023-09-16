@@ -6,6 +6,8 @@ type _Inc<T extends string> = T extends `${ infer F }${ IncDigit }`
 		: never
 	: 1
 
+
+/** Increments the numeric type by one. */
 export type Increment<T extends number> = number extends T
 	? number
 	: `${ T }` extends `${ string }${ '.' | '+' | '-' | 'e' }${ string }`

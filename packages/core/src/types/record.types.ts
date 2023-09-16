@@ -13,6 +13,4 @@ export type RecordOf<T extends object = object, TK extends keyof any = keyof any
 export type ValueOf<T> = T[keyof T];
 
 
-export type ComputedFlat<A> = {
-	[K in keyof A]: A[K];
-} & unknown
+export type ComputedFlat<A> = { [K in keyof A]: A[K]; } & unknown

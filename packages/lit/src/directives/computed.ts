@@ -16,7 +16,8 @@ export const computed = (options: {
 		updated:           (_props: PropertyValues) => void;
 	}>;
 
-	let { events, props } = options;
+	const props = options.props;
+	let events = options.events;
 	if (!events.length)
 		events = [ 'update' ];
 

@@ -1,4 +1,4 @@
-import { type CSSResultGroup, LitElement, type PropertyValues } from 'lit';
+import { type CSSResultGroup, LitElement, type PropertyDeclaration, type PropertyValues } from 'lit';
 
 
 declare class IFabricComponent extends LitElement {
@@ -25,8 +25,9 @@ export type FabricComponent = InstanceType<FabricConstructor>;
 export const getCurrentRef = () => component.ref;
 
 
-export const component = (
+export const component = <T extends Record<string, PropertyDeclaration>>(
 	tagName: string,
+	//construct: (ctor: typeof LitElement) => T,
 	create: (element: LitElement) => { render: () => unknown; styles: CSSResultGroup; },
 	options?: {
 		base?: typeof LitElement;
@@ -65,6 +66,7 @@ export const component = (
 				this.constructor.elementStyles = this.constructor.finalizeStyles(styles);
 		}
 
+
 		public override connectedCallback(): void {
 			super.connectedCallback();
 			for (const hook of this.__connectedHooks)
@@ -101,4 +103,6 @@ export const component = (
 	};
 };
 
+component.ctorRef = undefined as FabricConstructor | undefined;
 component.ref = undefined as InstanceType<FabricConstructor> | undefined;
+component.sideEffects = new WeakMap<typeof LitElement, (() => any)[]>();
