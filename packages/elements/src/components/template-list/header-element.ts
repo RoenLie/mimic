@@ -1,10 +1,10 @@
+import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
-import { css, html, LitElement } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { css, html } from 'lit';
 
 
 @customElement('mm-header')
-export class MMHeader extends LitElement {
+export class MMHeader extends MimicElement {
 
 	public override connectedCallback(): void {
 		super.connectedCallback();

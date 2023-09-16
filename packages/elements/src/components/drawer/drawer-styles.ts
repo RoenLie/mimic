@@ -112,8 +112,8 @@ export const drawerStyle = [
 		text-align: right;
 		padding: var(--footer-spacing);
 	}
-	.drawer__footer ::slotted(es-button:not(:last-of-type)) {
-		margin-inline-end: var(--es-spacing-x-small);
+	.drawer__footer ::slotted(mm-button:not(:last-of-type)) {
+		margin-inline-end: var(--spacing-x-small);
 	}
 	.drawer:not(.drawer--has-footer) .drawer__footer {
 		display: none;

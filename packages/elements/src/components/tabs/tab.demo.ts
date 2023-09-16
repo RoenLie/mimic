@@ -1,6 +1,10 @@
 import { css, html, LitElement, nothing } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
+import { MMTabGroup } from './tab-group-element.js';
+
+MMTabGroup.register();
+
 
 @customElement('mm-tabs-demo')
 export class TabsDemoCmp extends LitElement {
@@ -29,7 +33,10 @@ export class TabsDemoCmp extends LitElement {
 
 	public override render() {
 		return html`
-		<mm-tab-group @mm-tab-show=${ () => this.requestUpdate() }>
+		<mm-tab-group @mm-tab-show=${ () => {
+			console.log('show?');
+			this.requestUpdate();
+		} }>
 			<mm-tab slot="nav" panel="general">General</mm-tab>
 			<mm-tab slot="nav" panel="custom">Custom</mm-tab>
 			<mm-tab slot="nav" panel="advanced">Advanced</mm-tab>

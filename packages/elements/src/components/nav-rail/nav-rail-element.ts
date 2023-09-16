@@ -1,10 +1,10 @@
+import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
-import { css, html, LitElement } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { css, html } from 'lit';
 
 import { MMNavRailItem } from './nav-rail-item-element.js';
 
-[ MMNavRailItem ];
+MMNavRailItem.register();
 
 
 /**
@@ -14,7 +14,7 @@ import { MMNavRailItem } from './nav-rail-item-element.js';
  * es-navigation-rail-item placed in the end slot will be assigned the `button` role.
  */
 @customElement('mm-nav-rail')
-export class MMNavRail extends LitElement {
+export class MMNavRail extends MimicElement {
 
 	//#region properties
 	//#endregion
@@ -30,7 +30,7 @@ export class MMNavRail extends LitElement {
 
 	//#region logic
 	protected handleFooterSlotChange = () => {
-		const itemTag = 'mm-nav-rail-item';
+		const itemTag = MMNavRailItem.tagName;
 		const footerItems = this.querySelectorAll(`${ itemTag }[slot="end"], [slot="end"] ${ itemTag }`);
 		footerItems.forEach(item => item.setAttribute('role', 'button'));
 	};

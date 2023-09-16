@@ -1,7 +1,7 @@
+import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { tTerm } from '@roenlie/mimic-localize/directive';
-import { css, html, LitElement } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { css, html } from 'lit';
 
 
 /**
@@ -13,7 +13,7 @@ import { customElement } from 'lit/decorators.js';
  * @cssproperty --speed - The time it takes for the spinner to complete one animation cycle.
  */
 @customElement('mm-spinner')
-export class MMSpinner extends LitElement {
+export class MMSpinner extends MimicElement {
 
 	//#region properties
 	//#endregion

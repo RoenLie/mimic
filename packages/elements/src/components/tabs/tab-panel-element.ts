@@ -1,5 +1,5 @@
 import { domId } from '@roenlie/mimic-core/dom';
-import { customElement, MimicElement } from '@roenlie/mimic-lit/decorators';
+import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';

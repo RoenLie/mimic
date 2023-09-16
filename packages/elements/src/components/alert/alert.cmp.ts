@@ -4,7 +4,8 @@ import {
 } from '@roenlie/mimic-core/animation';
 import { emitEvent, waitForEvent } from '@roenlie/mimic-core/dom';
 import { SlotController } from '@roenlie/mimic-lit/controllers';
-import { customElement, MimicElement, watch } from '@roenlie/mimic-lit/decorators';
+import { watch } from '@roenlie/mimic-lit/decorators';
+import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html, type PropertyValues } from 'lit';
 import {  property, query } from 'lit/decorators.js';

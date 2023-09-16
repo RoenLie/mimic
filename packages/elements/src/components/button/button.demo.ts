@@ -3,8 +3,11 @@ import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
 
-import { type ButtonShape, type ButtonSize, type ButtonVariant } from './button.cmp.js';
+import { MMIcon } from '../icon/icon-element.js';
+import { type ButtonShape, type ButtonSize, type ButtonVariant, MMButton } from './button.cmp.js';
 
+MMButton.register();
+MMIcon.register();
 
 @customElement('mm-button-demo')
 export class ButtonDemo extends LitElement {

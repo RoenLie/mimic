@@ -1,14 +1,15 @@
 import { emitEvent } from '@roenlie/mimic-core/dom';
 import { type Fn } from '@roenlie/mimic-core/types';
-import { css, html, LitElement } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
+import { css, html } from 'lit';
+import { property } from 'lit/decorators.js';
 
 
 /**
  * @event ripple-finished - emits when the ripple animation has finished.
  */
 @customElement('mm-ripple')
-export class MMRipple extends LitElement {
+export class MMRipple extends MimicElement {
 
 	//#region properties
 	@property({ type: Number }) public speed = 500;

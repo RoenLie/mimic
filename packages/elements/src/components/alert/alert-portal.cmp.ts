@@ -1,4 +1,4 @@
-import { customElement, MimicElement } from '@roenlie/mimic-lit/decorators';
+import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, render } from 'lit';
 
@@ -14,18 +14,21 @@ declare global { interface HTMLElementTagNameMap {
 @customElement('mm-alert-portal')
 export class MMAlertPortal extends MimicElement {
 
-	public async display(definition: IAlertDefinition) {
+	public display(definition: IAlertDefinition) {
 		const { properties, template } = definition;
 
-		const alertEl = document.createElement(MMAlert.tagName) as MMAlert;
-		const alert = Object.assign(alertEl, {
-			variant:  properties.variant ?? 'primary',
-			closable: properties.closeable ?? true,
-			duration: properties.duration ?? 5000,
-		});
+		MMAlert.register();
+		globalThis.customElements.whenDefined(MMAlert.tagName).then(() => {
+			const alertEl = document.createElement(MMAlert.tagName) as MMAlert;
+			const alert = Object.assign(alertEl, {
+				variant:  properties.variant ?? 'primary',
+				closable: properties.closeable ?? true,
+				duration: properties.duration ?? 5000,
+			});
 
-		render(template(alert), alert);
-		setTimeout(() => alert.toast());
+			render(template(alert), alert);
+			setTimeout(() => alert.toast());
+		});
 	}
 
 	public static override styles = [
@@ -54,6 +57,8 @@ export class MMAlertPortal extends MimicElement {
 	];
 
 }
+
+MMAlertPortal.register();
 
 
 export const alertPortal = document.createElement(MMAlertPortal.tagName) as MMAlertPortal;

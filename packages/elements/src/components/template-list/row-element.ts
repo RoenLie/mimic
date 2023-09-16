@@ -1,10 +1,11 @@
+import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
-import { css, html, LitElement } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { css, html } from 'lit';
+import { property } from 'lit/decorators.js';
 
 
 @customElement('mm-row')
-export class MMRow extends LitElement {
+export class MMRow extends MimicElement {
 
 	@property({ type: Boolean, reflect: true }) public active?: boolean;
 	@property({ type: Object, attribute: false }) public item?: object;

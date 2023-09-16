@@ -1,8 +1,9 @@
 import { paintCycle } from '@roenlie/mimic-core/async';
 import { emitEvent, type EventOf, hasKeyboardFocus } from '@roenlie/mimic-core/dom';
+import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
-import { css, html, LitElement } from 'lit';
-import { customElement, property, query, state } from 'lit/decorators.js';
+import { css, html } from 'lit';
+import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
 
@@ -11,7 +12,7 @@ type InputShape = 'sharp' | 'rounded' | 'pill';
 
 
 @customElement('mm-input')
-export class MMInput extends LitElement {
+export class MMInput extends MimicElement {
 
 	@property() public label = '';
 	@property() public value = '';

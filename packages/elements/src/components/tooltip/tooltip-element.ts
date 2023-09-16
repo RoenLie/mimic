@@ -7,8 +7,9 @@ import { createPromiseResolver } from '@roenlie/mimic-core/async';
 import { emitEvent, hasKeyboardFocus, waitForEvent } from '@roenlie/mimic-core/dom';
 import { EventController } from '@roenlie/mimic-lit/controllers';
 import { watch } from '@roenlie/mimic-lit/decorators';
-import { html, LitElement, type TemplateResult } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
+import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
+import { html, type TemplateResult } from 'lit';
+import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
 import { registerTooltipAnimations } from './tooltip-animations.js';
@@ -17,7 +18,7 @@ import { tooltipStyles } from './tooltip-styles.js';
 registerTooltipAnimations();
 
 
-export type TooltipProperties = {
+export interface TooltipProperties {
 	distance: number;
 	skidding: number;
 	disabled: boolean;
@@ -29,7 +30,7 @@ export type TooltipProperties = {
 
 
 @customElement('mm-tooltip')
-export class MMTooltip extends LitElement {
+export class MMTooltip extends MimicElement {
 
 	//#region properties
 	/**

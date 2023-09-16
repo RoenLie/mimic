@@ -2,7 +2,11 @@ import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
 import { systemIcons } from '../../utilities/system-icons.js';
-import { DialogConfig } from './dialog-element.js';
+import { MMButton } from '../button/button.cmp.js';
+import { DialogConfig, MMDialog } from './dialog-element.js';
+
+MMDialog.register();
+MMButton.register();
 
 
 @customElement('mm-dialog-demo')

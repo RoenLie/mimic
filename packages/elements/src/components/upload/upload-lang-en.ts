@@ -1,16 +1,6 @@
-import type { Increment } from '@roenlie/mimic-core/types';
+import type { TermTupleArray } from '@roenlie/mimic-localize/core';
 
 import type { UploadTranslation } from './upload.types.js';
-
-
-type TermTupleArray<T extends string[]> = _TermTupleArray<T, 0, []>;
-type _TermTupleArray<
-	Blueprint extends string[],
-	Index extends number,
-	Arr extends [string, string][]
-> = Blueprint[Index] extends string
-	? _TermTupleArray<Blueprint, Increment<Index>, [...Arr, [Blueprint[Index], string]]>
-	: Arr;
 
 
 export const uploadTerms: TermTupleArray<UploadTranslation> = [

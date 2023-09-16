@@ -1,5 +1,5 @@
 import { domId, emitEvent } from '@roenlie/mimic-core/dom';
-import { customElement, MimicElement } from '@roenlie/mimic-lit/decorators';
+import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html } from 'lit';
 import { property, query } from 'lit/decorators.js';
@@ -25,7 +25,6 @@ declare global { interface HTMLElementTagNameMap {
  */
 @customElement('mm-tab')
 export class MMTab extends MimicElement {
-
 
 	//#region properties
 	protected readonly componentId = `${ MMTab.tagName }-${ domId(4) }`;

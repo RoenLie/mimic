@@ -1,8 +1,12 @@
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
+import { MMProgressBar } from './progress-bar-element.js';
 
-@customElement('mm-progress-bar-demo')
+MMProgressBar.register();
+
+
+@customElement('mm-progressbar-demo')
 export class ProgressBarDemo extends LitElement {
 
 	public override render() {

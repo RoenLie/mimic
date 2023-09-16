@@ -2,23 +2,22 @@ import { LitElement, noChange, type TemplateResult } from 'lit';
 import { AsyncDirective } from 'lit/async-directive.js';
 import { type AttributePart, directive, type DirectiveParameters, type PartInfo, PartType } from 'lit/directive.js';
 
-import type { MMTooltip, TooltipProperties } from './tooltip-element.js';
+import { MMTooltip, type TooltipProperties } from './tooltip-element.js';
 
-customElements.get('mm-tooltip') || import('./tooltip-element.js');
+MMTooltip.register();
 
 
 export interface TooltipPart extends AttributePart {
 	readonly element: LitElement & Record<string, any>;
 }
 
-export type TooltipRef = { value?: TooltipDirective };
+export interface TooltipRef { value?: TooltipDirective }
 
-export interface TooltipDirectiveOptions extends Partial<TooltipProperties> {
-	[key: string]: any;
-}
+export interface TooltipDirectiveOptions extends Partial<TooltipProperties>, Record<string, any> {}
 
 
-const tooltipInstance = document.createElement('mm-tooltip');
+const tooltipInstance = document.createElement(MMTooltip.tagName) as MMTooltip;
+
 
 class TooltipDirective extends AsyncDirective {
 

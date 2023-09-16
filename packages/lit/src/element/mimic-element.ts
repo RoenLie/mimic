@@ -8,9 +8,9 @@ interface TaggedElementConstructor {
 
 
 export const customElement = (tag: string) => (constructor: TaggedElementConstructor) => {
-	constructor.tagName = tag.toUpperCase();
+	constructor.tagName = tag.toLowerCase();
 
-	return constructor;
+	return constructor as any;
 };
 
 

@@ -1,6 +1,6 @@
 [component-header:mm-progress-bar]
 
-<mm-progress-bar-demo></mm-progress-bar-demo>
+<mm-progressbar-demo></mm-progressbar-demo>
 
 ### Metadata
 [component-metadata:mm-progress-bar]

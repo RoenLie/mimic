@@ -44,6 +44,9 @@
 		"updatedeps": "pnpm update --latest --interactive",
 		"increment-version": "package-toolbox increment-version"
 	},
+	"dependencies": {
+		"@roenlie/mimic-core": "workspace:^"
+	},
 	"peerDependencies": {
 		"lit": "*"
 	},

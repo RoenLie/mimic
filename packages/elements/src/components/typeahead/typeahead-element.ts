@@ -2,17 +2,23 @@ import { emitEvent, type EventOf } from '@roenlie/mimic-core/dom';
 import { Enum, type InferEnum } from '@roenlie/mimic-core/enum';
 import type { Ctor } from '@roenlie/mimic-core/types';
 import { PopoutController } from '@roenlie/mimic-lit/controllers';
-import { MimicElement } from '@roenlie/mimic-lit/decorators';
+import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
-import { css, html, LitElement } from 'lit';
-import { customElement, property, query, state } from 'lit/decorators.js';
+import { css, html } from 'lit';
+import { property, query, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { live } from 'lit/directives/live.js';
 import { createRef, type Ref, ref } from 'lit/directives/ref.js';
 import { when } from 'lit/directives/when.js';
 
 import { systemIcons } from '../../utilities/system-icons.js';
-import type { MMInput } from '../input/input.cmp.js';
+import { MMButton } from '../button/button.cmp.js';
+import { MMIcon } from '../icon/icon-element.js';
+import { MMInput } from '../input/input.cmp.js';
+
+MMIcon.register();
+MMInput.register();
+MMButton.register();
 
 
 declare global { interface HTMLElementTagNameMap {
@@ -272,6 +278,9 @@ export class MMTypeahead extends MimicElement {
 	}
 
 	public override render() {
+		const showClearBtn = (this.value && this.showClearWhenDisabled && this.disabled)
+			|| (this.value && !this.disabled);
+
 		return html`
 		<mm-input
 			label=${ ifDefined(this.label) }
@@ -284,10 +293,7 @@ export class MMTypeahead extends MimicElement {
 			@focus=${ this.handleFocus }
 			@blur=${ this.handleBlur }
 		>
-		${ when(
-			(this.value && this.showClearWhenDisabled && this.disabled) ||
-				(this.value && !this.disabled),
-			() => html`
+		${ when(showClearBtn, () => html`
 			<mm-button
 				slot="end"
 				type="icon"
@@ -311,12 +317,11 @@ export class MMTypeahead extends MimicElement {
 					template=${ systemIcons.xLg }
 				></mm-icon>
 			</mm-button>
-			`,
-			) }
+		`) }
 		</mm-input>
 
 		${ when(this.open, () => html`
-		<input-dropdown
+		<s-input-dropdown
 			${ ref(this.popoutEl) }
 			part="input-dropdown"
 			@mousedown=${ this.handleDropdownClick }
@@ -328,7 +333,7 @@ export class MMTypeahead extends MimicElement {
 			<div class="action">
 				<slot name="action"></slot>
 			</div>
-		</input-dropdown>
+		</s-input-dropdown>
 		`) }
 		`;
 	}
@@ -348,7 +353,7 @@ export class MMTypeahead extends MimicElement {
 			display: grid;
 			background-color: var(--_typea-bg-color);
 		}
-		input-dropdown {
+		s-input-dropdown {
 			overflow: hidden;
 			display: grid;
 			grid-template-rows: 1fr max-content;
@@ -378,7 +383,7 @@ export class MMTypeahead extends MimicElement {
 }
 
 @customElement('mm-typeahead-item')
-export class MMTypeaheadItem extends LitElement {
+export class MMTypeaheadItem extends MimicElement {
 
 	public override role = 'listitem';
 	public value?: any;
@@ -405,3 +410,5 @@ export class MMTypeaheadItem extends LitElement {
 	];
 
 }
+
+MMTypeaheadItem.register();

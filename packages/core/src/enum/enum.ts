@@ -15,7 +15,7 @@ export type InferEnum<T extends Record<string, string>> = T[keyof T];
 
 
 export const Enum = <T extends string[]>(...keys: [...T]) => {
-	let obj = {} as Record<keyof any, any>;
+	const obj = {} as Record<keyof any, any>;
 	for (const key of keys) {
 		const modifiedKey = key.replaceAll(/-(\w)/g, (_, c: string) => c.toUpperCase());
 		obj[modifiedKey] = key;

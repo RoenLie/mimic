@@ -1,7 +1,8 @@
+import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { tTerm } from '@roenlie/mimic-localize/directive';
-import { css, html, LitElement } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { css, html } from 'lit';
+import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { styleMap } from 'lit/directives/style-map.js';
@@ -23,7 +24,7 @@ import { labelFontStyles } from '../../utilities/font-styles.js';
  * @cssproperty --label-color - The label color.
  */
 @customElement('mm-progress-bar')
-export class MMProgressBar extends LitElement {
+export class MMProgressBar extends MimicElement {
 
 	//#region properties
 	/** The current progress, 0 to 100. */

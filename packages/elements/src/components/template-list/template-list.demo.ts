@@ -3,7 +3,9 @@ import { domId } from '@roenlie/mimic-core/dom';
 import { css, html, LitElement, type TemplateResult } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
-import { type ListTemplateConfig } from './template-list-element.js';
+import { type ListTemplateConfig, MMTemplateList } from './template-list-element.js';
+
+MMTemplateList.register();
 
 
 export interface User {

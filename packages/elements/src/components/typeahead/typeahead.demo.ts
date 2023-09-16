@@ -5,6 +5,10 @@ import { customElement } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
 import { range } from 'lit/directives/range.js';
 
+import { MMTypeahead } from './typeahead-element.js';
+
+MMTypeahead.register();
+
 
 declare global { interface HTMLElementTagNameMap {
 	'mm-typeahead-demo': TypeaheadDemo;

@@ -2,19 +2,25 @@ import { emitEvent, isTouch } from '@roenlie/mimic-core/dom';
 import { format } from '@roenlie/mimic-core/string';
 import { EventController, SlotController } from '@roenlie/mimic-lit/controllers';
 import { watch } from '@roenlie/mimic-lit/decorators';
+import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { loadTerms } from '@roenlie/mimic-localize/core';
 import { tTerm } from '@roenlie/mimic-localize/directive';
-import { css, html, LitElement, type PropertyValues } from 'lit';
-import { customElement, property, query, state } from 'lit/decorators.js';
+import { css, html, type PropertyValues } from 'lit';
+import { property, query, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { when } from 'lit/directives/when.js';
 
 import { systemIcons } from '../../utilities/system-icons.js';
+import { MMButton } from '../button/button.cmp.js';
+import { MMProgressBar } from '../progress-bar/progress-bar-element.js';
 import { type EnhancedFile, enhanceFile } from './enhanced-file.js';
-import { UploadFileElement } from './upload-file.cmp.js';
+import { MMUploadFile } from './upload-file.cmp.js';
 import { uploadTerms } from './upload-lang-en.js';
+
+MMButton.register();
+MMUploadFile.register();
 
 loadTerms('en', uploadTerms);
 
@@ -138,7 +144,7 @@ declare global {
   * @event mm-upload-abort              - Fired when upload abort is requested.
   */
 @customElement('mm-upload')
-export class MMUpload extends LitElement {
+export class MMUpload extends MimicElement {
 
 	//#region properties
 	/**
@@ -247,7 +253,7 @@ export class MMUpload extends LitElement {
 
 	@query('input') protected inputQry: HTMLInputElement;
 
-	protected get fileQry(): NodeListOf<UploadFileElement> {
+	protected get fileQry(): NodeListOf<MMUploadFile> {
 		return this.slots.test('file-list')
 			? this.querySelectorAll('mm-upload-file')
 			: this.renderRoot.querySelectorAll('mm-upload-file');
@@ -759,6 +765,7 @@ export class MMUpload extends LitElement {
 			<ul id="fileList" part="file-list">
 				${ repeat(this.files, (file, index) => html`
 				${ when(index > 0, () => html`
+					<!-- Need to move this over -->
 					<mm-divider></mm-divider>
 				`) }
 				<li>

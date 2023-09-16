@@ -2,6 +2,11 @@ import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators/custom-element.js';
 
 import { systemIcons } from '../../utilities/system-icons.js';
+import { MMIcon } from '../icon/icon-element.js';
+import { MMNavRail } from './nav-rail-element.js';
+
+MMIcon.register();
+MMNavRail.register();
 
 
 @customElement('mm-nav-rail-demo')

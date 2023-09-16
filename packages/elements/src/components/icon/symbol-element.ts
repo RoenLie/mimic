@@ -1,10 +1,11 @@
+import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
-import { css, html, LitElement } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { css, html } from 'lit';
+import { property } from 'lit/decorators.js';
 
 
 @customElement('mm-symbol')
-export class SymbolElement extends LitElement {
+export class SymbolElement extends MimicElement {
 
 	@property() public source = '';
 	@property() public icon = '';
@@ -31,7 +32,7 @@ export class SymbolElement extends LitElement {
 			display: grid;
 			place-items: center;
 		}
-		:host,  svg {
+		:host, svg {
 			width: 1em;
 			height: 1em;
 		}

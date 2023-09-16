@@ -1,15 +1,15 @@
-import { css, html, LitElement, type PropertyValues } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
+import { css, html, type PropertyValues } from 'lit';
+import { property, state } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 
 import { requestIcon } from './helpers.js';
 
 
-let parser: DOMParser;
-
-
 @customElement('mm-icon')
-export class MMIcon extends LitElement {
+export class MMIcon extends MimicElement {
+
+	public static parser: DOMParser;
 
 	/** Can be set to change default behavior. */
 	public static mutator = (svg: SVGElement) => {
@@ -30,7 +30,7 @@ export class MMIcon extends LitElement {
 	}
 
 	protected async getSvg() {
-		parser ??= new DOMParser();
+		MMIcon.parser ??= new DOMParser();
 
 		let svg = '';
 		if (this.url) {
@@ -47,7 +47,7 @@ export class MMIcon extends LitElement {
 			return '';
 		}
 
-		const doc = parser.parseFromString(svg, 'text/html');
+		const doc = MMIcon.parser.parseFromString(svg, 'text/html');
 		const svgEl = doc.body.querySelector('svg');
 		if (!svgEl)
 			return '';

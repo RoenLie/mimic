@@ -3,8 +3,16 @@ import { customElement } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { map } from 'lit/directives/map.js';
 
-import { alertPortal } from './alert-portal.cmp.js';
+import { MMButton } from '../button/button.cmp.js';
+import { MMIcon } from '../icon/icon-element.js';
+import { MMAlert } from './alert.cmp.js';
+import { alertPortal, MMAlertPortal } from './alert-portal.cmp.js';
 import { Alerts, type IAlertProps } from './alert-setup-api.js';
+
+MMIcon.register();
+MMButton.register();
+MMAlert.register();
+MMAlertPortal.register();
 
 
 @customElement('mm-alert-demo')

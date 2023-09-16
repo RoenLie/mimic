@@ -1,8 +1,12 @@
-import { customElement, MimicElement } from '@roenlie/mimic-lit/decorators';
+import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
+
+import { MMRipple } from '../ripple/ripple-element.js';
+
+MMRipple.register();
 
 
 declare global { interface HTMLElementTagNameMap {

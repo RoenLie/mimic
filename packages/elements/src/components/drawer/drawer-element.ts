@@ -3,18 +3,25 @@ import { emitEvent, findActiveElement, lockBodyScrolling, Modal, unlockBodyScrol
 import { uppercaseFirstLetter } from '@roenlie/mimic-core/string';
 import { SlotController } from '@roenlie/mimic-lit/controllers';
 import { watch } from '@roenlie/mimic-lit/decorators';
+import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { tTerm } from '@roenlie/mimic-localize/directive';
-import { html, LitElement } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
+import { html } from 'lit';
+import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
 
+import { systemIcons } from '../../utilities/system-icons.js';
+import { MMButton } from '../button/button.cmp.js';
+import { MMIcon } from '../icon/icon-element.js';
 import { tooltip } from '../tooltip/tooltip-directive.js';
 import { registerDrawerAnimations } from './drawer-animations.js';
 import { drawerStyle } from './drawer-styles.js';
 
+MMButton.register();
+MMIcon.register();
 registerDrawerAnimations();
+
 
 /**
  * @slot                          - The drawer's content.
@@ -64,7 +71,7 @@ registerDrawerAnimations();
  * @animation drawer.overlay.hide - The animation to use when hiding the drawer's overlay.
  */
 @customElement('mm-drawer')
-export class MMDrawer extends LitElement {
+export class MMDrawer extends MimicElement {
 
 	//#region properties
 	/** Indicates whether or not the drawer is open. You can use this in lieu of the show/hide methods. */
@@ -306,7 +313,7 @@ export class MMDrawer extends LitElement {
 					<h2 part="title" class="drawer__title" id="title">
 						<slot name="label"> ${ this.label } </slot>
 					</h2>
-					<pl-button
+					<mm-button
 						${ tooltip(tTerm('close')) }
 						part   ="close-button"
 						class  ="drawer__close"
@@ -316,8 +323,10 @@ export class MMDrawer extends LitElement {
 						variant="text"
 						@click =${ () => this.requestClose('close-button') }
 					>
-						<pl-boot-icon icon="x-lg"></pl-boot-icon>
-					</pl-button>
+						<mm-icon
+							template=${ systemIcons.xLg }
+						></mm-icon>
+					</mm-button>
 				</header>
 				`) }
 

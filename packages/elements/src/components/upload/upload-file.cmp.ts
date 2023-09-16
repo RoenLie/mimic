@@ -1,11 +1,19 @@
 import { emitEvent } from '@roenlie/mimic-core/dom';
+import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
-import { css, html, LitElement, type PropertyValueMap } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { css, html, type PropertyValueMap } from 'lit';
+import { property } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 
 import { systemIcons } from '../../utilities/system-icons.js';
+import { MMButton } from '../button/button.cmp.js';
+import { MMIcon } from '../icon/icon-element.js';
+import { MMProgressBar } from '../progress-bar/progress-bar-element.js';
 import type { EnhancedFile } from './enhanced-file.js';
+
+MMIcon.register();
+MMButton.register();
+MMProgressBar.register();
 
 
 /**
@@ -43,7 +51,7 @@ import type { EnhancedFile } from './enhanced-file.js';
  * `complete`       | Uploading has finished successfully.
  */
 @customElement('mm-upload-file')
-export class UploadFileElement extends LitElement {
+export class MMUploadFile extends MimicElement {
 
 	//#region properties
 	@property({ type: Object }) public file: EnhancedFile;
@@ -280,7 +288,7 @@ export class UploadFileElement extends LitElement {
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'mm-upload-file': UploadFileElement;
+		'mm-upload-file': MMUploadFile;
 	}
 	interface HTMLElementEventMap {
 		/**

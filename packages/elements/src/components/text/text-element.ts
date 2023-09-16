@@ -1,6 +1,7 @@
 import type { stringliteral } from '@roenlie/mimic-core/types';
-import { css, html, LitElement } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
+import { css, html } from 'lit';
+import { property, state } from 'lit/decorators.js';
 
 
 type TextTransform = 'capitalize' | 'uppercase' | 'lowercase' | stringliteral;
@@ -24,7 +25,7 @@ type TextType = 'display-large'
 
 
 @customElement('mm-text')
-export class MMText extends LitElement {
+export class MMText extends MimicElement {
 
 	@property({ reflect: true }) public type: TextType = 'body-medium';
 	@property({ type: Boolean, reflect: true }) public shadow?: boolean;

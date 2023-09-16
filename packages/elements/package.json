@@ -82,6 +82,10 @@
 		"./typeahead": {
 			"types": "./dist/components/typeahead/index.d.ts",
 			"default": "./dist/components/typeahead/index.js"
+		},
+		"./date-picker": {
+			"types": "./dist/components/date-picker/index.d.ts",
+			"default": "./dist/components/date-picker/index.js"
 		}
 	},
 	"scripts": {
@@ -96,7 +100,7 @@
 	},
 	"dependencies": {
 		"@floating-ui/dom": "^1.5.1",
-		"@roenlie/aegis": "workspace:^",
+		"@roenlie/lit-aegis": "workspace:^",
 		"@roenlie/mimic-core": "workspace:^",
 		"@roenlie/mimic-lit": "workspace:^",
 		"@roenlie/mimic-localize": "workspace:^"

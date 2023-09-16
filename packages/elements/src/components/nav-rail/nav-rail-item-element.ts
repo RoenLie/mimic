@@ -1,13 +1,14 @@
 import { SlotController } from '@roenlie/mimic-lit/controllers';
+import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
-import { css, html, LitElement } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
+import { css, html } from 'lit';
+import { property, query } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
 
 import { MMRipple } from '../ripple/ripple-element.js';
 
-[ MMRipple ];
+MMRipple.register();
 
 
 /**
@@ -19,7 +20,7 @@ import { MMRipple } from '../ripple/ripple-element.js';
  * If set to `button` a <button> element will be generated instead.
  */
 @customElement('mm-nav-rail-item')
-export class MMNavRailItem extends LitElement {
+export class MMNavRailItem extends MimicElement {
 
 	//#region properties
 	@property({ type: String }) public href?: string;

@@ -3,20 +3,29 @@ import { emitEvent, findActiveElement } from '@roenlie/mimic-core/dom';
 import { noop } from '@roenlie/mimic-core/function';
 import { type Fn } from '@roenlie/mimic-core/types';
 import { EventController } from '@roenlie/mimic-lit/controllers';
+import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
-import { css, html, LitElement, type TemplateResult } from 'lit';
-import { customElement, eventOptions, property, query, state } from 'lit/decorators.js';
+import { css, html, type TemplateResult } from 'lit';
+import { eventOptions, property, query, state } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
+import { MMSpinner } from '../spinner/spinner-element.js';
+import { MMField } from './field-element.js';
+import { MMHeader } from './header-element.js';
 import { MMRow } from './row-element.js';
+
+MMRow.register();
+MMField.register();
+MMHeader.register();
+MMSpinner.register();
 
 
 export type HeaderTemplate = (template: TemplateResult<any> | unknown) => TemplateResult<any>;
 export type HeaderFieldTemplate = () => TemplateResult<any>;
 export type RowTemplate<T> = (rowData: T, template: TemplateResult<any> | unknown) => TemplateResult<any>;
 export type RowFieldTemplate<T> = (rowData: T) => TemplateResult<any>;
-export type ListTemplateConfig<T = any> = {
+export interface ListTemplateConfig<T = any> {
 	header: HeaderTemplate;
 	headerField: HeaderFieldTemplate[];
 	row: RowTemplate<T>;
@@ -25,7 +34,7 @@ export type ListTemplateConfig<T = any> = {
 
 
 @customElement('mm-template-list')
-export class MMTemplateList<T extends object = object> extends LitElement {
+export class MMTemplateList<T extends object = object> extends MimicElement {
 
 	//#region Properties
 	@property({ type: Number }) public chunks = 15;
@@ -93,8 +102,8 @@ export class MMTemplateList<T extends object = object> extends LitElement {
 	protected setupKeyboardEvents() {
 		this.eventController.addEventListener(this, 'keydown', (ev) => {
 			const activeElement = findActiveElement(this) as HTMLElement;
-			let next = activeElement?.nextElementSibling as HTMLElement | undefined;
-			let prev = activeElement?.previousElementSibling as HTMLElement | undefined;
+			const next = activeElement?.nextElementSibling as HTMLElement | undefined;
+			const prev = activeElement?.previousElementSibling as HTMLElement | undefined;
 
 			if (ev.code === 'ArrowUp') {
 				ev.preventDefault();
@@ -327,8 +336,8 @@ const intersectionScrollObserver = (
 		entries.forEach(entry => {
 			const target = entry.target;
 			if (target === topElement) {
-				let currentRatio  = entry.intersectionRatio;
-				let previousRatio = topRatio;
+				const currentRatio  = entry.intersectionRatio;
+				const previousRatio = topRatio;
 				if (isNaN(previousRatio))
 					return (topRatio = currentRatio);
 
@@ -339,8 +348,8 @@ const intersectionScrollObserver = (
 			}
 
 			if (target === botElement) {
-				let currentRatio  = entry.intersectionRatio;
-				let previousRatio = botRatio;
+				const currentRatio  = entry.intersectionRatio;
+				const previousRatio = botRatio;
 				if (isNaN(previousRatio))
 					return botRatio = currentRatio;
 

@@ -3,7 +3,8 @@ import { paintCycle } from '@roenlie/mimic-core/async';
 import { emitEvent, scrollIntoView } from '@roenlie/mimic-core/dom';
 import { oneOf } from '@roenlie/mimic-core/validation';
 import { KeyboardController } from '@roenlie/mimic-lit/controllers';
-import { customElement, MimicElement, watch } from '@roenlie/mimic-lit/decorators';
+import { watch } from '@roenlie/mimic-lit/decorators';
+import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html } from 'lit';
 import { property, query, queryAssignedElements, state } from 'lit/decorators.js';
@@ -11,13 +12,28 @@ import { classMap } from 'lit/directives/class-map.js';
 import { when } from 'lit/directives/when.js';
 
 import { systemIcons } from '../../utilities/system-icons.js';
+import { MMButton } from '../button/button.cmp.js';
+import { MMIcon } from '../icon/icon-element.js';
 import { MMTab } from './tab-element.js';
 import { MMTabPanel } from './tab-panel-element.js';
+
+MMTab.register();
+MMTabPanel.register();
+MMButton.register();
+MMIcon.register();
 
 
 declare global { interface HTMLElementTagNameMap {
 	'mm-tab-group': MMTabGroup;
 } }
+
+
+interface IconProp {
+	part: string;
+	class: string;
+	icon: keyof typeof systemIcons;
+	click: Parameters<MMTabGroup['handleScrollTo']>[0];
+}
 
 
 /**
@@ -106,8 +122,6 @@ export class MMTabGroup extends MimicElement {
 			const tabGroup = tab?.closest<MMTabGroup>('mm-tab-group');
 			const maxIndex = this.tabs.length - 1;
 			const minIndex = 0;
-
-			this.tagName;
 
 			// Ensure the target tab is in this tab group
 			if (tabGroup !== this)
@@ -218,12 +232,12 @@ export class MMTabGroup extends MimicElement {
 
 	protected getAllTabs(includeDisabled = false) {
 		return this.navSlot.filter(el =>
-			el.tagName === MMTab.tagName && (includeDisabled || !el.disabled));
+			el.tagName === MMTab.tagName.toUpperCase() && (includeDisabled || !el.disabled));
 	}
 
 	protected getAllPanels() {
 		return (this.defaultSlot as MMTabPanel[])
-			.filter(el => el.tagName === MMTabPanel.tagName);
+			.filter(el => el.tagName === MMTabPanel.tagName.toUpperCase());
 	}
 
 	protected getActiveTab() {
@@ -330,6 +344,9 @@ export class MMTabGroup extends MimicElement {
 	@watch('placement', { waitUntilFirstUpdate: true })
 	protected async syncIndicator() {
 		const tab = this.getActiveTab();
+		console.log(tab);
+
+
 		if (!tab) {
 			const firstValidTab = this.getAllTabs().find(t => !t.disabled);
 			if (firstValidTab)
@@ -418,67 +435,62 @@ export class MMTabGroup extends MimicElement {
 
 
 	//#region template
+	protected iconProps: Record<string, IconProp> = {
+		topfirst: {
+			part:  'scroll-button--start',
+			class: 'tab-group__scroll-button--start',
+			icon:  'chevronLeft',
+			click: 'start',
+		},
+		toplast: {
+			part:  'scroll-button--end',
+			class: 'tab-group__scroll-button--end',
+			icon:  'chevronRight',
+			click: 'end',
+		},
+
+		bottomfirst: {
+			part:  'scroll-button--start',
+			class: 'tab-group__scroll-button--start',
+			icon:  'chevronLeft',
+			click: 'start',
+		},
+		bottomlast: {
+			part:  'scroll-button--end',
+			class: 'tab-group__scroll-button--end',
+			icon:  'chevronRight',
+			click: 'end',
+		},
+
+		startfirst: {
+			part:  'scroll-button--top',
+			class: 'tab-group__scroll-button--top',
+			icon:  'chevronUp',
+			click: 'top',
+		},
+		startlast: {
+			part:  'scroll-button--bottom',
+			class: 'tab-group__scroll-button--bottom',
+			icon:  'chevronDown',
+			click: 'bottom',
+		},
+
+		endfirst: {
+			part:  'scroll-button--top',
+			class: 'tab-group__scroll-button--top',
+			icon:  'chevronUp',
+			click: 'top',
+		},
+		endlast: {
+			part:  'scroll-button--bottom',
+			class: 'tab-group__scroll-button--bottom',
+			icon:  'chevronDown',
+			click: 'bottom',
+		},
+	};
+
 	protected navTpl(placement: 'first' | 'last') {
-		const iconProps: Record<string, {
-			part: string;
-			class: string;
-			icon: keyof typeof systemIcons;
-			click: Parameters<MMTabGroup['handleScrollTo']>[0];
-		}> = {
-			topfirst: {
-				part:  'scroll-button--start',
-				class: 'tab-group__scroll-button--start',
-				icon:  'chevronLeft',
-				click: 'start',
-			},
-			toplast: {
-				part:  'scroll-button--end',
-				class: 'tab-group__scroll-button--end',
-				icon:  'chevronRight',
-				click: 'end',
-			},
-
-			bottomfirst: {
-				part:  'scroll-button--start',
-				class: 'tab-group__scroll-button--start',
-				icon:  'chevronLeft',
-				click: 'start',
-			},
-			bottomlast: {
-				part:  'scroll-button--end',
-				class: 'tab-group__scroll-button--end',
-				icon:  'chevronRight',
-				click: 'end',
-			},
-
-			startfirst: {
-				part:  'scroll-button--top',
-				class: 'tab-group__scroll-button--top',
-				icon:  'chevronUp',
-				click: 'top',
-			},
-			startlast: {
-				part:  'scroll-button--bottom',
-				class: 'tab-group__scroll-button--bottom',
-				icon:  'chevronDown',
-				click: 'bottom',
-			},
-
-			endfirst: {
-				part:  'scroll-button--top',
-				class: 'tab-group__scroll-button--top',
-				icon:  'chevronUp',
-				click: 'top',
-			},
-			endlast: {
-				part:  'scroll-button--bottom',
-				class: 'tab-group__scroll-button--bottom',
-				icon:  'chevronDown',
-				click: 'bottom',
-			},
-		};
-
-		const props = iconProps[this.placement + placement]!;
+		const props = this.iconProps[this.placement + placement]!;
 
 		return when(this.hasScrollControls, () => html`
 		<mm-button
@@ -546,6 +558,7 @@ export class MMTabGroup extends MimicElement {
 			--_tab-color-primary:   var(--mm-tab-color-primary,   rgb(226 197 75));
 			--_tab-color-focus:     var(--mm-tab-color-focus,     rgb(162 205 218));
 			--_tab-color-indicator: var(--mm-tab-color-indicator, rgb(226 197 75));
+			--_tab-indicator-width: var(--es-tab-indicator-width, 3px);
 			--_tab-color-track:     var(--mm-tab-color-track,     rgb(75 71 57));
 			--_tab-track-width:     var(--mm-tab-track-width,     2px);
 			--_tab-spacing-xs:      var(--mm-tab-spacing-xs,      4px);
@@ -576,7 +589,6 @@ export class MMTabGroup extends MimicElement {
 		.tab-group__nav {
 			display: grid;
 			padding: var(--_tab-spacing-xs);
-
 		}
 		.tab-group .tab-group__indicator {
 			position: absolute;
@@ -630,11 +642,11 @@ export class MMTabGroup extends MimicElement {
 			flex-direction: row;
 			margin-inline: var(--_tab-spacing-xs);
 			padding-bottom: var(--_tab-spacing-xs);
-			border-bottom: solid var(--_tab-track-width) var(--_tab-color-track);
+			border-bottom: var(--_tab-track-width) solid var(--_tab-color-track);
 		}
 		.tab-group--top .tab-group__indicator {
 			bottom: calc(-1 * var(--_tab-track-width));
-			border-bottom: solid var(--_tab-indicator-width) var(--_tab-color-indicator);
+			border-bottom: var(--_tab-indicator-width) solid var(--_tab-color-indicator);
 		}
 		.tab-group--top .tab-group__body {
 			order: 2;
