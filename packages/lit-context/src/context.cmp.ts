@@ -21,7 +21,7 @@ export class ContextProvider extends LitElement {
 			globalThis.customElements.define(this.tagName, this);
 	}
 
-	@property({ type: Array }) public context: Context[];
+	@property({ type: Object }) public context: Record<string, any>;
 	#listeners: {name: string; listener: (ev: Event) => any;}[] = [];
 
 	protected setupContext() {
@@ -32,8 +32,8 @@ export class ContextProvider extends LitElement {
 		this.#listeners.length = 0;
 
 		// Hook up the new context listeners.
-		this.context.forEach(context => {
-			const eventName = createEventName(context.name);
+		for (const [ key ] of Object.entries(this.context)) {
+			const eventName = createEventName(key);
 			const provideHandler = (ev: Event) => {
 				ev.preventDefault();
 				ev.stopPropagation();
@@ -43,20 +43,16 @@ export class ContextProvider extends LitElement {
 				const event = ev as ConsumeContextEvent;
 				event.detail.prop = {
 					get value() {
-						return me.context.find(ct => ct.name === context.name)?.value;
+						return me.context[key];
 					},
 					set value(value: any) {
-						const ct = me.context.find(ct => ct.name === context.name);
-						if (!ct)
-							return;
-
-						const oldValue = ct.value;
+						const oldValue = me.context[key];
 						if (oldValue === value)
 							return;
 
-						ct.value = value;
+						me.context[key] = value;
 
-						const hydrateName = createHydrateName(context.name);
+						const hydrateName = createHydrateName(key);
 						const ev = new CustomEvent(hydrateName, {
 							bubbles:    true,
 							composed:   true,
@@ -70,7 +66,7 @@ export class ContextProvider extends LitElement {
 
 			this.#listeners.push({ name: eventName, listener: provideHandler });
 			this.addEventListener(eventName, provideHandler);
-		});
+		}
 	}
 
 	public override connectedCallback(): void {

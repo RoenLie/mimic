@@ -12,10 +12,10 @@ export class IntroCmp extends LitElement {
 		globalThis.customElements.define('mm-intro', this);
 	}
 
-	protected context: Context[] = [
-		{ name: 'label', value: 'this is the label' },
-		{ name: 'counter', value: 0 },
-	];
+	protected context = {
+		label:   'this is the label',
+		counter: 0,
+	};
 
 	protected override render() {
 		return html`
@@ -27,16 +27,6 @@ export class IntroCmp extends LitElement {
 		</context-provider>
 		`;
 	}
-	//protected override render() {
-	//	return html`
-	//	<mm-provider>
-	//		<mm-consumer></mm-consumer>
-	//		<mm-consumer></mm-consumer>
-	//		<mm-consumer></mm-consumer>
-	//		<mm-consumer></mm-consumer>
-	//	</mm-provider>
-	//	`;
-	//}
 
 	public static override styles = css`
 	:host {

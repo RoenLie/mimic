@@ -3,8 +3,8 @@ import { type LitElement } from 'lit';
 import { state } from 'lit/decorators.js';
 
 
+export interface ContextProp<T = any> {value: T;}
 export type ConsumeContextEvent<T = any> = CustomEvent<{prop: {value: T;} }>;
-export interface ContextProp<T = any> {value: T}
 
 export const createEventName = (prop: string | symbol) => 'consume-context:' + prop.toString();
 export const createHydrateName = (prop: string | symbol) => 'hydrate-context:' + prop.toString();
