@@ -54,19 +54,14 @@ export class StateStore {
 					continue;
 				}
 
-				for (const listenerRef of listeners) {
-					const listener = listenerRef.deref();
-					if (!listener)
-						listeners.delete(listenerRef);
-					else
-						listener();
-				}
+				for (const listener of listeners)
+					listener();
 			}
 		}
 	}
 
 	static #observers = new WeakMap<StateStore, Map<string, Set<WeakRef<UpdatableElement>>>>();
-	static #listeners = new WeakMap<StateStore, Map<string, Map<WeakRef<object>, Set<WeakRef<Function>>>>>();
+	static #listeners = new WeakMap<StateStore, Map<string, Map<WeakRef<object>, Set<Function>>>>();
 	static #refRegistry = new FinalizationRegistry<{origin: StateStore; ref: WeakRef<any>;}>(
 		({ origin, ref }) => {
 			const obsMap = StateStore.#observers.get(origin);
@@ -121,14 +116,14 @@ export class StateStore {
 		let funcEntry = [ ...propMap.entries() ].find(([ ref ]) => ref.deref() === reference);
 		if (!funcEntry) {
 			const ref = new WeakRef(reference);
-			const funcSet = new Set<WeakRef<Function>>();
+			const funcSet = new Set<Function>();
 			propMap.set(ref, funcSet);
 			StateStore.#refRegistry.register(reference, { origin: this.__origin, ref }, reference);
 
-			funcEntry = [ ref, funcSet ] as [WeakRef<object>, Set<WeakRef<Function>>];
+			funcEntry = [ ref, funcSet ] as [WeakRef<object>, Set<Function>];
 		}
 
-		funcEntry[1].add(new WeakRef(func));
+		funcEntry[1].add(func);
 	}
 
 	/** Removes a listener from the store. */
@@ -156,16 +151,7 @@ export class StateStore {
 				continue;
 			}
 
-			for (const funcRef of set) {
-				const fn = funcRef.deref();
-				if (!fn) {
-					set.delete(funcRef);
-					continue;
-				}
-
-				if (fn === func)
-					set.delete(funcRef);
-			}
+			set.delete(func);
 		}
 	}
 
