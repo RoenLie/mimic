@@ -6,6 +6,11 @@ export interface UpdatableElement {
 	requestUpdate: Function;
 }
 
+type ListenerRefMap = Map<ObjectRef, ListenerMap>;
+type ObjectRef = WeakRef<object>;
+type ListenerMap = Map<Function, ListenerOptions>
+interface ListenerOptions {type: 'before' | 'after', priority: number}
+
 
 export class StateStore {
 
@@ -54,14 +59,19 @@ export class StateStore {
 					continue;
 				}
 
-				for (const listener of listeners)
+				for (const [ listener, options ] of listeners)
 					listener();
 			}
 		}
 	}
 
+	//TODO make some stuff where you can trigger listeners before mutations.
+	// Must handle the update function case as well as a normal setter case.
+	// Registry has already been updated to hold a map instead of a set, so that we can hold options.
+	// URGENT; MUST; HAVE; FOR PROJECT MORPH.
+
 	static #observers = new WeakMap<StateStore, Map<string, Set<WeakRef<UpdatableElement>>>>();
-	static #listeners = new WeakMap<StateStore, Map<string, Map<WeakRef<object>, Set<Function>>>>();
+	static #listeners = new WeakMap<StateStore, Map<string, ListenerRefMap>>();
 	static #refRegistry = new FinalizationRegistry<{origin: StateStore; ref: WeakRef<any>;}>(
 		({ origin, ref }) => {
 			const obsMap = StateStore.#observers.get(origin);
@@ -108,6 +118,7 @@ export class StateStore {
 		reference: object,
 		prop: keyof Omit<this, keyof StateStore>,
 		func: () => any,
+		options?: ListenerOptions,
 	) {
 		const _prop = prop as string;
 		const elementMap = lazyWeakmap(StateStore.#listeners, this.__origin, () => new Map());
@@ -116,14 +127,14 @@ export class StateStore {
 		let funcEntry = [ ...propMap.entries() ].find(([ ref ]) => ref.deref() === reference);
 		if (!funcEntry) {
 			const ref = new WeakRef(reference);
-			const funcSet = new Set<Function>();
-			propMap.set(ref, funcSet);
+			const funcMap: ListenerMap = new Map();
+			propMap.set(ref, funcMap);
 			StateStore.#refRegistry.register(reference, { origin: this.__origin, ref }, reference);
 
-			funcEntry = [ ref, funcSet ] as [WeakRef<object>, Set<Function>];
+			funcEntry = [ ref, funcMap ] as [ObjectRef, ListenerMap];
 		}
 
-		funcEntry[1].add(func);
+		funcEntry[1].set(func, options ?? { priority: 100, type: 'after' });
 	}
 
 	/** Removes a listener from the store. */
@@ -136,7 +147,7 @@ export class StateStore {
 
 		const map = StateStore.#listeners.get(this.__origin);
 		const propMap = map?.get(_prop);
-		for (const [ ref, set ] of propMap ?? []) {
+		for (const [ ref, map ] of propMap ?? []) {
 			const obj = ref.deref();
 			if (!obj) {
 				propMap?.delete(ref);
@@ -147,11 +158,11 @@ export class StateStore {
 				continue;
 
 			if (!func) {
-				set.clear();
+				map.clear();
 				continue;
 			}
 
-			set.delete(func);
+			map.delete(func);
 		}
 	}
 
