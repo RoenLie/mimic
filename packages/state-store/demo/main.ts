@@ -70,7 +70,7 @@ export class CounterCmp extends LitElement {
 	public override connectedCallback(): void {
 		super.connectedCallback();
 		testStore.connect(this, 'counter');
-		testStore.listen(this, 'counter', this.func.bind(this));
+		testStore.listen(this, 'counter', this.func.bind(this), { priority: 100 });
 	}
 
 	protected override render() {

@@ -26,17 +26,20 @@ export class StateStore {
 			if (key in target && target[key] === value)
 				return true;
 
+			StateStore.#runListeners(target, key, 'before');
+
 			try {
 				return Reflect.set(target, key, value);
 			}
 			finally {
-				StateStore.#notify(target, key);
+				StateStore.#runRenderers(target, key);
+				StateStore.#runListeners(target, key, 'after');
 			}
 		},
 	};
 
-	/** Runs rerender requests and the listener functions upon change or update of a property. */
-	static #notify(target: StateStore, key: keyof StateStore) {
+	/** Runs rerender requests upon change or update of a property. */
+	static #runRenderers(target: StateStore, key: keyof StateStore) {
 		const observerMap = StateStore.#observers.get(target);
 		for (const [ _key, set ] of observerMap ?? []) {
 			if (_key !== key)
@@ -47,7 +50,10 @@ export class StateStore {
 				!el ? set.delete(ref) : el.requestUpdate();
 			}
 		}
+	}
 
+	/** Runs listener functions  upon change or update of a property. */
+	static #runListeners(target: StateStore, key: keyof StateStore, type: ListenerOptions['type']) {
 		const listenerMap = StateStore.#listeners.get(target);
 		for (const [ _key, map ] of listenerMap ?? []) {
 			if (_key !== key)
@@ -59,16 +65,20 @@ export class StateStore {
 					continue;
 				}
 
-				for (const [ listener, options ] of listeners)
-					listener();
+				const toRun: Function[][] = [];
+
+				for (const [ listener, options ] of listeners) {
+					if (options.type === type) {
+						const arr = toRun[options.priority] ??= [];
+						arr.push(listener);
+					}
+				}
+
+				for (const fn of toRun.flat(2))
+					fn();
 			}
 		}
 	}
-
-	//TODO make some stuff where you can trigger listeners before mutations.
-	// Must handle the update function case as well as a normal setter case.
-	// Registry has already been updated to hold a map instead of a set, so that we can hold options.
-	// URGENT; MUST; HAVE; FOR PROJECT MORPH.
 
 	static #observers = new WeakMap<StateStore, Map<string, Set<WeakRef<UpdatableElement>>>>();
 	static #listeners = new WeakMap<StateStore, Map<string, ListenerRefMap>>();
@@ -106,9 +116,13 @@ export class StateStore {
 		 */
 		mutate: (value: this[T]) => void | false,
 	) {
+		StateStore.#runListeners(this.__origin, prop as keyof StateStore, 'before');
+
 		const rerender = mutate(this.__origin[prop]);
 		if (rerender ?? true)
-			StateStore.#notify(this.__origin, prop as keyof StateStore);
+			StateStore.#runRenderers(this.__origin, prop as keyof StateStore);
+
+		StateStore.#runListeners(this.__origin, prop as keyof StateStore, 'after');
 	}
 
 	/**
@@ -118,7 +132,7 @@ export class StateStore {
 		reference: object,
 		prop: keyof Omit<this, keyof StateStore>,
 		func: () => any,
-		options?: ListenerOptions,
+		options?: Partial<ListenerOptions>,
 	) {
 		const _prop = prop as string;
 		const elementMap = lazyWeakmap(StateStore.#listeners, this.__origin, () => new Map());
@@ -134,7 +148,13 @@ export class StateStore {
 			funcEntry = [ ref, funcMap ] as [ObjectRef, ListenerMap];
 		}
 
-		funcEntry[1].set(func, options ?? { priority: 100, type: 'after' });
+		const opt = {
+			priority: 100,
+			type:     'after',
+			...options,
+		} as const;
+
+		funcEntry[1].set(func, opt);
 	}
 
 	/** Removes a listener from the store. */
