@@ -1,6 +1,6 @@
 {
 	"name": "@roenlie/mimic-lit",
-	"version": "0.0.56",
+	"version": "0.0.57",
 	"description": "Extensions and utilities for the LIT framework.",
 	"author": {
 		"name": "Kristoffer Roen-Lie",
