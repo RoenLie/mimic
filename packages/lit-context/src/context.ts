@@ -6,9 +6,11 @@ import { state } from 'lit/decorators.js';
 export interface ContextProp<T = any> {value: T;}
 export type ConsumeContextEvent<T = any> = CustomEvent<{prop: {value: T;} }>;
 
+const providerHandlers = new WeakMap<object, Map<string, ((ev: Event) => any)[]>>();
+const hydrateHandlers = new WeakMap<object, Map<string, ((ev: Event) => any)[]>>();
+
 export const createEventName = (prop: string | symbol) => 'consume-context:' + prop.toString();
 export const createHydrateName = (prop: string | symbol) => 'hydrate-context:' + prop.toString();
-
 
 export const provide = <T extends any[]>(name: T[number] | stringliteral) => {
 	return (target: RecordOf<LitElement>, prop: string) => {
@@ -18,10 +20,9 @@ export const provide = <T extends any[]>(name: T[number] | stringliteral) => {
 
 		const hydrateName = createHydrateName(name);
 		const eventName = createEventName(name);
-		let provideHandler: (ev: Event) => any;
 
 		target.connectedCallback = function() {
-			provideHandler = (ev: Event) => {
+			const provideHandler = (ev: Event) => {
 				ev.preventDefault();
 				ev.stopPropagation();
 				ev.stopImmediatePropagation();
@@ -39,11 +40,26 @@ export const provide = <T extends any[]>(name: T[number] | stringliteral) => {
 			};
 			this.addEventListener(eventName, provideHandler);
 
+			const map = providerHandlers.get(this) ?? (() => {
+				return providerHandlers.set(this, new Map()).get(this)!;
+			})();
+
+			const handlers = map.get(eventName) ?? (() => {
+				return map.set(eventName, []).get(eventName)!;
+			})();
+
+			handlers.push(provideHandler);
+
 			connected.call(this);
 		};
 
 		target.disconnectedCallback = function() {
-			this.removeEventListener(eventName, provideHandler);
+			const handlers = providerHandlers.get(this)?.get(eventName) ?? [];
+			for (const handler of handlers)
+				this.removeEventListener(eventName, handler);
+
+			handlers.length = 0;
+
 			disconnected.call(this);
 		};
 
@@ -71,8 +87,6 @@ export const consume = <T extends any[]>(name: T[number] | stringliteral) => {
 		const eventName = createEventName(name);
 		const hydrateName = createHydrateName(name);
 
-		let hydrateHandler: (ev: Event) => any;
-
 		const connected = target.connectedCallback;
 		target.connectedCallback = function() {
 			const request = () => {
@@ -92,16 +106,26 @@ export const consume = <T extends any[]>(name: T[number] | stringliteral) => {
 			};
 
 			request();
+			globalThis.addEventListener(hydrateName, request);
 
-			hydrateHandler = () => request();
-			globalThis.addEventListener(hydrateName, hydrateHandler);
+			const map = hydrateHandlers.get(this) ??
+				(() => hydrateHandlers.set(this, new Map()).get(this)!)();
+
+			const handlers = map.get(eventName) ??
+				(() => map.set(eventName, []).get(eventName)!)();
+
+			handlers.push(request);
 
 			connected.call(this);
 		};
 
 		const disconnected = target.disconnectedCallback;
 		target.disconnectedCallback = function() {
-			globalThis.removeEventListener(hydrateName, hydrateHandler);
+			const handlers = hydrateHandlers.get(this)?.get(eventName) ?? [];
+			for (const handler of handlers)
+				this.removeEventListener(eventName, handler);
+
+			handlers.length = 0;
 
 			disconnected.call(this);
 		};
