@@ -101,7 +101,7 @@ export const consume = <T extends any[]>(name: T[number] | stringliteral) => {
 
 		const disconnected = target.disconnectedCallback;
 		target.disconnectedCallback = function() {
-			this.removeEventListener(eventName, this[cacheName]);
+			globalThis.removeEventListener(eventName, this[cacheName]);
 
 			disconnected.call(this);
 		};
