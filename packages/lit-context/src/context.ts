@@ -40,8 +40,8 @@ export const provide = <T extends any[]>(name: T[number] | stringliteral) => {
 					},
 				};
 			};
-			this.addEventListener(eventName, provide);
 
+			this.addEventListener(eventName, provide);
 			this[cacheName] = provide;
 
 			connected.call(this);
@@ -92,8 +92,8 @@ export const consume = <T extends any[]>(name: T[number] | stringliteral) => {
 			};
 
 			consume();
-			globalThis.addEventListener(hydrateName, consume);
 
+			globalThis.addEventListener(hydrateName, consume);
 			this[cacheName] = consume;
 
 			connected.call(this);
