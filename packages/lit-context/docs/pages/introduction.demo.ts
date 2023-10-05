@@ -1,4 +1,6 @@
 import { css, html, LitElement } from 'lit';
+import { state } from 'lit/decorators.js';
+import { when } from 'lit/directives/when.js';
 
 import { type Context, ContextProvider } from '../../src/context.cmp.js';
 import { consume, type ContextProp, provide } from '../../src/context.js';
@@ -12,6 +14,8 @@ export class IntroCmp extends LitElement {
 		globalThis.customElements.define('mm-intro', this);
 	}
 
+	@state() protected show = true;
+
 	protected context = {
 		label:   'this is the label',
 		counter: 0,
@@ -20,10 +24,13 @@ export class IntroCmp extends LitElement {
 	protected override render() {
 		return html`
 		<context-provider .context=${ this.context }>
+			<button @click=${ () => this.show = !this.show }>Toggle</button>
+			${ when(this.show, () => html`
 			<mm-consumer></mm-consumer>
 			<mm-consumer></mm-consumer>
 			<mm-consumer></mm-consumer>
 			<mm-consumer></mm-consumer>
+			`) }
 		</context-provider>
 		`;
 	}

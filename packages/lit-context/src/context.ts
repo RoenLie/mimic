@@ -41,8 +41,8 @@ export const provide = <T extends any[]>(name: T[number] | stringliteral) => {
 				};
 			};
 
-			this.addEventListener(eventName, provide);
 			this[cacheName] = provide;
+			this.addEventListener(eventName, provide);
 
 			connected.call(this);
 		};
@@ -71,7 +71,7 @@ export const consume = <T extends any[]>(name: T[number] | stringliteral) => {
 	return (target: RecordOf<LitElement>, prop: string) => {
 		const hydrateName = createHydrateName(name);
 		const eventName = createEventName(name);
-		const cacheName = '__' + eventName;
+		const cacheName = '__' + hydrateName;
 
 		const connected = target.connectedCallback;
 		target.connectedCallback = function() {
@@ -93,15 +93,15 @@ export const consume = <T extends any[]>(name: T[number] | stringliteral) => {
 
 			consume();
 
-			globalThis.addEventListener(hydrateName, consume);
 			this[cacheName] = consume;
+			globalThis.addEventListener(hydrateName, consume);
 
 			connected.call(this);
 		};
 
 		const disconnected = target.disconnectedCallback;
 		target.disconnectedCallback = function() {
-			globalThis.removeEventListener(eventName, this[cacheName]);
+			globalThis.removeEventListener(hydrateName, this[cacheName]);
 
 			disconnected.call(this);
 		};
