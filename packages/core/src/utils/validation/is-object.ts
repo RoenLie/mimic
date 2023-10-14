@@ -5,18 +5,16 @@ export const isObject = (obj: any) => {
 };
 
 export const isPlainObject = (obj: any) => {
-	let ctor, prot;
-
 	if (isObject(obj) === false)
 		return false;
 
 	// If has modified constructor
-	ctor = obj.constructor;
+	const ctor = obj.constructor;
 	if (ctor === undefined)
 		return true;
 
 	// If has modified prototype
-	prot = ctor.prototype;
+	const prot = ctor.prototype;
 	if (isObject(prot) === false)
 		return false;
 

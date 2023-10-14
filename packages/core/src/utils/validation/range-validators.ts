@@ -1,7 +1,7 @@
-export type Range = {
+export interface Range {
 	from: number;
 	to: number;
-};
+}
 
 
 export const isRangeInRanges = (ranges: Range[], targetRange: Range): boolean => {

@@ -1,4 +1,4 @@
-type Cloneable = Record<string, any> | Array<any>;
+type Cloneable = Record<string, any> | any[];
 
 
 const isCloneable = (obj: any): obj is Cloneable => typeof obj === 'object' && obj !== null;
@@ -11,7 +11,7 @@ export const clone = <T>(
 	input: T,
 	instantiate?: InstantiationFunction,
 ): T => {
-	const seen: WeakMap<any, any> = new WeakMap();
+	const seen = new WeakMap<any, any>();
 
 	const _clone = <T>(input: T): T => {
 		if (!isCloneable(input))

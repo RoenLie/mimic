@@ -17,7 +17,7 @@ export type Use<TCatalog extends object = Record<string, any>> = {
 export const catalogToList = <TRec extends {catalog: Record<string, any>, use?: Use<TRec>}>(
 	record: TRec,
 ): TRec['catalog'][keyof TRec['catalog']][] => {
-	let keys = record.use
+	const keys = record.use
 		? getUsage(record.use)
 		: Object.keys(record.catalog);
 
@@ -32,7 +32,7 @@ export const getUsage = <TCatalog extends Record<string, any>>(
 
 
 export const useContains = (use: Use, name: string) => {
-	let usage = use[name];
+	const usage = use[name];
 
 	return usage === true
 		|| typeof usage === 'number'
@@ -41,7 +41,7 @@ export const useContains = (use: Use, name: string) => {
 
 
 export const useCompare = (use: Use, a: string, b: string): number => {
-	let o1 = use[a],
+	const o1 = use[a],
 		o2 = use[b];
 
 	if (o1 === o2)
