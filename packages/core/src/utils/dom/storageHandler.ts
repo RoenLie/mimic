@@ -7,7 +7,6 @@ const jsonStringify = (val: any) => {
 	}
 };
 
-
 const jsonParse = <T>(str: string) => {
 	try {
 		return JSON.parse(str) as T;
@@ -17,15 +16,12 @@ const jsonParse = <T>(str: string) => {
 	}
 };
 
-
 const stringify = (val: any) => {
 	if (typeof val === 'string')
 		return val;
 
 	return jsonStringify(val) || String(val);
 };
-
-
 const parse = (val: string) => {
 	const parsed = jsonParse(val);
 	if (parsed)
@@ -37,7 +33,6 @@ const parse = (val: string) => {
 
 	return val;
 };
-
 
 class LocalStorageHandler {
 
