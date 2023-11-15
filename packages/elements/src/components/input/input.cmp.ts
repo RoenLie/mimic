@@ -97,13 +97,13 @@ export class MMInput extends MimicElement {
 			display: grid;
 		}
 		.sharp {
-			border-radius: var(--border-radius-xs);
+			border-radius: var(--mm-border-radius-xs);
 		}
 		.rounded  {
-			border-radius: var(--border-radius-m);
+			border-radius: var(--mm-border-radius-m);
 		}
 		.pill  {
-			border-radius: var(--border-pill);
+			border-radius: var(--mm-border-pill);
 		}
 		.small {
 			height: 30px;
@@ -154,7 +154,7 @@ export class MMInput extends MimicElement {
 			position: relative;
 			display: grid;
 			overflow: hidden;
-			background-color: rgb(var(--color-on-surface) / .04);
+			background-color: rgb(var(--mm-color-on-surface) / .04);
 			grid-template: "start input end" 1fr / max-content 1fr max-content;
 		}
 		label>:first-of-type(slot-wrapper) {
@@ -168,7 +168,7 @@ export class MMInput extends MimicElement {
 		}
 		label:focus-within span,
 		label.filled span {
-			color: var(--primary);
+			color: var(--mm-primary);
 		}
 		span {
 			line-height: 1em;
@@ -176,7 +176,7 @@ export class MMInput extends MimicElement {
 			position: absolute;
 			left: 0px;
 			padding-inline: 12px;
-			color: rgb(var(--color-on-surface) / 0.6);
+			color: rgb(var(--mm-color-on-surface) / 0.6);
 			transition: color 0.2s ease 0s, font-size 0.2s ease 0s, top 0.2s ease 0s;
 		}
 		label::before {
@@ -185,7 +185,7 @@ export class MMInput extends MimicElement {
 			bottom: 0px;
 			height: 1px;
 			width: 100%;
-			background-color: rgb(var(--color-on-surface) / 0.6)
+			background-color: rgb(var(--mm-color-on-surface) / 0.6)
 		}
 		label::after {
 			content: '';
@@ -193,7 +193,7 @@ export class MMInput extends MimicElement {
 			left: 0px;
 			bottom: 0px;
 			height: 1px;
-			background-color: var(--primary);
+			background-color: var(--mm-primary);
 			width: 100%;
 			transform-origin: center bottom;
 			transform: scaleX(0);
@@ -206,23 +206,23 @@ export class MMInput extends MimicElement {
 			all: unset;
 			padding-inline: 12px;
 			line-height: 1em;
-			color: rgb(var(--color-on-surface) / 0.87);
-			caret-color: var(--primary);
+			color: rgb(var(--mm-color-on-surface) / 0.87);
+			caret-color: var(--mm-primary);
 		}
 		.placeholder input {
-			color: rgb(var(--color-on-surface) / 0.3);
+			color: rgb(var(--mm-color-on-surface) / 0.3);
 		}
 
 		input::-moz-selection {
-			color: var(--on-primary);
-			background: var(--primary);
+			color: var(--mm-on-primary);
+			background: var(--mm-primary);
 		}
 		input::selection {
-			color: var(--on-primary);
-			background: var(--primary);
+			color: var(--mm-on-primary);
+			background: var(--mm-primary);
 		}
 		slot-wrapper {
-			display:grid;
+			display: grid;
 			place-items: center;
 		}
 	`,

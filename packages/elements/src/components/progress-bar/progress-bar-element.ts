@@ -106,23 +106,23 @@ export class MMProgressBar extends MimicElement {
 		labelFontStyles,
 		css`
 		:host {
-			--height: 1rem;
-			--track-color: var(--surface-variant);
-			--indicator-color: var(--primary);
-			--label-color: var(--surface-variant);
+			--mm-height: 1rem;
+			--mm-track-color: var(--mm-surface-variant);
+			--mm-indicator-color: var(--mm-primary);
+			--mm-label-color: var(--mm-surface-variant);
 			display: block;
 		}
 		.progress-bar {
 			position: relative;
-			background-color: var(--track-color);
-			height: var(--height);
+			background-color: var(--mm-track-color);
+			height: var(--mm-height);
 			overflow: hidden;
-			box-shadow: var(--box-shadow-xs);
+			box-shadow: var(--mm-box-shadow-xs);
 		}
 		.progress-bar__indicator {
 			display: grid;
-			background-color: var(--indicator-color);
-			color: var(--label-color);
+			background-color: var(--mm-indicator-color);
+			color: var(--mm-label-color);
 			place-items: center;
 			white-space: nowrap;
 			overflow: hidden;

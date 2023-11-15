@@ -79,7 +79,7 @@ export class MMNavRail extends MimicElement {
 			flex-flow: column nowrap;
 			align-items: center;
 			justify-content: start;
-			padding-block: var(--internal-spacing-s);
+			padding-block: var(--mm-internal-spacing-s);
 		}
 
 		footer {
@@ -91,7 +91,7 @@ export class MMNavRail extends MimicElement {
 		}
 
 		footer ::slotted(*) {
-			--nav-item-height: 56px;
+			--mm-nav-item-height: 56px;
 		}
 		`,
 	];

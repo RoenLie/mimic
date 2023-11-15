@@ -268,7 +268,7 @@ export class MMAlert extends MimicElement {
 			--_alert-bg-color:      var(--mm-alert-color-bg,      rgb(0 31 37));
 			--_alert-txt-color:     var(--mm-alert-color-txt,     rgb( 166 238 255 ));
 			--_alert-border-width:  var(--mm-alert-border-width,  1px);
-			--_alert-border-color:  var(--mm-alert-border-color,  var(--surface-variant));
+			--_alert-border-color:  var(--mm-alert-border-color,  var(--mm-surface-variant));
 			--_alert-border-radius: var(--mm-alert-border-radius, 4px);
 
 			-_box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.25) , 0px 0px 2px 0px rgba(0, 0, 0, 0.10);

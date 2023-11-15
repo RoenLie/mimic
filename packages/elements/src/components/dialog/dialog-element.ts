@@ -185,9 +185,9 @@ export class MMDialog extends MimicElement {
 		css` /* variables */
 		/* Here the props are on the inner host, as that's where we can override them from config. */
 		.host {
-			--_dialog-bg-color: var(--mm-dialog-bg-color, var(--surface));
-			--_dialog-txt-color: var(--mm-dialog-txt-color, var(--on-surface));
-			--_dialog-border-color: var(--mm-dialog-border-color: var(--outline-decoration-secondary-gradient));
+			--_dialog-bg-color: var(--mm-dialog-bg-color, var(--mm-surface));
+			--_dialog-txt-color: var(--mm-dialog-txt-color, var(--mm-on-surface));
+			--_dialog-border-color: var(--mm-dialog-border-color: var(--mm-outline-decoration-secondary-gradient));
 		}
 		`,
 		css`

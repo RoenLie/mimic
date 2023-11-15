@@ -121,15 +121,15 @@ export class MMNavRailItem extends MimicElement {
 		:host {
 			display: block;
 
-			--nav-item-height-default: 80px;
-			height: var(--nav-item-height, var(--nav-item-height-default));
+			--mm-nav-item-height-default: 80px;
+			height: var(--mm-nav-item-height, var(--mm-nav-item-height-default));
 		}
 		:host(:focus-visible) {
-			outline: var(--focus-ring);
-			outline-offset: var(--focus-offset);
-			transition: var(--focus-transition);
-			z-index: var(--focus-index);
-			border-radius: var(--border-radius-m);
+			outline: var(--mm-focus-ring);
+			outline-offset: var(--mm-focus-offset);
+			transition: var(--mm-focus-transition);
+			z-index: var(--mm-focus-index);
+			border-radius: var(--mm-border-radius-m);
 		}
 		.wrapper {
 			position: relative;
@@ -164,31 +164,31 @@ export class MMNavRailItem extends MimicElement {
 			border-radius: inherit;
 		}
 		:host mm-ripple {
-			--ripple-bg: var(--on-primary-press);
+			--ripple-bg: var(--mm-on-primary-press);
 		}
 		:host([active]) .icon {
-			background-color: var(--primary);
-			color: var(--on-primary);
+			background-color: var(--mm-primary);
+			color: var(--mm-on-primary);
 		}
 		@media (pointer: fine) {
 			.interact:hover ~ .icon,
 			.icon:hover {
-				color: var(--on-primary);
+				color: var(--mm-on-primary);
 			}
 			.interact:hover ~ .icon::before,
 			.icon:hover::before {
-				background-color: var(--primary-hover);
+				background-color: var(--mm-primary-hover);
 			}
 			:host([active]) .interact:hover ~ .icon::before,
 			:host([active]) .icon:hover::before {
-				background-color: var(--primary-hover);
+				background-color: var(--mm-primary-hover);
 			}
 		}
 		:host([type="outlined"]) .icon {
-			border: 2px solid var(--outline-variant);
+			border: 2px solid var(--mm-outline-variant);
 		}
 		.text {
-			color: var(--on-background);
+			color: var(--mm-on-background);
 			display: grid;
 			text-align: center;
 		}

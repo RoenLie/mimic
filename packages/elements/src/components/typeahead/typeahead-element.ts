@@ -359,10 +359,10 @@ export class MMTypeahead extends MimicElement {
 			grid-template-rows: 1fr max-content;
 
 			height: var(--_typea-popout-height);
-			background-color: rgb(var(--color-on-surface) / .04);
+			background-color: rgb(var(--mm-color-on-surface) / .04);
 			border-bottom-left-radius: 8px;
 			border-bottom-right-radius: 8px;
-			border: 1px solid rgb(var(--color-on-surface) / .08);
+			border: 1px solid rgb(var(--mm-color-on-surface) / .08);
 			border-top: none;
 		}
 		ol,
@@ -375,7 +375,7 @@ export class MMTypeahead extends MimicElement {
 			overflow: auto;
 		}
 		.action ::slotted(*) {
-			border-top: 1px solid rgb(var(--color-on-surface) / .08);
+			border-top: 1px solid rgb(var(--mm-color-on-surface) / .08);
 		}
 		`,
 	];
@@ -401,10 +401,10 @@ export class MMTypeaheadItem extends MimicElement {
 			border: 1px solid transparent;
 		}
 		:host(:hover) {
-			background-color: rgb(var(--color-on-surface) / .05);
+			background-color: rgb(var(--mm-color-on-surface) / .05);
 		}
 		:host(.active) {
-			background-color: rgb(var(--color-on-surface) / .07);
+			background-color: rgb(var(--mm-color-on-surface) / .07);
 		}
 		`,
 	];

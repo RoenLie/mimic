@@ -29,21 +29,21 @@ export class MMRow extends MimicElement {
 		:host {
 			display: flex;
 			align-items: center;
-			padding-right: var(--spacing-s);
-			margin-inline: var(--spacing-s);
+			padding-right: var(--mm-spacing-s);
+			margin-inline: var(--mm-spacing-s);
 			height: 55px;
-			gap: var(--spacing-m);
-			border-radius: var(--spacing-s);
+			gap: var(--mm-spacing-m);
+			border-radius: var(--mm-spacing-s);
 		}
 		:host(:hover) {
-			background-color: rgb(var(--color-tertiary) / .1);
+			background-color: rgb(var(--mm-color-tertiary) / .1);
 		}
 		:host([active]) {
-			background-color: var(--tertiary-container);
-			color: var(--on-tertiary-container);
+			background-color: var(--mm-tertiary-container);
+			color: var(--mm-on-tertiary-container);
 		}
 		.indicator {
-			padding-right: var(--spacing-s);
+			padding-right: var(--mm-spacing-s);
 		}
 	`,
 	];

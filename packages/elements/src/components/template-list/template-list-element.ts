@@ -287,16 +287,16 @@ export class MMTemplateList<T extends object = object> extends MimicElement {
 			overflow: auto;
 			display: grid;
 			grid-auto-rows: max-content;
-			gap: var(--spacing-xs);
+			gap: var(--mm-spacing-xs);
 		}
 		.header {
 			top: 0;
 			position: sticky;
-			background-color: var(--background);
+			background-color: var(--mm-background);
 		}
 		.spinner {
-			padding-block: var(--spacing-s);
-			padding-inline: var(--spacing-xl);
+			padding-block: var(--mm-spacing-s);
+			padding-inline: var(--mm-spacing-xl);
 		}
 	`,
 	];

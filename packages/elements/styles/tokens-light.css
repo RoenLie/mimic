@@ -1,56 +1,56 @@
 :root[color-scheme="light"] {
-	--scrollbar-track: var(--background);
-	--scrollbar-thumb-bg: var(--outline-variant);
-	--scrollbar-thumb-border-radius: 1px;
+	--mm-scrollbar-track: var(--mm-background);
+		--mm-scrollbar-thumb-bg: var(--mm-outline-variant);
+		--mm-scrollbar-thumb-border-radius: 1px;
 
-	--color-background: var(--color-background-light);
-	--color-on-background: var(--color-on-background-light);
+	--mm-color-background: var(--mm-color-background-light);
+		--mm-color-on-background: var(--mm-color-on-background-light);
 
-	--color-surface: var(--color-surface-light);
-	--color-on-surface: var(--color-on-surface-light);
+	--mm-color-surface: var(--mm-color-surface-light);
+		--mm-color-on-surface: var(--mm-color-on-surface-light);
 
-	--color-surface-variant: var(--color-surface-variant-light);
-	--color-on-surface-variant: var(--color-surface-variant-light);
+	--mm-color-surface-variant: var(--mm-color-surface-variant-light);
+		--mm-color-on-surface-variant: var(--mm-color-surface-variant-light);
 
-	--color-primary: var(--color-primary-light);
-	--color-on-primary: var(--color-on-primary-light);
+	--mm-color-primary: var(--mm-color-primary-light);
+		--mm-color-on-primary: var(--mm-color-on-primary-light);
 
-	--color-primary-container: var(--color-primary-container-light);
-	--color-on-primary-container: var(--color-on-primary-container-light);
+	--mm-color-primary-container: var(--mm-color-primary-container-light);
+		--mm-color-on-primary-container: var(--mm-color-on-primary-container-light);
 
-	--color-secondary: var(--color-secondary-light);
-	--color-on-secondary: var(--color-on-secondary-light);
+	--mm-color-secondary: var(--mm-color-secondary-light);
+		--mm-color-on-secondary: var(--mm-color-on-secondary-light);
 
-	--color-secondary-container: var(--color-secondary-container-light);
-	--color-on-secondary-container: var(--color-on-secondary-container-light);
+	--mm-color-secondary-container: var(--mm-color-secondary-container-light);
+		--mm-color-on-secondary-container: var(--mm-color-on-secondary-container-light);
 
-	--color-surface-variant: var(--color-surface-variant-light);
-	--color-on-surface-variant: var(--color-on-surface-variant-light);
+	--mm-color-surface-variant: var(--mm-color-surface-variant-light);
+		--mm-color-on-surface-variant: var(--mm-color-on-surface-variant-light);
 
-	--color-tertiary: var(--color-tertiary-light);
-	--color-on-tertiary: var(--color-on-tertiary-light);
+	--mm-color-tertiary: var(--mm-color-tertiary-light);
+		--mm-color-on-tertiary: var(--mm-color-on-tertiary-light);
 
-	--color-tertiary-container: var(--color-tertiary-container-light);
-	--color-on-tertiary-container: var(--color-on-tertiary-container-light);
+	--mm-color-tertiary-container: var(--mm-color-tertiary-container-light);
+		--mm-color-on-tertiary-container: var(--mm-color-on-tertiary-container-light);
 
-	--color-error: var(--color-error-light);
-	--color-on-error: var(--color-on-error-light);
+	--mm-color-error: var(--mm-color-error-light);
+		--mm-color-on-error: var(--mm-color-on-error-light);
 
-	--color-error-container: var(--color-error-container-light);
-	--color-on-error-container: var(--color-on-error-container-light);
+	--mm-color-error-container: var(--mm-color-error-container-light);
+		--mm-color-on-error-container: var(--mm-color-on-error-container-light);
 
-	--color-warning: var(--color-warning-light);
-	--color-on-warning: var(--color-on-warning-light);
+	--mm-color-warning: var(--mm-color-warning-light);
+		--mm-color-on-warning: var(--mm-color-on-warning-light);
 
-	--color-warning-container: var(--color-warning-container-light);
-	--color-warning-on-container: var(--color-on-warning-container-light);
+	--mm-color-warning-container: var(--mm-color-warning-container-light);
+		--mm-color-warning-on-container: var(--mm-color-on-warning-container-light);
 
-	--color-success: var(--color-success-light);
-	--color-on-success: var(--color-on-success-light);
+	--mm-color-success: var(--mm-color-success-light);
+		--mm-color-on-success: var(--mm-color-on-success-light);
 
-	--color-success-container: var(--color-success-container-light);
-	--color-on-success-container: var(--color-on-success-container-light);
+	--mm-color-success-container: var(--mm-color-success-container-light);
+		--mm-color-on-success-container: var(--mm-color-on-success-container-light);
 
-	--color-outline: var(--color-outline-light);
-	--color-outline-variant: var(--color-outline-variant-light);
+	--mm-color-outline: var(--mm-color-outline-light);
+		--mm-color-outline-variant: var(--mm-color-outline-variant-light);
 }

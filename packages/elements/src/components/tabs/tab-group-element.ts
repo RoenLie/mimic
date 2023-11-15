@@ -258,32 +258,24 @@ export class MMTabGroup extends MimicElement {
 	}
 
 	protected handleScrollTo(placement: MMTabGroup['placement']) {
-		({
-			top: () => {
-				this.navQry.scroll({
-					top:      this.navQry.scrollTop - this.navQry.clientHeight,
-					behavior: 'smooth',
-				});
-			},
-			bottom: () => {
-				this.navQry.scroll({
-					top:      this.navQry.scrollTop + this.navQry.clientHeight,
-					behavior: 'smooth',
-				});
-			},
-			start: () => {
-				this.navQry.scroll({
-					left:     this.navQry.scrollLeft - this.navQry.clientWidth,
-					behavior: 'smooth',
-				});
-			},
-			end: () => {
-				this.navQry.scroll({
-					left:     this.navQry.scrollLeft + this.navQry.clientWidth,
-					behavior: 'smooth',
-				});
-			},
-		})[placement]();
+		const scroll = {
+			top:      undefined,
+			left:     undefined,
+			behavior: 'smooth',
+		} as ScrollToOptions;
+
+		switch (placement) {
+		case 'top':
+			scroll.top = this.navQry.scrollTop - this.navQry.clientHeight; break;
+		case 'bottom':
+			scroll.top = this.navQry.scrollTop + this.navQry.clientHeight; break;
+		case 'start':
+			scroll.left = this.navQry.scrollLeft - this.navQry.clientWidth; break;
+		case 'end':
+			scroll.left = this.navQry.scrollLeft + this.navQry.clientWidth; break;
+		}
+
+		this.navQry.scroll(scroll);
 	}
 
 	protected handleWheelScroll(ev: WheelEvent) {
@@ -344,9 +336,6 @@ export class MMTabGroup extends MimicElement {
 	@watch('placement', { waitUntilFirstUpdate: true })
 	protected async syncIndicator() {
 		const tab = this.getActiveTab();
-		console.log(tab);
-
-
 		if (!tab) {
 			const firstValidTab = this.getAllTabs().find(t => !t.disabled);
 			if (firstValidTab)
@@ -364,10 +353,15 @@ export class MMTabGroup extends MimicElement {
 	@watch('noScrollControls', { waitUntilFirstUpdate: true })
 	protected updateScrollControls() {
 		const disabledScroll = this.noScrollControls;
-		const horizontalScroll = this.navQry.scrollWidth > this.navQry.clientWidth;
-		const verticalScroll = this.navQry.scrollHeight > this.navQry.clientHeight;
 
-		this.hasScrollControls = !(disabledScroll || (!horizontalScroll && !verticalScroll));
+		if (this.placement === 'start' || this.placement === 'end') {
+			const verticalScroll = this.navQry.scrollHeight > this.navQry.clientHeight;
+			this.hasScrollControls = !(disabledScroll || !verticalScroll);
+		}
+		else {
+			const horizontalScroll = this.navQry.scrollWidth > this.navQry.clientWidth;
+			this.hasScrollControls = !(disabledScroll || !horizontalScroll);
+		}
 	}
 
 	protected async repositionIndicator() {
@@ -435,7 +429,7 @@ export class MMTabGroup extends MimicElement {
 
 
 	//#region template
-	protected iconProps: Record<string, IconProp> = {
+	protected navIconProps: Record<string, IconProp> = {
 		topfirst: {
 			part:  'scroll-button--start',
 			class: 'tab-group__scroll-button--start',
@@ -490,7 +484,7 @@ export class MMTabGroup extends MimicElement {
 	};
 
 	protected navTpl(placement: 'first' | 'last') {
-		const props = this.iconProps[this.placement + placement]!;
+		const props = this.navIconProps[this.placement + placement]!;
 
 		return when(this.hasScrollControls, () => html`
 		<mm-button
@@ -651,7 +645,7 @@ export class MMTabGroup extends MimicElement {
 		.tab-group--top .tab-group__body {
 			order: 2;
 		}
-		.tab-group--top ::slotted(es-tab-panel) {
+		.tab-group--top ::slotted(mm-tab-panel) {
 			--_tab-padding: var(--_tab-spacing-s) 0;
 		}
 		.tab-group--top.tab-group--has-scroll-controls .tab-group__nav-container {
@@ -695,7 +689,7 @@ export class MMTabGroup extends MimicElement {
 		.tab-group--bottom .tab-group__body {
 			order: 1;
 		}
-		.tab-group--bottom ::slotted(es-tab-panel) {
+		.tab-group--bottom ::slotted(mm-tab-panel) {
 			--_tab-padding: var(--_tab-spacing-s) 0;
 		}
 		.tab-group--bottom.tab-group--has-scroll-controls .tab-group__nav-container {
@@ -737,7 +731,7 @@ export class MMTabGroup extends MimicElement {
 		.tab-group--start .tab-group__body {
 			order: 2;
 		}
-		.tab-group--start ::slotted(es-tab-panel) {
+		.tab-group--start ::slotted(mm-tab-panel) {
 			--_tab-padding: 0 var(--_tab-spacing-s);
 		}
 		.tab-group--start.tab-group--has-scroll-controls .tab-group__nav-container {
@@ -779,7 +773,7 @@ export class MMTabGroup extends MimicElement {
 		.tab-group--end .tab-group__body {
 			order: 1;
 		}
-		.tab-group--end ::slotted(es-tab-panel) {
+		.tab-group--end ::slotted(mm-tab-panel) {
 			--_tab-padding: 0 var(--_tab-spacing-s);
 		}
 		.tab-group--end.tab-group--has-scroll-controls .tab-group__nav-container {

@@ -23,14 +23,14 @@ export class MMHeader extends MimicElement {
 		:host {
 			display: flex;
 			align-items: center;
-			padding-right: var(--spacing-s);
-			margin-inline: var(--spacing-s);
+			padding-right: var(--mm-spacing-s);
+			margin-inline: var(--mm-spacing-s);
 			height: 55px;
-			gap: var(--spacing-m);
-			border-radius: var(--spacing-s);
+			gap: var(--mm-spacing-m);
+			border-radius: var(--mm-spacing-s);
 		}
 		.indicator {
-			padding-right: var(--spacing-s);
+			padding-right: var(--mm-spacing-s);
 		}
 	`,
 	];

@@ -6,11 +6,11 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	text-rendering: optimizeLegibility;
 
-	font-family: var(--typescale-body-medium-font-family-name);
-	font-weight: var(--typescale-body-medium-font-weight);
-	font-size: var(--typescale-body-medium-font-size);
-	line-height: var(--typescale-body-medium-line-height);
-	letter-spacing: var(--typescale-body-medium-letter-spacing);
+	font-family: var(--mm-typescale-body-medium-font-family-name);
+		font-weight: var(--mm-typescale-body-medium-font-weight);
+		font-size: var(--mm-typescale-body-medium-font-size);
+		line-height: var(--mm-typescale-body-medium-line-height);
+		letter-spacing: var(--mm-typescale-body-medium-letter-spacing);
 }
 
 body {
@@ -24,8 +24,8 @@ body {
 	box-sizing: border-box;
 	overflow: hidden;
 
-	background-color: var(--background, grey);
-	color: var(--on-background, white);
+	background-color: var(--mm-background, grey);
+		color: var(--mm-on-background, white);
 }
 
 body.disabled {
@@ -34,21 +34,21 @@ body.disabled {
 }
 
 *::-webkit-scrollbar {
-	width: var(--scrollbar-width, 0.6rem);
-	height: var(--scrollbar-height, 0.6rem);
+	width: var(--mm-scrollbar-width, 0.6rem);
+		height: var(--mm-scrollbar-height, 0.6rem);
 }
 
 *::-webkit-scrollbar-track {
-	background: var(--scrollbar-track, inherit);
+	background: var(--mm-scrollbar-track, inherit);
 }
 
 *::-webkit-scrollbar-thumb {
-	background: var(--scrollbar-thumb-bg, hsl(0, 0%, 70%));
-	border-radius: var(--scrollbar-thumb-border-radius, 0.2rem);
+	background: var(--mm-scrollbar-thumb-bg, hsl(0, 0%, 70%));
+		border-radius: var(--mm-scrollbar-thumb-border-radius, 0.2rem);
 	-webkit-background-clip: padding-box;
 	background-clip: padding-box;
 }
 
 *::-webkit-scrollbar-corner {
-	background: var(--scrollbar-corner, rgba(0, 0, 0, 0));
+	background: var(--mm-scrollbar-corner, rgba(0, 0, 0, 0));
 }
