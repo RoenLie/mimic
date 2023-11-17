@@ -6,9 +6,9 @@ export const wordCount = (data: string) => {
 	if (m === null)
 		return count;
 
-	for (let i = 0; i < m.length; i++) {
-		if (m[i]!.charCodeAt(0) >= 0x4E00)
-			count += m[i]!.length;
+	for (const char of m) {
+		if (char.charCodeAt(0) >= 0x4E00)
+			count += char.length;
 		else
 			count += 1;
 	}
