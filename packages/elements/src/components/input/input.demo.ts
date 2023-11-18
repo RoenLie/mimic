@@ -5,7 +5,6 @@ import { MMInput } from './input.cmp.js';
 
 MMInput.register();
 
-
 @customElement('mm-input-demo')
 export class InputDemo extends LitElement {
 

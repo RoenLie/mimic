@@ -5,6 +5,7 @@ import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
+import { live } from 'lit/directives/live.js';
 
 
 type InputSize = 'small' | 'medium' | 'large';
@@ -17,6 +18,7 @@ export class MMInput extends MimicElement {
 	@property() public label = '';
 	@property() public value = '';
 	@property() public placeholder = '';
+	@property({ type: Boolean }) public disabled?: boolean;
 	@property({ reflect: true }) public size: InputSize = 'medium';
 	@property({ reflect: true }) public shape: InputShape = 'sharp';
 	@property({ type: Boolean, reflect: true, attribute: 'auto-focus' }) public autoFocus?: boolean;
@@ -30,6 +32,7 @@ export class MMInput extends MimicElement {
 			label:        !!this.label,
 			filled:       this.value || this.placeholder,
 			placeholder:  !this.value && this.placeholder,
+			disabled:     !!this.disabled,
 		};
 	}
 
@@ -69,12 +72,13 @@ export class MMInput extends MimicElement {
 					<slot name="start"></slot>
 				</slot-wrapper>
 				<input
-					.value=${ this.value }
+					.value      =${ live(this.value) }
 					.placeholder=${ this.placeholder }
-					@focus=${ this.handleFocus }
-					@blur=${ this.handleBlur }
-					@input=${ this.handleInput }
-					@change=${ this.handleChange }
+					?disabled   =${ this.disabled }
+					@focus      =${ this.handleFocus }
+					@blur       =${ this.handleBlur }
+					@input      =${ this.handleInput }
+					@change     =${ this.handleChange }
 				/>
 				<span>${ this.label }</span>
 				<slot-wrapper>
@@ -95,6 +99,9 @@ export class MMInput extends MimicElement {
 			position: relative;
 			width: 100%;
 			display: grid;
+		}
+		.base.disabled {
+			opacity: 0.7;
 		}
 		.sharp {
 			border-radius: var(--mm-border-radius-xs);
