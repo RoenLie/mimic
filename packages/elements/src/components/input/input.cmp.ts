@@ -151,11 +151,12 @@ export class MMInput extends MimicElement {
 			padding-top: 18px;
 		}
 		label {
+			overflow: hidden;
 			position: relative;
 			display: grid;
-			overflow: hidden;
-			background-color: rgb(var(--mm-color-on-surface) / .04);
 			grid-template: "start input end" 1fr / max-content 1fr max-content;
+			padding-inline: 12px;
+			background-color: rgb(var(--mm-color-on-surface) / .04);
 		}
 		label>:first-of-type(slot-wrapper) {
 			grid-area: start;
@@ -205,7 +206,6 @@ export class MMInput extends MimicElement {
 		input {
 			all: unset;
 			width: 100%;
-			padding-inline: 12px;
 			line-height: 1em;
 			color: rgb(var(--mm-color-on-surface) / 0.87);
 			caret-color: var(--mm-primary);
