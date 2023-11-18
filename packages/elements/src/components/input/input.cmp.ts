@@ -1,4 +1,3 @@
-import { paintCycle } from '@roenlie/mimic-core/async';
 import { emitEvent, type EventOf, hasKeyboardFocus } from '@roenlie/mimic-core/dom';
 import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
@@ -18,12 +17,17 @@ export class MMInput extends MimicElement {
 	@property() public label = '';
 	@property() public value = '';
 	@property() public placeholder = '';
+	@property() public type: 'text' | 'number' = 'text';
 	@property({ type: Boolean }) public disabled?: boolean;
 	@property({ reflect: true }) public size: InputSize = 'medium';
 	@property({ reflect: true }) public shape: InputShape = 'sharp';
 	@property({ type: Boolean, reflect: true, attribute: 'auto-focus' }) public autoFocus?: boolean;
 	@state() protected hasKeyboardFocus = false;
 	@query('input') protected inputQry: HTMLInputElement;
+
+	public get valueAsNumber() {
+		return Number(this.value);
+	}
 
 	protected get classes() {
 		return {
@@ -33,6 +37,7 @@ export class MMInput extends MimicElement {
 			filled:       this.value || this.placeholder,
 			placeholder:  !this.value && this.placeholder,
 			disabled:     !!this.disabled,
+			focused:      this.inputQry?.matches(':focus-within') ?? false,
 		};
 	}
 
@@ -40,7 +45,7 @@ export class MMInput extends MimicElement {
 		super.connectedCallback();
 
 		if (this.autoFocus)
-			paintCycle().then(() => this.inputQry.focus({ preventScroll: true }));
+			requestAnimationFrame(() => this.inputQry.focus({ preventScroll: true }));
 	}
 
 	public override focus(options?: FocusOptions | undefined) {
@@ -64,14 +69,20 @@ export class MMInput extends MimicElement {
 		emitEvent(this, 'change');
 	}
 
+	protected preventDefault(ev: Event) {
+		ev.preventDefault();
+	}
+
 	public override render() {
 		return html`
 		<div class=${ classMap({ base: true, ...this.classes }) }>
 			<label class=${ classMap({ input__base: true, ...this.classes }) }>
-				<slot-wrapper>
+				<slot-wrapper @click=${ this.preventDefault }>
 					<slot name="start"></slot>
 				</slot-wrapper>
 				<input
+					type        =${ this.type === 'number' ? 'number' : 'text' }
+					inputmode   =${ this.type === 'number' ? 'numeric' : 'text' }
 					.value      =${ live(this.value) }
 					.placeholder=${ this.placeholder }
 					?disabled   =${ this.disabled }
@@ -81,7 +92,7 @@ export class MMInput extends MimicElement {
 					@change     =${ this.handleChange }
 				/>
 				<span>${ this.label }</span>
-				<slot-wrapper>
+				<slot-wrapper @click=${ this.preventDefault }>
 					<slot name="end"></slot>
 				</slot-wrapper>
 			</label>
@@ -119,7 +130,7 @@ export class MMInput extends MimicElement {
 		.small span {
 			top: 8px;
 		}
-		label.small:focus-within span,
+		label.small.focused span,
 		label.small.filled span {
 			top: 4px;
 			font-size: 8px;
@@ -134,7 +145,7 @@ export class MMInput extends MimicElement {
 		.medium span {
 			top: 12px;
 		}
-		label.medium:focus-within span,
+		label.medium.focused span,
 		label.medium.filled span {
 			top: 5px;
 			font-size: 10px;
@@ -149,7 +160,7 @@ export class MMInput extends MimicElement {
 		.large span {
 			top: 16px;
 		}
-		label.large:focus-within span,
+		label.large.focused span,
 		label.large.filled span {
 			top: 6px;
 			font-size: 12px;
@@ -158,7 +169,6 @@ export class MMInput extends MimicElement {
 			padding-top: 18px;
 		}
 		label {
-			overflow: hidden;
 			position: relative;
 			display: grid;
 			grid-template: "start input end" 1fr / max-content 1fr max-content;
@@ -174,7 +184,7 @@ export class MMInput extends MimicElement {
 		label>:last-of-type(slot-wrapper) {
 			grid-area: end;
 		}
-		label:focus-within span,
+		label.focused span,
 		label.filled span {
 			color: var(--mm-primary);
 		}
@@ -207,7 +217,7 @@ export class MMInput extends MimicElement {
 			transform: scaleX(0);
 			transition: transform 0.3s ease 0s;
 		}
-		label:focus-within::after {
+		label.focused::after {
 			transform: scaleX(1);
 		}
 		input {
@@ -220,7 +230,6 @@ export class MMInput extends MimicElement {
 		.placeholder input {
 			color: rgb(var(--mm-color-on-surface) / 0.3);
 		}
-
 		input::-moz-selection {
 			color: var(--mm-on-primary);
 			background: var(--mm-primary);

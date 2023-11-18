@@ -1,9 +1,12 @@
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
+import { MMButton } from '../button/button.cmp.js';
 import { MMInput } from './input.cmp.js';
 
 MMInput.register();
+MMButton.register();
+
 
 @customElement('mm-input-demo')
 export class InputDemo extends LitElement {
