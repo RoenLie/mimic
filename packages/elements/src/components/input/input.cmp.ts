@@ -204,6 +204,7 @@ export class MMInput extends MimicElement {
 		}
 		input {
 			all: unset;
+			width: 100%;
 			padding-inline: 12px;
 			line-height: 1em;
 			color: rgb(var(--mm-color-on-surface) / 0.87);
