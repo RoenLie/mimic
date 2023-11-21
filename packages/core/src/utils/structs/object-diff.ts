@@ -1,22 +1,30 @@
-const visitedObjects = new WeakSet();
-
-
 export interface Change { path: string; oldValue?: any; newValue?: any; }
 
 
 export const getObjectDiff = (
 	obj1: Record<keyof any, any>,
 	obj2?: Record<keyof any, any>,
-	parentKey = '',
 ): Change[] => {
+	const visitedObjects = new WeakSet();
+
+	return internalObjectDiff(obj1, obj2, '', visitedObjects);
+};
+
+
+const internalObjectDiff = (
+	obj1: Record<keyof any, any>,
+	obj2: Record<keyof any, any> | undefined,
+	parentKey: string,
+	circularCache: WeakSet<any>,
+) => {
 	const changedKeys: Change[] = [];
 
-	if (visitedObjects.has(obj1) || (obj2 && visitedObjects.has(obj2))) {
+	if (circularCache.has(obj1) || (obj2 && circularCache.has(obj2))) {
 		return changedKeys;
 	}
 	else {
-		visitedObjects.add(obj1);
-		obj2 && visitedObjects.add(obj2);
+		circularCache.add(obj1);
+		obj2 && circularCache.add(obj2);
 	}
 
 	// Check keys in obj1
@@ -24,16 +32,29 @@ export const getObjectDiff = (
 		const currentKey = parentKey ? `${ parentKey }.${ key }` : key;
 
 		if (typeof obj1[key] === 'object' && typeof obj2?.[key] === 'object') {
-			const nestedChanges = getObjectDiff(obj1[key], obj2[key], currentKey);
+			const nestedChanges = internalObjectDiff(
+				obj1[key],
+				obj2[key],
+				currentKey,
+				circularCache,
+			);
 			changedKeys.push(...nestedChanges);
 		}
 		else if (obj1[key] !== obj2?.[key]) {
 			if (typeof obj1[key] === 'object') {
-				const nestedChanges = getObjectDiff(obj1[key], {}, currentKey);
+				const nestedChanges = internalObjectDiff(
+					obj1[key],
+					{},
+					currentKey,
+					circularCache,
+				);
 				changedKeys.push(...nestedChanges);
 			}
 			else if (typeof obj2?.[key] === 'object') {
-				const nestedChanges = getObjectDiff(obj2[key], {}, currentKey);
+				const nestedChanges = internalObjectDiff(obj2[key],
+					{},
+					currentKey,
+					circularCache);
 				changedKeys.push(...nestedChanges);
 			}
 			else {
@@ -52,7 +73,12 @@ export const getObjectDiff = (
 
 		if (!obj1.hasOwnProperty(key)) {
 			if (typeof obj2[key] === 'object') {
-				const nestedChanges = getObjectDiff({}, obj2[key], currentKey);
+				const nestedChanges = internalObjectDiff(
+					{},
+					obj2[key],
+					currentKey,
+					circularCache,
+				);
 				changedKeys.push(...nestedChanges);
 			}
 			else {
