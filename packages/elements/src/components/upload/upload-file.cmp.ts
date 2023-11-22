@@ -1,7 +1,7 @@
 import { emitEvent } from '@roenlie/mimic-core/dom';
 import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
-import { css, html, type PropertyValueMap } from 'lit';
+import { css, type CSSResultGroup, html, type PropertyValueMap } from 'lit';
 import { property } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 

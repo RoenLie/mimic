@@ -29,8 +29,8 @@
 	},
 	"dependencies": {
 		"@roenlie/mimic-core": "workspace:^",
-		"lit": "^2.8.0",
-		"nanoid": "^4.0.0",
+		"lit": "^3.1.0",
+		"nanoid": "^5.0.3",
 		"urlpattern-polyfill": "^9.0.0"
 	}
 }

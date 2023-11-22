@@ -3,7 +3,7 @@ import { debounce } from '@roenlie/mimic-core/timing';
 import { queryId, watch } from '@roenlie/mimic-lit/decorators';
 import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
-import { css, html } from 'lit';
+import { css, type CSSResultGroup, html } from 'lit';
 import { eventOptions, property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 

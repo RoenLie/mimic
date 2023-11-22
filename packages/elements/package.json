@@ -98,6 +98,10 @@
 		"./virtual-scrollbar": {
 			"types": "./dist/components/virtual-scrollbar/index.d.ts",
 			"default": "./dist/components/virtual-scrollbar/index.js"
+		},
+		"./router": {
+			"types": "./dist/components/router/index.d.ts",
+			"default": "./dist/components/router/index.js"
 		}
 	},
 	"scripts": {
@@ -111,11 +115,12 @@
 		"increment-version": "package-toolbox increment-version"
 	},
 	"dependencies": {
-		"@floating-ui/dom": "^1.5.1",
+		"@floating-ui/dom": "^1.5.3",
 		"@roenlie/lit-aegis": "workspace:^",
 		"@roenlie/mimic-core": "workspace:^",
 		"@roenlie/mimic-lit": "workspace:^",
-		"@roenlie/mimic-localize": "workspace:^"
+		"@roenlie/mimic-localize": "workspace:^",
+		"@vaadin/router": "^1.7.5"
 	},
 	"peerDependencies": {
 		"lit": "*"
@@ -123,6 +128,9 @@
 	"devDependencies": {
 		"@faker-js/faker": "^8.3.1",
 		"@roenlie/mirage-docs": "^1.2.17",
-		"lit": "^2.8.0"
+		"lit": "^3.1.0"
+	},
+	"vaadin": {
+		"disableUsageStatistics": true
 	}
 }

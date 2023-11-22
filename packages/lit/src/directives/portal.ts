@@ -5,7 +5,7 @@ import { property } from 'lit/decorators/property.js';
 import { directive, type DirectiveParameters, type PartInfo, PartType } from 'lit/directive.js';
 
 
-@customElement('mimic-portal')
+@customElement('mm-portal')
 export class PortalElement extends LitElement {
 
 	@property({ type: Object }) public renderTemplate: TemplateResult;
@@ -47,7 +47,7 @@ class PortalDirective extends AsyncDirective {
 		this.targetElement = targetElement;
 
 		if (!this.portalElement) {
-			this.portalElement = document.createElement('mimic-portal') as PortalElement;
+			this.portalElement = document.createElement('mm-portal') as PortalElement;
 			targetElement?.appendChild(this.portalElement);
 		}
 

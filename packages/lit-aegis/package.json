@@ -37,7 +37,7 @@
 	},
 	"dependencies": {
 		"@roenlie/mimic-core": "workspace:^",
-		"inversify": "^6.0.1",
+		"inversify": "^6.0.2",
 		"reflect-metadata": "^0.1.13"
 	},
 	"peerDependencies": {
@@ -45,8 +45,8 @@
 	},
 	"devDependencies": {
 		"@roenlie/mirage-docs": "^1.2.9",
-		"happy-dom": "^10.11.2",
-		"lit": "^2.8.0"
+		"happy-dom": "^12.10.3",
+		"lit": "^3.1.0"
 	},
 	"sideEffects": false
 }
