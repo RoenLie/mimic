@@ -58,7 +58,6 @@
 		"@floating-ui/dom": "^1.5.3",
 		"@roenlie/mimic-core": "workspace:^",
 		"fast-equals": "^5.0.1",
-		"globby": "^14.0.0",
 		"inversify": "^6.0.2",
 		"nanoid": "^5.0.3",
 		"reflect-metadata": "^0.1.13"
