@@ -9,6 +9,7 @@ import { type ButtonShape, type ButtonSize, type ButtonVariant, MMButton } from 
 MMButton.register();
 MMIcon.register();
 
+
 @customElement('mm-button-demo')
 export class ButtonDemo extends LitElement {
 

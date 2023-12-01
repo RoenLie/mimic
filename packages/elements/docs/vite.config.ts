@@ -34,7 +34,6 @@ export default defineDocConfig({
 			lightTheme: '/styles/tokens-light.css',
 			styles:     [
 				'/styles/tokens-all.css',
-				'/styles/tokens-all.css',
 				'/styles/tokens-extra.css',
 				'/styles/tokens-font.css',
 			],

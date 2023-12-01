@@ -4,6 +4,9 @@ import { css } from 'lit';
 import { property } from 'lit/decorators.js';
 
 
+export type { Route };
+
+
 @customElement('m-router')
 export class AppRouterCmp extends MimicElement {
 

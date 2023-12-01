@@ -14,7 +14,7 @@ export type Placement = 'start' | 'end';
 export type Direction = 'vertical' | 'horizontal';
 
 
-@customElement('m-virtual-scrollbar')
+@customElement('mm-virtual-scrollbar')
 export class MMVirtualScrollbar extends MimicElement {
 
 	@property() public placement: Placement = 'end';

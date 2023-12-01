@@ -4,6 +4,7 @@ import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html } from 'lit';
 import { queryAssignedElements, state } from 'lit/decorators.js';
+import { map } from 'lit/directives/map.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
 
@@ -21,7 +22,7 @@ interface SlotActionElement extends HTMLElement {
 }
 
 
-@customElement('m-action-bar')
+@customElement('mm-action-bar')
 export class MMActionBar extends MimicElement {
 
 	@state() protected overflowOpen = false;
@@ -153,14 +154,24 @@ export class MMActionBar extends MimicElement {
 		<s-popout part="popout" style=${ styleMap({
 			display: this.overflowOpen ? '' : 'none',
 		}) }>
-			<slot name="overflow"></slot>
+			<slot name="overflow" style="display: none;"></slot>
 
-			<m-virtual-scrollbar
+			${ map(this.overflowSlot, el => {
+				return html`
+				<s-popout-item
+					@click=${ () => el.click() }
+				>
+					${ el.innerText }
+				</s-popout-item>
+				`;
+			}) }
+
+			<mm-virtual-scrollbar
 				placement="end"
 				direction="vertical"
 				.reference=${ this.updateComplete
 					.then(() => this.renderRoot.querySelector<HTMLElement>('s-popout')!) }
-			></m-virtual-scrollbar>
+			></mm-virtual-scrollbar>
 		</s-popout>
 		`;
 	}
@@ -169,6 +180,9 @@ export class MMActionBar extends MimicElement {
 		sharedStyles,
 		css`
 		:host {
+			--_actionbar-popout-bg: var(--actionbar-popout-bg, rgb(30 30 30));
+			--_actionbar-popout-border: var(--actionbar-popout-bg, 1px solid rgb(80 80 80));
+
 			overflow: hidden;
 			display: grid;
 			grid-auto-columns: max-content;
@@ -192,11 +206,31 @@ export class MMActionBar extends MimicElement {
 			grid-auto-rows: max-content;
 			width: max-content;
 			z-index: 1;
+			min-width: 200px;
 			max-height: 200px;
 			border-radius: 4px;
+			border: var(--_actionbar-popout-border);
+			background-color: var(--_actionbar-popout-bg);
 		}
 		s-popout::-webkit-scrollbar {
 			display: none;
+		}
+		s-popout-item {
+			display: grid;
+			place-items: center;
+			padding-block: 6px;
+			padding-inline: 12px;
+		}
+		s-popout-item:not(:first-of-type) {
+			border-top: 1px solid white;
+			margin-top: -1px;
+		}
+		s-popout-item:not(:last-of-type) {
+			border-bottom: 1px solid white;
+			margin-top: -1px;
+		}
+		s-popout-item:hover {
+			background-color: teal;
 		}
 		`,
 	];
