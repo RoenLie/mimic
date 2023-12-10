@@ -35,7 +35,7 @@ export class MimicElement extends LitElement {
 	 *
 	 * @category lifecycle
 	 */
-	public afterConnectedCallback(): void { }
+	protected afterConnectedCallback(): void { }
 
 
 	public override connectedCallback(): void {

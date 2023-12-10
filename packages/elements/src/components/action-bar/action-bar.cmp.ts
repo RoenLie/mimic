@@ -43,16 +43,16 @@ export class MMActionBar extends MimicElement {
 		this.updateSlotNames();
 	});
 
-	public override connectedCallback(): void {
+	public override connectedCallback() {
 		super.connectedCallback();
 	}
 
-	public override disconnectedCallback(): void {
+	public override disconnectedCallback() {
 		super.disconnectedCallback();
 		this.autoUpdateCleanup?.();
 	}
 
-	public override afterConnectedCallback(): void {
+	public override afterConnectedCallback() {
 		this.updateSlotNames();
 		this.resizeObs.observe(this);
 	}
@@ -158,11 +158,13 @@ export class MMActionBar extends MimicElement {
 
 			${ map(this.overflowSlot, el => {
 				return html`
-				<s-popout-item
-					@click=${ () => el.click() }
-				>
-					${ el.innerText }
-				</s-popout-item>
+				<mm-ripple>
+					<s-popout-item
+						@click=${ () => el.click() }
+					>
+						${ el.innerText }
+					</s-popout-item>
+				</mm-ripple>
 				`;
 			}) }
 
@@ -180,7 +182,8 @@ export class MMActionBar extends MimicElement {
 		sharedStyles,
 		css`
 		:host {
-			--_actionbar-popout-bg: var(--actionbar-popout-bg, rgb(30 30 30));
+			--_actionbar-item-height: var(--actionbar-item-height, 50px);
+			--_actionbar-popout-bg: var(--actionbar-popout-bg, rgb(var(--mm-palette-neutral-variant30)));
 			--_actionbar-popout-border: var(--actionbar-popout-bg, 1px solid rgb(80 80 80));
 
 			overflow: hidden;
@@ -206,28 +209,34 @@ export class MMActionBar extends MimicElement {
 			grid-auto-rows: max-content;
 			width: max-content;
 			z-index: 1;
-			min-width: 200px;
-			max-height: 200px;
-			border-radius: 4px;
+			min-width: 150px;
+			max-height: calc(var(--_actionbar-item-height) * 5);
+			border-radius: 8px;
 			border: var(--_actionbar-popout-border);
 			background-color: var(--_actionbar-popout-bg);
+			scroll-snap-type: y mandatory;
+			overscroll-behavior-y: contain;
+			overscroll-behavior-x: auto;
 		}
 		s-popout::-webkit-scrollbar {
 			display: none;
 		}
 		s-popout-item {
+			position: relative;
 			display: grid;
 			place-items: center;
 			padding-block: 6px;
 			padding-inline: 12px;
+			height: var(--_actionbar-item-height);
+			scroll-snap-align: start;
 		}
-		s-popout-item:not(:first-of-type) {
-			border-top: 1px solid white;
-			margin-top: -1px;
-		}
-		s-popout-item:not(:last-of-type) {
-			border-bottom: 1px solid white;
-			margin-top: -1px;
+		s-popout-item::before {
+			content: '';
+			pointer-events: none;
+			position: absolute;
+			inset: 0px;
+			border-top: var(--_actionbar-popout-border);
+			border-bottom: var(--_actionbar-popout-border);
 		}
 		s-popout-item:hover {
 			background-color: teal;

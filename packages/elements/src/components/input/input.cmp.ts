@@ -18,7 +18,8 @@ export class MMInput extends MimicElement {
 	@property() public value = '';
 	@property() public placeholder = '';
 	@property() public type: 'text' | 'number' = 'text';
-	@property({ type: Boolean }) public disabled?: boolean;
+	@property({ type: Boolean, reflect: true }) public disabled?: boolean;
+	@property({ type: Boolean, reflect: true }) public readonly?: boolean;
 	@property({ reflect: true }) public size: InputSize = 'medium';
 	@property({ reflect: true }) public shape: InputShape = 'sharp';
 	@property({ type: Boolean, reflect: true, attribute: 'auto-focus' }) public autoFocus?: boolean;
@@ -86,6 +87,7 @@ export class MMInput extends MimicElement {
 					.value      =${ live(this.value) }
 					.placeholder=${ this.placeholder }
 					?disabled   =${ this.disabled }
+					?readonly   =${ this.readonly }
 					@focus      =${ this.handleFocus }
 					@blur       =${ this.handleBlur }
 					@input      =${ this.handleInput }
