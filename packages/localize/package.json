@@ -1,6 +1,6 @@
 {
 	"name": "@roenlie/mimic-localize",
-	"version": "0.0.31",
+	"version": "0.0.32",
 	"description": "A lightweight and reactive localization package, with a focus on use with LIT web components.",
 	"author": {
 		"name": "Kristoffer Roen-Lie",
