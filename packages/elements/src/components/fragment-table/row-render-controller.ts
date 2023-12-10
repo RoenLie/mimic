@@ -18,6 +18,8 @@ export class RowRenderController implements ReactiveController {
 	public dataRange: Record<string, any>[] = [];
 	public interObs: Promise<IntersectionObserver>;
 	public firstRowFirstCell: Ref<HTMLTableCellElement> = createRef();
+	public editorCell: {rowIndex: number; columnIndex: number;} | undefined = undefined;
+	#dynamicStyle = new DynamicStyle();
 
 	protected get table() {
 		return this.host.shadowRoot?.getElementById('table');
@@ -37,7 +39,6 @@ export class RowRenderController implements ReactiveController {
 		return Math.floor((this.table?.scrollTop ?? 0) / this.rowHeight);
 	}
 
-	#dynamicStyle = new DynamicStyle();
 	public get dynamicStyling() {
 		this.#dynamicStyle.clear();
 
@@ -186,12 +187,18 @@ export class RowRenderController implements ReactiveController {
 					return nothing;
 
 				let template: unknown = nothing;
-				if (column.fieldRender)
-					template = column.fieldRender?.(data);
+
+				const rI = this.editorCell?.rowIndex;
+				const cI = this.editorCell?.columnIndex;
+				if (column.fieldEditor && rI === index && cI === i)
+					template = column.fieldEditor(data);
+				else if (column.fieldRender)
+					template = column.fieldRender(data);
 				else if (column.field)
 					template = html`<span>${ readPath(data, column.field) }</span>`;
 
-				return html`<td part="td">${ template }</td>`;
+
+				return html`<td data-row=${ index } data-cell=${ i } part="td">${ template }</td>`;
 			}) }
 			<td></td>
 		</tr>

@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 import { range } from '@roenlie/mimic-core/array';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html, LitElement } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { customElement, query } from 'lit/decorators.js';
 
 import { type Column, FragmentTable, type Options } from './fragment-table.js';
 
@@ -24,6 +24,8 @@ interface Data {
 @customElement('mm-fragment-table-demo')
 export class FragmentTableDemo extends LitElement {
 
+	@query('f-table') protected tableEl: FragmentTable;
+
 	protected columns: Column<Data>[] = [
 		{
 			label:        'ID',
@@ -36,6 +38,11 @@ export class FragmentTableDemo extends LitElement {
 			field:        'firstName',
 			minWidth:     150,
 			defaultWidth: 250,
+			fieldEditor:  (data) => {
+				return html`
+				I am an editor!!!
+				`;
+			},
 		},
 		{
 			label:        'Last name',
@@ -97,19 +104,26 @@ export class FragmentTableDemo extends LitElement {
 			.data=${ this.data }
 			.options=${ this.options }
 			@header-click=${ (ev: CustomEvent<HTMLTableRowElement>) => {
-				console.log(ev.type, ev.detail);
+				//console.log(ev.type, ev.detail);
 			} }
 			@row-click=${ (ev: CustomEvent<HTMLTableRowElement>) => {
-				console.log(ev.type, ev.detail);
+				//console.log(ev.type, ev.detail);
 			} }
 			@cell-click=${ (ev: CustomEvent<HTMLTableCellElement>) => {
-				console.log(ev.type, ev.detail);
+				//console.log(ev.type, ev.detail);
 			} }
 			@row-check=${ (ev: CustomEvent<HTMLInputElement>) => {
-				console.log(ev.type, ev.detail);
+				//console.log(ev.type, ev.detail);
 			} }
 			@row-check-all=${ (ev: CustomEvent<HTMLInputElement>) => {
-				console.log(ev.type, ev.detail);
+				//console.log(ev.type, ev.detail);
+			} }
+			@cell-dbl-click=${ (ev: CustomEvent<HTMLTableCellElement>) => {
+				const td = ev.detail;
+				const row = td.dataset['row']!;
+				const cell = td.dataset['cell']!;
+
+				this.tableEl.toggleEditor(row, cell);
 			} }
 		></f-table>
 		`;

@@ -25,9 +25,20 @@ export interface Column<T extends Record<string, any>> {
 	field?: PathOf<T>;
 	headerRender?: (data: T[]) => TemplateResult<any>;
 	fieldRender?: (data: T) => TemplateResult<any>;
+	fieldEditor?: (data: T) => TemplateResult<any>;
 }
 
 
+/**
+ * @emits header-click
+ * @emits header-dbl-click
+ * @emits row-click
+ * @emits row-dbl-click
+ * @emits row-check
+ * @emits row-check-all
+ * @emits cell-click
+ * @emits cell-dbl-click
+ */
 @customElement('f-table')
 export class FragmentTable extends MimicElement {
 
@@ -38,20 +49,28 @@ export class FragmentTable extends MimicElement {
 	@property({ type: Boolean }) public dynamic?: boolean;
 	@queryId('table') protected table?: HTMLTableElement;
 	@queryId('top-buffer') protected topBuffer?: HTMLElement;
-	protected tablePromise: Promise<HTMLTableElement | undefined>;
-	protected topBufferPromise: Promise<HTMLElement | undefined>;
+	protected tablePromise = this.updateComplete.then(() => this.table);
+	protected topBufferPromise = this.updateComplete.then(() => this.topBuffer);
 	protected focusRow: number | undefined = undefined;
 	protected focusedCell: number | undefined = undefined;
 	protected eventOptions = { bubbles: true, cancelable: true, composed: true };
 	public readonly headerRenderer = new HeaderRenderController(this);
 	public readonly rowRenderer = new RowRenderController(this);
 
+	public toggleEditor(row: number | string, column: number | string) {
+		this.rowRenderer.editorCell = {
+			rowIndex:    Number(row),
+			columnIndex: Number(column),
+		};
+
+		this.requestUpdate();
+	}
+
+
 	public override connectedCallback() {
 		super.connectedCallback();
 
 		this.classList.toggle('initializing', true);
-		this.tablePromise = this.updateComplete.then(() => this.table);
-		this.topBufferPromise = this.updateComplete.then(() => this.topBuffer);
 	}
 
 	public override afterConnectedCallback() {
@@ -61,12 +80,22 @@ export class FragmentTable extends MimicElement {
 
 			this.updateComplete.then(() => {
 				this.renderRoot
-					.querySelectorAll<MMVirtualScrollbar>('m-virtual-scrollbar')
+					.querySelectorAll<MMVirtualScrollbar>('mm-virtual-scrollbar')
 					.forEach(el => el.updateHeight());
 
 				this.classList.toggle('initializing', false);
 			});
 		});
+	}
+
+	protected handleHeadChange(ev: Event) {
+		const path = ev.composedPath();
+		const checkbox = path.find(el => el instanceof HTMLInputElement && el.type === 'checkbox');
+
+		if (checkbox) {
+			const ev = new CustomEvent('row-check-all', { ...this.eventOptions, detail: checkbox });
+			checkbox.dispatchEvent(ev);
+		}
 	}
 
 	protected handleHeadClick(ev: PointerEvent) {
@@ -78,6 +107,22 @@ export class FragmentTable extends MimicElement {
 		const cellEvent = new CustomEvent('header-click', { ...baseOptions, detail: cell });
 
 		cell?.dispatchEvent(cellEvent);
+	}
+
+	protected handleHeadDblClick(ev: PointerEvent) {
+		const path = ev.composedPath();
+		const cell = path.find((el): el is HTMLTableCellElement =>
+			el instanceof HTMLTableCellElement);
+
+		const baseOptions = { bubbles: true, cancelable: true, composed: true };
+		const cellEvent = new CustomEvent('header-dbl-click', { ...baseOptions, detail: cell });
+
+		cell?.dispatchEvent(cellEvent);
+	}
+
+	protected handleHeadMousedown(ev: MouseEvent) {
+		if (ev.detail === 2)
+			ev.preventDefault();
 	}
 
 	protected handleBodyClick(ev: PointerEvent) {
@@ -92,14 +137,21 @@ export class FragmentTable extends MimicElement {
 		cell?.dispatchEvent(cellEvent);
 	}
 
-	protected handleHeadChange(ev: Event) {
+	protected handleBodyDblClick(ev: PointerEvent) {
 		const path = ev.composedPath();
-		const checkbox = path.find(el => el instanceof HTMLInputElement && el.type === 'checkbox');
+		const row = path.find((el): el is HTMLTableRowElement => el instanceof HTMLTableRowElement);
+		const cell = path.find((el): el is HTMLTableCellElement => el instanceof HTMLTableCellElement);
 
-		if (checkbox) {
-			const ev = new CustomEvent('row-check-all', { ...this.eventOptions, detail: checkbox });
-			checkbox.dispatchEvent(ev);
-		}
+		const rowEvent = new CustomEvent('row-dbl-click', { ...this.eventOptions, detail: row });
+		const cellEvent = new CustomEvent('cell-dbl-click', { ...this.eventOptions, detail: cell });
+
+		row?.dispatchEvent(rowEvent);
+		cell?.dispatchEvent(cellEvent);
+	}
+
+	protected handleBodyMousedown(ev: MouseEvent) {
+		if (ev.detail === 2)
+			ev.preventDefault();
 	}
 
 	protected handleBodyChange(ev: Event) {
@@ -120,26 +172,36 @@ export class FragmentTable extends MimicElement {
 		${ this.rowRenderer.DynamicStyles() }
 
 		<table id="table" part="table">
-			<thead @click=${ this.handleHeadClick } @change=${ this.handleHeadChange }>
+			<thead
+				@change=${ this.handleHeadChange }
+				@click=${ this.handleHeadClick }
+				@dblclick=${ this.handleHeadDblClick }
+				@mousedown=${ this.handleHeadMousedown }
+			>
 				${ this.headerRenderer.Header() }
 			</thead>
-			<tbody @click=${ this.handleBodyClick } @change=${ this.handleBodyChange }>
+			<tbody
+				@change=${ this.handleBodyChange }
+				@click=${ this.handleBodyClick }
+				@dblclick=${ this.handleBodyDblClick }
+				@mousedown=${ this.handleBodyMousedown }
+			>
 				${ this.rowRenderer.Rows() }
 			</tbody>
 		</table>
 
-		<m-virtual-scrollbar
+		<mm-virtual-scrollbar
 			placement="end"
 			direction="horizontal"
 			.reference=${ this.tablePromise }
 			.widthResizeRef=${ this.topBufferPromise }
-		></m-virtual-scrollbar>
+		></mm-virtual-scrollbar>
 
-		<m-virtual-scrollbar
+		<mm-virtual-scrollbar
 			placement="end"
 			direction="vertical"
 			.reference=${ this.tablePromise }
-		></m-virtual-scrollbar>
+		></mm-virtual-scrollbar>
 		`;
 	}
 
@@ -148,11 +210,11 @@ export class FragmentTable extends MimicElement {
 		* {
 			box-sizing: border-box;
 		}
-		m-virtual-scrollbar {
+		mm-virtual-scrollbar {
 			--vscroll-size: 12px;
 			--vscroll-background: rgb(100 100 100 / 90%);
 		}
-		m-virtual-scrollbar[direction="vertical"]::part(wrapper) {
+		mm-virtual-scrollbar[direction="vertical"]::part(wrapper) {
 			top: 50px;
 		}
 		:host(.initializing) {
@@ -160,16 +222,16 @@ export class FragmentTable extends MimicElement {
 		}
 		:host {
 			--_header-color:         var(--header-color, #ffffff);
-			--_header-background:    var(--header-background, #009879);
+			--_header-background:    var(--header-background, #076ba5);
 			--_header-bottom-border: var(--header-bottom-border);
 			--_row-height:           var(--row-height, 50px);
 			--_row-background:       var(--row-background);
-			--_row-even-background:  var(--row-even-background, #f3f3f3);
-			--_row-bottom-border:    var(--row-bottom-border, 1px solid #dddddd);
-			--_row-background-hover: var(--row-background-hover, #dddddd);
-			--_table-color:          var(--table-color, black);
-			--_table-background:     var(--table-background, white);
-			--_table-bottom-border:  var(--table-bottom-border, 2px solid #009879);
+			--_row-even-background:  var(--row-even-background, rgb(50 50 50));
+			--_row-bottom-border:    var(--row-bottom-border, 1px solid rgb(80 80 80));
+			--_row-background-hover: var(--row-background-hover, rgb(100 100 100));
+			--_table-color:          var(--table-color, rgb(250 250 250));
+			--_table-background:     var(--table-background, rgb(40 40 40));
+			--_table-bottom-border:  var(--table-bottom-border, 2px solid #076ba5);
 
 			position: relative;
 			display: grid;
