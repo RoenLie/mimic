@@ -1,5 +1,4 @@
 import { autoUpdate, computePosition, flip, shift } from '@floating-ui/dom';
-import { paintCycle } from '@roenlie/mimic-core/async';
 import { type ReactiveController } from 'lit';
 
 import type { LitHost } from '../types/lit.js';
@@ -17,9 +16,9 @@ export class PopoutController implements ReactiveController {
 
 	//#region lifecycle
 	public hostConnected() {
-		this.options.host.updateComplete
-			.then(paintCycle)
-			.then(() => this.startPositioner());
+		this.options.host.updateComplete.then(() => {
+			requestAnimationFrame(() => this.startPositioner());
+		});
 	}
 
 	public hostDisconnected() {
@@ -31,7 +30,7 @@ export class PopoutController implements ReactiveController {
 	//#region logic
 	protected positionerCleanup: ReturnType<typeof autoUpdate> | undefined;
 
-	protected startPositioner() {
+	public startPositioner() {
 		this.stopPositioner();
 
 		const reference = this.options.reference();
@@ -47,7 +46,7 @@ export class PopoutController implements ReactiveController {
 		);
 	}
 
-	protected stopPositioner() {
+	public stopPositioner() {
 		this.positionerCleanup?.();
 		this.positionerCleanup &&= undefined;
 	}

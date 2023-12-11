@@ -39,7 +39,7 @@ export interface Column<T extends Record<string, any>> {
  * @emits cell-click
  * @emits cell-dbl-click
  */
-@customElement('f-table')
+@customElement('mm-fragment-table')
 export class FragmentTable extends MimicElement {
 
 	@property({ type: Array }) public columns: Column<any>[] = [];
@@ -47,8 +47,11 @@ export class FragmentTable extends MimicElement {
 	@property({ type: Object }) public options?: Options;
 	@property({ type: String }) public styles?: string | CSSResult;
 	@property({ type: Boolean }) public dynamic?: boolean;
+	@property({ type: Boolean, reflect: true }) public contain?: boolean;
+
 	@queryId('table') protected table?: HTMLTableElement;
 	@queryId('top-buffer') protected topBuffer?: HTMLElement;
+
 	protected tablePromise = this.updateComplete.then(() => this.table);
 	protected topBufferPromise = this.updateComplete.then(() => this.topBuffer);
 	protected focusRow: number | undefined = undefined;
@@ -57,11 +60,18 @@ export class FragmentTable extends MimicElement {
 	public readonly headerRenderer = new HeaderRenderController(this);
 	public readonly rowRenderer = new RowRenderController(this);
 
-	public toggleEditor(row: number | string, column: number | string) {
-		this.rowRenderer.editorCell = {
-			rowIndex:    Number(row),
-			columnIndex: Number(column),
-		};
+	public toggleEditor(): void
+	public toggleEditor(row: number | string, column: number | string): void
+	public toggleEditor(row?: number | string, column?: number | string) {
+		if (row !== undefined && column !== undefined) {
+			this.rowRenderer.editorCell = {
+				rowIndex:    Number(row),
+				columnIndex: Number(column),
+			};
+		}
+		else {
+			this.rowRenderer.editorCell = undefined;
+		}
 
 		this.requestUpdate();
 	}
@@ -252,8 +262,10 @@ export class FragmentTable extends MimicElement {
 			color: var(--_table-color);
 			background: var(--_table-background);
 			border-bottom: var(--_table-bottom-border);
-
-			contain: content; /* Used for performance */
+		}
+		:host([contain]) table {
+			/* Used for performance */
+			contain: content;
 		}
 		thead, tbody {
 			display: contents;
@@ -263,7 +275,6 @@ export class FragmentTable extends MimicElement {
 			place-items: center start;
 			padding-inline: 6px;
 		}
-		th, td,
 		th span, td span {
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -340,3 +351,8 @@ export class FragmentTable extends MimicElement {
 	];
 
 }
+
+
+declare global { interface HTMLElementTagNameMap {
+	'fragment-table': FragmentTable;
+} }

@@ -1,14 +1,16 @@
 import { emitEvent, type EventOf } from '@roenlie/mimic-core/dom';
 import { Enum, type InferEnum } from '@roenlie/mimic-core/enum';
 import type { Ctor } from '@roenlie/mimic-core/types';
+import { invariant } from '@roenlie/mimic-core/validation';
 import { PopoutController } from '@roenlie/mimic-lit/controllers';
 import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
-import { css, html } from 'lit';
+import { css, html, type PropertyValueMap } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { live } from 'lit/directives/live.js';
 import { createRef, type Ref, ref } from 'lit/directives/ref.js';
+import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
 
 import { systemIcons } from '../../utilities/system-icons.js';
@@ -75,6 +77,8 @@ export class MMTypeahead extends MimicElement {
 	@property({ type: Boolean }) public openOnInput?: boolean;
 	@property({ type: Boolean }) public openOnClick?: boolean;
 	@property({ type: Boolean }) public closeOnSelect?: boolean;
+	@property({ type: Boolean }) public immediateFocus?: boolean;
+	@property({ type: Boolean }) public openImmediately?: boolean;
 	@property({ type: Boolean }) public showClearWhenDisabled?: boolean;
 	@state() public open = false;
 	@query('slot') protected slotEl?: HTMLSlotElement;
@@ -90,13 +94,27 @@ export class MMTypeahead extends MimicElement {
 		floating:  () => this.popoutEl.value,
 	});
 
-	public override connectedCallback(): void {
-		super.connectedCallback();
+	protected override afterConnectedCallback(): void {
+		invariant(this.inputEl);
 
-		this.updateComplete.then(() => {
-			if (this.inputEl)
-				this.resizeObs.observe(this.inputEl);
-		});
+		this.resizeObs.observe(this.inputEl);
+
+		if (this.openImmediately)
+			requestAnimationFrame(() => this.open = true);
+
+		if (this.immediateFocus)
+			requestAnimationFrame(() => this.inputEl!.focus());
+	}
+
+	protected override updated(props: Map<PropertyKey, unknown>): void {
+		super.updated(props);
+
+		if (props.has('open')) {
+			if (this.open)
+				this.popoutCtrl.startPositioner();
+			else
+				this.popoutCtrl.stopPositioner();
+		}
 	}
 
 	public override focus(options?: FocusOptions): void {
@@ -254,11 +272,11 @@ export class MMTypeahead extends MimicElement {
 	protected handleDropdownClick(ev: PointerEvent) {
 		ev.preventDefault();
 
-		const findInstanceOf = <TOut extends Ctor>(
-			arr: any[], type: TOut,
-		): InstanceType<TOut> | undefined => arr.find(el => el instanceof type) as any;
+		//const findInstanceOf = <TOut extends Ctor>(
+		//	arr: any[], type: TOut,
+		//): InstanceType<TOut> | undefined => arr.find(el => el instanceof type) as any;
 
-		const test1 = findInstanceOf(ev.composedPath(), HTMLAnchorElement);
+		//const test1 = findInstanceOf(ev.composedPath(), HTMLAnchorElement);
 
 		const path = ev.composedPath();
 		const el = path.find(
@@ -324,6 +342,10 @@ export class MMTypeahead extends MimicElement {
 		<s-input-dropdown
 			${ ref(this.popoutEl) }
 			part="input-dropdown"
+			style=${ styleMap({
+				width: this.inputEl?.offsetWidth
+					? this.inputEl.offsetWidth + 'px' : 'auto',
+			}) }
 			@mousedown=${ this.handleDropdownClick }
 		>
 			<ol ${ ref(this.popoutListEl) }>
@@ -359,7 +381,7 @@ export class MMTypeahead extends MimicElement {
 			grid-template-rows: 1fr max-content;
 
 			height: var(--_typea-popout-height);
-			background-color: rgb(var(--mm-color-on-surface) / .04);
+			background-color: rgb(var(--mm-color-surface) / .5);
 			border-bottom-left-radius: 8px;
 			border-bottom-right-radius: 8px;
 			border: 1px solid rgb(var(--mm-color-on-surface) / .08);
@@ -412,3 +434,9 @@ export class MMTypeaheadItem extends MimicElement {
 }
 
 MMTypeaheadItem.register();
+
+
+declare global { interface HTMLElementTagNameMap {
+	'mm-typeahead': MMTypeahead;
+	'mm-typeahead-item': MMTypeaheadItem;
+} }

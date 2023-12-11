@@ -206,12 +206,16 @@ export class RowRenderController implements ReactiveController {
 	}
 
 	public static styles = css`
+		:host([contain]) tr {
+			/* Used for performance */
+			content-visibility: auto;
+			/* Used for performance */
+			contain-intrinsic-size: var(--_row-height);
+		}
 		tr {
 			display: grid;
 			grid-template-columns: var(--_template-columns);
 			height: var(--_row-height);
-			content-visibility: auto; /* Used for performance */
-			contain-intrinsic-size: var(--_row-height); /* Used for performance */
 		}
 		tr#top-buffer {
 			all: unset;

@@ -3,10 +3,13 @@ import { range } from '@roenlie/mimic-core/array';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html, LitElement } from 'lit';
 import { customElement, query } from 'lit/decorators.js';
+import { map } from 'lit/directives/map.js';
 
+import { MMTypeahead } from '../typeahead/typeahead-element.js';
 import { type Column, FragmentTable, type Options } from './fragment-table.js';
 
 FragmentTable.register();
+MMTypeahead.register();
 
 
 interface Data {
@@ -24,7 +27,7 @@ interface Data {
 @customElement('mm-fragment-table-demo')
 export class FragmentTableDemo extends LitElement {
 
-	@query('f-table') protected tableEl: FragmentTable;
+	@query('mm-fragment-table') protected tableEl: FragmentTable;
 
 	protected columns: Column<Data>[] = [
 		{
@@ -38,9 +41,21 @@ export class FragmentTableDemo extends LitElement {
 			field:        'firstName',
 			minWidth:     150,
 			defaultWidth: 250,
-			fieldEditor:  (data) => {
+			fieldEditor:  () => {
 				return html`
-				I am an editor!!!
+				<mm-typeahead
+					openOnFocus
+					openOnClick
+					openImmediately
+					immediateFocus
+					style="z-index:1;"
+				>
+					${ map(range(200), () => html`
+					<mm-typeahead-item>
+						Stuff
+					</mm-typeahead-item>
+					`) }
+				</mm-typeahead>
 				`;
 			},
 		},
@@ -99,9 +114,9 @@ export class FragmentTableDemo extends LitElement {
 
 	protected override render() {
 		return html`
-		<f-table
+		<mm-fragment-table
+			.data   =${ this.data }
 			.columns=${ this.columns }
-			.data=${ this.data }
 			.options=${ this.options }
 			@header-click=${ (ev: CustomEvent<HTMLTableRowElement>) => {
 				//console.log(ev.type, ev.detail);
@@ -124,8 +139,25 @@ export class FragmentTableDemo extends LitElement {
 				const cell = td.dataset['cell']!;
 
 				this.tableEl.toggleEditor(row, cell);
+
+				const abortCtrl = new AbortController();
+				window.addEventListener('mousedown', (e) => {
+					const path = e.composedPath();
+					const pathHasSameTd = path.some(el => {
+						if (!(el instanceof HTMLTableCellElement))
+							return;
+
+						return row === el.dataset['row']
+							&& cell === el.dataset['cell'];
+					});
+
+					if (!pathHasSameTd) {
+						this.tableEl.toggleEditor();
+						abortCtrl.abort();
+					}
+				}, { signal: abortCtrl.signal });
 			} }
-		></f-table>
+		></mm-fragment-table>
 		`;
 	}
 
@@ -137,7 +169,7 @@ export class FragmentTableDemo extends LitElement {
 			overflow: auto;
 			margin: 24px;
 		}
-		f-table {
+		mm-fragment-table {
 			--header-color:        var(--on-background);
 			--header-background:   var(--shadow1);
 			--header-bottom-border:2px solid var(--background-strong);
