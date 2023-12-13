@@ -1,4 +1,4 @@
-import { autoUpdate, computePosition, flip, shift } from '@floating-ui/dom';
+import { autoUpdate, computePosition, type ComputePositionReturn, flip, shift } from '@floating-ui/dom';
 import { type ReactiveController } from 'lit';
 
 import type { LitHost } from '../types/lit.js';
@@ -10,6 +10,7 @@ export class PopoutController implements ReactiveController {
 		host: LitHost,
 		reference: () => HTMLElement | undefined | null,
 		floating: () => HTMLElement | undefined | null,
+		onUpdate?: (value: ComputePositionReturn) => void,
 	}) {
 		options.host.addController(this);
 	}
@@ -49,6 +50,8 @@ export class PopoutController implements ReactiveController {
 	public stopPositioner() {
 		this.positionerCleanup?.();
 		this.positionerCleanup &&= undefined;
+
+		this.options.floating()?.removeAttribute('placement');
 	}
 
 	protected async updatePositioner() {
@@ -69,14 +72,18 @@ export class PopoutController implements ReactiveController {
 				],
 				strategy: 'fixed',
 			},
-		).then(({ x, y, strategy }) => {
+		).then((value) => {
+			const { x, y, strategy, placement } = value;
 			const style = {
 				position: strategy,
 				left:     `${ x }px`,
 				top:      `${ y }px`,
 			};
 
+			floating.setAttribute('placement', placement);
 			Object.assign(floating.style, style);
+
+			this.options.onUpdate?.(value);
 		});
 	}
 	//#endregion

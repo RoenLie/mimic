@@ -49,6 +49,9 @@ export class FragmentTableDemo extends LitElement {
 					openImmediately
 					immediateFocus
 					style="z-index:1;"
+					@close=${ () => {
+						this.tableEl.toggleEditor();
+					} }
 				>
 					${ map(range(200), () => html`
 					<mm-typeahead-item>

@@ -1,11 +1,10 @@
 import { emitEvent, type EventOf } from '@roenlie/mimic-core/dom';
 import { Enum, type InferEnum } from '@roenlie/mimic-core/enum';
-import type { Ctor } from '@roenlie/mimic-core/types';
 import { invariant } from '@roenlie/mimic-core/validation';
 import { PopoutController } from '@roenlie/mimic-lit/controllers';
 import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
-import { css, html, type PropertyValueMap } from 'lit';
+import { css, html } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { live } from 'lit/directives/live.js';
@@ -45,7 +44,8 @@ function scrollParentToChild(parent: HTMLElement, child: HTMLElement) {
 	// Where is the child
 	const childRect = child.getBoundingClientRect();
 	// Is the child viewable?
-	const isViewable = (childRect.top >= parentRect.top) && (childRect.bottom <= parentRect.top + parentViewableArea.height);
+	const isViewable = (childRect.top >= parentRect.top)
+		&& (childRect.bottom <= parentRect.top + parentViewableArea.height);
 
 	// if you can't see the child try to scroll parent
 	if (!isViewable) {
@@ -64,6 +64,10 @@ function scrollParentToChild(parent: HTMLElement, child: HTMLElement) {
 }
 
 
+/**
+ * @fires open  --fired when typeahead popout has opened.
+ * @fires close --fired when typeahead popout has closed.
+ */
 @customElement('mm-typeahead')
 export class MMTypeahead extends MimicElement {
 
@@ -92,6 +96,19 @@ export class MMTypeahead extends MimicElement {
 		host:      this,
 		reference: () => this.inputEl,
 		floating:  () => this.popoutEl.value,
+		onUpdate:  () => {
+			const inputRect = this.inputEl?.getBoundingClientRect();
+			if (!inputRect)
+				return;
+
+			const point = this.shadowRoot?.elementsFromPoint(
+				inputRect.x + (inputRect.width / 2),
+				inputRect.y + (inputRect.height / 2),
+			);
+
+			if (!point?.includes(this))
+				this.open = false;
+		},
 	});
 
 	protected override afterConnectedCallback(): void {
@@ -110,10 +127,18 @@ export class MMTypeahead extends MimicElement {
 		super.updated(props);
 
 		if (props.has('open')) {
-			if (this.open)
+			if (this.open) {
 				this.popoutCtrl.startPositioner();
-			else
+
+				if (props.get('open') === false)
+					emitEvent(this, 'open');
+			}
+			else {
 				this.popoutCtrl.stopPositioner();
+
+				if (props.get('open') === true)
+					emitEvent(this, 'close');
+			}
 		}
 	}
 
@@ -169,7 +194,7 @@ export class MMTypeahead extends MimicElement {
 	}
 
 	protected handleBlur() {
-		this.open = false;
+		//this.open = false;
 	}
 
 	protected async handleInputKeydown(ev: KeyboardEvent) {
@@ -381,11 +406,17 @@ export class MMTypeahead extends MimicElement {
 			grid-template-rows: 1fr max-content;
 
 			height: var(--_typea-popout-height);
-			background-color: rgb(var(--mm-color-surface) / .5);
-			border-bottom-left-radius: 8px;
-			border-bottom-right-radius: 8px;
+			background-color: rgb(20, 36, 39);
 			border: 1px solid rgb(var(--mm-color-on-surface) / .08);
 			border-top: none;
+		}
+		s-input-dropdown[placement^="top"] {
+			border-top-left-radius: 8px;
+			border-top-right-radius: 8px;
+		}
+		s-input-dropdown[placement^="bottom"] {
+			border-bottom-left-radius: 8px;
+			border-bottom-right-radius: 8px;
 		}
 		ol,
 		li {

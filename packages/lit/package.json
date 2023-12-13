@@ -20,27 +20,27 @@
 	"main": "./dist/index-fallback.js",
 	"exports": {
 		"./controllers": {
-			"types": "./dist/controllers/index.d.ts",
+			"types": "./src/controllers/index.ts",
 			"default": "./dist/controllers/index.js"
 		},
 		"./decorators": {
-			"types": "./dist/decorators/index.d.ts",
+			"types": "./src/decorators/index.ts",
 			"default": "./dist/decorators/index.js"
 		},
 		"./directives": {
-			"types": "./dist/directives/index.d.ts",
+			"types": "./src/directives/index.ts",
 			"default": "./dist/directives/index.js"
 		},
 		"./styles": {
-			"types": "./dist/styles/index.d.ts",
+			"types": "./src/styles/index.ts",
 			"default": "./dist/styles/index.js"
 		},
 		"./types": {
-			"types": "./dist/types/index.d.ts",
+			"types": "./src/types/index.ts",
 			"default": "./dist/types/index.js"
 		},
 		"./element": {
-			"types": "./dist/element/index.d.ts",
+			"types": "./src/element/index.ts",
 			"default": "./dist/element/index.js"
 		}
 	},
