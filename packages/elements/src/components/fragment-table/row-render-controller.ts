@@ -1,6 +1,10 @@
+import { range } from '@roenlie/mimic-core/array';
+import type { EventOf } from '@roenlie/mimic-core/dom';
 import { readPath } from '@roenlie/mimic-core/structs';
 import { throttle, withDebounce } from '@roenlie/mimic-core/timing';
 import { css, html, nothing, type ReactiveController } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { keyed } from 'lit/directives/keyed.js';
 import { map } from 'lit/directives/map.js';
 import { createRef, type Ref, ref } from 'lit/directives/ref.js';
 import { when } from 'lit/directives/when.js';
@@ -39,6 +43,10 @@ export class RowRenderController implements ReactiveController {
 		return Math.floor((this.table?.scrollTop ?? 0) / this.rowHeight);
 	}
 
+	public get startIndex() {
+		return Math.max(0, this.currentRow - this.rowOverflow);
+	}
+
 	public get dynamicStyling() {
 		this.#dynamicStyle.clear();
 
@@ -64,10 +72,14 @@ export class RowRenderController implements ReactiveController {
 					if (!entry.isIntersecting)
 						continue;
 
-					if (entry.target.id === 'top-buffer' && this.topBufferRange === 0)
+					if (entry.target.id === 'top-buffer' && this.topBufferRange === 0) {
+						this.host.requestUpdate();
 						continue;
-					if (entry.target.id === 'bot-buffer' && this.botBufferRange === 0)
+					}
+					if (entry.target.id === 'bot-buffer' && this.botBufferRange === 0) {
+						this.host.requestUpdate();
 						continue;
+					}
 
 					this.updateDisplayedData();
 				}
@@ -104,7 +116,7 @@ export class RowRenderController implements ReactiveController {
 	}
 
 	protected updateDataRange() {
-		const dataStartIndex = Math.max(0, this.currentRow - this.rowOverflow);
+		const dataStartIndex = this.startIndex;
 		// We add +1 so that it doesn't swap which rows are even and odd.
 		let dataEndIndex = this.currentRow + this.visibleRows + this.rowOverflow + 1;
 		dataEndIndex = Math.min(dataEndIndex, this.host.data.length);
@@ -159,6 +171,31 @@ export class RowRenderController implements ReactiveController {
 		return withDebounce(throttle(func, 25), func, 100);
 	})();
 
+	protected checkRow = (ev: EventOf<HTMLInputElement>) => {
+		const inputEl = ev.target;
+		const index = parseInt(inputEl.dataset['rowIndex'] ?? '');
+
+		if (this.host.allChecked) {
+			console.log('stuff?');
+
+			for (const index of range(0, this.host.data.length - 1))
+				this.host.checkedRowIndexes.add(index);
+
+			this.host.allChecked = false;
+		}
+
+		inputEl.checked
+			? this.host.checkedRowIndexes.add(index)
+			: this.host.checkedRowIndexes.delete(index);
+
+		if (this.host.checkedRowIndexes.size === this.host.data.length - 1) {
+			this.host.allChecked = true;
+			this.host.checkedRowIndexes.clear();
+		}
+
+		this.host.requestUpdate();
+	};
+
 	public DynamicStyles() {
 		return html`
 		<style>${ this.dynamicStyling }</style>
@@ -166,9 +203,11 @@ export class RowRenderController implements ReactiveController {
 	}
 
 	public Rows() {
+		const dataStartIndex = this.startIndex;
+
 		return html`
 		<tr id="top-buffer" ${ intersect(this.interObs) }></tr>
-		${ map(this.dataRange, (data, i) => this.Row(data, i)) }
+		${ map(this.dataRange, (data, i) => this.Row(data, i + dataStartIndex)) }
 		<tr id="bot-buffer" ${ intersect(this.interObs) }></tr>
 		`;
 	}
@@ -178,7 +217,13 @@ export class RowRenderController implements ReactiveController {
 		<tr id=${ 'row-' + index } part="tbody-tr">
 			<td ${ ref(this.firstRowFirstCell) }>
 				${ when(this.host.options?.checkbox, () => html`
-				<input data-row-index=${ index } type="checkbox" />
+				<input
+					type="checkbox"
+					data-row-index=${ index }
+					.checked=${ this.host.checkedRowIndexes.has(index)
+						|| this.host.allChecked }
+					@change=${ this.checkRow }
+				/>
 				`) }
 			</td>
 			${ map(Object.entries(data), (_, i) => {
@@ -196,7 +241,6 @@ export class RowRenderController implements ReactiveController {
 					template = column.fieldRender(data);
 				else if (column.field)
 					template = html`<span>${ readPath(data, column.field) }</span>`;
-
 
 				return html`<td data-row=${ index } data-cell=${ i } part="td">${ template }</td>`;
 			}) }
@@ -238,6 +282,9 @@ export class RowRenderController implements ReactiveController {
 		}
 		tbody tr:hover {
 			background-color: var(--_row-background-hover);
+		}
+		tbody tr:not(:hover) input[type="checkbox"]:not(:checked) {
+			visibility: hidden;
 		}
 	`;
 

@@ -2,7 +2,7 @@ import type { PathOf } from '@roenlie/mimic-core/types';
 import { queryId } from '@roenlie/mimic-lit/decorators';
 import { customElement, MimicElement } from '@roenlie/mimic-lit/element';
 import { css, CSSResult, html, type TemplateResult } from 'lit';
-import { property } from 'lit/decorators.js';
+import { property, state } from 'lit/decorators.js';
 
 import { MMVirtualScrollbar } from '../virtual-scrollbar/virtual-scrollbar.cmp.js';
 import { HeaderRenderController } from './header-render-controller.js';
@@ -48,6 +48,7 @@ export class FragmentTable extends MimicElement {
 	@property({ type: String }) public styles?: string | CSSResult;
 	@property({ type: Boolean }) public dynamic?: boolean;
 	@property({ type: Boolean, reflect: true }) public contain?: boolean;
+	@property({ type: Boolean, reflect: true }) public allChecked?: boolean;
 
 	@queryId('table') protected table?: HTMLTableElement;
 	@queryId('top-buffer') protected topBuffer?: HTMLElement;
@@ -59,6 +60,7 @@ export class FragmentTable extends MimicElement {
 	protected eventOptions = { bubbles: true, cancelable: true, composed: true };
 	public readonly headerRenderer = new HeaderRenderController(this);
 	public readonly rowRenderer = new RowRenderController(this);
+	public readonly checkedRowIndexes = new Set<number>();
 
 	public toggleEditor(): void
 	public toggleEditor(row: number | string, column: number | string): void
@@ -328,7 +330,7 @@ export class FragmentTable extends MimicElement {
 			content: "";
 			width: 0.65em;
 			height: 0.65em;
-			clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+			clip-path: polygon(0 30%, 100% 30%, 100% 70%, 0 70%);
 			transform: scale(0);
 			transform-origin: center;
 			transition: 120ms transform ease-out;
@@ -337,11 +339,16 @@ export class FragmentTable extends MimicElement {
 			background-color: CanvasText;
 		}
 		input[type="checkbox"]:checked::before {
+			clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
 			transform: scale(1);
 		}
 		input[type="checkbox"]:focus-visible {
 			outline: max(2px, 0.15em) solid currentColor;
 			outline-offset: max(2px, 0.15em);
+		}
+		input[type="checkbox"]:indeterminate::before {
+			clip-path: polygon(0 40%, 100% 40%, 100% 60%, 0 60%);
+			transform: scale(1);
 		}
 		input[type="checkbox"]:disabled {
 			opacity: 50%;

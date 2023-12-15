@@ -1,5 +1,6 @@
 import type { EventOf } from '@roenlie/mimic-core/dom';
 import { css, html, nothing, type ReactiveController } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { map } from 'lit/directives/map.js';
 import { when } from 'lit/directives/when.js';
 
@@ -116,12 +117,22 @@ export class HeaderRenderController implements ReactiveController {
 		`;
 	}
 
+	protected checkAllRows = (ev: EventOf<HTMLInputElement>) => {
+		this.host.checkedRowIndexes.clear();
+		this.host.allChecked = ev.target.checked;
+	};
+
 	public Header() {
 		return html`
 		<tr part="thead-tr">
 			<th>
 				${ when(this.host.options?.checkbox, () => html`
-				<input type="checkbox" />
+				<input
+					type="checkbox"
+					.checked=${ this.host.allChecked }
+					.indeterminate=${ this.host.checkedRowIndexes.size }
+					@change=${ this.checkAllRows }
+				/>
 				`) }
 			</th>
 			${ map(this.host.columns, (column, i) => html`
