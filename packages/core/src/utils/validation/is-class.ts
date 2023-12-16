@@ -1,6 +1,6 @@
 import type { Ctor } from '../../types/class.types.js';
 
-export const isClass = (obj: any): obj is Ctor => {
+export const isClass = (obj: any): obj is Ctor<any> => {
 	// if not a function, return false.
 	if (typeof obj !== 'function')
 		return false;

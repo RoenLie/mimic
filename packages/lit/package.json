@@ -51,16 +51,14 @@
 		"build:prepare": "rimraf dist",
 		"build:index": "package-toolbox build-indexes",
 		"build:types": "tsc --project ./src/tsconfig.json",
-		"updatedeps": "pnpm update --latest --interactive",
+		"updatedeps": "pnpm update --latest",
 		"increment-version": "package-toolbox increment-version"
 	},
 	"dependencies": {
 		"@floating-ui/dom": "^1.5.3",
 		"@roenlie/mimic-core": "workspace:^",
 		"fast-equals": "^5.0.1",
-		"inversify": "^6.0.2",
-		"nanoid": "^5.0.3",
-		"reflect-metadata": "^0.1.13"
+		"nanoid": "^5.0.4"
 	},
 	"peerDependencies": {
 		"lit": "*"

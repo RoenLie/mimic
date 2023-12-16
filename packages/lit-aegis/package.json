@@ -19,32 +19,31 @@
 	"types": "./dist/index.d.ts",
 	"main": "./dist/index.js",
 	"exports": {
-		".": {
-			"types": "./dist/index.d.ts",
-			"default": "./dist/index.js"
-		}
+		"./*": "./dist/*"
 	},
 	"scripts": {
 		"test": "vitest",
 		"test:dom": "vitest --dom",
 		"dev": "pnpm vite --config ./docs/vite.config.ts",
-		"build": "pnpm build:prepare && pnpm build:index && pnpm build:types && vite build",
+		"build": "pnpm build:prepare && pnpm build:types && vite build",
 		"build:prepare": "rimraf dist",
 		"build:index": "package-toolbox build-indexes",
+		"build:exports": "package-toolbox build-exports",
 		"build:types": "tsc --project ./src/tsconfig.json",
-		"updatedeps": "pnpm update --latest --interactive",
+		"updatedeps": "pnpm update --latest",
 		"increment-version": "package-toolbox increment-version"
 	},
 	"dependencies": {
+		"@abraham/reflection": "^0.12.0",
 		"@roenlie/mimic-core": "workspace:^",
-		"inversify": "^6.0.2",
-		"reflect-metadata": "^0.1.13"
+		"deepmerge-ts": "^5.1.0",
+		"inversify": "^6.0.2"
 	},
 	"peerDependencies": {
 		"lit": "*"
 	},
 	"devDependencies": {
-		"@roenlie/mirage-docs": "^1.2.9",
+		"@roenlie/mirage-docs": "^1.2.28",
 		"happy-dom": "^12.10.3",
 		"lit": "^3.1.0"
 	},

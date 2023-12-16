@@ -41,7 +41,7 @@
 		"build:prepare": "rimraf dist",
 		"build:index": "package-toolbox build-indexes",
 		"build:types": "tsc --project ./src/tsconfig.json",
-		"updatedeps": "pnpm update --latest --interactive",
+		"updatedeps": "pnpm update --latest",
 		"increment-version": "package-toolbox increment-version"
 	},
 	"dependencies": {

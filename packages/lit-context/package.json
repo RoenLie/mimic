@@ -32,7 +32,7 @@
 		"build:prepare": "rimraf dist",
 		"build:index": "package-toolbox build-indexes",
 		"build:types": "tsc --project ./src/tsconfig.json",
-		"updatedeps": "pnpm update --latest --interactive",
+		"updatedeps": "pnpm update --latest",
 		"increment-version": "package-toolbox increment-version"
 	},
 	"dependencies": {
@@ -42,7 +42,7 @@
 		"lit": "*"
 	},
 	"devDependencies": {
-		"@roenlie/mirage-docs": "^1.2.9",
+		"@roenlie/mirage-docs": "^1.2.28",
 		"happy-dom": "^12.10.3",
 		"lit": "^3.1.0"
 	},

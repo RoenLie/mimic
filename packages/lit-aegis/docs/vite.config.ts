@@ -22,11 +22,7 @@ export default defineDocConfig({
 }, {
 	base:       '',
 	root:       '/docs',
-	source:     '/src',
-	autoImport: {
-		tagPrefixes:   [ 'mm' ],
-		loadWhitelist: [ /\.ts/ ],
-	},
+	source:     '/docs/pages',
 	siteConfig: {
 		links: {
 			scripts: [ '/bootstrap.ts' ],
