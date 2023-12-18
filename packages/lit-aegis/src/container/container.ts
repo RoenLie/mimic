@@ -160,11 +160,11 @@ class ContainerModuleMethodsFactory {
 		(bindingToSyntax as unknown as SyntaxBinding)._binding.moduleId = moduleId;
 	}
 
-	constructor(protected plugin: Container) { }
+	constructor(protected container: Container) { }
 
 	protected bindFunction<T>(moduleId: interfaces.ContainerModuleBase['id']) {
 		return (serviceIdentifier: interfaces.ServiceIdentifier) => {
-			const bindingToSyntax = this.plugin.bind(serviceIdentifier);
+			const bindingToSyntax = this.container.bind(serviceIdentifier);
 			ContainerModuleMethodsFactory.setModuleId(bindingToSyntax, moduleId);
 
 			return bindingToSyntax as ExtendedBindingToSyntax<T>;
@@ -173,7 +173,7 @@ class ContainerModuleMethodsFactory {
 
 	protected bindOnceFunction<T>(moduleId: interfaces.ContainerModuleBase['id']) {
 		return (serviceIdentifier: interfaces.ServiceIdentifier<T>) => {
-			const bindingToSyntax = this.plugin.bindOnce(serviceIdentifier);
+			const bindingToSyntax = this.container.bindOnce(serviceIdentifier);
 			if (bindingToSyntax)
 				ContainerModuleMethodsFactory.setModuleId(bindingToSyntax, moduleId);
 
@@ -183,31 +183,31 @@ class ContainerModuleMethodsFactory {
 
 	protected unbindFunction() {
 		return (serviceIdentifier: interfaces.ServiceIdentifier) => {
-			return this.plugin.unbind(serviceIdentifier);
+			return this.container.unbind(serviceIdentifier);
 		};
 	}
 
 	protected unbindAsyncFunction() {
 		return (serviceIdentifier: interfaces.ServiceIdentifier) => {
-			return this.plugin.unbindAsync(serviceIdentifier);
+			return this.container.unbindAsync(serviceIdentifier);
 		};
 	}
 
 	protected isboundFunction() {
 		return (serviceIdentifier: interfaces.ServiceIdentifier) => {
-			return this.plugin.isBound(serviceIdentifier);
+			return this.container.isBound(serviceIdentifier);
 		};
 	}
 
 	protected isCurrentBoundFunction() {
 		return (serviceIdentifier: interfaces.ServiceIdentifier) => {
-			return this.plugin.isCurrentBound(serviceIdentifier);
+			return this.container.isCurrentBound(serviceIdentifier);
 		};
 	}
 
 	protected rebindFunction<T = unknown>(moduleId: interfaces.ContainerModuleBase['id']) {
 		return (serviceIdentifier: interfaces.ServiceIdentifier) => {
-			const bindingToSyntax = this.plugin.rebind(serviceIdentifier);
+			const bindingToSyntax = this.container.rebind(serviceIdentifier);
 			ContainerModuleMethodsFactory.setModuleId(bindingToSyntax, moduleId);
 
 			return bindingToSyntax as interfaces.BindingToSyntax<T>;
@@ -217,16 +217,16 @@ class ContainerModuleMethodsFactory {
 	protected onActivationFunction<T = unknown>(moduleId: interfaces.ContainerModuleBase['id']) {
 		return (serviceIdentifier: interfaces.ServiceIdentifier<T>, onActivation: interfaces.BindingActivation<T>) => {
 			//@ts-expect-error
-			this.plugin._moduleActivationStore.addActivation(moduleId, serviceIdentifier, onActivation);
-			this.plugin.onActivation<T>(serviceIdentifier, onActivation);
+			this.container._moduleActivationStore.addActivation(moduleId, serviceIdentifier, onActivation);
+			this.container.onActivation<T>(serviceIdentifier, onActivation);
 		};
 	}
 
 	protected onDeactivationFunction<T = unknown>(moduleId: interfaces.ContainerModuleBase['id']) {
 		return (serviceIdentifier: interfaces.ServiceIdentifier<T>, onDeactivation: interfaces.BindingDeactivation<T>) => {
 			//@ts-expect-error
-			this.plugin._moduleActivationStore.addDeactivation(moduleId, serviceIdentifier, onDeactivation);
-			this.plugin.onDeactivation(serviceIdentifier, onDeactivation);
+			this.container._moduleActivationStore.addDeactivation(moduleId, serviceIdentifier, onDeactivation);
+			this.container.onDeactivation(serviceIdentifier, onDeactivation);
 		};
 	}
 

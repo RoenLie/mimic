@@ -1,6 +1,7 @@
 import type { CSSResultGroup, PropertyValues } from 'lit';
 
 import { type Container, injectable } from '../container/container.js';
+import { ContainerFacility } from '../container/loader.js';
 import { type AegisComponent, currentAdapterElement } from '../element/aegis-component.js';
 
 
@@ -16,9 +17,7 @@ export class Adapter<T extends object = Record<keyof any, any>> {
 
 	/** {@link AegisComponent.container} */
 	protected get container(): Container {
-		const base = this.element.constructor as typeof AegisComponent;
-
-		return base.container;
+		return ContainerFacility.container;
 	}
 
 	/** {@link AegisComponent.updateComplete} */

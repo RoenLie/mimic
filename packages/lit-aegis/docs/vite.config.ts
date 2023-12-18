@@ -4,6 +4,13 @@ import type { UserConfig } from 'vite';
 
 
 export default defineDocConfig({
+	esbuild: {
+		tsconfigRaw: {
+			compilerOptions: {
+				experimentalDecorators: true,
+			},
+		},
+	},
 	build: {
 		outDir: './dist',
 	},

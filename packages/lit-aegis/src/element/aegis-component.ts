@@ -1,10 +1,10 @@
 import { isPromise } from '@roenlie/mimic-core/async';
 import type { Ctor } from '@roenlie/mimic-core/types';
-import type { interfaces } from 'inversify';
 import { adoptStyles, type CSSResultOrNative, nothing, type PropertyValues } from 'lit';
 
 import type { Adapter } from '../adapter/adapter.js';
-import { Container, ContainerModule } from '../container/container.js';
+import { ContainerModule } from '../container/container.js';
+import { ContainerLoader } from '../container/loader.js';
 import { AegisElement } from './aegis-element.js';
 
 
@@ -21,19 +21,19 @@ export let currentAdapterElement: AegisComponent | undefined;
 
 export abstract class AegisComponent extends AegisElement {
 
-	public static readonly container = new Container({ skipBaseClassChecks: true });
-
 	/** Resolves after the containerConnectedCallback has been resolved. */
 	public containerConnected: Promise<void> & { finished?: true; };
 
 	protected readonly adapterId: string | symbol = this.localName;
+	protected readonly adapterCtor: Ctor<typeof Adapter>;
+	protected readonly modules: Modules;
 	protected adapter: Adapter;
 
-	constructor(
-		protected readonly adapterCtor: AdapterCtor,
-		protected readonly modules: Modules = [],
-	) {
+	constructor(adapterCtor: AdapterCtor, modules: Modules = []) {
 		super();
+
+		this.adapterCtor = adapterCtor as Ctor<typeof Adapter>;
+		this.modules = modules;
 	}
 
 	public override connectedCallback(): void {
@@ -47,7 +47,6 @@ export abstract class AegisComponent extends AegisElement {
 		const base = this.constructor as typeof AegisComponent;
 
 		let modules: Modules = this.modules;
-
 		if (isPromise(modules))
 			modules = await modules;
 		else if (typeof modules === 'function')
@@ -56,29 +55,24 @@ export abstract class AegisComponent extends AegisElement {
 		if (!Array.isArray(modules))
 			modules = [ modules ];
 
-		base.container.unload(...modules);
-		base.container.load(...modules);
+		ContainerLoader.unload(...modules);
+		ContainerLoader.load(...modules);
 
 		// Binds current element to be picked up by adapter injector.
 		currentAdapterElement = this as any;
 
 		// If there is a supplied adapter and no adapter currently bound.
-		// bind the supplied adapter.
-		if (!base.container.isBound(this.adapterId) && this.adapterCtor) {
-			base.container.bind(this.adapterId)
-				.to(this.adapterCtor as interfaces.Newable<unknown>)
-				.inTransientScope();
-		}
-
-		this.adapter = base.container.get<Adapter>(this.adapterId);
+		// resolve the supplied adapter through the container.
+		if (!ContainerLoader.isBound(this.adapterId) && this.adapterCtor)
+			this.adapter = ContainerLoader.resolve<Adapter>(this.adapterCtor);
+		else
+			this.adapter = ContainerLoader.get<Adapter>(this.adapterId);
 
 		// Unbind current element so no other adapters get this element.
 		currentAdapterElement = undefined;
 
 		const adapterBase = this.adapter.constructor as typeof Adapter;
 		if (adapterBase.styles) {
-			const base = this.constructor as typeof AegisComponent;
-
 			const extraStyles = (Array.isArray(adapterBase.styles)
 				? adapterBase.styles : [ adapterBase.styles ]) as CSSResultOrNative[];
 
