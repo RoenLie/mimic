@@ -3,7 +3,8 @@ import type { Ctor } from '@roenlie/mimic-core/types';
 import { adoptStyles, type CSSResultOrNative, nothing, type PropertyValues } from 'lit';
 
 import type { Adapter } from '../adapter/adapter.js';
-import { ContainerModule } from '../container/container.js';
+import { injectable } from '../annotations/annotations.js';
+import type { ContainerModule } from '../container/container-module.js';
 import { ContainerLoader } from '../container/loader.js';
 import { AegisElement } from './aegis-element.js';
 
@@ -32,6 +33,7 @@ export abstract class AegisComponent extends AegisElement {
 	constructor(adapterCtor: AdapterCtor, modules: Modules = []) {
 		super();
 
+		injectable()(adapterCtor as unknown as Ctor<typeof Adapter>);
 		this.adapterCtor = adapterCtor as Ctor<typeof Adapter>;
 		this.modules = modules;
 	}
@@ -39,12 +41,18 @@ export abstract class AegisComponent extends AegisElement {
 	public override connectedCallback(): void {
 		super.connectedCallback();
 
-		(this.containerConnected = this.containerConnectedCallback())
-			.then(() => this.containerConnected.finished = true);
+		this.containerConnected = this.containerConnectedCallback();
+		this.containerConnected.then(() => {
+			this.containerConnected.finished = true;
+
+			if (this.isConnected)
+				this.adapter?.connectedCallback?.();
+		});
 	}
 
 	public async containerConnectedCallback() {
-		const base = this.constructor as typeof AegisComponent;
+		if (this.hasUpdated)
+			return;
 
 		let modules: Modules = this.modules;
 		if (isPromise(modules))
@@ -71,31 +79,23 @@ export abstract class AegisComponent extends AegisElement {
 		// Unbind current element so no other adapters get this element.
 		currentAdapterElement = undefined;
 
+		const base = this.constructor as typeof AegisComponent;
 		const adapterBase = this.adapter.constructor as typeof Adapter;
 		if (adapterBase.styles) {
 			const extraStyles = (Array.isArray(adapterBase.styles)
 				? adapterBase.styles : [ adapterBase.styles ]) as CSSResultOrNative[];
 
-			adoptStyles(
-				this.shadowRoot!,
-				[ ...base.elementStyles, ...extraStyles ],
-			);
+			adoptStyles(this.shadowRoot!, [ ...base.elementStyles, ...extraStyles ]);
 		}
 		else {
-			adoptStyles(
-				this.shadowRoot!,
-				base.elementStyles,
-			);
+			adoptStyles(this.shadowRoot!, base.elementStyles);
 		}
-
-		this.adapter?.connectedCallback?.();
 	}
 
 	protected override scheduleUpdate(): void | Promise<unknown> {
 		if (!this.containerConnected.finished) {
-			return this.containerConnected.then(() => {
-				this.isConnected && super.scheduleUpdate();
-			});
+			return this.containerConnected
+				.then(() => this.isConnected && super.scheduleUpdate());
 		}
 
 		super.scheduleUpdate();

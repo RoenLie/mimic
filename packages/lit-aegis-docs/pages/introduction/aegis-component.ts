@@ -1,30 +1,23 @@
+import {
+	Adapter, AegisComponent,
+	ContainerModule, customElement,
+	inject,
+	query, state,
+} from '@roenlie/lit-aegis/ts';
 import { html } from 'lit';
-
-import { Adapter } from '../../../src/adapter/adapter.js';
-import { query } from '../../../src/adapter/decorators/adapter-query.js';
-import { state } from '../../../src/adapter/decorators/adapter-state.js';
-import { ContainerModule } from '../../../src/container/container.js';
-import { AegisComponent } from '../../../src/element/aegis-component.js';
-import { customElement } from '../../../src/element/aegis-element.js';
-import { injectParam, injectProp  } from '../../../src/utilities/static-injectors.js';
 
 
 export class AegisTestAdapter extends Adapter {
 
+	@inject('test-value') protected testValue: string;
 	@state() protected stateValue = 0;
 	@query('div') protected divEl: HTMLElement;
-	protected testValue: string;
 
-	static {
-		injectProp(this, 'test-value', 'testValue');
-		injectParam(this, 'test-value', 0);
+	constructor(@inject('test-value') protected testVal1: string) {
+		super();
+
+		console.log({ testVal1 });
 	}
-
-	//constructor(protected testVal1: string) {
-	//	super();
-
-	//	console.log({ testVal1 });
-	//}
 
 	public override connectedCallback(): void {
 		//console.log(this.testValue);

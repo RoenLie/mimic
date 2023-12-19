@@ -16,18 +16,25 @@
 	},
 	"homepage": "https://github.com/RoenLie/mimic#readme",
 	"type": "module",
-	"types": "./dist/index.d.ts",
-	"main": "./dist/index.js",
 	"exports": {
-		"./*": "./dist/*"
+		"./ts": {
+			"types": "./src/index.d.ts",
+			"default": "./src/index.ts"
+		},
+		"./ts/*": "./src/*",
+		"./js": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		},
+		"./js/*": "./dist/*"
 	},
 	"scripts": {
 		"test": "vitest",
 		"test:dom": "vitest --dom",
-		"dev": "pnpm vite --config ./docs/vite.config.ts",
-		"build": "pnpm build:prepare && pnpm build:types && vite build",
+		"dev": "cd docsite && pnpm dev",
+		"build": "pnpm build:prepare && pnpm build:indexes && pnpm build:exports && pnpm build:types && vite build",
 		"build:prepare": "rimraf dist",
-		"build:index": "package-toolbox build-indexes",
+		"build:indexes": "package-toolbox build-indexes",
 		"build:exports": "package-toolbox build-exports",
 		"build:types": "tsc --project ./src/tsconfig.json",
 		"updatedeps": "pnpm update --latest",
@@ -43,9 +50,11 @@
 		"lit": "*"
 	},
 	"devDependencies": {
-		"@roenlie/mirage-docs": "^1.2.28",
 		"happy-dom": "^12.10.3",
 		"lit": "^3.1.0"
 	},
-	"sideEffects": false
+	"sideEffects": [
+		"dist/annotations/annotations.js",
+		"src/annotations/annotations.ts"
+	]
 }

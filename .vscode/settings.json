@@ -61,7 +61,8 @@
 				{
 					"name": "core",
 					"commands": [
-						"cd packages/core"
+						"cd packages/core",
+						"clear"
 					]
 				}
 			]
@@ -71,7 +72,8 @@
 				{
 					"name": "elements",
 					"commands": [
-						"cd packages/elements"
+						"cd packages/elements",
+						"clear"
 					]
 				}
 			]
@@ -81,7 +83,8 @@
 				{
 					"name": "lit",
 					"commands": [
-						"cd packages/lit"
+						"cd packages/lit",
+						"clear"
 					]
 				}
 			]
@@ -91,7 +94,8 @@
 				{
 					"name": "lit-fabric",
 					"commands": [
-						"cd packages/lit-fabric"
+						"cd packages/lit-fabric",
+						"clear"
 					]
 				}
 			]
@@ -101,7 +105,15 @@
 				{
 					"name": "lit-aegis",
 					"commands": [
-						"cd packages/lit-aegis"
+						"cd packages/lit-aegis",
+						"clear"
+					]
+				},
+				{
+					"name": "lit-aegis-docs",
+					"commands": [
+						"cd packages/lit-aegis-docs",
+						"clear"
 					]
 				}
 			]
@@ -111,7 +123,8 @@
 				{
 					"name": "lit-context",
 					"commands": [
-						"cd packages/lit-context"
+						"cd packages/lit-context",
+						"clear"
 					]
 				}
 			]
@@ -121,7 +134,8 @@
 				{
 					"name": "router",
 					"commands": [
-						"cd packages/router"
+						"cd packages/router",
+						"clear"
 					]
 				}
 			]
@@ -131,7 +145,8 @@
 				{
 					"name": "localize",
 					"commands": [
-						"cd packages/localize"
+						"cd packages/localize",
+						"clear"
 					]
 				}
 			]
@@ -141,7 +156,8 @@
 				{
 					"name": "store",
 					"commands": [
-						"cd packages/state-store"
+						"cd packages/state-store",
+						"clear"
 					]
 				}
 			]

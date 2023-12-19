@@ -1,6 +1,4 @@
 import { defineDocConfig } from '@roenlie/mirage-docs';
-import { viteCopy } from '@roenlie/package-toolbox/vite-utils';
-import type { UserConfig } from 'vite';
 
 
 export default defineDocConfig({
@@ -14,22 +12,11 @@ export default defineDocConfig({
 	build: {
 		outDir: './dist',
 	},
-	plugins: [
-		viteCopy({
-			targets: [
-				{
-					from: './styles/*',
-					to:   './docs/public/styles',
-				},
-			],
-			hook:     'config',
-			copyOnce: true,
-		}),
-	],
+	plugins: [],
 }, {
 	base:       '',
-	root:       '/docs',
-	source:     '/docs/pages',
+	root:       '/',
+	source:     '/pages',
 	siteConfig: {
 		links: {
 			scripts: [ '/bootstrap.ts' ],
@@ -42,4 +29,4 @@ export default defineDocConfig({
 			`,
 		},
 	},
-}) as UserConfig;
+});

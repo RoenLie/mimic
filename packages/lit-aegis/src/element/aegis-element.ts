@@ -3,13 +3,13 @@ import { LitElement, type PropertyValues } from 'lit';
 
 
 /**
- * This decorator sets the static tagname prop on the component.
+ * This decorator sets the static tagname prop on the component,
  *
- * But does not register the component in the global registry.
+ * but does not register the component in the global registry.
  *
- * Must be compatible with Lits customElement decorator parameters.
+ * Must be compatible with Lits customElement decorator parameters,
  *
- * As there are metadata libs that use the supplied tagname to extract data.
+ * as there are metadata libs that use the supplied tagname to extract data.
  */
 export const customElement = (tagname: string, registerOnImport = false) => {
 	return <TBase extends Ctor<typeof AegisElement>>(base: TBase) => {

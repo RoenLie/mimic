@@ -1,11 +1,10 @@
 import type { CSSResultGroup, PropertyValues } from 'lit';
 
-import { type Container, injectable } from '../container/container.js';
+import { type Container } from '../container/container.js';
 import { ContainerFacility } from '../container/loader.js';
 import { type AegisComponent, currentAdapterElement } from '../element/aegis-component.js';
 
 
-@injectable()
 export class Adapter<T extends object = Record<keyof any, any>> {
 
 	public element: AegisComponent & T;
