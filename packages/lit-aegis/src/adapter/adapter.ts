@@ -25,10 +25,8 @@ export class Adapter<T extends object = Record<keyof any, any>> {
 		return this.element.updateComplete;
 	}
 
-	constructor(element?: AegisComponent & T) {
-		if (element)
-			this.element = element;
-		else if (currentAdapterElement)
+	constructor() {
+		if (currentAdapterElement)
 			this.element = currentAdapterElement as AegisComponent & T;
 		else
 			throw new Error('No element could be resolved.');
