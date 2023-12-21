@@ -32,7 +32,7 @@
 		"test": "vitest",
 		"test:dom": "vitest --dom",
 		"dev": "cd docsite && pnpm dev",
-		"build": "pnpm build:prepare && pnpm build:indexes && pnpm build:exports && pnpm build:types && vite build",
+		"build": "pnpm build:prepare && pnpm build:indexes && pnpm build:exports && vite build && pnpm build:types",
 		"build:prepare": "rimraf dist",
 		"build:indexes": "package-toolbox build-indexes",
 		"build:exports": "package-toolbox build-exports",
