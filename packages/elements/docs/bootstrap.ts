@@ -20,4 +20,4 @@ class EsTermStore extends LangBlockStore {
 
 }
 
-const store = new EsTermStore();
+new EsTermStore();

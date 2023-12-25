@@ -3,20 +3,16 @@ import type { Dynamic } from './localize-types.js';
 
 export abstract class TermStore {
 
-	protected static loadRef: TermStore['setTerms'];
-	protected static toggleRef: TermStore['toggleListener'];
-	protected static requestRef: TermStore['requestTerm'];
-
 	public static loadTerms(...args: Parameters<TermStore['setTerms']>) {
-		return TermStore.loadRef(...args);
+		return termFunctionRefs.loadRef!(...args);
 	}
 
 	public static requestTerm(...args: Parameters<TermStore['requestTerm']>) {
-		return TermStore.requestRef(...args);
+		return termFunctionRefs.requestRef!(...args);
 	}
 
 	public static toggleListener(...args: Parameters<TermStore['toggleListener']>) {
-		return TermStore.toggleRef(...args);
+		return termFunctionRefs.toggleRef!(...args);
 	}
 
 	protected store = new Map<string, string>();
@@ -28,12 +24,9 @@ export abstract class TermStore {
 	protected langChangeObs = new MutationObserver(() => this.onLanguageChange());
 
 	constructor() {
-		if (!TermStore.requestRef)
-			TermStore.requestRef = this.requestTerm.bind(this);
-		if (!TermStore.toggleRef)
-			TermStore.toggleRef = this.toggleListener.bind(this);
-		if (!TermStore.loadRef)
-			TermStore.loadRef = this.setTerms.bind(this);
+		termFunctionRefs.requestRef = this.requestTerm.bind(this);
+		termFunctionRefs.toggleRef = this.toggleListener.bind(this);
+		termFunctionRefs.loadRef = this.setTerms.bind(this);
 
 		this.listenForLanguageChange();
 	}
@@ -145,6 +138,13 @@ export abstract class TermStore {
 	protected abstract onTermDoesNotExist(requestedTerm: string, lang: string): Promise<void> | void
 
 }
+
+
+const termFunctionRefs: Partial<{
+	loadRef:    TermStore['setTerms'],
+	toggleRef:  TermStore['toggleListener'],
+	requestRef: TermStore['requestTerm'],
+}> = {};
 
 
 /** Sends a request to the term store for a translated term.

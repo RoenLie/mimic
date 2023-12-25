@@ -9,7 +9,7 @@
 	},
 	"dependencies": {
 		"@roenlie/lit-aegis": "workspace:^",
-		"@roenlie/mirage-docs": "^1.2.28",
+		"@roenlie/mirage-docs": "^2.0.0",
 		"lit": "^3.1.0"
 	}
 }
