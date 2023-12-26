@@ -1,4 +1,4 @@
-import { defineDocConfig } from '@roenlie/mirage-docs';
+import { defineDocConfig } from '@roenlie/mirage-docs/server';
 
 
 export default defineDocConfig({
@@ -27,6 +27,12 @@ export default defineDocConfig({
 				width: min-content;
 			}
 			`,
+
+		},
+		layout: {
+			headingText: 'Lit Aegis',
+			logoHeight:  '60px',
+			logoSrc:     'lit_aegis_logo.png',
 		},
 	},
 });

@@ -129,7 +129,7 @@
 	},
 	"devDependencies": {
 		"@faker-js/faker": "^8.3.1",
-		"@roenlie/mirage-docs": "^2.0.5",
+		"@roenlie/mirage-docs": "^2.0.6",
 		"lit": "^3.1.0",
 		"vite-plugin-import-css-sheet": "^1.0.3"
 	},
