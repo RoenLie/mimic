@@ -1,6 +1,6 @@
 {
 	"name": "@roenlie/lit-aegis",
-	"version": "1.0.21",
+	"version": "1.0.22",
 	"description": "Dependency injection framework based on LIT and inversify.",
 	"author": {
 		"name": "Kristoffer Roen-Lie",
@@ -17,11 +17,16 @@
 	"homepage": "https://github.com/RoenLie/mimic#readme",
 	"type": "module",
 	"exports": {
-		".": {
+		"./ts": {
+			"types": "./src/index.d.ts",
+			"default": "./src/index.ts"
+		},
+		"./ts/*": "./src/*",
+		"./js": {
 			"types": "./dist/index.d.ts",
 			"default": "./dist/index.js"
 		},
-		"./*": "./dist/*"
+		"./js/*": "./dist/*"
 	},
 	"scripts": {
 		"test": "vitest",
