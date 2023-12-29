@@ -18,15 +18,15 @@ export default defineDocConfig({
 	root:       '/',
 	source:     '/pages',
 	siteConfig: {
-		links: {
-			scripts: [ '/bootstrap.ts' ],
+		root: {
+			layout: {
+				headingText: 'Aegis',
+				logoHeight:  '60px',
+				logoSrc:     'logo.svg',
+			},
 		},
-		styles: {
-		},
-		layout: {
-			headingText: 'Aegis',
-			logoHeight:  '60px',
-			logoSrc:     'logo.svg',
+		pages: {
+			scripts: [ { src: '/bootstrap.ts' } ],
 		},
 	},
 });

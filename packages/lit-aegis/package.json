@@ -17,21 +17,18 @@
 	"homepage": "https://github.com/RoenLie/mimic#readme",
 	"type": "module",
 	"exports": {
-		"./ts": {
-			"types": "./src/index.d.ts",
-			"default": "./src/index.ts"
-		},
-		"./ts/*": "./src/*",
-		"./js": {
+		".": {
 			"types": "./dist/index.d.ts",
 			"default": "./dist/index.js"
 		},
-		"./js/*": "./dist/*"
+		"./*": "./dist/*"
 	},
 	"scripts": {
 		"test": "vitest",
 		"test:dom": "vitest --dom",
-		"dev": "cd docsite && pnpm dev",
+		"dev": "concurrently npm:watch-*",
+		"watch-js": "vite build --watch",
+		"watch-ts": "tsc --project ./src/tsconfig.json --watch",
 		"build": "pnpm build:prepare && pnpm build:indexes && pnpm build:exports && vite build && pnpm build:types",
 		"build:prepare": "rimraf dist",
 		"build:indexes": "package-toolbox build-indexes",

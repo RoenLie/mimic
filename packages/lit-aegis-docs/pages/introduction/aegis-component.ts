@@ -1,7 +1,7 @@
 import {
 	Adapter, AegisComponent, ContainerModule,
 	customElement, inject, query, state,
-} from '@roenlie/lit-aegis/ts';
+} from '@roenlie/lit-aegis';
 import { html } from 'lit';
 
 
