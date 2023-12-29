@@ -6,11 +6,9 @@ import { ContainerFacility } from '../container/loader.js';
 import { type AegisComponent, currentAdapterElement } from '../element/aegis-component.js';
 
 
-// We make the adapter injectable, avoiding use of decorator for bundler support.
-const Injectable = injectable()(class Injectable {});
+export class Adapter<T extends object = Record<keyof any, any>> {
 
-
-export class Adapter<T extends object = Record<keyof any, any>> extends Injectable {
+	static { injectable()(this); }
 
 	public element: AegisComponent & T;
 
@@ -30,8 +28,6 @@ export class Adapter<T extends object = Record<keyof any, any>> extends Injectab
 	}
 
 	constructor() {
-		super();
-
 		if (currentAdapterElement)
 			this.element = currentAdapterElement as AegisComponent & T;
 		else
