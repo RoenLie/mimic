@@ -22,17 +22,11 @@ export default defineDocConfig({
 			scripts: [ '/bootstrap.ts' ],
 		},
 		styles: {
-			sidebar: `
-			.greeting .title {
-				width: min-content;
-			}
-			`,
-
 		},
 		layout: {
-			headingText: 'Lit Aegis',
+			headingText: 'Aegis',
 			logoHeight:  '60px',
-			logoSrc:     'lit_aegis_logo.png',
+			logoSrc:     'logo.svg',
 		},
 	},
 });

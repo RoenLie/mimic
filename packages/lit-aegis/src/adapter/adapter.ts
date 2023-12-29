@@ -1,11 +1,16 @@
 import type { CSSResultGroup, PropertyValues } from 'lit';
 
+import { injectable } from '../annotations/annotations.js';
 import { type Container } from '../container/container.js';
 import { ContainerFacility } from '../container/loader.js';
 import { type AegisComponent, currentAdapterElement } from '../element/aegis-component.js';
 
 
-export class Adapter<T extends object = Record<keyof any, any>> {
+// We make the adapter injectable, avoiding use of decorator for bundler support.
+const Injectable = injectable()(class Injectable {});
+
+
+export class Adapter<T extends object = Record<keyof any, any>> extends Injectable {
 
 	public element: AegisComponent & T;
 
@@ -25,6 +30,8 @@ export class Adapter<T extends object = Record<keyof any, any>> {
 	}
 
 	constructor() {
+		super();
+
 		if (currentAdapterElement)
 			this.element = currentAdapterElement as AegisComponent & T;
 		else
@@ -41,17 +48,17 @@ export class Adapter<T extends object = Record<keyof any, any>> {
 		(this.element as any).performUpdate(...args);
 	}
 
-	/** {@link DocumentFragment.querySelector} */
+	/** {@link AegisComponent.querySelector} */
 	public querySelector<T extends HTMLElement>(...args: Parameters<DocumentFragment['querySelector']>) {
 		return (this.element.shadowRoot?.querySelector(...args) ?? undefined) as T | undefined;
 	}
 
-	/** {@link DocumentFragment.querySelectorAll} */
+	/** {@link AegisComponent.querySelectorAll} */
 	public querySelectorAll<T extends HTMLElement>(...args: Parameters<DocumentFragment['querySelectorAll']>) {
 		return (this.element.shadowRoot?.querySelectorAll(...args) ?? undefined) as NodeListOf<T> | undefined;
 	}
 
-	/** {@link DocumentFragment.getElementById} */
+	/** {@link AegisComponent.getElementById} */
 	public getElementById<T extends HTMLElement>(...args: Parameters<DocumentFragment['getElementById']>) {
 		return (this.element.shadowRoot?.getElementById(...args) ?? undefined) as T | undefined;
 	}
