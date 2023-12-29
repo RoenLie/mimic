@@ -17,28 +17,23 @@
 	"homepage": "https://github.com/RoenLie/mimic#readme",
 	"type": "module",
 	"exports": {
-		"./ts": {
-			"types": "./src/index.d.ts",
-			"default": "./src/index.ts"
-		},
-		"./ts/*": "./src/*",
-		"./js": {
+		".": {
 			"types": "./dist/index.d.ts",
 			"default": "./dist/index.js"
 		},
-		"./js/*": "./dist/*"
+		"./*": "./dist/*"
 	},
 	"scripts": {
 		"test": "vitest",
-		"test:dom": "vitest --dom",
 		"dev": "concurrently npm:watch-*",
 		"watch-js": "vite build --watch",
 		"watch-ts": "tsc --project ./src/tsconfig.json --watch",
-		"build": "pnpm build:prepare && pnpm build:indexes && pnpm build:exports && vite build && pnpm build:types",
-		"build:prepare": "rimraf dist",
-		"build:indexes": "package-toolbox build-indexes",
-		"build:exports": "package-toolbox build-exports",
-		"build:types": "tsc --project ./src/tsconfig.json",
+		"clean-dist": "rimraf dist",
+		"create-indexes": "package-toolbox build-indexes",
+		"create-exports": "package-toolbox build-exports",
+		"build": "pnpm clean-dist && concurrently npm:create-* && concurrently npm:build-*",
+		"build-js": "vite build",
+		"build-ts": "tsc --project ./src/tsconfig.json",
 		"updatedeps": "pnpm update --latest",
 		"increment-version": "package-toolbox increment-version"
 	},

@@ -12,10 +12,8 @@ export default defineToolbox(async () => {
 		},
 		exportsBuilder: {
 			entries: [
-				{ path: './ts',   default: './src/index.ts'  },
-				{ path: './ts/*', default: './src/*'         },
-				{ path: './js',   default: './dist/index.js' },
-				{ path: './js/*', default: './dist/*'        },
+				{ path: '.',   default: './dist/index.js' },
+				{ path: './*', default: './dist/*'        },
 			],
 			options: {
 				override: true,
