@@ -1,11 +1,13 @@
-import '@abraham/reflection';
-
 import { nameof } from '@roenlie/mimic-core/function';
 import { type interfaces, METADATA_KEY } from 'inversify';
 import type { DecoratorTarget } from 'inversify/lib/annotation/decorator_utils.js';
 import * as ERROR_MSGS from 'inversify/lib/constants/error_msgs.js';
 import { Metadata } from 'inversify/lib/planning/metadata.js';
 import { getFirstArrayDuplicate } from 'inversify/lib/utils/js.js';
+
+import { useReflectionShim } from './reflect-shim.js';
+
+useReflectionShim();
 
 
 export type Prototype<T> = {

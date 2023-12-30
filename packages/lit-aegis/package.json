@@ -38,7 +38,6 @@
 		"increment-version": "package-toolbox increment-version"
 	},
 	"dependencies": {
-		"@abraham/reflection": "^0.12.0",
 		"@roenlie/mimic-core": "workspace:^",
 		"deepmerge-ts": "^5.1.0",
 		"inversify": "^6.0.2"
@@ -51,7 +50,7 @@
 		"lit": "^3.1.0"
 	},
 	"sideEffects": [
-		"dist/annotations/annotations.js",
-		"src/annotations/annotations.ts"
+		"./dist/annotations/annotations.js",
+		"./dist/utilities/reflect-shim.js"
 	]
 }

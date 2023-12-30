@@ -1,5 +1,3 @@
-import '@abraham/reflection';
-
 import {
 	inject as _inject,
 	injectable as _injectable,
@@ -8,6 +6,10 @@ import {
 	tagged as _tagged,
 	unmanaged as _unmanaged,
 } from 'inversify';
+
+import { useReflectionShim } from '../utilities/reflect-shim.js';
+
+useReflectionShim();
 
 
 export const inject = _inject;
