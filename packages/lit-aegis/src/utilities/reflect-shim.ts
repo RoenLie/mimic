@@ -132,7 +132,8 @@ const Reflection = {
 
 export const useReflectionShim = () => {
 	const keys = Object.keys(Reflection);
-	if (Object.keys(Reflect).some(k => keys.includes(k)))
+	const existingProps = Object.getOwnPropertyNames(Reflect);
+	if (existingProps.some(k => keys.includes(k)))
 		return;
 
 	Object.assign(Reflect, Reflection);

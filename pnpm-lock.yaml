@@ -154,8 +154,8 @@ importers:
         specifier: workspace:^
         version: link:../lit-aegis
       '@roenlie/mirage-docs':
-        specifier: ^2.0.10
-        version: 2.0.10(@types/markdown-it@13.0.7)(lit@3.1.0)(vite@5.0.10)
+        specifier: ^2.0.11
+        version: 2.0.11(@types/markdown-it@13.0.7)(lit@3.1.0)(vite@5.0.10)
       lit:
         specifier: ^3.1.0
         version: 3.1.0
@@ -233,9 +233,6 @@ packages:
     resolution: {integrity: sha512-1Yjs2SvM8TflER/OD3cOjhWWOZb58A2t7wpE2S9XfBYTiIl+XFhQG2bjy4Pu1I+EAlCNUzRDYDdFwFYUKvXcIA==}
     engines: {node: '>=0.10.0'}
     dev: true
-
-  /@abraham/reflection@0.12.0:
-    resolution: {integrity: sha512-OoLlgBE5u18mc61pJNamEh2OtFpHjtvDi1pV4ojnnH77juCvQw/Z3YlHF8TJiorU7/V6UuGApFzsi+bieug7fg==}
 
   /@babel/runtime@7.23.6:
     resolution: {integrity: sha512-zHd0eUrf5GZoOWVCXp6koAKQTfZV07eit6bGPmJgnZdnSAvvZee6zniW2XMF7Cmc4ISOOnPy3QaSiIJGJkVEDQ==}
@@ -721,25 +718,24 @@ packages:
       - supports-color
     dev: true
 
-  /@roenlie/lit-aegis@1.0.24(lit@3.1.0):
-    resolution: {integrity: sha512-GndY3JOV+4I1ANMvP3u1CZC/FtMrGd/k50qcWm3ww+25iEJXUfv2hKT3LwG/gZQqEG7JhCDTU41lgpW15nmaZg==}
+  /@roenlie/lit-aegis@1.0.25(lit@3.1.0):
+    resolution: {integrity: sha512-OShDzk93DQzefjsCoI68mHU3xFFJEGy7e8wg03yvJ2W3BN5BfGgVQECF2TBU1TVuVrH1Vj96eKcqpFv8YFDR7w==}
     peerDependencies:
       lit: '*'
     dependencies:
-      '@abraham/reflection': 0.12.0
-      '@roenlie/mimic-core': 0.0.65
+      '@roenlie/mimic-core': 0.0.66
       deepmerge-ts: 5.1.0
       inversify: 6.0.2
       lit: 3.1.0
 
-  /@roenlie/mimic-core@0.0.65:
-    resolution: {integrity: sha512-o1M/264RSe2VVWUpLy5ux2ntI+a1RNRtq5z5klLi1CQcnfMXj3QBRAFe6Gr/aA95WpLGAda1j3+yTCw7ezGibw==}
+  /@roenlie/mimic-core@0.0.66:
+    resolution: {integrity: sha512-jCzsBsIr1o/pZyh8dnImhvPfu8PfXaGJeexBhgxYOt2oRrZg9whEzQh++tzwqBXz2yntTp5SBhlX8hkQG5/XJw==}
     dependencies:
       nanoid: 5.0.4
       ts-toolbelt: 9.6.0
 
-  /@roenlie/mirage-docs@2.0.10(@types/markdown-it@13.0.7)(lit@3.1.0)(vite@5.0.10):
-    resolution: {integrity: sha512-pM4BwCvQkU/YjhuEudvXTLwTvQRH9Nsi2QJ0iKTtmGdsk2O46/eV+b+Sup64qXmZvejoJCublX/44VUZMS9TnA==}
+  /@roenlie/mirage-docs@2.0.11(@types/markdown-it@13.0.7)(lit@3.1.0)(vite@5.0.10):
+    resolution: {integrity: sha512-u+oCUrI5QLM+Eta44XvDJg/JmqqIhazXotEf30TJ8EfgBDS4rbslLbO4UoMNmzRY8/OrxYMzZ2bJfCFHMBHY/w==}
     peerDependencies:
       lit: ^3.1.0
       vite: ^5.0.10
@@ -750,7 +746,7 @@ packages:
       '@orama/plugin-data-persistence': 2.0.0-beta.12
       '@orama/plugin-match-highlight': 2.0.0-beta.12
       '@orama/plugin-parsedoc': 2.0.0-beta.12
-      '@roenlie/lit-aegis': 1.0.24(lit@3.1.0)
+      '@roenlie/lit-aegis': 1.0.25(lit@3.1.0)
       '@sindresorhus/slugify': 2.2.1
       deepmerge-ts: 5.1.0
       globby: 14.0.0
@@ -780,7 +776,7 @@ packages:
       '@orama/plugin-data-persistence': 2.0.0-beta.10
       '@orama/plugin-match-highlight': 2.0.0-beta.10
       '@orama/plugin-parsedoc': 2.0.0-beta.10
-      '@roenlie/lit-aegis': 1.0.24(lit@3.1.0)
+      '@roenlie/lit-aegis': 1.0.25(lit@3.1.0)
       '@sindresorhus/slugify': 2.2.1
       deepmerge-ts: 5.1.0
       globby: 14.0.0
@@ -810,7 +806,7 @@ packages:
       '@orama/plugin-data-persistence': 2.0.0-beta.10
       '@orama/plugin-match-highlight': 2.0.0-beta.10
       '@orama/plugin-parsedoc': 2.0.0-beta.10
-      '@roenlie/lit-aegis': 1.0.24(lit@3.1.0)
+      '@roenlie/lit-aegis': 1.0.25(lit@3.1.0)
       '@sindresorhus/slugify': 2.2.1
       deepmerge-ts: 5.1.0
       globby: 14.0.0
