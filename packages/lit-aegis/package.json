@@ -37,7 +37,7 @@
 		"dev": "pnpm run --parallel \"/^watch-.*/\"",
 		"watch-js": "vite build --watch",
 		"watch-ts": "tsc --project ./src/tsconfig.json --watch",
-		"build": "pnpm run \"/^build-.*/\"",
+		"build": "pnpm run --sequential \"/^build-.*/\"",
 		"build-clean": "rimraf dist",
 		"build-indexes": "package-toolbox build-indexes",
 		"build-exports": "package-toolbox build-exports",
