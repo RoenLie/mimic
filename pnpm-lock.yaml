@@ -154,8 +154,8 @@ importers:
         specifier: workspace:^
         version: link:../lit-aegis
       '@roenlie/mirage-docs':
-        specifier: ^2.0.11
-        version: 2.0.11(@types/markdown-it@13.0.7)(lit@3.1.0)(vite@5.0.10)
+        specifier: ^2.0.13
+        version: 2.0.13(@types/markdown-it@13.0.7)(lit@3.1.0)(vite@5.0.10)
       lit:
         specifier: ^3.1.0
         version: 3.1.0
@@ -668,18 +668,19 @@ packages:
       - supports-color
     dev: true
 
-  /@roenlie/lit-aegis@1.0.26(lit@3.1.0):
-    resolution: {integrity: sha512-Yx/ot9m9toScrqn8LmBQ6GNinchWfowvodHQAp+XJ8J8gMx0bdBNH8hlVHDrm0Yk6ugb+CpJEer4syCw8ME2uw==}
+  /@roenlie/lit-aegis@1.0.28(lit@3.1.0):
+    resolution: {integrity: sha512-6fc/VO1FChXuUPIdKkiMMccqMInYSDH8enJTTFJNstrvknYqtex6xZCcB4vHL5eaWDmdntDbMBtK+aoscm3f2w==}
     peerDependencies:
       lit: '*'
     dependencies:
-      '@roenlie/mimic-core': 0.0.67
+      '@roenlie/mimic-core': 0.0.69
+      '@roenlie/reflect-metadata': 1.0.3
       deepmerge-ts: 5.1.0
       inversify: 6.0.2
       lit: 3.1.0
 
-  /@roenlie/mimic-core@0.0.67:
-    resolution: {integrity: sha512-Zxc565erQjtmNrjko/IusWQPDCLoQrSKbquHIO2JIFD/n6xltr0TcFDnZhlWuPWBye2UA9rBoW+rIDYMUFyDCg==}
+  /@roenlie/mimic-core@0.0.69:
+    resolution: {integrity: sha512-oHXrNH7PA5pzAZxOWre99znbGpm2HUexjuEljkHftR1N3Iq76binhpxeaBVzYcdf54OmB2DNrTR/hLoM3MTnJA==}
     dependencies:
       nanoid: 5.0.4
       ts-toolbelt: 9.6.0
@@ -696,7 +697,7 @@ packages:
       '@orama/plugin-data-persistence': 2.0.0-beta.12
       '@orama/plugin-match-highlight': 2.0.0-beta.12
       '@orama/plugin-parsedoc': 2.0.0-beta.12
-      '@roenlie/lit-aegis': 1.0.26(lit@3.1.0)
+      '@roenlie/lit-aegis': 1.0.28(lit@3.1.0)
       '@sindresorhus/slugify': 2.2.1
       deepmerge-ts: 5.1.0
       globby: 14.0.0
@@ -712,6 +713,38 @@ packages:
     transitivePeerDependencies:
       - '@types/markdown-it'
       - supports-color
+    dev: true
+
+  /@roenlie/mirage-docs@2.0.13(@types/markdown-it@13.0.7)(lit@3.1.0)(vite@5.0.10):
+    resolution: {integrity: sha512-Ajt4KKjKFWXZeFt7rST0ThZsMiI2Afr+LjwfCgNNy091gpRtYD/4Yyqm0iRuJjyJdnj3gqbraIMbrB9Jg8gv5w==}
+    peerDependencies:
+      lit: ^3.1.0
+      vite: ^5.0.10
+    dependencies:
+      '@custom-elements-manifest/analyzer': 0.9.0
+      '@monaco-editor/loader': 1.4.0(monaco-editor@0.45.0)
+      '@orama/orama': 2.0.0-beta.12
+      '@orama/plugin-data-persistence': 2.0.0-beta.12
+      '@orama/plugin-match-highlight': 2.0.0-beta.12
+      '@orama/plugin-parsedoc': 2.0.0-beta.12
+      '@roenlie/lit-aegis': 1.0.28(lit@3.1.0)
+      '@roenlie/mimic-core': 0.0.69
+      '@sindresorhus/slugify': 2.2.1
+      deepmerge-ts: 5.1.0
+      globby: 14.0.0
+      highlight.js: 11.9.0
+      lit: 3.1.0
+      markdown-it: 14.0.0
+      markdown-it-anchor: 8.6.7(@types/markdown-it@13.0.7)(markdown-it@14.0.0)
+      monaco-editor: 0.45.0
+      rollup-plugin-copy: 3.5.0
+      tabbable: 6.2.0
+      tslib: 2.6.2
+      vite: 5.0.10(@types/node@20.10.6)
+    transitivePeerDependencies:
+      - '@types/markdown-it'
+      - supports-color
+    dev: false
 
   /@roenlie/package-toolbox@0.0.22:
     resolution: {integrity: sha512-OvoOwtFwuXsVlRH7g1ZhtkZjjfxNw8rCQKkNnH//ztao8NkDl8SOabX8bytmm0Z8YsaEOf8A3s5eme0e/KE+Hg==}
@@ -735,7 +768,6 @@ packages:
 
   /@roenlie/reflect-metadata@1.0.3:
     resolution: {integrity: sha512-XffzrOocXqrAIp6rLpG7fOiGYhD2CmhuayeghHO5qBdykAbSJZHVVhQV/akr98cps+nxJaP5ldvMhMN6kBwFog==}
-    dev: false
 
   /@roenlie/tsconfig@1.0.2:
     resolution: {integrity: sha512-ywJdyp1m1Ef5/TDiM+33qq/GjeBgtrAREnh5d0biyze3EV/+g1iIbv9D5bllYZX4+j1qJJL/LCtdOkf9CTs/uQ==}
