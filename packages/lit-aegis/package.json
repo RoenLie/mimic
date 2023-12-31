@@ -15,23 +15,32 @@
 		"url": "https://github.com/RoenLie/mimic/issues"
 	},
 	"homepage": "https://github.com/RoenLie/mimic#readme",
+	"files": [
+		"./dist/lib",
+		"./src",
+		"./LICENSE",
+		"./package.json",
+		"./readme.md"
+	],
 	"type": "module",
+	"main": "./dist/lib/index.js",
+	"types": "./dist/lib/index.d.ts",
 	"exports": {
 		".": {
-			"types": "./dist/index.d.ts",
-			"default": "./dist/index.js"
+			"types": "./dist/lib/index.d.ts",
+			"default": "./dist/lib/index.js"
 		},
-		"./*": "./dist/*"
+		"./*": "./dist/lib/*"
 	},
 	"scripts": {
 		"test": "vitest",
-		"dev": "concurrently npm:watch-*",
+		"dev": "pnpm run --parallel \"/^watch-.*/\"",
 		"watch-js": "vite build --watch",
 		"watch-ts": "tsc --project ./src/tsconfig.json --watch",
-		"clean-dist": "rimraf dist",
-		"create-indexes": "package-toolbox build-indexes",
-		"create-exports": "package-toolbox build-exports",
-		"build": "pnpm clean-dist && concurrently npm:create-* && concurrently npm:build-*",
+		"build": "pnpm run \"/^build-.*/\"",
+		"build-clean": "rimraf dist",
+		"build-indexes": "package-toolbox build-indexes",
+		"build-exports": "package-toolbox build-exports",
 		"build-js": "vite build",
 		"build-ts": "tsc --project ./src/tsconfig.json",
 		"updatedeps": "pnpm update --latest",
@@ -39,6 +48,7 @@
 	},
 	"dependencies": {
 		"@roenlie/mimic-core": "workspace:^",
+		"@roenlie/reflect-metadata": "^1.0.3",
 		"deepmerge-ts": "^5.1.0",
 		"inversify": "^6.0.2"
 	},
@@ -46,11 +56,10 @@
 		"lit": "*"
 	},
 	"devDependencies": {
-		"happy-dom": "^12.10.3",
 		"lit": "^3.1.0"
 	},
 	"sideEffects": [
-		"./dist/annotations/annotations.js",
-		"./dist/utilities/reflect-shim.js"
+		"./dist/lib/annotations/annotations.js",
+		"./dist/lib/annotations/static-injector.js"
 	]
 }

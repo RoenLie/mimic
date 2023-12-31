@@ -1,3 +1,4 @@
+import { useReflectMetadata } from '@roenlie/reflect-metadata';
 import {
 	inject as _inject,
 	injectable as _injectable,
@@ -7,9 +8,7 @@ import {
 	unmanaged as _unmanaged,
 } from 'inversify';
 
-import { useReflectionShim } from '../utilities/reflect-shim.js';
-
-useReflectionShim();
+useReflectMetadata();
 
 
 export const inject = _inject;
