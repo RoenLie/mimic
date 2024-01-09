@@ -19,7 +19,10 @@ export class AppRouterCmp extends MimicElement {
 			const module = await importFn();
 
 			for (const exprt of Object.values(module)) {
-				if ('page' in exprt && exprt.page === true && MimicElement.isPrototypeOf(exprt)) {
+				const hasRequiredProps = [ 'page', 'register', 'tagName' ]
+					.every(prop => Object.keys(exprt).some(k => k === prop));
+
+				if (hasRequiredProps) {
 					const _exprt = exprt as typeof MimicElement;
 
 					context.route.component = _exprt.tagName;
