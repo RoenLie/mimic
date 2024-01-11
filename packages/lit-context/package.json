@@ -1,6 +1,6 @@
 {
 	"name": "@roenlie/lit-context",
-	"version": "1.0.30",
+	"version": "1.0.31",
 	"description": "Context provider and consumer for Lit Elements",
 	"author": {
 		"name": "Kristoffer Roen-Lie",
