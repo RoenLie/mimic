@@ -1,6 +1,6 @@
 {
 	"name": "@roenlie/lit-state-store",
-	"version": "0.0.40",
+	"version": "0.0.41",
 	"description": "State store primarily for use with LIT web components.",
 	"author": {
 		"name": "Kristoffer Roen-Lie",
