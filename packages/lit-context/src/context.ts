@@ -1,5 +1,5 @@
-import { type RecordOf, type stringliteral } from '@roenlie/mimic-core/types';
-import { type LitElement } from 'lit';
+import type { RecordOf, stringliteral } from '@roenlie/mimic-core/types';
+import type { ReactiveElement } from 'lit';
 import { state } from 'lit/decorators.js';
 
 
@@ -12,7 +12,7 @@ export const createHydrateName = (prop: string | symbol) => 'hydrate-context:' +
 
 
 export const provide = <T extends any[]>(name: T[number] | stringliteral) => {
-	return (target: RecordOf<LitElement>, prop: string) => {
+	return (target: RecordOf<ReactiveElement>, prop: string) => {
 		const connected = target.connectedCallback;
 		const disconnected = target.disconnectedCallback;
 		const update = target['update'];
@@ -68,7 +68,7 @@ export const provide = <T extends any[]>(name: T[number] | stringliteral) => {
 
 
 export const consume = <T extends any[]>(name: T[number] | stringliteral) => {
-	return (target: RecordOf<LitElement>, prop: string) => {
+	return (target: RecordOf<ReactiveElement>, prop: string) => {
 		const hydrateName = createHydrateName(name);
 		const eventName = createEventName(name);
 		const cacheName = '__' + hydrateName;

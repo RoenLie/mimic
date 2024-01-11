@@ -40,8 +40,8 @@
 		"lit": "*"
 	},
 	"devDependencies": {
-		"@roenlie/mirage-docs": "^2.0.5",
-		"lit": "^3.1.0"
+		"@roenlie/mirage-docs": "^2.0.14",
+		"lit": "^3.1.1"
 	},
 	"sideEffects": false
 }

@@ -51,8 +51,8 @@
 		"lit": "*"
 	},
 	"devDependencies": {
-		"happy-dom": "^12.10.3",
-		"lit": "^3.1.0"
+		"happy-dom": "^13.0.0",
+		"lit": "^3.1.1"
 	},
 	"sideEffects": false
 }

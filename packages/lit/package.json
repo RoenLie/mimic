@@ -55,7 +55,7 @@
 		"increment-version": "package-toolbox increment-version"
 	},
 	"dependencies": {
-		"@floating-ui/dom": "^1.5.3",
+		"@floating-ui/dom": "^1.5.4",
 		"@roenlie/mimic-core": "workspace:^",
 		"fast-equals": "^5.0.1",
 		"nanoid": "^5.0.4"
@@ -64,8 +64,8 @@
 		"lit": "*"
 	},
 	"devDependencies": {
-		"happy-dom": "^12.10.3",
-		"lit": "^3.1.0"
+		"happy-dom": "^13.0.0",
+		"lit": "^3.1.1"
 	},
 	"sideEffects": [
 		"dist/injectable/core.js"

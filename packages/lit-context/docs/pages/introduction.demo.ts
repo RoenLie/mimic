@@ -53,7 +53,7 @@ class ProviderCmp extends LitElement {
 
 	@provide('label') public label = 'this is the label';
 
-	protected override createRenderRoot(): Element | ShadowRoot {
+	protected override createRenderRoot() {
 		return this;
 	}
 
