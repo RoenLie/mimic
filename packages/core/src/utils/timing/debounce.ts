@@ -7,18 +7,31 @@ import type { AsyncFn, Fn } from '../../types/function.types.js';
  * Repeated calls to this function within the delay period will reset the timeout,
  * effectively delaying the call of the original function.
  */
-export const debounce = <T extends (...args: any[]) => any>(
+export const debounce = <T extends () => any>(
 	func: T,
 	delay = 0,
 ) => {
 	let timeout: number;
 
-	const fn = (...args: any[]) => {
+	const innerFunc = () => { func(); };
+
+	const fn = () => {
 		clearTimeout(timeout);
-		timeout = setTimeout(() => func(...args), delay);
+		timeout = setTimeout(innerFunc, delay);
 	};
 
-	return fn as (...args: Parameters<T>) => void;
+	fn.run = () => {
+		if (timeout) {
+			clearTimeout(timeout);
+			innerFunc();
+		}
+	};
+
+	fn.cancel = () => {
+		clearTimeout(timeout);
+	};
+
+	return fn;
 };
 
 
@@ -67,17 +80,21 @@ export const curryDebounce = <T extends Fn<any, ReturnType<T>> | AsyncFn<any, Re
  * Activates a debounce that fulfills and triggers the debounce function
  * only if there has been a sufficient delay between activations.
  */
-export const withDebounce = <T extends (...args: any[]) => any>(
-	func: T,
-	debounceFunc: () => any,
+export const withDebounce = <
+	TFunc extends (...args: any[]) => any,
+	TDebounce extends () => any,
+>(
+	func: TFunc,
+	debounceFunc: TDebounce,
 	delay: number,
 ) => {
 	const deb = debounce(debounceFunc, delay);
-	const fn = (...args: any[]) => {
-		deb();
+	const fn = (...args: Parameters<TFunc>) => { return deb(), func(...args); };
+	fn.run = deb.run;
+	fn.cancel = deb.cancel;
 
-		return func(...args);
-	};
-
-	return fn as T;
+	return fn;
 };
+
+
+withDebounce(() => {}, () => {}, 500).cancel();
