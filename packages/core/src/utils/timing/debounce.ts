@@ -11,10 +11,9 @@ export const debounce = <T extends () => any>(
 	func: T,
 	delay = 0,
 ) => {
-	let timeout: number;
+	let timeout = 0;
 
 	const innerFunc = () => { func(); };
-
 	const fn = () => {
 		clearTimeout(timeout);
 		timeout = setTimeout(innerFunc, delay);
@@ -23,12 +22,14 @@ export const debounce = <T extends () => any>(
 	fn.run = () => {
 		if (timeout) {
 			clearTimeout(timeout);
+			timeout = 0;
 			innerFunc();
 		}
 	};
 
 	fn.cancel = () => {
 		clearTimeout(timeout);
+		timeout = 0;
 	};
 
 	return fn;
