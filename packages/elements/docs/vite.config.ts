@@ -36,26 +36,28 @@ export default defineDocConfig({
 		loadWhitelist: [ /\.ts/ ],
 	},
 	siteConfig: {
-		links: {
-			scripts:    [ '/bootstrap.ts' ],
+		root: {
+			layout: {
+				headingText: 'Mimic Elements',
+				logoSrc:     'logo.svg',
+			},
+			styleOverrides: {
+				sidebar: `
+				.greeting .title {
+					width: min-content;
+				}
+				`,
+			},
+		},
+		pages: {
 			darkTheme:  '/styles/tokens-dark.css',
 			lightTheme: '/styles/tokens-light.css',
 			styles:     [
-				'/styles/tokens-all.css',
-				'/styles/tokens-extra.css',
-				'/styles/tokens-font.css',
+				{ src: '/styles/tokens-all.css' },
+				{ src: '/styles/tokens-extra.css' },
+				{ src: '/styles/tokens-font.css' },
 			],
-		},
-		styles: {
-			sidebar: `
-			.greeting .title {
-				width: min-content;
-			}
-			`,
-		},
-		layout: {
-			headingText: 'Mimic Elements',
-			logoHeight:  'logo.svg',
+			scripts: [ { src: '/bootstrap.ts' } ],
 		},
 	},
 });

@@ -5,11 +5,11 @@ import { css } from 'lit';
 /** @internalexport */
 export const tooltipStyleProps = css`
 :host {
-	--tooltip-border-radius: var(--border-radius-s);
+	--tooltip-border-radius: var(--mm-border-radius-s);
 	--tooltip-arrow-size: 16px;
-	--tooltip-index: var(--index-tooltip);
-	--tooltip-background-color: var(--primary);
-	--tooltip-color: var(--on-primary);
+	--tooltip-index: var(--mm-index-tooltip);
+	--tooltip-background-color: var(--mm-color-primary);
+	--tooltip-color: var(--mm-color-on-primary);
 	--tooltip-padding: 6px 16px;
 }
 `;
