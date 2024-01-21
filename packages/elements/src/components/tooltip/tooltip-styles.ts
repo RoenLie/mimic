@@ -8,8 +8,8 @@ export const tooltipStyleProps = css`
 	--tooltip-border-radius: var(--mm-border-radius-s);
 	--tooltip-arrow-size: 16px;
 	--tooltip-index: var(--mm-index-tooltip);
-	--tooltip-background-color: var(--mm-color-primary);
-	--tooltip-color: var(--mm-color-on-primary);
+	--tooltip-background-color: var(--mm-primary);
+	--tooltip-color: var(--mm-on-primary);
 	--tooltip-padding: 6px 16px;
 }
 `;
