@@ -23,6 +23,7 @@ class TooltipDirective extends AsyncDirective {
 
 	private _part: TooltipPart;
 	private _content: string | TemplateResult | unknown = '';
+	private _options?: TooltipDirectiveOptions;
 	private _tooltipRef: MMTooltip | undefined;
 
 	constructor(part: PartInfo) {
@@ -35,10 +36,11 @@ class TooltipDirective extends AsyncDirective {
 		this._tooltipRef = tooltipInstance;
 	}
 
-	public override update(part: TooltipPart, [ content ]: DirectiveParameters<this>) {
+	public override update(part: TooltipPart, [ content, options ]: DirectiveParameters<this>) {
 		this._part = part;
 		this._part.element['tooltipDirective'] = this;
 		this._content = content || this._part.element.title;
+		this._options = options;
 
 		this.disconnected();
 		this.reconnected();
@@ -67,6 +69,8 @@ class TooltipDirective extends AsyncDirective {
 	protected initialize = async (preFn: () => void, postFn: () => void) => {
 		tooltipInstance.target = this._part.element;
 		tooltipInstance.content = this._content;
+		for (const prop in this._options)
+			(tooltipInstance as Record<keyof any, any>)[prop] = this._options[prop];
 
 		preFn();
 		await tooltipInstance.transitioning;
