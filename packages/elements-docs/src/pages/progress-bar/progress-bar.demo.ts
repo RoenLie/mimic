@@ -1,7 +1,6 @@
+import { MMProgressBar } from '@roenlie/mimic-elements/progress-bar';
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
-
-import { MMProgressBar } from './progress-bar-element.js';
 
 MMProgressBar.register();
 

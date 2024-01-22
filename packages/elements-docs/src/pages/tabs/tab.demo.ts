@@ -1,7 +1,6 @@
+import { MMTabGroup } from '@roenlie/mimic-elements/tabs';
 import { css, html, LitElement, nothing } from 'lit';
 import { customElement } from 'lit/decorators.js';
-
-import { MMTabGroup } from './tab-group-element.js';
 
 MMTabGroup.register();
 

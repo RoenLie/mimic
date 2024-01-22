@@ -1,9 +1,8 @@
+import { MMActionBar } from '@roenlie/mimic-elements/action-bar';
+import { MMButton } from '@roenlie/mimic-elements/button';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
-
-import { MMButton } from '../button/button.cmp.js';
-import { MMActionBar } from './action-bar.cmp.js';
 
 MMActionBar.register();
 MMButton.register();

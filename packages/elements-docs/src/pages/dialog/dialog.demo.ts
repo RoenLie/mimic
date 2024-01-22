@@ -1,9 +1,9 @@
+import { MMButton } from '@roenlie/mimic-elements/button';
+import { DialogConfig, MMDialog } from '@roenlie/mimic-elements/dialog';
+import { systemIcons } from '@roenlie/mimic-elements/utilities';
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
-import { systemIcons } from '../../utilities/system-icons.js';
-import { MMButton } from '../button/button.cmp.js';
-import { DialogConfig, MMDialog } from './dialog-element.js';
 
 MMDialog.register();
 MMButton.register();

@@ -4,8 +4,8 @@
 		"outDir": "../dist",
 		"rootDir": ".",
 		"baseUrl": ".",
-		"noEmit": false,
-		"emitDeclarationOnly": true,
+		"noEmit": true,
+		"emitDeclarationOnly": false,
 		"types": [
 			"vite/client",
 			"vite-plugin-import-css-sheet/client"

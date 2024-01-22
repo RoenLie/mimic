@@ -1,8 +1,8 @@
+import { MMButton } from '@roenlie/mimic-elements/button';
+import { MMInput } from '@roenlie/mimic-elements/input';
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
-import { MMButton } from '../button/button.cmp.js';
-import { MMInput } from './input.cmp.js';
 
 MMInput.register();
 MMButton.register();

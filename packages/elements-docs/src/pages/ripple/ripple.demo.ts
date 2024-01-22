@@ -1,7 +1,6 @@
+import { MMRipple } from '@roenlie/mimic-elements/ripple';
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators/custom-element.js';
-
-import { MMRipple } from './ripple-element.js';
 
 MMRipple.register();
 

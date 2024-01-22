@@ -1,9 +1,8 @@
 import { range } from '@roenlie/mimic-core/array';
 import { domId } from '@roenlie/mimic-core/dom';
+import { type ListTemplateConfig, MMTemplateList } from '@roenlie/mimic-elements/template-list';
 import { css, html, LitElement, type TemplateResult } from 'lit';
 import { customElement } from 'lit/decorators.js';
-
-import { type ListTemplateConfig, MMTemplateList } from './template-list-element.js';
 
 MMTemplateList.register();
 

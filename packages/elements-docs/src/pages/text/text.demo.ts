@@ -1,7 +1,6 @@
+import { MMText } from '@roenlie/mimic-elements/text';
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
-
-import { MMText } from './text-element.js';
 
 MMText.register();
 

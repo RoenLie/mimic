@@ -20,7 +20,7 @@
 	},
 	"typescript.format.insertSpaceAfterTypeAssertion": true,
 	"typescript.format.semicolons": "insert",
-	"typescript.preferences.importModuleSpecifier": "project-relative",
+	"typescript.preferences.importModuleSpecifier": "relative",
 	"typescript.preferences.quoteStyle": "single",
 	"typescript.updateImportsOnFileMove.enabled": "always",
 	"javascript.preferences.importModuleSpecifierEnding": "js",
@@ -46,7 +46,7 @@
 		"titleBar.inactiveForeground": "#e7e7e799"
 	},
 	"peacock.color": "rgb(30,30,30)",
-	"restoreTerminals.runOnStartup": true,
+	"restoreTerminals.runOnStartup": false,
 	"restoreTerminals.terminals": [
 		{
 			"splitTerminals": [

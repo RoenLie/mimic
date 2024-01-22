@@ -1,7 +1,6 @@
+import { MMUpload } from '@roenlie/mimic-elements/upload';
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators/custom-element.js';
-
-import { MMUpload } from './upload-element.js';
 
 MMUpload.register();
 

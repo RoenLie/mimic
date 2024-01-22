@@ -4,8 +4,9 @@ import { html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
+import { initializeStyleTokens } from '../../styles/token-styles.js';
 import { MMRipple } from '../ripple/ripple-element.js';
-import styles from './button.css' with { type: 'css' };
+import buttonStyles from './button.css' with { type: 'css' };
 
 MMRipple.register();
 
@@ -90,7 +91,7 @@ export class MMButton extends MimicElement {
 
 	public static override styles = [
 		sharedStyles,
-		styles,
+		buttonStyles,
 	];
 
 }

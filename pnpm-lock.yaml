@@ -107,6 +107,34 @@ importers:
         specifier: ^1.0.3
         version: 1.0.3(@types/node@20.11.5)
 
+  packages/elements-docs:
+    dependencies:
+      '@roenlie/mimic-core':
+        specifier: workspace:^
+        version: link:../core
+      '@roenlie/mimic-elements':
+        specifier: workspace:^
+        version: link:../elements
+      '@roenlie/mimic-lit':
+        specifier: workspace:^
+        version: link:../lit
+      '@roenlie/mimic-localize':
+        specifier: workspace:^
+        version: link:../localize
+      lit:
+        specifier: ^3.1.1
+        version: 3.1.1
+    devDependencies:
+      '@faker-js/faker':
+        specifier: ^8.3.1
+        version: 8.3.1
+      '@roenlie/mirage-docs':
+        specifier: ^2.0.14
+        version: 2.0.14(@types/markdown-it@13.0.7)(lit@3.1.1)(vite@5.0.12)
+      vite-plugin-import-css-sheet:
+        specifier: ^1.0.3
+        version: 1.0.3(@types/node@20.11.5)
+
   packages/lit:
     dependencies:
       '@floating-ui/dom':

@@ -1,10 +1,9 @@
+import { type ButtonShape, type ButtonSize, type ButtonVariant, MMButton } from '@roenlie/mimic-elements/button';
+import { MMIcon } from '@roenlie/mimic-elements/icon';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
-
-import { MMIcon } from '../icon/icon-element.js';
-import { type ButtonShape, type ButtonSize, type ButtonVariant, MMButton } from './button.cmp.js';
 
 MMButton.register();
 MMIcon.register();

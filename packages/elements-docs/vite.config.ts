@@ -14,27 +14,11 @@ export default defineDocConfig({
 			},
 		},
 	},
-	plugins: [
-		viteCopy({
-			targets: [
-				{
-					from: './styles/*',
-					to:   './docs/public/styles',
-				},
-			],
-			hook:     'config',
-			copyOnce: true,
-		}),
-		viteImportCssSheet(),
-	],
+	plugins: [ viteImportCssSheet() ],
 }, {
 	base:       '',
-	root:       '/docs',
+	root:       '/',
 	source:     '/src',
-	autoImport: {
-		tagPrefixes:   [ 'mm' ],
-		loadWhitelist: [ /\.ts/ ],
-	},
 	siteConfig: {
 		root: {
 			layout: {
@@ -50,14 +34,7 @@ export default defineDocConfig({
 			},
 		},
 		pages: {
-			//darkTheme:  '/styles/tokens-dark.css',
-			//lightTheme: '/styles/tokens-light.css',
-			//styles:     [
-			//	{ src: '/styles/tokens-all.css' },
-			//	{ src: '/styles/tokens-extra.css' },
-			//	{ src: '/styles/tokens-font.css' },
-			//],
-			scripts: [ { src: '/bootstrap.ts' } ],
+			scripts: [ { src: '/src/bootstrap.ts' } ],
 		},
 	},
 });

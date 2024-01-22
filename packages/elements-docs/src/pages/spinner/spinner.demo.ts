@@ -1,7 +1,6 @@
+import { MMSpinner } from '@roenlie/mimic-elements/spinner';
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
-
-import { MMSpinner } from './spinner-element.js';
 
 MMSpinner.register();
 

@@ -16,92 +16,162 @@
 	},
 	"homepage": "https://github.com/RoenLie/mimic#readme",
 	"type": "module",
-	"main": "./dist/index-fallback.js",
-	"types": "./dist/index-fallback.d.ts",
+	"types": "./dist/index.d.ts",
+	"main": "./dist/index.js",
 	"exports": {
 		"./alert": {
-			"types": "./dist/components/alert/index.d.ts",
+			"types": "./src/components/alert/index.ts",
+			"development": {
+				"default": "./src/components/alert/index.ts"
+			},
 			"default": "./dist/components/alert/index.js"
 		},
 		"./button": {
-			"types": "./dist/components/button/index.d.ts",
+			"types": "./src/components/button/index.ts",
+			"development": {
+				"default": "./src/components/button/index.ts"
+			},
 			"default": "./dist/components/button/index.js"
 		},
 		"./drawer": {
-			"types": "./dist/components/drawer/index.d.ts",
+			"types": "./src/components/drawer/index.ts",
+			"development": {
+				"default": "./src/components/drawer/index.ts"
+			},
 			"default": "./dist/components/drawer/index.js"
 		},
 		"./icon": {
-			"types": "./dist/components/icon/index.d.ts",
+			"types": "./src/components/icon/index.ts",
+			"development": {
+				"default": "./src/components/icon/index.ts"
+			},
 			"default": "./dist/components/icon/index.js"
 		},
 		"./nav-rail": {
-			"types": "./dist/components/nav-rail/index.d.ts",
+			"types": "./src/components/nav-rail/index.ts",
+			"development": {
+				"default": "./src/components/nav-rail/index.ts"
+			},
 			"default": "./dist/components/nav-rail/index.js"
 		},
 		"./progress-bar": {
-			"types": "./dist/components/progress-bar/index.d.ts",
+			"types": "./src/components/progress-bar/index.ts",
+			"development": {
+				"default": "./src/components/progress-bar/index.ts"
+			},
 			"default": "./dist/components/progress-bar/index.js"
 		},
 		"./ripple": {
-			"types": "./dist/components/ripple/index.d.ts",
+			"types": "./src/components/ripple/index.ts",
+			"development": {
+				"default": "./src/components/ripple/index.ts"
+			},
 			"default": "./dist/components/ripple/index.js"
 		},
 		"./spinner": {
-			"types": "./dist/components/spinner/index.d.ts",
+			"types": "./src/components/spinner/index.ts",
+			"development": {
+				"default": "./src/components/spinner/index.ts"
+			},
 			"default": "./dist/components/spinner/index.js"
 		},
 		"./tabs": {
-			"types": "./dist/components/tabs/index.d.ts",
+			"types": "./src/components/tabs/index.ts",
+			"development": {
+				"default": "./src/components/tabs/index.ts"
+			},
 			"default": "./dist/components/tabs/index.js"
 		},
 		"./template-list": {
-			"types": "./dist/components/template-list/index.d.ts",
+			"types": "./src/components/template-list/index.ts",
+			"development": {
+				"default": "./src/components/template-list/index.ts"
+			},
 			"default": "./dist/components/template-list/index.js"
 		},
 		"./text": {
-			"types": "./dist/components/text/index.d.ts",
+			"types": "./src/components/text/index.ts",
+			"development": {
+				"default": "./src/components/text/index.ts"
+			},
 			"default": "./dist/components/text/index.js"
 		},
 		"./tooltip": {
-			"types": "./dist/components/tooltip/index.d.ts",
+			"types": "./src/components/tooltip/index.ts",
+			"development": {
+				"default": "./src/components/tooltip/index.ts"
+			},
 			"default": "./dist/components/tooltip/index.js"
 		},
 		"./upload": {
-			"types": "./dist/components/upload/index.d.ts",
+			"types": "./src/components/upload/index.ts",
+			"development": {
+				"default": "./src/components/upload/index.ts"
+			},
 			"default": "./dist/components/upload/index.js"
 		},
 		"./dialog": {
-			"types": "./dist/components/dialog/index.d.ts",
+			"types": "./src/components/dialog/index.ts",
+			"development": {
+				"default": "./src/components/dialog/index.ts"
+			},
 			"default": "./dist/components/dialog/index.js"
 		},
 		"./input": {
-			"types": "./dist/components/input/index.d.ts",
+			"types": "./src/components/input/index.ts",
+			"development": {
+				"default": "./src/components/input/index.ts"
+			},
 			"default": "./dist/components/input/index.js"
 		},
 		"./typeahead": {
-			"types": "./dist/components/typeahead/index.d.ts",
+			"types": "./src/components/typeahead/index.ts",
+			"development": {
+				"default": "./src/components/typeahead/index.ts"
+			},
 			"default": "./dist/components/typeahead/index.js"
 		},
-		"./date-picker": {
-			"types": "./dist/components/date-picker/index.d.ts",
-			"default": "./dist/components/date-picker/index.js"
-		},
 		"./action-bar": {
-			"types": "./dist/components/action-bar/index.d.ts",
+			"types": "./src/components/action-bar/index.ts",
+			"development": {
+				"default": "./src/components/action-bar/index.ts"
+			},
 			"default": "./dist/components/action-bar/index.js"
 		},
 		"./fragment-table": {
-			"types": "./dist/components/fragment-table/index.d.ts",
+			"types": "./src/components/fragment-table/index.ts",
+			"development": {
+				"default": "./src/components/fragment-table/index.ts"
+			},
 			"default": "./dist/components/fragment-table/index.js"
 		},
 		"./virtual-scrollbar": {
-			"types": "./dist/components/virtual-scrollbar/index.d.ts",
+			"types": "./src/components/virtual-scrollbar/index.ts",
+			"development": {
+				"default": "./src/components/virtual-scrollbar/index.ts"
+			},
 			"default": "./dist/components/virtual-scrollbar/index.js"
 		},
 		"./router": {
-			"types": "./dist/components/router/index.d.ts",
+			"types": "./src/components/router/index.ts",
+			"development": {
+				"default": "./src/components/router/index.ts"
+			},
 			"default": "./dist/components/router/index.js"
+		},
+		"./styles": {
+			"types": "./src/styles/index.ts",
+			"development": {
+				"default": "./src/styles/index.ts"
+			},
+			"default": "./dist/styles/index.js"
+		},
+		"./utilities": {
+			"types": "./src/utilities/index.ts",
+			"development": {
+				"default": "./src/utilities/index.ts"
+			},
+			"default": "./dist/utilities/index.js"
 		}
 	},
 	"scripts": {
@@ -110,8 +180,6 @@
 		"build:prepare": "rimraf dist",
 		"build:index": "package-toolbox build-indexes",
 		"build:types": "tsc --project ./src/tsconfig.json",
-		"build:docsite": "vite --config ./docs/vite.config.ts build",
-		"preview:docsite": "vite --config ./docs/vite.config.ts preview",
 		"typecheck": "tsc --project ./tsconfig.json",
 		"updatedeps": "pnpm update --latest",
 		"increment-version": "package-toolbox increment-version"

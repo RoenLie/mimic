@@ -6,19 +6,22 @@ export default defineToolbox(async () => {
 	const exclude = (path: string) => [ '-demo', '.demo', '.test', '.bench' ]
 		.every(seg => !path.includes(seg));
 
-	const entrypoints = createEntrypointsFromDirectories([ '/src/components' ]);
+	const entrypoints = createEntrypointsFromDirectories([ '/src/components' ])
+		.map(entry => {
+			entry.packageExport = false;
+
+			return entry;
+		});
 
 	return {
 		indexBuilder: {
 			entrypoints: [
-				{ path: './src/index-fallback.ts', packageExport: false },
+				{ path: './src/index.ts' },
+				{ path: './src/styles/index.ts' },
+				{ path: './src/utilities/index.ts' },
 				...entrypoints,
 			],
-			defaultFilters:             [ exclude ],
-			defaultPackageExport:       true,
-			packageExportNameTransform: path => path
-				.replace('./src', './dist')
-				.replace('.ts', '.js'),
+			defaultFilters: [ exclude ],
 		},
 	};
 });

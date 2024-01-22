@@ -1,11 +1,10 @@
 import { format } from '@roenlie/mimic-core/string';
+import { MMTypeahead } from '@roenlie/mimic-elements/typeahead';
 import { tTerm } from '@roenlie/mimic-localize/directive';
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
 import { range } from 'lit/directives/range.js';
-
-import { MMTypeahead } from './typeahead-element.js';
 
 MMTypeahead.register();
 

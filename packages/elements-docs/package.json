@@ -1,0 +1,42 @@
+{
+	"private": true,
+	"name": "@roenlie/mimic-elements-docs",
+	"version": "0.0.1",
+	"description": "Doc site for Mimic Elements",
+	"license": "MIT",
+	"author": {
+		"name": "Kristoffer Roen-Lie",
+		"url": "https://github.com/RoenLie"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/RoenLie/mimic.git"
+	},
+	"bugs": {
+		"url": "https://github.com/RoenLie/mimic/issues"
+	},
+	"homepage": "https://github.com/RoenLie/mimic#readme",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"preview": "vite preview"
+	},
+	"dependencies": {
+		"@roenlie/mimic-core": "workspace:^",
+		"@roenlie/mimic-elements": "workspace:^",
+		"@roenlie/mimic-lit": "workspace:^",
+		"@roenlie/mimic-localize": "workspace:^",
+		"lit": "^3.1.1"
+	},
+	"devDependencies": {
+		"@faker-js/faker": "^8.3.1",
+		"@roenlie/mirage-docs": "^2.0.14",
+		"vite-plugin-import-css-sheet": "^1.0.3"
+	},
+	"vaadin": {
+		"disableUsageStatistics": true
+	}
+}

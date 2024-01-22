@@ -1,13 +1,11 @@
+import { alertPortal, MMAlert, MMAlertPortal } from '@roenlie/mimic-elements/alert';
+import { Alerts, type IAlertProps } from '@roenlie/mimic-elements/alert';
+import { MMButton } from '@roenlie/mimic-elements/button';
+import { MMIcon } from '@roenlie/mimic-elements/icon';
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { map } from 'lit/directives/map.js';
-
-import { MMButton } from '../button/button.cmp.js';
-import { MMIcon } from '../icon/icon-element.js';
-import { MMAlert } from './alert.cmp.js';
-import { alertPortal, MMAlertPortal } from './alert-portal.cmp.js';
-import { Alerts, type IAlertProps } from './alert-setup-api.js';
 
 MMIcon.register();
 MMButton.register();
@@ -35,7 +33,10 @@ export class AlertDemo extends LitElement {
 		duration:  Infinity,
 		closeable: true,
 	}).template(() => html`
-		<mm-icon slot="icon" url="https://icons.getbootstrap.com/assets/icons/info-circle.svg"></mm-icon>
+		<mm-icon
+			slot="icon"
+			url="https://icons.getbootstrap.com/assets/icons/info-circle.svg"
+		></mm-icon>
 		<strong>This is super informative</strong><br />
 		You can tell by how pretty the alert is.
 	`);
