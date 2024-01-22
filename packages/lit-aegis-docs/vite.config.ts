@@ -1,32 +1,39 @@
 import { defineDocConfig } from '@roenlie/mirage-docs/server';
 
 
-export default defineDocConfig({
-	esbuild: {
-		tsconfigRaw: {
-			compilerOptions: {
-				experimentalDecorators: true,
+export default defineDocConfig(
+	() => {
+		return {
+			base:       '',
+			root:       '/',
+			source:     '/pages',
+			siteConfig: {
+				root: {
+					layout: {
+						headingText: 'Aegis',
+						logoHeight:  '60px',
+						logoSrc:     'logo.svg',
+					},
+				},
+				pages: {
+					scripts: [ { src: '/bootstrap.ts' } ],
+				},
 			},
-		},
+		};
 	},
-	build: {
-		outDir: './dist',
-	},
-	plugins: [],
-}, {
-	base:       '',
-	root:       '/',
-	source:     '/pages',
-	siteConfig: {
-		root: {
-			layout: {
-				headingText: 'Aegis',
-				logoHeight:  '60px',
-				logoSrc:     'logo.svg',
+	() => {
+		return {
+			esbuild: {
+				tsconfigRaw: {
+					compilerOptions: {
+						experimentalDecorators: true,
+					},
+				},
 			},
-		},
-		pages: {
-			scripts: [ { src: '/bootstrap.ts' } ],
-		},
+			build: {
+				outDir: './dist',
+			},
+			plugins: [],
+		};
 	},
-});
+);

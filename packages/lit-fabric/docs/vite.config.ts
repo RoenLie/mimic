@@ -1,19 +1,24 @@
-import { defineDocConfig } from '@roenlie/mirage-docs';
-import { viteCopy } from '@roenlie/package-toolbox/vite-utils';
-import type { UserConfig } from 'vite';
+import { defineDocConfig } from '@roenlie/mirage-docs/server';
 
 
-export default defineDocConfig({
-	build: {
-		outDir: './dist/preview',
+export default defineDocConfig(
+	() => {
+		return {
+			base:       '',
+			root:       '/docs',
+			source:     '/docs/pages',
+			siteConfig: {
+				pages: {
+					scripts: [ { src: '/bootstrap.ts' } ],
+				},
+			},
+		};
 	},
-}, {
-	base:       '',
-	root:       '/docs',
-	source:     '/docs/pages',
-	siteConfig: {
-		links: {
-			scripts: [ '/bootstrap.ts' ],
-		},
+	() => {
+		return {
+			build: {
+				outDir: './dist/preview',
+			},
+		};
 	},
-}) as UserConfig;
+);
