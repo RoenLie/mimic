@@ -1,7 +1,5 @@
 import { css } from 'lit';
 
-import { scrollstyle } from './scroll-styles.js';
-
 
 export const sharedStyles = css`
 	@layer reset {
@@ -27,6 +25,7 @@ export const sharedStyles = css`
 		}
 		:host, *, *::before, *::after {
 			box-sizing: border-box;
+			min-width: 0;
 			-webkit-tap-highlight-color: transparent;
 		}
 		:host::-webkit-scrollbar,
