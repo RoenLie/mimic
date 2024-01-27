@@ -1,6 +1,6 @@
 {
 	"name": "@roenlie/lit-aegis",
-	"version": "1.0.39",
+	"version": "1.0.40",
 	"description": "Dependency injection framework based on LIT and inversify.",
 	"author": {
 		"name": "Kristoffer Roen-Lie",
