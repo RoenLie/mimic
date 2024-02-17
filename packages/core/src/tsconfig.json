@@ -4,8 +4,6 @@
 		"outDir": "../dist/lib",
 		"rootDir": ".",
 		"baseUrl": ".",
-		"noEmit": false,
-		"emitDeclarationOnly": true,
 		"types": [
 			"vite/client"
 		]
@@ -15,8 +13,4 @@
 		"./**/*.d.ts",
 		"./**/*.js"
 	],
-	"exclude": [
-		"./**/*.test.ts",
-		"./**/*.bench.ts",
-	]
 }

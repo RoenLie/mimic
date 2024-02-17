@@ -7,11 +7,8 @@ export const range = (first: number, last?: number, step = 1) => {
 		first = 0;
 	}
 
-	if (first > last) {
-		let temp = last;
-		last = first;
-		first = temp;
-	}
+	if (first > last)
+		[ last, first ] = [ first, last ]; // Swaps values of first and last.
 
 	const result: number[] = [];
 	for (let i = first; i < last; i += step)

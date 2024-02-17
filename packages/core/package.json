@@ -100,7 +100,7 @@
 		"build": "pnpm build:prepare && pnpm build:index && pnpm build:types && vite build",
 		"build:prepare": "rimraf dist",
 		"build:index": "package-toolbox build-indexes",
-		"build:types": "tsc --project ./src/tsconfig.json",
+		"build:types": "tsc --project ./src/tsconfig.build.json",
 		"updatedeps": "pnpm update --latest",
 		"increment-version": "package-toolbox increment-version"
 	},
