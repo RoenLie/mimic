@@ -1,6 +1,6 @@
 import { isPromise } from '@roenlie/mimic-core/async';
 import type { Ctor } from '@roenlie/mimic-core/types';
-import { adoptStyles, type CSSResultOrNative, nothing, type PropertyValues } from 'lit';
+import { CSSResult, nothing, type PropertyValues } from 'lit';
 
 import type { Adapter } from '../adapter/adapter.js';
 import { injectable } from '../annotations/annotations.js';
@@ -29,6 +29,8 @@ export abstract class AegisComponent extends AegisElement {
 	protected readonly adapterCtor: Ctor<typeof Adapter>;
 	protected readonly modules: Modules;
 	protected adapter: Adapter;
+	protected sheet = new CSSStyleSheet();
+
 
 	constructor(adapterCtor: AdapterCtor, modules: Modules = []) {
 		super();
@@ -36,6 +38,14 @@ export abstract class AegisComponent extends AegisElement {
 		injectable()(adapterCtor as unknown as Ctor<typeof Adapter>);
 		this.adapterCtor = adapterCtor as Ctor<typeof Adapter>;
 		this.modules = modules;
+	}
+
+	protected override createRenderRoot(): HTMLElement | DocumentFragment {
+		const root = super.createRenderRoot();
+		if ('adoptedStyleSheets' in root)
+			(root as ShadowRoot).adoptedStyleSheets.push(this.sheet);
+
+		return root;
 	}
 
 	public override connectedCallback(): void {
@@ -50,7 +60,7 @@ export abstract class AegisComponent extends AegisElement {
 		});
 	}
 
-	public async containerConnectedCallback() {
+	public async containerConnectedCallback(): Promise<void> {
 		if (this.hasUpdated)
 			return;
 
@@ -79,16 +89,16 @@ export abstract class AegisComponent extends AegisElement {
 		// Unbind current element so no other adapters get this element.
 		currentAdapterElement = undefined;
 
-		const base = this.constructor as typeof AegisComponent;
 		const adapterBase = this.adapter.constructor as typeof Adapter;
 		if (adapterBase.styles) {
 			const extraStyles = (Array.isArray(adapterBase.styles)
-				? adapterBase.styles : [ adapterBase.styles ]) as CSSResultOrNative[];
+				? adapterBase.styles : [ adapterBase.styles ]) as CSSResult[];
 
-			adoptStyles(this.shadowRoot!, [ ...base.elementStyles, ...extraStyles ]);
-		}
-		else {
-			adoptStyles(this.shadowRoot!, base.elementStyles);
+			this.sheet.replaceSync('');
+			for (const styles of extraStyles) {
+				for (const rule of styles.styleSheet?.cssRules ?? [])
+					this.sheet.insertRule(rule.cssText, this.sheet.cssRules.length);
+			}
 		}
 	}
 
@@ -100,7 +110,6 @@ export abstract class AegisComponent extends AegisElement {
 
 		super.scheduleUpdate();
 	}
-
 
 	public override afterConnectedCallback(): void {
 		this.adapter?.afterConnectedCallback?.();

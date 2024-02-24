@@ -105,7 +105,7 @@
 		"increment-version": "package-toolbox increment-version"
 	},
 	"dependencies": {
-		"nanoid": "^5.0.4",
+		"nanoid": "^5.0.6",
 		"ts-toolbelt": "^9.6.0"
 	}
 }

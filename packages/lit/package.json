@@ -55,17 +55,17 @@
 		"increment-version": "package-toolbox increment-version"
 	},
 	"dependencies": {
-		"@floating-ui/dom": "^1.5.4",
+		"@floating-ui/dom": "^1.6.3",
 		"@roenlie/mimic-core": "workspace:^",
 		"fast-equals": "^5.0.1",
-		"nanoid": "^5.0.4"
+		"nanoid": "^5.0.6"
 	},
 	"peerDependencies": {
 		"lit": "*"
 	},
 	"devDependencies": {
-		"happy-dom": "^13.2.1",
-		"lit": "^3.1.1"
+		"happy-dom": "^13.5.0",
+		"lit": "^3.1.2"
 	},
 	"sideEffects": [
 		"dist/injectable/core.js"

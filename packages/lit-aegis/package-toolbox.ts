@@ -2,7 +2,7 @@ import { defineToolbox } from '@roenlie/package-toolbox/toolbox';
 
 
 export default defineToolbox(async () => {
-	const exclude = (path: string) => [ '.demo', '.test', '.bench' ]
+	const exclude = (path: string) => [ '.test', '.bench', '_demo' ]
 		.every(seg => !path.includes(seg));
 
 	return {

@@ -34,15 +34,14 @@
 	},
 	"scripts": {
 		"test": "vitest",
-		"dev": "pnpm run --parallel \"/^watch-.*/\"",
-		"watch-js": "vite build --watch",
-		"watch-ts": "tsc --project ./src/tsconfig.json --watch",
-		"build": "pnpm run --sequential \"/^build-.*/\"",
-		"build-clean": "rimraf dist",
-		"build-indexes": "package-toolbox build-indexes",
-		"build-exports": "package-toolbox build-exports",
-		"build-js": "vite build",
-		"build-ts": "tsc --project ./src/tsconfig.json",
+		"dev": "pnpm vite --config ./src/_demo/vite.config.ts",
+		"build": "pnpm run --sequential \"/^build::.*/\"",
+		"build::clean": "rimraf dist",
+		"build::indexes": "package-toolbox build-indexes",
+		"build::exports": "package-toolbox build-exports",
+		"build::js": "vite build",
+		"build::ts": "tsc --project ./src/tsconfig.json",
+		"build::cleanup": "rimraf dist/.tsbuildinfo",
 		"updatedeps": "pnpm update --latest",
 		"increment-version": "package-toolbox increment-version"
 	},
@@ -56,7 +55,7 @@
 		"lit": "*"
 	},
 	"devDependencies": {
-		"lit": "^3.1.1"
+		"lit": "^3.1.2"
 	},
 	"sideEffects": [
 		"./dist/lib/annotations/annotations.js",

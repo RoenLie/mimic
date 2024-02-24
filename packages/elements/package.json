@@ -185,7 +185,7 @@
 		"increment-version": "package-toolbox increment-version"
 	},
 	"dependencies": {
-		"@floating-ui/dom": "^1.5.4",
+		"@floating-ui/dom": "^1.6.3",
 		"@roenlie/lit-aegis": "workspace:^",
 		"@roenlie/mimic-core": "workspace:^",
 		"@roenlie/mimic-lit": "workspace:^",
@@ -196,9 +196,9 @@
 		"lit": "*"
 	},
 	"devDependencies": {
-		"@faker-js/faker": "^8.3.1",
-		"@roenlie/mirage-docs": "^2.0.14",
-		"lit": "^3.1.1",
+		"@faker-js/faker": "^8.4.1",
+		"@roenlie/mirage-docs": "^2.0.15",
+		"lit": "^3.1.2",
 		"vite-plugin-import-css-sheet": "^1.0.3"
 	},
 	"vaadin": {
