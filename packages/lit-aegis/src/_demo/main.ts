@@ -26,6 +26,16 @@ export class MainAdapter extends Adapter {
 			border-color: blue;
 		}
 		`,
+		(() => {
+			const sheet = new CSSStyleSheet();
+			sheet.replaceSync(`
+			:host {
+				background-color: green;
+			}
+			`);
+
+			return sheet;
+		})(),
 	];
 
 }

@@ -1,6 +1,6 @@
 import { isPromise } from '@roenlie/mimic-core/async';
 import type { Ctor } from '@roenlie/mimic-core/types';
-import { CSSResult, nothing, type PropertyValues } from 'lit';
+import { adoptStyles, type CSSResultOrNative, nothing, type PropertyValues } from 'lit';
 
 import type { Adapter } from '../adapter/adapter.js';
 import { injectable } from '../annotations/annotations.js';
@@ -14,7 +14,7 @@ type Modules =
 	| ContainerModule
 	| ContainerModule[]
 	| Promise<ContainerModule | ContainerModule[]>
-	| (() => ContainerModule | ContainerModule[] | Promise<ContainerModule> | Promise<ContainerModule[]>);
+	| (() => (ContainerModule | ContainerModule[] | Promise<ContainerModule> | Promise<ContainerModule[]>));
 
 
 export let currentAdapterElement: AegisComponent | undefined;
@@ -42,8 +42,7 @@ export abstract class AegisComponent extends AegisElement {
 
 	protected override createRenderRoot(): HTMLElement | DocumentFragment {
 		const root = super.createRenderRoot();
-		if ('adoptedStyleSheets' in root)
-			(root as ShadowRoot).adoptedStyleSheets.push(this.sheet);
+
 
 		return root;
 	}
@@ -89,16 +88,23 @@ export abstract class AegisComponent extends AegisElement {
 		// Unbind current element so no other adapters get this element.
 		currentAdapterElement = undefined;
 
+		const elementBase = this.constructor as typeof AegisComponent;
 		const adapterBase = this.adapter.constructor as typeof Adapter;
-		if (adapterBase.styles) {
-			const extraStyles = (Array.isArray(adapterBase.styles)
-				? adapterBase.styles : [ adapterBase.styles ]) as CSSResult[];
+		if (this.shadowRoot) {
+			const styles = adapterBase.styles
+				? Array.isArray(adapterBase.styles)
+					? adapterBase.styles
+					: [ adapterBase.styles ]
+				: [];
 
-			this.sheet.replaceSync('');
-			for (const styles of extraStyles) {
-				for (const rule of styles.styleSheet?.cssRules ?? [])
-					this.sheet.insertRule(rule.cssText, this.sheet.cssRules.length);
-			}
+			const baseStyles = elementBase.styles
+				? Array.isArray(elementBase.styles)
+					? elementBase.styles
+					: [ elementBase.styles ]
+				: [];
+
+			adoptStyles(this.shadowRoot,
+				[ ...baseStyles, ...styles ] as CSSResultOrNative[]);
 		}
 	}
 
