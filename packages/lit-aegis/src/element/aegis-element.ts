@@ -11,7 +11,7 @@ import { LitElement, type PropertyValues } from 'lit';
  * as there are metadata libs that use the supplied tagname to extract data.
  */
 export const customElement = (tagname: string, registerOnImport = false) => {
-	return <TBase extends {tagName: string, register: () => void}>(base: TBase, _: any) => {
+	return <TBase extends {tagName: string, register: () => void}>(base: TBase, _?: any) => {
 		base.tagName = tagname;
 		if (registerOnImport)
 			base.register();
