@@ -16,9 +16,13 @@
 	},
 	"homepage": "https://github.com/RoenLie/mimic#readme",
 	"type": "module",
-	"types": "./dist/lib/index-fallback.d.ts",
-	"main": "./dist/lib/index-fallback.js",
+	"types": "./dist/lib/index.d.ts",
+	"main": "./dist/lib/index.js",
 	"exports": {
+		".": {
+			"types": "./dist/lib/index.d.ts",
+			"default": "./dist/lib/index.js"
+		},
 		"./animation": {
 			"types": "./dist/lib/animation/index.d.ts",
 			"default": "./dist/lib/animation/index.js"
@@ -88,6 +92,7 @@
 			"default": "./dist/lib/sudoku/index.js"
 		}
 	},
+	"sideEffects": false,
 	"files": [
 		"dist",
 		"src",
@@ -105,7 +110,7 @@
 		"increment-version": "package-toolbox increment-version"
 	},
 	"dependencies": {
-		"nanoid": "^5.0.6",
+		"nanoid": "^5.0.7",
 		"ts-toolbelt": "^9.6.0"
 	}
 }

@@ -5,7 +5,7 @@ import { getEqualItems } from '../utils/structs/sets-have-same-items.js';
 import { findNakedSubset } from './find-naked-subset.js';
 
 
-export type SudokuCell = {
+export interface SudokuCell {
 	id: `y=${ number },x=${ number }`;
 	x: number;
 	y: number;
@@ -17,7 +17,7 @@ export type SudokuCell = {
 	value: number;
 }
 
-export type Change = {
+export type SudokuChange = {
 	type: 'assignment';
 	x: number;
 	y: number;
@@ -35,7 +35,7 @@ export class SudokuSolver {
 	public output: {
 		grid: number[][];
 		candidates: number[][][];
-		changes: Change[];
+		changes: SudokuChange[];
 	} = {
 			grid:       [],
 			candidates: [],
@@ -162,7 +162,7 @@ export class SudokuSolver {
 
 	// Loops through all cells and removes invalid candidates.
 	public removeInvalidCandidates() {
-		for (let cell of this.cells) {
+		for (const cell of this.cells) {
 			if (!cell.candidates.size)
 				continue;
 
@@ -177,7 +177,7 @@ export class SudokuSolver {
 	}
 
 	public applyNakedSingles() {
-		for (let cell of this.cells) {
+		for (const cell of this.cells) {
 			if (cell.candidates.size === 1) {
 				const value = cell.candidates.values().next().value;
 
