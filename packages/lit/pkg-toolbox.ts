@@ -15,7 +15,14 @@ export default defineToolbox(async () => {
 
 	return {
 		indexBuilder: {
-			entrypoints,
+			entrypoints: [
+				{
+					path: './src/index.ts',
+					packageExport: true,
+					packagePath: '.'
+				},
+				...entrypoints
+			],
 			defaultFilters:             [ exclude ],
 			defaultPackageExport:       false,
 			packageExportNameTransform: path => path

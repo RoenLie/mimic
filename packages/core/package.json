@@ -104,10 +104,10 @@
 		"test": "vitest --config ./vite.config.test.ts",
 		"build": "pnpm build:prepare && pnpm build:index && pnpm build:types && vite build",
 		"build:prepare": "rimraf dist",
-		"build:index": "package-toolbox build-indexes",
+		"build:index": "pkg-toolbox build-indexes",
 		"build:types": "tsc --project ./src/tsconfig.build.json",
 		"updatedeps": "pnpm update --latest",
-		"increment-version": "package-toolbox increment-version"
+		"increment-version": "pkg-toolbox increment-version"
 	},
 	"dependencies": {
 		"nanoid": "^5.0.7",

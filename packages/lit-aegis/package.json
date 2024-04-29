@@ -37,13 +37,13 @@
 		"dev": "pnpm vite --config ./src/_demo/vite.config.ts",
 		"build": "pnpm run --sequential \"/^build::.*/\"",
 		"build::clean": "rimraf dist",
-		"build::indexes": "package-toolbox build-indexes",
-		"build::exports": "package-toolbox build-exports",
+		"build::indexes": "pkg-toolbox build-indexes",
+		"build::exports": "pkg-toolbox build-exports",
 		"build::js": "vite build",
 		"build::ts": "tsc --project ./src/tsconfig.json",
 		"build::cleanup": "rimraf dist/.tsbuildinfo",
 		"updatedeps": "pnpm update --latest",
-		"increment-version": "package-toolbox increment-version"
+		"increment-version": "pkg-toolbox increment-version"
 	},
 	"dependencies": {
 		"@roenlie/mimic-core": "workspace:^",
@@ -55,7 +55,7 @@
 		"lit": "*"
 	},
 	"devDependencies": {
-		"lit": "^3.1.2"
+		"lit": "^3.1.3"
 	},
 	"sideEffects": [
 		"./dist/lib/annotations/annotations.js",

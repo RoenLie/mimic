@@ -29,12 +29,12 @@
 		"@roenlie/mimic-elements": "workspace:^",
 		"@roenlie/mimic-lit": "workspace:^",
 		"@roenlie/mimic-localize": "workspace:^",
-		"lit": "^3.1.1"
+		"lit": "^3.1.3"
 	},
 	"devDependencies": {
-		"@faker-js/faker": "^8.3.1",
+		"@faker-js/faker": "^8.4.1",
 		"@roenlie/mirage-docs": "^2.0.15",
-		"vite-plugin-import-css-sheet": "^1.0.3"
+		"vite-plugin-import-css-sheet": "^1.0.9"
 	},
 	"vaadin": {
 		"disableUsageStatistics": true

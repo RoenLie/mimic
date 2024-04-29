@@ -4,10 +4,7 @@ import { directive } from 'lit/directive.js';
 import { until } from 'lit/directives/until.js';
 
 import { term, toggleTermListener } from '../core/localize-core.js';
-import type { Dynamic } from '../core/localize-types.js';
-
-
-export type DirectiveString = string & Record<never, never>;
+import type { DirectiveString, Dynamic } from '../core/localize-types.js';
 
 
 class TermDirective extends AsyncDirective {

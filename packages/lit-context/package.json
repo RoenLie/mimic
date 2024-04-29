@@ -30,10 +30,10 @@
 		"dev": "pnpm vite --config ./docs/vite.config.ts",
 		"build": "pnpm build:prepare && pnpm build:index && pnpm build:types && vite build",
 		"build:prepare": "rimraf dist",
-		"build:index": "package-toolbox build-indexes",
+		"build:index": "pkg-toolbox build-indexes",
 		"build:types": "tsc --project ./src/tsconfig.json",
 		"updatedeps": "pnpm update --latest",
-		"increment-version": "package-toolbox increment-version"
+		"increment-version": "pkg-toolbox increment-version"
 	},
 	"dependencies": {
 		"@roenlie/mimic-core": "workspace:^"
@@ -43,8 +43,8 @@
 	},
 	"devDependencies": {
 		"@roenlie/mirage-docs": "^2.0.15",
-		"happy-dom": "^13.5.0",
-		"lit": "^3.1.2"
+		"happy-dom": "^14.7.1",
+		"lit": "^3.1.3"
 	},
 	"sideEffects": false
 }
