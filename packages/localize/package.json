@@ -1,6 +1,6 @@
 {
 	"name": "@roenlie/mimic-localize",
-	"version": "0.0.57",
+	"version": "1.0.semver-replace",
 	"description": "A lightweight and reactive localization package, with a focus on use with LIT web components.",
 	"author": {
 		"name": "Kristoffer Roen-Lie",

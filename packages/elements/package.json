@@ -1,6 +1,6 @@
 {
 	"name": "@roenlie/mimic-elements",
-	"version": "0.0.81",
+	"version": "1.0.semver-replace",
 	"description": "Standalone custom elements created with LIT",
 	"license": "MIT",
 	"author": {

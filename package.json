@@ -3,8 +3,8 @@
 	"type": "module",
 	"scripts": {
 		"build": "tsx ./scripts/build.ts",
-		"increment-version": "pnpm --filter \"!@roenlie/mimic-docs\" increment-version",
-		"publish-packages": "pnpm --filter \"!@roenlie/mimic-docs\" publish --access public --no-git-checks",
+		"increment-version": "pnpm -r increment-version",
+		"publish-packages": "pnpm -r publish --access public --no-git-checks",
 		"updatedeps": "pnpm -r update --latest",
 		"clean": "rimraf --glob packages/**/node_modules && rimraf --glob packages/**/dist && rimraf node_modules"
 	},
