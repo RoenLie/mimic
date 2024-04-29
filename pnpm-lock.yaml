@@ -67,8 +67,8 @@ importers:
   packages/core:
     dependencies:
       nanoid:
-        specifier: ^5.0.6
-        version: 5.0.6
+        specifier: ^5.0.7
+        version: 5.0.7
       ts-toolbelt:
         specifier: ^9.6.0
         version: 9.6.0
