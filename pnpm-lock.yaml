@@ -141,8 +141,8 @@ importers:
         specifier: ^1.0.3
         version: 1.0.3
       deepmerge-ts:
-        specifier: ^5.1.0
-        version: 5.1.0
+        specifier: ^7.0.0
+        version: 7.0.0
       inversify:
         specifier: ^6.0.2
         version: 6.0.2
@@ -1172,6 +1172,10 @@ packages:
 
   deepmerge-ts@5.1.0:
     resolution: {integrity: sha512-eS8dRJOckyo9maw9Tu5O5RUi/4inFLrnoLkBe3cPfDMx3WZioXtmOew4TXQaxq7Rhl4xjDtR7c6x8nNTxOvbFw==}
+    engines: {node: '>=16.0.0'}
+
+  deepmerge-ts@7.0.0:
+    resolution: {integrity: sha512-a2IkrQBawdHV081Njp4ETr6EF10PPQhk+6oyqFJ01QCmRYzahx+c3XaXU4/imJEMU2xBfH/5sH4gqUiqsNi7tQ==}
     engines: {node: '>=16.0.0'}
 
   define-data-property@1.1.4:
@@ -3718,6 +3722,8 @@ snapshots:
   deep-is@0.1.4: {}
 
   deepmerge-ts@5.1.0: {}
+
+  deepmerge-ts@7.0.0: {}
 
   define-data-property@1.1.4:
     dependencies:

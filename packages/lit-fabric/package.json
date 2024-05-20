@@ -1,6 +1,6 @@
 {
 	"name": "@roenlie/lit-fabric",
-	"version": "1.0.semver-replace",
+	"version": "99.99.99",
 	"description": "React hooks syntax for LIT",
 	"author": {
 		"name": "Kristoffer Roen-Lie",
@@ -31,7 +31,7 @@
 		"build:types": "tsc --project ./src/tsconfig.json",
 		"typecheck": "tsc --project ./tsconfig.json",
 		"updatedeps": "pnpm update --latest",
-		"increment-version": "pkg-toolbox increment-version"
+		"increment-version": "pkg-toolbox increment-version --placeholder 99.99.99"
 	},
 	"dependencies": {
 		"@roenlie/mimic-core": "workspace:^"

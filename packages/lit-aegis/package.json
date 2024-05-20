@@ -1,6 +1,6 @@
 {
 	"name": "@roenlie/lit-aegis",
-	"version": "1.0.semver-replace",
+	"version": "99.99.99",
 	"description": "Dependency injection framework based on LIT and inversify.",
 	"author": {
 		"name": "Kristoffer Roen-Lie",
@@ -43,12 +43,12 @@
 		"build::ts": "tsc --project ./src/tsconfig.json",
 		"build::cleanup": "rimraf dist/.tsbuildinfo",
 		"updatedeps": "pnpm update --latest",
-		"increment-version": "pkg-toolbox increment-version"
+		"increment-version": "pkg-toolbox increment-version --placeholder 99.99.99"
 	},
 	"dependencies": {
 		"@roenlie/mimic-core": "workspace:^",
 		"@roenlie/reflect-metadata": "^1.0.3",
-		"deepmerge-ts": "^5.1.0",
+		"deepmerge-ts": "^7.0.0",
 		"inversify": "^6.0.2"
 	},
 	"peerDependencies": {

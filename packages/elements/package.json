@@ -1,6 +1,6 @@
 {
 	"name": "@roenlie/mimic-elements",
-	"version": "1.0.semver-replace",
+	"version": "99.99.99",
 	"description": "Standalone custom elements created with LIT",
 	"license": "MIT",
 	"author": {
@@ -120,7 +120,7 @@
 		"build:types": "tsc --project ./src/tsconfig.json",
 		"typecheck": "tsc --project ./tsconfig.json",
 		"updatedeps": "pnpm update --latest",
-		"increment-version": "pkg-toolbox increment-version"
+		"increment-version": "pkg-toolbox increment-version --placeholder 99.99.99"
 	},
 	"dependencies": {
 		"@floating-ui/dom": "^1.6.4",

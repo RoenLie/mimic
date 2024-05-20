@@ -1,6 +1,6 @@
 {
 	"name": "@roenlie/mimic-core",
-	"version": "1.0.semver-replace",
+	"version": "99.99.99",
 	"description": "A versatile collection of TypeScript helper functions and utilities, designed to enhance your development experience with a treasure trove of valuable tools.",
 	"author": {
 		"name": "Kristoffer Roen-Lie",
@@ -107,7 +107,7 @@
 		"build:index": "pkg-toolbox build-indexes",
 		"build:types": "tsc --project ./src/tsconfig.build.json",
 		"updatedeps": "pnpm update --latest",
-		"increment-version": "pkg-toolbox increment-version"
+		"increment-version": "pkg-toolbox increment-version --placeholder 99.99.99"
 	},
 	"dependencies": {
 		"nanoid": "^5.0.7",
