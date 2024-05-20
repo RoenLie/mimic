@@ -1,4 +1,4 @@
-import { MMActionBar } from '@roenlie/mimic-elements/action-bar';
+import { MMActionBar } from '@roenlie/mimic-elements/action-bar'
 import { MMButton } from '@roenlie/mimic-elements/button';
 import { sharedStyles } from '@roenlie/mimic-lit/styles';
 import { css, html, LitElement } from 'lit';

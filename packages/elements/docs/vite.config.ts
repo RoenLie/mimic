@@ -1,13 +1,13 @@
 import { defineDocConfig } from '@roenlie/mirage-docs/server';
-import { viteImportCssSheet } from 'vite-plugin-import-css-sheet';
+import { importCSSSheet } from 'vite-plugin-import-css-sheet';
 
 
 export default defineDocConfig(
 	() => {
 		return {
 			base:       '',
-			root:       '/',
-			source:     '/src',
+			root:       '/docs',
+			source:     '/docs/pages',
 			siteConfig: {
 				root: {
 					layout: {
@@ -23,7 +23,7 @@ export default defineDocConfig(
 					},
 				},
 				pages: {
-					scripts: [ { src: '/src/bootstrap.ts' } ],
+					scripts: [ { src: '/bootstrap.ts' } ],
 				},
 			},
 		};
@@ -34,7 +34,7 @@ export default defineDocConfig(
 				conditions: env.mode === 'development' ? [ 'mimic-workspace' ] : [],
 			},
 			build: {
-				outDir: './dist',
+				outDir: './dist/docs',
 			},
 			esbuild: {
 				tsconfigRaw: {
@@ -43,7 +43,7 @@ export default defineDocConfig(
 					},
 				},
 			},
-			plugins: [ viteImportCssSheet() ],
+			plugins: [ importCSSSheet() ],
 		};
 	},
 );

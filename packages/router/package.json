@@ -1,6 +1,6 @@
 {
 	"name": "@roenlie/mimic-router",
-	"version": "1.0.semver-replace",
+	"version": "1.0.0",
 	"description": "",
 	"author": {
 		"name": "Kristoffer Roen-Lie",
